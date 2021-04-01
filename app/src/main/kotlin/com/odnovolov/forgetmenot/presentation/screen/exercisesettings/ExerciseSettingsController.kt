@@ -4,6 +4,7 @@ import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.Navigator
 import com.odnovolov.forgetmenot.presentation.common.ShortTermStateProvider
 import com.odnovolov.forgetmenot.presentation.common.base.BaseController
+import com.odnovolov.forgetmenot.presentation.screen.exercisesettings.CardPrefilterMode.*
 import com.odnovolov.forgetmenot.presentation.screen.exercisesettings.CardsThresholdDialogState.Purpose.ToChangeCardNumberThresholdForShowingFilter
 import com.odnovolov.forgetmenot.presentation.screen.exercisesettings.CardsThresholdDialogState.Purpose.ToChangeCardNumberLimitation
 import com.odnovolov.forgetmenot.presentation.screen.exercisesettings.ExerciseSettings.Companion.DEFAULT_CARD_NUMBER_LIMITATION
@@ -19,13 +20,13 @@ class ExerciseSettingsController(
     override fun handle(event: ExerciseSettingsEvent) {
         when (event) {
             DoNotFilterButtonClicked -> {
-                exerciseSettings.cardPrefilterMode = CardPrefilterMode.DoNotFilter
+                exerciseSettings.cardPrefilterMode = DoNotFilter
             }
 
             LimitCardsButtonClicked -> {
                 val cardPrefilterMode = exerciseSettings.cardPrefilterMode
                 dialogState.text =
-                    if (cardPrefilterMode is CardPrefilterMode.LimitCardsTo) {
+                    if (cardPrefilterMode is LimitCardsTo) {
                         cardPrefilterMode.numberOfCards.toString()
                     } else {
                         DEFAULT_CARD_NUMBER_LIMITATION.toString()
@@ -37,7 +38,7 @@ class ExerciseSettingsController(
             ConditionallyShowCardFilterButtonClicked -> {
                 val cardPrefilterMode = exerciseSettings.cardPrefilterMode
                 dialogState.text =
-                    if (cardPrefilterMode is CardPrefilterMode.ShowFilterWhenCardsMoreThan) {
+                    if (cardPrefilterMode is ShowFilterWhenCardsMoreThan) {
                         cardPrefilterMode.numberOfCards.toString()
                     } else {
                         DEFAULT_CARD_NUMBER_LIMITATION.toString()
@@ -47,7 +48,7 @@ class ExerciseSettingsController(
             }
 
             AlwaysShowCardFilterButtonClicked -> {
-                exerciseSettings.cardPrefilterMode = CardPrefilterMode.AlwaysShowFilter
+                exerciseSettings.cardPrefilterMode = AlwaysShowFilter
             }
 
             is CardsThresholdDialogInputTextChanged -> {
@@ -59,13 +60,21 @@ class ExerciseSettingsController(
                 if (numberOfCards < 1) return
                 exerciseSettings.cardPrefilterMode = when (dialogState.purpose) {
                     ToChangeCardNumberLimitation -> {
-                        CardPrefilterMode.LimitCardsTo(numberOfCards)
+                        LimitCardsTo(numberOfCards)
                     }
                     ToChangeCardNumberThresholdForShowingFilter -> {
-                        CardPrefilterMode.ShowFilterWhenCardsMoreThan(numberOfCards)
+                        ShowFilterWhenCardsMoreThan(numberOfCards)
                     }
                     null -> return
                 }
+            }
+
+            ShowProgressBarButtonClicked -> {
+                exerciseSettings.showProgressBar = !exerciseSettings.showProgressBar
+            }
+
+            ShowTextOfCardPositionButtonClicked -> {
+                exerciseSettings.showTextOfCardPosition = !exerciseSettings.showTextOfCardPosition
             }
         }
     }

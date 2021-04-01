@@ -107,6 +107,55 @@
 
             </LinearLayout>
 
+            <androidx.constraintlayout.widget.Barrier
+                    android:id="@+id/barrier"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:barrierDirection="bottom"
+                    app:constraint_referenced_ids="cardFilterDisplayTitle, cardFilterDisplayVariantColumn" />
+
+            <TextView
+                    android:id="@+id/cardPositionDisplayTitle"
+                    style="@style/DSVFormatItemTitle"
+                    android:text="@string/exercise_setting_card_position_display"
+                    app:layout_constraintEnd_toStartOf="@id/cardPositionDisplayVariantColumn"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/barrier" />
+
+            <LinearLayout
+                    android:id="@+id/cardPositionDisplayVariantColumn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constrainedWidth="true"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintStart_toEndOf="@+id/guideline"
+                    app:layout_constraintTop_toTopOf="@id/cardPositionDisplayTitle">
+
+                <TextView
+                        android:id="@+id/showProgressBarButton"
+                        style="@style/DSVFormatItemButton"
+                        android:layout_width="match_parent"
+                        android:drawableStart="@drawable/ic_round_done_24"
+                        android:drawablePadding="8dp"
+                        android:gravity="center_vertical|start"
+                        android:text="@string/card_position_display_progress_bar"
+                        app:drawableTint="@color/check_icon_in_exercise_settings" />
+
+                <TextView
+                        android:id="@+id/showTextOfCardPositionButton"
+                        style="@style/DSVFormatItemButton"
+                        android:layout_width="match_parent"
+                        android:layout_marginTop="-2dp"
+                        android:drawableStart="@drawable/ic_round_done_24"
+                        android:drawablePadding="8dp"
+                        android:gravity="center_vertical|start"
+                        android:text="@string/card_position_display_text"
+                        app:drawableTint="@color/check_icon_in_exercise_settings" />
+
+            </LinearLayout>
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </ScrollView>

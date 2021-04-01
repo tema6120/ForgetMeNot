@@ -22,4 +22,10 @@ class ExerciseSettingsViewModel(
                 val numberOfCards = input.toIntOrNull() ?: 0
                 numberOfCards > 0
             }
+
+    val showProgressBar: Flow<Boolean> =
+        exerciseSettings.flowOf(ExerciseSettings::showProgressBar)
+
+    val showTextOfCardPosition: Flow<Boolean> =
+        exerciseSettings.flowOf(ExerciseSettings::showTextOfCardPosition)
 }

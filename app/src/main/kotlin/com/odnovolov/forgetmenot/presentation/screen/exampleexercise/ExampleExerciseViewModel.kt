@@ -9,6 +9,7 @@ import com.odnovolov.forgetmenot.domain.interactor.exercise.ExerciseCard
 import com.odnovolov.forgetmenot.presentation.common.SpeakerImpl
 import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseViewModel
 import com.odnovolov.forgetmenot.presentation.screen.exercise.TimerStatus
+import com.odnovolov.forgetmenot.presentation.screen.exercisesettings.ExerciseSettings
 import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.WalkingModePreference
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
@@ -18,11 +19,13 @@ class ExampleExerciseViewModel(
     useTimer: Boolean,
     speakerImpl: SpeakerImpl,
     walkingModePreference: WalkingModePreference,
+    exerciseSettings: ExerciseSettings,
     globalState: GlobalState
 ) : ExerciseViewModel(
     exerciseState,
     speakerImpl,
     walkingModePreference,
+    exerciseSettings,
     globalState
 ) {
     override val timerStatus: Flow<TimerStatus> =

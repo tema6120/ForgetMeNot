@@ -63,6 +63,7 @@ class ExerciseDiScope private constructor(
         exerciseState,
         AppDiScope.get().speakerImpl,
         AppDiScope.get().walkingModePreference,
+        AppDiScope.get().exerciseSettings,
         AppDiScope.get().globalState
     )
 

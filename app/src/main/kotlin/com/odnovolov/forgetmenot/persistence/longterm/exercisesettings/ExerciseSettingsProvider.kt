@@ -15,7 +15,9 @@ class ExerciseSettingsProvider(
         val keyValues: Map<Long, String?> = database.keyValueQueries
             .selectValues(
                 keys = listOf(
-                    DbKeys.CARD_PREFILTER_MODE
+                    DbKeys.CARD_PREFILTER_MODE,
+                    DbKeys.SHOW_PROGRESS_BAR_IN_EXERCISE,
+                    DbKeys.SHOW_TEXT_OF_CARD_POSITION_IN_EXERCISE
                 )
             )
             .executeAsList()
@@ -25,8 +27,17 @@ class ExerciseSettingsProvider(
                 json.decodeFromString(CardPrefilterMode.serializer(), dbValue)
             }
             ?: ExerciseSettings.DEFAULT_CARD_PREFILTER_MODE
+        val showProgressBar: Boolean = keyValues[DbKeys.SHOW_PROGRESS_BAR_IN_EXERCISE]
+            ?.toBoolean()
+            ?: ExerciseSettings.DEFAULT_SHOW_PROGRESS_BAR
+        val showTextOfCardPosition: Boolean =
+            keyValues[DbKeys.SHOW_TEXT_OF_CARD_POSITION_IN_EXERCISE]
+                ?.toBoolean()
+                ?: ExerciseSettings.DEFAULT_SHOW_TEXT_OF_CARD_POSITION
         return ExerciseSettings(
-            cardPrefilterMode
+            cardPrefilterMode,
+            showProgressBar,
+            showTextOfCardPosition
         )
     }
 }

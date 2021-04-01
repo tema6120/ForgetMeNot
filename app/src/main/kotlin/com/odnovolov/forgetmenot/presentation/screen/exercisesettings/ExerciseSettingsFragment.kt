@@ -56,6 +56,12 @@ class ExerciseSettingsFragment : BaseFragment() {
         alwaysShowCardFilterButton.setOnClickListener {
             controller?.dispatch(AlwaysShowCardFilterButtonClicked)
         }
+        showProgressBarButton.setOnClickListener {
+            controller?.dispatch(ShowProgressBarButtonClicked)
+        }
+        showTextOfCardPositionButton.setOnClickListener {
+            controller?.dispatch(ShowTextOfCardPositionButtonClicked)
+        }
     }
 
     private fun observeViewModel() {
@@ -91,6 +97,8 @@ class ExerciseSettingsFragment : BaseFragment() {
                     cardNumberLimitationToShowFilter
                 )
             }
+            showProgressBar.observe(showProgressBarButton::setSelected)
+            showTextOfCardPosition.observe(showTextOfCardPositionButton::setSelected)
         }
     }
 

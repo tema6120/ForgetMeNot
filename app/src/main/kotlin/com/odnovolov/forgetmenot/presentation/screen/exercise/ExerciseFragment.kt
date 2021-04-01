@@ -83,7 +83,6 @@ class ExerciseFragment : BaseFragment() {
             val diScope = ExerciseDiScope.getAsync() ?: return@launch
             controller = diScope.controller
             exerciseViewPager.adapter = diScope.getExerciseCardAdapter(viewCoroutineScope!!)
-            progressBarForViewPager2.attach(exerciseViewPager)
             viewModel = diScope.viewModel
             observeViewModel()
             controller!!.commands.observe(::executeCommand)
@@ -200,7 +199,6 @@ class ExerciseFragment : BaseFragment() {
                     }
                 }
             }
-            cardPosition.observe(positionTextView::setText)
             gradeOfCurrentCard.observe { grade: Int ->
                 updateGradeButtonColor(grade)
                 gradeButton.text = grade.toString()
@@ -327,6 +325,10 @@ class ExerciseFragment : BaseFragment() {
                     detectLongPress = keyGestureMap[VOLUME_DOWN_LONG_PRESS] != NO_ACTION
                 }
             }
+            if (showProgressBar) progressBarForViewPager2.attach(exerciseViewPager)
+            if (showTextOfCardPosition) cardPosition.observe(positionTextView::setText)
+            progressBarForViewPager2.isVisible = showProgressBar
+            positionTextView.isVisible = showTextOfCardPosition
         }
     }
 

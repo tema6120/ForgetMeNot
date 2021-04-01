@@ -27,6 +27,20 @@ class ExerciseSettingsPropertyChangeHandler(
                     value = serialized
                 )
             }
+            ExerciseSettings::showProgressBar -> {
+                val showProgressBar = change.newValue as Boolean
+                queries.replace(
+                    key = DbKeys.SHOW_PROGRESS_BAR_IN_EXERCISE,
+                    value = showProgressBar.toString()
+                )
+            }
+            ExerciseSettings::showTextOfCardPosition -> {
+                val showTextOfCardPosition = change.newValue as Boolean
+                queries.replace(
+                    key = DbKeys.SHOW_TEXT_OF_CARD_POSITION_IN_EXERCISE,
+                    value = showTextOfCardPosition.toString()
+                )
+            }
         }
     }
 }

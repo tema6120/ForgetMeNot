@@ -1165,6 +1165,9 @@
     <string name="no_limit">No limit</string>
     <string name="text_start_exercise_button">Start exercise</string>
     <string name="title_card_limit_dialog">Maximum number of cards</string>
+    <string name="exercise_setting_card_position_display">Card position display</string>
+    <string name="card_position_display_progress_bar">Progress bar</string>
+    <string name="card_position_display_text">Text</string>
     <plurals name="cards">
         <item quantity="one">card</item>
         <item quantity="other">cards</item>

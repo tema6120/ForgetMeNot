@@ -216,11 +216,13 @@
             android:id="@+id/progressBarForViewPager2"
             android:layout_width="0dp"
             android:layout_height="1.5dp"
+            android:visibility="gone"
             app:layout_constraintBottom_toTopOf="@+id/controlPanelScroll"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/controlPanelScroll"
-            tools:background="@color/accent" />
+            tools:background="@color/accent"
+            tools:visibility="visible" />
 
     <TextView
             android:id="@+id/positionTextView"
@@ -232,10 +234,12 @@
             android:textColor="@color/on_accent"
             android:textSize="@dimen/text_size_progress_in_exercise"
             android:textStyle="bold"
+            android:visibility="gone"
             app:layout_constraintBottom_toTopOf="@id/controlPanelScroll"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/controlPanelScroll"
-            tools:text="12/35" />
+            tools:text="12/35"
+            tools:visibility="visible" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

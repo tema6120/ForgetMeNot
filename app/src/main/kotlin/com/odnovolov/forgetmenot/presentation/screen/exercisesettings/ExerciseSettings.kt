@@ -5,18 +5,26 @@ import com.odnovolov.forgetmenot.presentation.screen.exercisesettings.CardPrefil
 import kotlinx.serialization.Serializable
 
 class ExerciseSettings(
-    cardPrefilterMode: CardPrefilterMode
+    cardPrefilterMode: CardPrefilterMode,
+    showProgressBar: Boolean,
+    showTextOfCardPosition: Boolean
 ) : FlowMakerWithRegistry<ExerciseSettings>() {
     var cardPrefilterMode: CardPrefilterMode by flowMaker(cardPrefilterMode)
+    var showProgressBar: Boolean by flowMaker(showProgressBar)
+    var showTextOfCardPosition: Boolean by flowMaker(showTextOfCardPosition)
 
     override fun copy() = ExerciseSettings(
-        cardPrefilterMode
+        cardPrefilterMode,
+        showProgressBar,
+        showTextOfCardPosition
     )
 
     companion object {
         const val DEFAULT_CARD_NUMBER_LIMITATION = 100
         val DEFAULT_CARD_PREFILTER_MODE =
             ShowFilterWhenCardsMoreThan(DEFAULT_CARD_NUMBER_LIMITATION)
+        val DEFAULT_SHOW_PROGRESS_BAR = true
+        val DEFAULT_SHOW_TEXT_OF_CARD_POSITION = true
     }
 }
 

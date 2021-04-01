@@ -7,4 +7,6 @@ sealed class ExerciseSettingsEvent {
     object AlwaysShowCardFilterButtonClicked : ExerciseSettingsEvent()
     class CardsThresholdDialogInputTextChanged(val text: String) : ExerciseSettingsEvent()
     object CardsThresholdDialogOkButtonClicked : ExerciseSettingsEvent()
+    object ShowProgressBarButtonClicked : ExerciseSettingsEvent()
+    object ShowTextOfCardPositionButtonClicked : ExerciseSettingsEvent()
 }

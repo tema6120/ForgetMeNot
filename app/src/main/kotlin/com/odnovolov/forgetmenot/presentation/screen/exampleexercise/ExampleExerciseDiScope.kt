@@ -60,6 +60,7 @@ class ExampleExerciseDiScope private constructor(
         useTimer,
         AppDiScope.get().speakerImpl,
         AppDiScope.get().walkingModePreference,
+        AppDiScope.get().exerciseSettings,
         AppDiScope.get().globalState
     )
 

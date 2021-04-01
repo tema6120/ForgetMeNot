@@ -9,6 +9,7 @@ import com.odnovolov.forgetmenot.presentation.common.SpeakerImpl.Status
 import com.odnovolov.forgetmenot.presentation.common.mapTwoLatest
 import com.odnovolov.forgetmenot.presentation.screen.exercise.HintStatus.MaskingLettersAction.*
 import com.odnovolov.forgetmenot.presentation.screen.exercise.ReasonForInabilityToSpeak.*
+import com.odnovolov.forgetmenot.presentation.screen.exercisesettings.ExerciseSettings
 import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.KeyGesture
 import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.KeyGestureAction
 import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.WalkingModePreference
@@ -20,6 +21,7 @@ open class ExerciseViewModel(
     private val exerciseState: Exercise.State,
     speakerImpl: SpeakerImpl,
     walkingModePreference: WalkingModePreference,
+    private val exerciseSettings: ExerciseSettings,
     globalState: GlobalState
 ) {
     val isWalkingModeEnabled: Flow<Boolean> = globalState.flowOf(GlobalState::isWalkingModeEnabled)
@@ -41,15 +43,6 @@ open class ExerciseViewModel(
         .filterNotNull()
         .distinctUntilChanged()
         .share()
-
-    val cardPosition: Flow<String> = combine(
-        exerciseState.flowOf(Exercise.State::currentPosition),
-        exerciseCards
-    ) { currentPosition: Int, exerciseCards: List<ExerciseCard> ->
-        "${currentPosition + 1}/${exerciseCards.size}"
-    }
-        .debounce(10)
-        .flowOn(Dispatchers.Default)
 
     val gradeOfCurrentCard: Flow<Int> =
         currentExerciseCard.flatMapLatest { exerciseCard: ExerciseCard ->
@@ -322,6 +315,21 @@ open class ExerciseViewModel(
     val keyGestureMap: Flow<Map<KeyGesture, KeyGestureAction>> =
         walkingModePreference.flowOf(WalkingModePreference::keyGestureMap)
             .flowOn(Dispatchers.Default)
+
+    val cardPosition: Flow<String> = combine(
+        exerciseState.flowOf(Exercise.State::currentPosition),
+        exerciseCards
+    ) { currentPosition: Int, exerciseCards: List<ExerciseCard> ->
+        "${currentPosition + 1}/${exerciseCards.size}"
+    }
+        .debounce(10)
+        .flowOn(Dispatchers.Default)
+
+    val showProgressBar: Boolean
+        get() = exerciseSettings.showProgressBar
+
+    val showTextOfCardPosition: Boolean
+        get() = exerciseSettings.showTextOfCardPosition
 
     val unansweredCardCount: Int
         get() = exerciseState.exerciseCards.count { exerciseCard: ExerciseCard ->
