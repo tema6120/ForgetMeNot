@@ -9,4 +9,6 @@ sealed class ExerciseSettingsEvent {
     object CardsThresholdDialogOkButtonClicked : ExerciseSettingsEvent()
     object ShowProgressBarButtonClicked : ExerciseSettingsEvent()
     object ShowTextOfCardPositionButtonClicked : ExerciseSettingsEvent()
+    object YesVibrateOnWrongAnswerButtonClicked : ExerciseSettingsEvent()
+    object NoVibrateOnWrongAnswerButtonClicked : ExerciseSettingsEvent()
 }

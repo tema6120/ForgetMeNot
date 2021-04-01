@@ -1168,6 +1168,7 @@
     <string name="exercise_setting_card_position_display">Card position display</string>
     <string name="card_position_display_progress_bar">Progress bar</string>
     <string name="card_position_display_text">Text</string>
+    <string name="exercise_setting_vibrate_on_wrong_answer">Vibrate on wrong answer</string>
     <plurals name="cards">
         <item quantity="one">card</item>
         <item quantity="other">cards</item>

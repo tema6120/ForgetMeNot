@@ -279,22 +279,27 @@ open class ExerciseViewModel(
             .distinctUntilChanged()
             .flowOn(Dispatchers.Default)
 
-    val vibrateCommand: Flow<Unit> = currentExerciseCard.flatMapLatest { exerciseCard ->
-        when (exerciseCard) {
-            is OffTestExerciseCard, is ManualTestExerciseCard ->
-                exerciseCard.base.flowOf(ExerciseCard.Base::isExpired)
-                    .mapTwoLatest { wasExpired: Boolean, isExpiredNow: Boolean ->
-                        if (!wasExpired && isExpiredNow) Unit else null
-                    }
-            else ->
-                exerciseCard.base.flowOf(ExerciseCard.Base::isAnswerCorrect)
-                    .mapTwoLatest { wasCorrect: Boolean?, isCorrectNow: Boolean? ->
-                        if (wasCorrect == null && isCorrectNow == false) Unit else null
-                    }
+    val vibrateCommand: Flow<Unit> =
+        if (!exerciseSettings.vibrateOnWrongAnswer) {
+            emptyFlow()
+        } else {
+            currentExerciseCard.flatMapLatest { exerciseCard ->
+                when (exerciseCard) {
+                    is OffTestExerciseCard, is ManualTestExerciseCard ->
+                        exerciseCard.base.flowOf(ExerciseCard.Base::isExpired)
+                            .mapTwoLatest { wasExpired: Boolean, isExpiredNow: Boolean ->
+                                if (!wasExpired && isExpiredNow) Unit else null
+                            }
+                    else ->
+                        exerciseCard.base.flowOf(ExerciseCard.Base::isAnswerCorrect)
+                            .mapTwoLatest { wasCorrect: Boolean?, isCorrectNow: Boolean? ->
+                                if (wasCorrect == null && isCorrectNow == false) Unit else null
+                            }
+                }
+            }
+                .filterNotNull()
+                .flowOn(Dispatchers.Default)
         }
-    }
-        .filterNotNull()
-        .flowOn(Dispatchers.Default)
 
     val learnedCardSoundNotification: Flow<Unit> =
         isWalkingModeEnabled.flatMapLatest { isWalkingModeEnabled: Boolean ->

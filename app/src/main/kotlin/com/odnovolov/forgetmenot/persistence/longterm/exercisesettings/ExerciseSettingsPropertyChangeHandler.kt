@@ -41,6 +41,13 @@ class ExerciseSettingsPropertyChangeHandler(
                     value = showTextOfCardPosition.toString()
                 )
             }
+            ExerciseSettings::vibrateOnWrongAnswer -> {
+                val vibrateOnWrongAnswer = change.newValue as Boolean
+                queries.replace(
+                    key = DbKeys.VIBRATE_ON_WRONG_ANSWER,
+                    value = vibrateOnWrongAnswer.toString()
+                )
+            }
         }
     }
 }

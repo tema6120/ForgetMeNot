@@ -76,6 +76,14 @@ class ExerciseSettingsController(
             ShowTextOfCardPositionButtonClicked -> {
                 exerciseSettings.showTextOfCardPosition = !exerciseSettings.showTextOfCardPosition
             }
+
+            YesVibrateOnWrongAnswerButtonClicked -> {
+                exerciseSettings.vibrateOnWrongAnswer = true
+            }
+
+            NoVibrateOnWrongAnswerButtonClicked -> {
+                exerciseSettings.vibrateOnWrongAnswer = false
+            }
         }
     }
 

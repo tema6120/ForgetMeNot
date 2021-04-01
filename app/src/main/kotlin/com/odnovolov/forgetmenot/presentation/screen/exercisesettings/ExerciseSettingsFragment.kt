@@ -62,6 +62,12 @@ class ExerciseSettingsFragment : BaseFragment() {
         showTextOfCardPositionButton.setOnClickListener {
             controller?.dispatch(ShowTextOfCardPositionButtonClicked)
         }
+        yesVibrateOnWrongAnswerButton.setOnClickListener {
+            controller?.dispatch(YesVibrateOnWrongAnswerButtonClicked)
+        }
+        noVibrateOnWrongAnswerButton.setOnClickListener {
+            controller?.dispatch(NoVibrateOnWrongAnswerButtonClicked)
+        }
     }
 
     private fun observeViewModel() {
@@ -99,6 +105,10 @@ class ExerciseSettingsFragment : BaseFragment() {
             }
             showProgressBar.observe(showProgressBarButton::setSelected)
             showTextOfCardPosition.observe(showTextOfCardPositionButton::setSelected)
+            vibrateOnWrongAnswer.observe { vibrateOnWrongAnswer: Boolean ->
+                yesVibrateOnWrongAnswerButton.isSelected = vibrateOnWrongAnswer
+                noVibrateOnWrongAnswerButton.isSelected = !vibrateOnWrongAnswer
+            }
         }
     }
 

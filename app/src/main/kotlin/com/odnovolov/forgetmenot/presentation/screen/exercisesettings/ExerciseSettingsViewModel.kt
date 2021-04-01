@@ -28,4 +28,7 @@ class ExerciseSettingsViewModel(
 
     val showTextOfCardPosition: Flow<Boolean> =
         exerciseSettings.flowOf(ExerciseSettings::showTextOfCardPosition)
+
+    val vibrateOnWrongAnswer: Flow<Boolean> =
+        exerciseSettings.flowOf(ExerciseSettings::vibrateOnWrongAnswer)
 }
