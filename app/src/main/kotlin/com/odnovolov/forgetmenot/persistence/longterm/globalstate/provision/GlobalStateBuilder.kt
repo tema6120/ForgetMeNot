@@ -87,8 +87,10 @@ class GlobalStateBuilder private constructor(private val tables: TablesForGlobal
                             it.id == exercisePreferencesDb.pronunciationPlanId
                         }
                     }
+                // todo
+                val grading: Grading = Grading.Default
                 exercisePreferencesDb.toExercisePreference(
-                    intervalScheme, pronunciation, pronunciationPlan
+                    intervalScheme, pronunciation, pronunciationPlan, grading
                 )
             }
     }

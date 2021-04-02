@@ -102,7 +102,8 @@ class InitialDecksAdder(
             isQuestionDisplayed = true,
             cardInversion = CardInversion.Off,
             pronunciationPlan = PronunciationPlan.Default,
-            timeForAnswer = NOT_TO_USE_TIMER
+            timeForAnswer = DO_NOT_USE_TIMER,
+            grading = Grading.Default
         )
         globalState.sharedExercisePreferences =
             globalState.sharedExercisePreferences + exercisePreference

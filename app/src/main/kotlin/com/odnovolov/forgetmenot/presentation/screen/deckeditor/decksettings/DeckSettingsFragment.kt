@@ -117,6 +117,10 @@ class DeckSettingsFragment : BaseFragment() {
                 selectedIntervalsTextView.text =
                     getIntervalsDisplayText(intervalScheme, requireContext())
             }
+            grading.observe { grading: Grading ->
+                selectedGradingTextView.text =
+                    getGradingDisplayText(grading, requireContext())
+            }
             timeForAnswer.observe { timeForAnswer: Int ->
                 selectedMotivationalTimerTextView.text =
                     getMotivationalTimerDisplayText(timeForAnswer, requireContext())

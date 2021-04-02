@@ -194,6 +194,34 @@
         <View style="@style/SettingsDivider" />
 
         <LinearLayout
+                android:id="@+id/gradingButton"
+                style="@style/SettingsItemButton">
+
+            <ImageView
+                    style="@style/SettingsIcon"
+                    app:srcCompat="@drawable/icon_grading" />
+
+            <LinearLayout style="@style/SettingsTextColumn">
+
+                <TextView
+                        android:id="@+id/gradingTitle"
+                        style="@style/SettingsItemTitle"
+                        android:text="@string/deck_settings_item_grading" />
+
+                <TextView
+                        android:id="@+id/selectedGradingTextView"
+                        style="@style/SettingsItemDescription"
+                        tools:text="On first answer: [Correct: +1, Wrong: -1],  On repeated answer: [Correct: Do not change, Wrong: -1]" />
+
+            </LinearLayout>
+
+            <ImageView style="@style/SettingsItemNavigationIcon" />
+
+        </LinearLayout>
+
+        <View style="@style/SettingsDivider" />
+
+        <LinearLayout
                 android:id="@+id/motivationalTimerButton"
                 style="@style/SettingsItemButton">
 

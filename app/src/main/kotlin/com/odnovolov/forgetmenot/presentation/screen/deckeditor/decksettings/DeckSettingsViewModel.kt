@@ -27,6 +27,11 @@ class DeckSettingsViewModel(
             exercisePreference.flowOf(ExercisePreference::intervalScheme)
         }
 
+    val grading: Flow<Grading> = currentExercisePreference
+        .flatMapLatest { exercisePreference: ExercisePreference ->
+            exercisePreference.flowOf(ExercisePreference::grading)
+        }
+
     val pronunciation: Flow<Pronunciation> = currentExercisePreference
         .flatMapLatest { exercisePreference: ExercisePreference ->
             exercisePreference.flowOf(ExercisePreference::pronunciation)

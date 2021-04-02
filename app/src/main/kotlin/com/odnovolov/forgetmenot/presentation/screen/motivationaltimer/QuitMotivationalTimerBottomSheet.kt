@@ -8,7 +8,7 @@ import android.widget.FrameLayout
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.odnovolov.forgetmenot.R
-import com.odnovolov.forgetmenot.domain.entity.NOT_TO_USE_TIMER
+import com.odnovolov.forgetmenot.domain.entity.DO_NOT_USE_TIMER
 import com.odnovolov.forgetmenot.presentation.common.base.BaseBottomSheetDialogFragment
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.decksettings.DeckSettingsDiScope
 import com.odnovolov.forgetmenot.presentation.screen.exampleexercise.ExampleExerciseDiScope
@@ -71,7 +71,7 @@ class QuitMotivationalTimerBottomSheet : BaseBottomSheetDialogFragment() {
     private fun observeViewModel(viewModel: MotivationalTimerViewModel) {
         with (viewModel) {
             val oldValue: String =
-                if (currentTimeForAnswer == NOT_TO_USE_TIMER)
+                if (currentTimeForAnswer == DO_NOT_USE_TIMER)
                     getString(R.string.off) else
                     getString(R.string.time_for_answer, currentTimeForAnswer)
             val newValue: String = when (editedTimeForAnswer) {

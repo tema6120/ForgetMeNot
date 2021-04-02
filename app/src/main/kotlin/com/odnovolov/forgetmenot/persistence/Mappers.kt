@@ -57,7 +57,8 @@ fun Card.toCardDb(
 fun ExercisePreferenceDb.toExercisePreference(
     intervalScheme: IntervalScheme?,
     pronunciation: Pronunciation,
-    pronunciationPlan: PronunciationPlan
+    pronunciationPlan: PronunciationPlan,
+    grading: Grading
 ) = ExercisePreference(
     id,
     name,
@@ -68,7 +69,8 @@ fun ExercisePreferenceDb.toExercisePreference(
     isQuestionDisplayed,
     cardInversion,
     pronunciationPlan,
-    timeForAnswer
+    timeForAnswer,
+    grading
 )
 
 fun ExercisePreference.toExercisePreferenceDb(): ExercisePreferenceDb = ExercisePreferenceDb(

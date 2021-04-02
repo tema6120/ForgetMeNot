@@ -46,6 +46,12 @@ enum class DisplayingDeckSetting(
             getIntervalsDisplayText(exercisePreference.intervalScheme, context)
         }
     ),
+    GRADING(
+        titleRes = R.string.deck_settings_item_grading,
+        getDisplayText = { exercisePreference, context ->
+            getGradingDisplayText(exercisePreference.grading, context)
+        }
+    ),
     MOTIVATIONAL_TIMER(
         titleRes = R.string.deck_settings_item_motivational_timer,
         getDisplayText = { exercisePreference, context ->
@@ -129,8 +135,53 @@ fun getIntervalsDisplayText(intervalScheme: IntervalScheme?, context: Context): 
     }
 }
 
+fun getGradingDisplayText(grading: Grading, context: Context): String {
+    var onCorrectAnswer: String = getGradeChangeDisplayText(grading.onFirstCorrectAnswer, context)
+    var onWrongAnswer: String = getGradeChangeDisplayText(grading.onFirstWrongAnswer, context)
+    val part1: String = context.getString(
+        R.string.grading_settings_description_part_1,
+        onCorrectAnswer,
+        onWrongAnswer
+    )
+    if (!grading.askAgain) return part1
+    onCorrectAnswer = getGradeChangeDisplayText(grading.onRepeatedCorrectAnswer, context)
+    onWrongAnswer = getGradeChangeDisplayText(grading.onRepeatedWrongAnswer, context)
+    val part2: String = context.getString(
+        R.string.grading_settings_description_part_2,
+        onCorrectAnswer,
+        onWrongAnswer
+    )
+    return part1 + part2
+}
+
+private fun getGradeChangeDisplayText(
+    gradeChange: GradeChangeOnCorrectAnswer,
+    context: Context
+): String {
+    return when (gradeChange) {
+        GradeChangeOnCorrectAnswer.DoNotChange ->
+            context.getString(R.string.grade_change_value_do_not_change)
+        GradeChangeOnCorrectAnswer.PlusOne -> "+1"
+        GradeChangeOnCorrectAnswer.PlusTwo -> "+2"
+    }
+}
+
+private fun getGradeChangeDisplayText(
+    gradeChange: GradeChangeOnWrongAnswer,
+    context: Context
+): String {
+    return when (gradeChange) {
+        GradeChangeOnWrongAnswer.DoNotChange ->
+            context.getString(R.string.grade_change_value_do_not_change)
+        GradeChangeOnWrongAnswer.MinusOne -> "-1"
+        GradeChangeOnWrongAnswer.MinusTwo -> "-2"
+        GradeChangeOnWrongAnswer.ResetToZero ->
+            context.getString(R.string.grade_change_value_reset_to_zero)
+    }
+}
+
 fun getMotivationalTimerDisplayText(timeForAnswer: Int, context: Context): String {
-    return if (timeForAnswer == NOT_TO_USE_TIMER)
+    return if (timeForAnswer == DO_NOT_USE_TIMER)
         context.getString(R.string.off) else
         context.getString(R.string.time_for_answer, timeForAnswer)
 }

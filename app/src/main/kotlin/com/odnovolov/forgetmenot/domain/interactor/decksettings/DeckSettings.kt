@@ -258,7 +258,8 @@ class DeckSettings(
         isQuestionDisplayed: Boolean = this.isQuestionDisplayed,
         cardInversion: CardInversion = this.cardInversion,
         pronunciationPlan: PronunciationPlan = this.pronunciationPlan,
-        timeForAnswer: Int = this.timeForAnswer
+        timeForAnswer: Int = this.timeForAnswer,
+        grading: Grading = this.grading
     ) = ExercisePreference(
         id,
         name,
@@ -269,7 +270,8 @@ class DeckSettings(
         isQuestionDisplayed,
         cardInversion,
         pronunciationPlan,
-        timeForAnswer
+        timeForAnswer,
+        grading
     )
 
     private fun ExercisePreference.shouldBeDefault(): Boolean {

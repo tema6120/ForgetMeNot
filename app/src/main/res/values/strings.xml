@@ -1171,8 +1171,13 @@
     <string name="exercise_setting_vibrate_on_wrong_answer">Vibrate on wrong answer</string>
     <string name="exercise_setting_go_to_next_card_after_marking_the_card_as_learned">Go to the next card after marking the card as \'Learned\'</string>
     <string name="exercise_setting_ask_to_quit_exercise">Ask to quit exercise if not all cards are answered</string>
+    <string name="deck_settings_item_grading">Grading</string>
+    <string name="grade_change_value_do_not_change">Do not change</string>
+    <string name="grade_change_value_reset_to_zero">Reset to 0</string>
     <plurals name="cards">
         <item quantity="one">card</item>
         <item quantity="other">cards</item>
     </plurals>
+    <string name="grading_settings_description_part_1">On first answer: [Correct: %1$s, Wrong: %2$s]</string>
+    <string name="grading_settings_description_part_2">,  On repeated answer: [Correct: %1$s, Wrong: %2$s]</string>
 </resources>

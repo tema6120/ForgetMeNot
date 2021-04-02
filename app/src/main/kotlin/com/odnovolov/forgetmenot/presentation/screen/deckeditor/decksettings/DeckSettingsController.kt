@@ -1,6 +1,6 @@
 package com.odnovolov.forgetmenot.presentation.screen.deckeditor.decksettings
 
-import com.odnovolov.forgetmenot.domain.entity.NOT_TO_USE_TIMER
+import com.odnovolov.forgetmenot.domain.entity.DO_NOT_USE_TIMER
 import com.odnovolov.forgetmenot.domain.entity.TestingMethod
 import com.odnovolov.forgetmenot.domain.interactor.decksettings.DeckSettings
 import com.odnovolov.forgetmenot.domain.interactor.exercise.Exercise
@@ -159,9 +159,9 @@ class DeckSettingsController(
                         )
                         val tipToShow: Tip? = determineTipToShow(possibleTips)
                         val timeForAnswer = currentExercisePreference.timeForAnswer
-                        val isTimerEnabled = timeForAnswer != NOT_TO_USE_TIMER
+                        val isTimerEnabled = timeForAnswer != DO_NOT_USE_TIMER
                         val timeInput: String =
-                            if (timeForAnswer == NOT_TO_USE_TIMER) "15"
+                            if (timeForAnswer == DO_NOT_USE_TIMER) "15"
                             else timeForAnswer.toString()
                         val screenState = MotivationalTimerScreenState(
                             tipToShow,

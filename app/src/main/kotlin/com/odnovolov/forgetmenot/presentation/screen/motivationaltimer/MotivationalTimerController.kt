@@ -1,6 +1,6 @@
 package com.odnovolov.forgetmenot.presentation.screen.motivationaltimer
 
-import com.odnovolov.forgetmenot.domain.entity.NOT_TO_USE_TIMER
+import com.odnovolov.forgetmenot.domain.entity.DO_NOT_USE_TIMER
 import com.odnovolov.forgetmenot.domain.interactor.decksettings.DeckSettings
 import com.odnovolov.forgetmenot.domain.interactor.exercise.example.ExampleExercise
 import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
@@ -45,7 +45,7 @@ class MotivationalTimerController(
             TimeForAnswerSwitchToggled -> {
                 screenState.isTimerEnabled = !screenState.isTimerEnabled
                 if (!screenState.isTimerEnabled) {
-                    deckSettings.setTimeForAnswer(NOT_TO_USE_TIMER)
+                    deckSettings.setTimeForAnswer(DO_NOT_USE_TIMER)
                 }
             }
 
@@ -56,7 +56,7 @@ class MotivationalTimerController(
             OkButtonClicked -> {
                 val input: Int? = screenState.timeInput.toIntOrNull()
                 val timeForAnswer: Int = when {
-                    !screenState.isTimerEnabled -> NOT_TO_USE_TIMER
+                    !screenState.isTimerEnabled -> DO_NOT_USE_TIMER
                     input != null && input > 0 -> input
                     else -> {
                         sendCommand(ShowInvalidEntryError)
@@ -76,7 +76,7 @@ class MotivationalTimerController(
                     return
                 }
                 val newTimeForAnswer: Int = when {
-                    !screenState.isTimerEnabled -> NOT_TO_USE_TIMER
+                    !screenState.isTimerEnabled -> DO_NOT_USE_TIMER
                     else -> screenState.timeInput.toIntOrNull()!!
                 }
                 val currentTimeForAnswer: Int =
@@ -91,7 +91,7 @@ class MotivationalTimerController(
             SaveButtonClicked -> {
                 val input: Int? = screenState.timeInput.toIntOrNull()
                 val timeForAnswer: Int = when {
-                    !screenState.isTimerEnabled -> NOT_TO_USE_TIMER
+                    !screenState.isTimerEnabled -> DO_NOT_USE_TIMER
                     input != null && input > 0 -> input
                     else -> {
                         sendCommand(ShowInvalidEntryError)

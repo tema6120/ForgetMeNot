@@ -216,7 +216,7 @@ open class ExerciseViewModel(
                     exercisePreference.flowOf(ExercisePreference::timeForAnswer)
                 }
                 .flatMapLatest { timeForAnswer: Int ->
-                    if (timeForAnswer == NOT_TO_USE_TIMER) {
+                    if (timeForAnswer == DO_NOT_USE_TIMER) {
                         flowOf(TimerStatus.NotUsed)
                     } else {
                         combine(

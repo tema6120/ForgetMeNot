@@ -62,6 +62,9 @@ class Exercise(
             currentPronunciation.questionAutoSpeaking else
             currentPronunciation.answerAutoSpeaking
 
+    private val grading: Grading
+        get() = currentExerciseCard.base.deck.exercisePreference.grading
+
     init {
         if (isPositionValid()) {
             autoSpeakQuestionIfNeed()
@@ -426,6 +429,7 @@ class Exercise(
     }
 
     private fun addExerciseCardToRetestIfNeed() {
+        if (!grading.askAgain) return
         if (hasExerciseCardForRetesting()) return
         val baseExerciseCard = with(currentExerciseCard.base) {
             ExerciseCard.Base(
@@ -434,7 +438,7 @@ class Exercise(
                 deck = deck,
                 isInverted = isInverted,
                 isQuestionDisplayed = deck.exercisePreference.isQuestionDisplayed,
-                timeLeft = if (isWalkingMode) NOT_TO_USE_TIMER else deck.exercisePreference.timeForAnswer,
+                timeLeft = if (isWalkingMode) DO_NOT_USE_TIMER else deck.exercisePreference.timeForAnswer,
                 initialGrade = initialGrade,
                 isGradeEditedManually = isGradeEditedManually
             )
@@ -472,22 +476,35 @@ class Exercise(
 
     private fun updateGrade() {
         if (currentExerciseCard.base.isGradeEditedManually) return
-        var numberOfCorrect = 0
-        var numberOfWrong = 0
+        var isFirstAnswer = true
+        var calculatingGrade: Int = currentExerciseCard.base.initialGrade
         for (exerciseCard in state.exerciseCards) {
             if (exerciseCard.base.card.id != currentExerciseCard.base.card.id) continue
-            when (exerciseCard.base.isAnswerCorrect) {
-                true -> numberOfCorrect++
-                false -> numberOfWrong++
+            calculatingGrade = applyGradeChange(exerciseCard, calculatingGrade, isFirstAnswer)
+            isFirstAnswer = false
+        }
+        currentExerciseCard.base.card.grade = calculatingGrade
+    }
+
+    private fun applyGradeChange(
+        exerciseCard: ExerciseCard,
+        gradeBeforeAnswer: Int,
+        isFirstAnswer: Boolean
+    ): Int {
+        val gradeChange: GradeChange = when (exerciseCard.base.isAnswerCorrect) {
+            null -> return gradeBeforeAnswer
+            true -> {
+                if (isFirstAnswer)
+                    grading.onFirstCorrectAnswer else
+                    grading.onRepeatedCorrectAnswer
+            }
+            false -> {
+                if (isFirstAnswer)
+                    grading.onFirstWrongAnswer else
+                    grading.onRepeatedWrongAnswer
             }
         }
-        with(currentExerciseCard.base) {
-            card.grade = when {
-                numberOfWrong > 0 -> maxOf(0, initialGrade - numberOfWrong)
-                numberOfCorrect > 0 -> initialGrade + 1
-                else -> return
-            }
-        }
+        return gradeChange.apply(gradeBeforeAnswer)
     }
 
     private fun updateLastAnsweredAt() {

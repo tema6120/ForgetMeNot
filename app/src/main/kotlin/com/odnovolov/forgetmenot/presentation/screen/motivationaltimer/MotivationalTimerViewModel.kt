@@ -1,6 +1,6 @@
 package com.odnovolov.forgetmenot.presentation.screen.motivationaltimer
 
-import com.odnovolov.forgetmenot.domain.entity.NOT_TO_USE_TIMER
+import com.odnovolov.forgetmenot.domain.entity.DO_NOT_USE_TIMER
 import com.odnovolov.forgetmenot.domain.interactor.decksettings.DeckSettings
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.decksettings.Tip
 import kotlinx.coroutines.flow.Flow
@@ -21,7 +21,7 @@ class MotivationalTimerViewModel(
 
     val editedTimeForAnswer: Int?
         get() = when {
-            !screenState.isTimerEnabled -> NOT_TO_USE_TIMER
+            !screenState.isTimerEnabled -> DO_NOT_USE_TIMER
             else -> screenState.timeInput.toIntOrNull()
         }
 }

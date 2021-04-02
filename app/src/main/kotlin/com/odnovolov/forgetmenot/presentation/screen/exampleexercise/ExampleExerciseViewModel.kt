@@ -3,7 +3,7 @@ package com.odnovolov.forgetmenot.presentation.screen.exampleexercise
 import com.odnovolov.forgetmenot.domain.entity.Deck
 import com.odnovolov.forgetmenot.domain.entity.ExercisePreference
 import com.odnovolov.forgetmenot.domain.entity.GlobalState
-import com.odnovolov.forgetmenot.domain.entity.NOT_TO_USE_TIMER
+import com.odnovolov.forgetmenot.domain.entity.DO_NOT_USE_TIMER
 import com.odnovolov.forgetmenot.domain.interactor.exercise.Exercise
 import com.odnovolov.forgetmenot.domain.interactor.exercise.ExerciseCard
 import com.odnovolov.forgetmenot.presentation.common.SpeakerImpl
@@ -38,7 +38,7 @@ class ExampleExerciseViewModel(
                         exercisePreference.flowOf(ExercisePreference::timeForAnswer)
                     }
                     .flatMapLatest { timeForAnswer: Int ->
-                        if (timeForAnswer == NOT_TO_USE_TIMER) {
+                        if (timeForAnswer == DO_NOT_USE_TIMER) {
                             flowOf(TimerStatus.NotUsed)
                         } else {
                             combine(

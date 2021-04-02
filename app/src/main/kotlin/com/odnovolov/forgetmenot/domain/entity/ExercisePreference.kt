@@ -12,7 +12,8 @@ class ExercisePreference(
     isQuestionDisplayed: Boolean,
     cardInversion: CardInversion,
     pronunciationPlan: PronunciationPlan,
-    timeForAnswer: Int
+    timeForAnswer: Int,
+    grading: Grading
 ) : FlowMakerWithRegistry<ExercisePreference>() {
     var name: String by flowMaker(name)
     var randomOrder: Boolean by flowMaker(randomOrder)
@@ -23,6 +24,7 @@ class ExercisePreference(
     var cardInversion: CardInversion by flowMaker(cardInversion)
     var pronunciationPlan: PronunciationPlan by flowMakerForCopyable(pronunciationPlan)
     var timeForAnswer: Int by flowMaker(timeForAnswer)
+    var grading: Grading by flowMakerForCopyable(grading)
 
     override fun copy() = ExercisePreference(
         id,
@@ -34,7 +36,8 @@ class ExercisePreference(
         isQuestionDisplayed,
         cardInversion,
         pronunciationPlan.copy(),
-        timeForAnswer
+        timeForAnswer,
+        grading.copy()
     )
 
     companion object {
@@ -49,13 +52,14 @@ class ExercisePreference(
                 isQuestionDisplayed = true,
                 cardInversion = CardInversion.Off,
                 pronunciationPlan = PronunciationPlan.Default,
-                timeForAnswer = NOT_TO_USE_TIMER
+                timeForAnswer = DO_NOT_USE_TIMER,
+                grading = Grading.Default
             )
         }
     }
 }
 
-const val NOT_TO_USE_TIMER = 0
+const val DO_NOT_USE_TIMER = 0
 
 fun ExercisePreference.isDefault(): Boolean = this.id == ExercisePreference.Default.id
 
