@@ -1187,4 +1187,8 @@
     <string name="diagram_block_on_repeated_answer">On repeated answer</string>
     <string name="diagram_block_correct">Correct</string>
     <string name="description_diagram_arrow">Diagram arrow</string>
+    <string name="dialog_title_change_grading_on_first_correct_answer">On first correct answer</string>
+    <string name="dialog_title_change_grading_on_first_wrong_answer">On first wrong answer</string>
+    <string name="dialog_title_change_grading_on_repeated_correct_answer">On correct answer of repeated card</string>
+    <string name="dialog_title_change_grading_on_repeated_wrong_answer">On repeated wrong answer</string>
 </resources>

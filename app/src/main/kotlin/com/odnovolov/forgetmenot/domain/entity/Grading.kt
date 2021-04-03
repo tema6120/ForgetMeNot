@@ -39,6 +39,8 @@ class Grading(
     }
 }
 
+fun Grading.isDefault(): Boolean = id == Grading.Default.id
+
 interface GradeChange {
     fun apply(gradeBeforeAnswer: Int): Int
 }

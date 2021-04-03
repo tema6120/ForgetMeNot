@@ -63,14 +63,14 @@ fun ExercisePreferenceDb.toExercisePreference(
     id,
     name,
     randomOrder,
+    pronunciation,
+    cardInversion,
+    isQuestionDisplayed,
     testingMethod,
     intervalScheme,
-    pronunciation,
-    isQuestionDisplayed,
-    cardInversion,
-    pronunciationPlan,
+    grading,
     timeForAnswer,
-    grading
+    pronunciationPlan
 )
 
 fun ExercisePreference.toExercisePreferenceDb(): ExercisePreferenceDb = ExercisePreferenceDb(

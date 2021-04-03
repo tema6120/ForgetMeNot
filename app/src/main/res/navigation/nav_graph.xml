@@ -537,6 +537,17 @@
     <fragment
             android:id="@+id/grading"
             android:name="com.odnovolov.forgetmenot.presentation.screen.grading.GradingFragment"
-            tools:layout="@layout/fragment_grading"/>
+            tools:layout="@layout/fragment_grading">
+
+        <action
+                android:id="@+id/show_change_grading_dialog"
+                app:destination="@+id/change_grading_dialog" />
+
+    </fragment>
+
+    <dialog
+            android:id="@+id/change_grading_dialog"
+            android:name="com.odnovolov.forgetmenot.presentation.screen.grading.ChangeGradingDialog"
+            tools:layout="@layout/dialog_choice" />
 
 </navigation>

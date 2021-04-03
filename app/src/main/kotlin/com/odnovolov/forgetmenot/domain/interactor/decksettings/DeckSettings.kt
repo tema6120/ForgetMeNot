@@ -1,12 +1,8 @@
 package com.odnovolov.forgetmenot.domain.interactor.decksettings
 
 import com.odnovolov.forgetmenot.domain.*
-import com.odnovolov.forgetmenot.domain.architecturecomponents.EventFlow
 import com.odnovolov.forgetmenot.domain.architecturecomponents.toCopyableList
 import com.odnovolov.forgetmenot.domain.entity.*
-import com.odnovolov.forgetmenot.domain.entity.NameCheckResult.*
-import com.odnovolov.forgetmenot.domain.interactor.decksettings.DeckSettings.Event.*
-import kotlinx.coroutines.flow.Flow
 
 class DeckSettings(
     val state: State,
@@ -14,13 +10,6 @@ class DeckSettings(
 ) {
     data class State(val deck: Deck)
 
-    sealed class Event {
-        class DeniedExercisePreferenceCreation(val nameCheckResult: NameCheckResult) : Event()
-        class DeniedExercisePreferenceRenaming(val nameCheckResult: NameCheckResult) : Event()
-    }
-
-    private val eventFlow = EventFlow<Event>()
-    val events: Flow<Event> = eventFlow.get()
     private val currentExercisePreference: ExercisePreference
         get() = state.deck.exercisePreference
 
@@ -40,17 +29,22 @@ class DeckSettings(
         }
     }
 
-    fun createNewSharedExercisePreference(name: String) {
-        when (checkExercisePreferenceName(name, globalState)) {
-            Ok -> createNewSharedExercisePreferenceAndSetToCurrentDeck(name)
-            Empty -> eventFlow.send(DeniedExercisePreferenceCreation(Empty))
-            Occupied -> eventFlow.send(DeniedExercisePreferenceCreation(Occupied))
-        }
+    fun createNewSharedExercisePreference(name: String): NameCheckResult {
+        return checkExercisePreferenceName(name, globalState)
+            .also { nameCheckResult: NameCheckResult ->
+                if (nameCheckResult == NameCheckResult.Ok) {
+                    createNewSharedExercisePreferenceAndSetToCurrentDeck(name)
+                }
+            }
     }
 
-    fun renameExercisePreference(exercisePreference: ExercisePreference, newName: String) {
-        when (checkExercisePreferenceName(newName, globalState)) {
-            Ok -> {
+    fun renameExercisePreference(
+        exercisePreference: ExercisePreference,
+        newName: String
+    ): NameCheckResult {
+        return checkExercisePreferenceName(newName, globalState)
+            .also { nameCheckResult: NameCheckResult ->
+                if (nameCheckResult != NameCheckResult.Ok) return@also
                 when {
                     exercisePreference.isDefault() -> {
                         createNewSharedExercisePreferenceAndSetToCurrentDeck(newName)
@@ -64,9 +58,6 @@ class DeckSettings(
                     }
                 }
             }
-            Empty -> eventFlow.send(DeniedExercisePreferenceRenaming(Empty))
-            Occupied -> eventFlow.send(DeniedExercisePreferenceRenaming(Occupied))
-        }
     }
 
     private fun createNewSharedExercisePreferenceAndSetToCurrentDeck(name: String) {
@@ -75,6 +66,7 @@ class DeckSettings(
             name = name,
             intervalScheme = currentExercisePreference.intervalScheme?.copyWithNewId(),
             pronunciation = currentExercisePreference.pronunciation.copyWithNewId(),
+            grading = currentExercisePreference.grading.copyWithNewId(),
             pronunciationPlan = currentExercisePreference.pronunciationPlan.copyWithNewId()
         )
         addNewSharedExercisePreference(newSharedExercisePreference)
@@ -112,6 +104,55 @@ class DeckSettings(
         )
     }
 
+    fun setPronunciation(pronunciation: Pronunciation) {
+        updateExercisePreference(
+            isValueChanged = currentExercisePreference.pronunciation != pronunciation,
+            createNewIndividualExercisePreference = {
+                currentExercisePreference.shallowCopy(
+                    id = generateId(),
+                    name = "",
+                    pronunciation = pronunciation
+                )
+            },
+            updateCurrentExercisePreference = {
+                currentExercisePreference.pronunciation = pronunciation
+            }
+        )
+    }
+
+    fun setCardInversion(cardInversion: CardInversion) {
+        updateExercisePreference(
+            isValueChanged = currentExercisePreference.cardInversion != cardInversion,
+            createNewIndividualExercisePreference = {
+                currentExercisePreference.shallowCopy(
+                    id = generateId(),
+                    name = "",
+                    cardInversion = cardInversion
+                )
+            },
+            updateCurrentExercisePreference = {
+                currentExercisePreference.cardInversion = cardInversion
+            }
+        )
+    }
+
+    fun toggleIsQuestionDisplayed() {
+        val newIsQuestionDisplayed = !currentExercisePreference.isQuestionDisplayed
+        updateExercisePreference(
+            isValueChanged = true,
+            createNewIndividualExercisePreference = {
+                currentExercisePreference.shallowCopy(
+                    id = generateId(),
+                    name = "",
+                    isQuestionDisplayed = newIsQuestionDisplayed
+                )
+            },
+            updateCurrentExercisePreference = {
+                currentExercisePreference.isQuestionDisplayed = newIsQuestionDisplayed
+            }
+        )
+    }
+
     fun setTestingMethod(testingMethod: TestingMethod) {
         updateExercisePreference(
             isValueChanged = currentExercisePreference.testingMethod != testingMethod,
@@ -144,51 +185,34 @@ class DeckSettings(
         )
     }
 
-    fun setPronunciation(pronunciation: Pronunciation) {
+    fun setTimeForAnswer(timeForAnswer: Int) {
         updateExercisePreference(
-            isValueChanged = currentExercisePreference.pronunciation != pronunciation,
+            isValueChanged = currentExercisePreference.timeForAnswer != timeForAnswer,
             createNewIndividualExercisePreference = {
                 currentExercisePreference.shallowCopy(
                     id = generateId(),
                     name = "",
-                    pronunciation = pronunciation
+                    timeForAnswer = timeForAnswer
                 )
             },
             updateCurrentExercisePreference = {
-                currentExercisePreference.pronunciation = pronunciation
+                currentExercisePreference.timeForAnswer = timeForAnswer
             }
         )
     }
 
-    fun toggleIsQuestionDisplayed() {
-        val newIsQuestionDisplayed = !currentExercisePreference.isQuestionDisplayed
+    fun setGrading(grading: Grading) {
         updateExercisePreference(
-            isValueChanged = true,
+            isValueChanged = currentExercisePreference.grading != grading,
             createNewIndividualExercisePreference = {
                 currentExercisePreference.shallowCopy(
                     id = generateId(),
                     name = "",
-                    isQuestionDisplayed = newIsQuestionDisplayed
+                    grading = grading
                 )
             },
             updateCurrentExercisePreference = {
-                currentExercisePreference.isQuestionDisplayed = newIsQuestionDisplayed
-            }
-        )
-    }
-
-    fun setCardInversion(cardInversion: CardInversion) {
-        updateExercisePreference(
-            isValueChanged = currentExercisePreference.cardInversion != cardInversion,
-            createNewIndividualExercisePreference = {
-                currentExercisePreference.shallowCopy(
-                    id = generateId(),
-                    name = "",
-                    cardInversion = cardInversion
-                )
-            },
-            updateCurrentExercisePreference = {
-                currentExercisePreference.cardInversion = cardInversion
+                currentExercisePreference.grading = grading
             }
         )
     }
@@ -205,22 +229,6 @@ class DeckSettings(
             },
             updateCurrentExercisePreference = {
                 currentExercisePreference.pronunciationPlan = pronunciationPlan
-            }
-        )
-    }
-
-    fun setTimeForAnswer(timeForAnswer: Int) {
-        updateExercisePreference(
-            isValueChanged = currentExercisePreference.timeForAnswer != timeForAnswer,
-            createNewIndividualExercisePreference = {
-                currentExercisePreference.shallowCopy(
-                    id = generateId(),
-                    name = "",
-                    timeForAnswer = timeForAnswer
-                )
-            },
-            updateCurrentExercisePreference = {
-                currentExercisePreference.timeForAnswer = timeForAnswer
             }
         )
     }
@@ -252,26 +260,26 @@ class DeckSettings(
         id: Long,
         name: String = this.name,
         randomOrder: Boolean = this.randomOrder,
+        pronunciation: Pronunciation = this.pronunciation,
+        cardInversion: CardInversion = this.cardInversion,
+        isQuestionDisplayed: Boolean = this.isQuestionDisplayed,
         testingMethod: TestingMethod = this.testingMethod,
         intervalScheme: IntervalScheme? = this.intervalScheme,
-        pronunciation: Pronunciation = this.pronunciation,
-        isQuestionDisplayed: Boolean = this.isQuestionDisplayed,
-        cardInversion: CardInversion = this.cardInversion,
-        pronunciationPlan: PronunciationPlan = this.pronunciationPlan,
+        grading: Grading = this.grading,
         timeForAnswer: Int = this.timeForAnswer,
-        grading: Grading = this.grading
+        pronunciationPlan: PronunciationPlan = this.pronunciationPlan
     ) = ExercisePreference(
         id,
         name,
         randomOrder,
+        pronunciation,
+        cardInversion,
+        isQuestionDisplayed,
         testingMethod,
         intervalScheme,
-        pronunciation,
-        isQuestionDisplayed,
-        cardInversion,
-        pronunciationPlan,
+        grading,
         timeForAnswer,
-        grading
+        pronunciationPlan
     )
 
     private fun ExercisePreference.shouldBeDefault(): Boolean {
@@ -296,6 +304,15 @@ class DeckSettings(
                 value = interval.value
             )
         }.toCopyableList()
+    )
+
+    private fun Grading.copyWithNewId() = Grading(
+        id = generateId(),
+        onFirstCorrectAnswer,
+        onFirstWrongAnswer,
+        askAgain,
+        onRepeatedCorrectAnswer,
+        onRepeatedWrongAnswer
     )
 
     private fun PronunciationPlan.copyWithNewId() = PronunciationPlan(

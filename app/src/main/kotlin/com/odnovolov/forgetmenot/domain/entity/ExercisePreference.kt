@@ -6,38 +6,38 @@ class ExercisePreference(
     override val id: Long,
     name: String,
     randomOrder: Boolean,
+    pronunciation: Pronunciation,
+    cardInversion: CardInversion,
+    isQuestionDisplayed: Boolean,
     testingMethod: TestingMethod,
     intervalScheme: IntervalScheme?,
-    pronunciation: Pronunciation,
-    isQuestionDisplayed: Boolean,
-    cardInversion: CardInversion,
-    pronunciationPlan: PronunciationPlan,
+    grading: Grading,
     timeForAnswer: Int,
-    grading: Grading
+    pronunciationPlan: PronunciationPlan
 ) : FlowMakerWithRegistry<ExercisePreference>() {
     var name: String by flowMaker(name)
     var randomOrder: Boolean by flowMaker(randomOrder)
+    var pronunciation: Pronunciation by flowMakerForCopyable(pronunciation)
+    var cardInversion: CardInversion by flowMaker(cardInversion)
+    var isQuestionDisplayed: Boolean by flowMaker(isQuestionDisplayed)
     var testingMethod: TestingMethod by flowMaker(testingMethod)
     var intervalScheme: IntervalScheme? by flowMakerForCopyable(intervalScheme)
-    var pronunciation: Pronunciation by flowMakerForCopyable(pronunciation)
-    var isQuestionDisplayed: Boolean by flowMaker(isQuestionDisplayed)
-    var cardInversion: CardInversion by flowMaker(cardInversion)
-    var pronunciationPlan: PronunciationPlan by flowMakerForCopyable(pronunciationPlan)
-    var timeForAnswer: Int by flowMaker(timeForAnswer)
     var grading: Grading by flowMakerForCopyable(grading)
+    var timeForAnswer: Int by flowMaker(timeForAnswer)
+    var pronunciationPlan: PronunciationPlan by flowMakerForCopyable(pronunciationPlan)
 
     override fun copy() = ExercisePreference(
         id,
         name,
         randomOrder,
+        pronunciation.copy(),
+        cardInversion,
+        isQuestionDisplayed,
         testingMethod,
         intervalScheme?.copy(),
-        pronunciation.copy(),
-        isQuestionDisplayed,
-        cardInversion,
-        pronunciationPlan.copy(),
+        grading.copy(),
         timeForAnswer,
-        grading.copy()
+        pronunciationPlan.copy()
     )
 
     companion object {
@@ -46,14 +46,14 @@ class ExercisePreference(
                 id = 0L,
                 name = "",
                 randomOrder = true,
+                pronunciation = Pronunciation.Default,
+                cardInversion = CardInversion.Off,
+                isQuestionDisplayed = true,
                 testingMethod = TestingMethod.Manual,
                 intervalScheme = IntervalScheme.Default,
-                pronunciation = Pronunciation.Default,
-                isQuestionDisplayed = true,
-                cardInversion = CardInversion.Off,
-                pronunciationPlan = PronunciationPlan.Default,
+                grading = Grading.Default,
                 timeForAnswer = DO_NOT_USE_TIMER,
-                grading = Grading.Default
+                pronunciationPlan = PronunciationPlan.Default
             )
         }
     }

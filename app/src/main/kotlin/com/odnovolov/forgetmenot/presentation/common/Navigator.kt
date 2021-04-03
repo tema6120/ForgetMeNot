@@ -203,6 +203,10 @@ class Navigator : ActivityLifecycleCallbacks {
         navigate(R.id.deck_editor_to_grading)
     }
 
+    fun showChangeGradingDialog() {
+        navigate(R.id.show_change_grading_dialog)
+    }
+
     fun navigateToPronunciation(
         createExampleExerciseDiScope: () -> ExampleExerciseDiScope,
         createPronunciationDiScope: () -> PronunciationDiScope
