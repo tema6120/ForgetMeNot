@@ -15,6 +15,7 @@ import com.odnovolov.forgetmenot.presentation.screen.deckeditor.decksettings.Tip
 import com.odnovolov.forgetmenot.presentation.screen.exampleexercise.ExampleExerciseDiScope
 import com.odnovolov.forgetmenot.presentation.screen.exampleplayer.ExamplePlayerDiScope
 import com.odnovolov.forgetmenot.presentation.screen.grading.GradingDiScope
+import com.odnovolov.forgetmenot.presentation.screen.grading.GradingScreenState
 import com.odnovolov.forgetmenot.presentation.screen.intervals.IntervalsDiScope
 import com.odnovolov.forgetmenot.presentation.screen.intervals.IntervalsScreenState
 import com.odnovolov.forgetmenot.presentation.screen.motivationaltimer.MotivationalTimerDiScope
@@ -132,7 +133,22 @@ class DeckSettingsController(
 
             GradingButtonClicked -> {
                 navigator.navigateToGrading {
-                    GradingDiScope()
+                    val possibleTips =
+                        if (currentExercisePreference.intervalScheme != null) {
+                            listOf(
+                                TipGradingScreenIndication,
+                                TipGradingScreenAboutRelationshipWithIntervals,
+                                TipGradingScreenIndicationAboutManualChange
+                            )
+                        } else {
+                            listOf(
+                                TipGradingScreenIndication,
+                                TipGradingScreenIndicationAboutManualChange
+                            )
+                        }
+                    val tipToShow: Tip? = determineTipToShow(possibleTips)
+                    val screenState = GradingScreenState(tipToShow)
+                    GradingDiScope.create(screenState)
                 }
             }
 

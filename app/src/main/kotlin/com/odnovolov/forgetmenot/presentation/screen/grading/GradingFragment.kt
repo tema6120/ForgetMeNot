@@ -11,9 +11,12 @@ import com.odnovolov.forgetmenot.domain.entity.GradeChangeOnCorrectAnswer
 import com.odnovolov.forgetmenot.domain.entity.GradeChangeOnWrongAnswer
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.common.isFinishing
+import com.odnovolov.forgetmenot.presentation.screen.deckeditor.decksettings.Tip
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.decksettings.getGradeChangeDisplayText
 import com.odnovolov.forgetmenot.presentation.screen.grading.GradingEvent.*
 import kotlinx.android.synthetic.main.fragment_grading.*
+import kotlinx.android.synthetic.main.tip.*
+import kotlinx.android.synthetic.main.tip.view.*
 import kotlinx.coroutines.launch
 
 class GradingFragment : BaseFragment() {
@@ -47,6 +50,9 @@ class GradingFragment : BaseFragment() {
         backButton.setOnClickListener {
             requireActivity().onBackPressed()
         }
+        helpButton.setOnClickListener {
+            controller?.dispatch(HelpButtonClicked)
+        }
         firstCorrectAnswerButton.setOnClickListener {
             controller?.dispatch(FirstCorrectAnswerButton)
         }
@@ -69,6 +75,24 @@ class GradingFragment : BaseFragment() {
 
     private fun observeViewModel() {
         with(viewModel) {
+            tip.observe { tip: Tip? ->
+                if (tip != null) {
+                    if (tipStub != null) {
+                        tipStub.inflate()
+                        closeTipButton.setOnClickListener {
+                            controller?.dispatch(CloseTipButtonClicked)
+                        }
+                    }
+                    val tipLayout = rootView.findViewById<View>(R.id.tipLayout)
+                    tipLayout.tipTextView.setText(tip.stringId)
+                    tipLayout.isVisible = true
+                } else {
+                    if (tipStub == null) {
+                        val tipLayout = rootView.findViewById<View>(R.id.tipLayout)
+                        tipLayout.isVisible = false
+                    }
+                }
+            }
             onFirstCorrectAnswer.observe { gradeChange: GradeChangeOnCorrectAnswer ->
                 onFirstCorrectAnswerValueTextView.text =
                     getGradeChangeDisplayText(gradeChange, requireContext())

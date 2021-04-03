@@ -117,6 +117,21 @@ enum class Tip(
     TipPronunciationPlanScreenAboutRepetitionPronunciation(
         stringId = R.string.tip_pronunciation_plan_screen_about_repetition_pronunciation,
         state = TipState(id = 18)
+    ),
+
+    TipGradingScreenIndication(
+        stringId = R.string.tip_grading_screen_indication,
+        state = TipState(id = 19)
+    ),
+
+    TipGradingScreenAboutRelationshipWithIntervals(
+        stringId = R.string.tip_grading_screen_about_relationship_with_intervals,
+        state = TipState(id = 20)
+    ),
+
+    TipGradingScreenIndicationAboutManualChange(
+        stringId = R.string.tip_grading_screen_about_manual_change,
+        state = TipState(id = 21)
     )
 }
 

@@ -198,6 +198,11 @@ class Navigator : ActivityLifecycleCallbacks {
         navigate(R.id.intervals_to_help_article)
     }
 
+    fun navigateToHelpArticleFromGrading(createDiScope: () -> HelpArticleDiScope) {
+        HelpArticleDiScope.open(createDiScope)
+        navigate(R.id.grading_to_help_article)
+    }
+
     fun navigateToGrading(createDiScope: () -> GradingDiScope) {
         GradingDiScope.open(createDiScope)
         navigate(R.id.deck_editor_to_grading)

@@ -540,6 +540,10 @@
             tools:layout="@layout/fragment_grading">
 
         <action
+                android:id="@+id/grading_to_help_article"
+                app:destination="@id/help_article" />
+
+        <action
                 android:id="@+id/show_change_grading_dialog"
                 app:destination="@+id/change_grading_dialog" />
 

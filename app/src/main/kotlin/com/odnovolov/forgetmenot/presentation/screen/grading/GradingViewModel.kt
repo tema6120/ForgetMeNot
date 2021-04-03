@@ -3,6 +3,7 @@ package com.odnovolov.forgetmenot.presentation.screen.grading
 import com.odnovolov.forgetmenot.domain.architecturecomponents.share
 import com.odnovolov.forgetmenot.domain.entity.*
 import com.odnovolov.forgetmenot.domain.interactor.decksettings.DeckSettings
+import com.odnovolov.forgetmenot.presentation.screen.deckeditor.decksettings.Tip
 import com.odnovolov.forgetmenot.presentation.screen.grading.GradingScreenState.DialogPurpose.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
@@ -11,6 +12,8 @@ class GradingViewModel(
     deckSettingsState: DeckSettings.State,
     screenState: GradingScreenState
 ) {
+    val tip: Flow<Tip?> = screenState.flowOf(GradingScreenState::tip)
+
     private val grading: Flow<Grading> =
         deckSettingsState.deck.flowOf(Deck::exercisePreference)
             .flatMapLatest { exercisePreference: ExercisePreference ->

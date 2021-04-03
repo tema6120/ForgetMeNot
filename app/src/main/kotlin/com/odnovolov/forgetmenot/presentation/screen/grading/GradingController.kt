@@ -8,6 +8,9 @@ import com.odnovolov.forgetmenot.presentation.common.Navigator
 import com.odnovolov.forgetmenot.presentation.common.base.BaseController
 import com.odnovolov.forgetmenot.presentation.screen.grading.GradingEvent.*
 import com.odnovolov.forgetmenot.presentation.screen.grading.GradingScreenState.DialogPurpose.*
+import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticle
+import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticleDiScope
+import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticleScreenState
 
 class GradingController(
     private val gradingSettings: GradingSettings,
@@ -17,6 +20,18 @@ class GradingController(
 ) : BaseController<GradingEvent, Nothing>() {
     override fun handle(event: GradingEvent) {
         when (event) {
+            HelpButtonClicked -> {
+                navigator.navigateToHelpArticleFromGrading {
+                    val screenState = HelpArticleScreenState(HelpArticle.GradeAndIntervals)
+                    HelpArticleDiScope.create(screenState)
+                }
+            }
+
+            CloseTipButtonClicked -> {
+                screenState.tip?.state?.needToShow = false
+                screenState.tip = null
+            }
+
             FirstCorrectAnswerButton -> {
                 screenState.dialogPurpose = ToChangeGradingOnFirstCorrectAnswer
                 navigator.showChangeGradingDialog()

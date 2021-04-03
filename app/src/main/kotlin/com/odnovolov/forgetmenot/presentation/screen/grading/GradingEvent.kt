@@ -3,6 +3,8 @@ package com.odnovolov.forgetmenot.presentation.screen.grading
 import com.odnovolov.forgetmenot.domain.entity.GradeChange
 
 sealed class GradingEvent {
+    object HelpButtonClicked : GradingEvent()
+    object CloseTipButtonClicked : GradingEvent()
     object FirstCorrectAnswerButton : GradingEvent()
     object FirstWrongAnswerButton : GradingEvent()
     object YesAskAgainButton : GradingEvent()
