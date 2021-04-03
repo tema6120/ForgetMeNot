@@ -1180,4 +1180,11 @@
     </plurals>
     <string name="grading_settings_description_part_1">On first answer: [Correct: %1$s, Wrong: %2$s]</string>
     <string name="grading_settings_description_part_2">,  On repeated answer: [Correct: %1$s, Wrong: %2$s]</string>
+    <string name="screen_title_grading">Grading</string>
+    <string name="diagram_block_on_first_answer">On first answer</string>
+    <string name="diagram_block_wrong">Wrong</string>
+    <string name="diagram_block_ask_again">Ask again?</string>
+    <string name="diagram_block_on_repeated_answer">On repeated answer</string>
+    <string name="diagram_block_correct">Correct</string>
+    <string name="description_diagram_arrow">Diagram arrow</string>
 </resources>

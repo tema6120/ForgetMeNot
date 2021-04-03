@@ -1,0 +1,511 @@
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/rootView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true">
+
+    <LinearLayout
+            android:id="@+id/screenFrame"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+        <FrameLayout
+                android:id="@+id/appBar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/window"
+                android:orientation="horizontal"
+                android:stateListAnimator="@animator/app_bar">
+
+            <ImageButton
+                    android:id="@+id/backButton"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_gravity="start|center_vertical"
+                    android:layout_marginStart="12dp"
+                    android:background="@drawable/ripple"
+                    android:contentDescription="@string/description_back_button"
+                    android:tint="@color/screen_title"
+                    android:tintMode="src_in"
+                    app:srcCompat="@drawable/ic_round_keyboard_backspace_24" />
+
+            <TextView
+                    android:id="@+id/screenTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/jura"
+                    android:paddingTop="16dp"
+                    android:paddingBottom="16dp"
+                    android:text="@string/screen_title_grading"
+                    android:textColor="@color/screen_title"
+                    android:textSize="@dimen/text_size_screen_title"
+                    android:textStyle="bold" />
+
+            <ImageButton
+                    android:id="@+id/helpButton"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_gravity="end|center_vertical"
+                    android:layout_marginEnd="12dp"
+                    android:background="@drawable/ripple"
+                    android:contentDescription="@string/description_help_button"
+                    android:tint="@color/screen_title"
+                    android:tintMode="src_in"
+                    app:srcCompat="@drawable/ic_round_help_outline_24" />
+
+        </FrameLayout>
+
+        <ScrollView
+                android:id="@+id/contentScrollView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fillViewport="true">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/contentConstraintLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:animateLayoutChanges="true">
+
+                <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/guideline"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_percent="0.5" />
+
+                <TextView
+                        android:id="@+id/onFirstAnswerBlock"
+                        android:layout_width="170dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:background="@drawable/background_grading_diagram_block_title"
+                        android:fontFamily="@font/nunito_extrabold"
+                        android:gravity="center"
+                        android:paddingStart="12dp"
+                        android:paddingTop="4dp"
+                        android:paddingEnd="12dp"
+                        android:paddingBottom="4dp"
+                        android:text="@string/diagram_block_on_first_answer"
+                        android:textColor="@color/text_medium_emphasis"
+                        android:textSize="@dimen/text_size_grading_screen_block_title"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHeight_min="78dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                        android:id="@+id/arrowToFirstCorrectBlock"
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_marginTop="-8dp"
+                        android:layout_marginEnd="-8dp"
+                        android:adjustViewBounds="true"
+                        android:contentDescription="@string/description_diagram_arrow"
+                        android:padding="0dp"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/ic_diagram_arrow_from_top_right_to_bottom"
+                        android:tint="@color/grading_diagram_arrow"
+                        android:tintMode="src_in"
+                        app:layout_constraintBottom_toTopOf="@id/firstCorrectBlockTitle"
+                        app:layout_constraintEnd_toStartOf="@+id/onFirstAnswerBlock"
+                        app:layout_constraintTop_toBottomOf="@+id/onFirstAnswerBlock" />
+
+                <ImageView
+                        android:id="@+id/arrowToFirstWrongBlock"
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_marginStart="-8dp"
+                        android:layout_marginTop="-8dp"
+                        android:adjustViewBounds="true"
+                        android:contentDescription="@string/description_diagram_arrow"
+                        android:padding="0dp"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/ic_diagram_arrow_from_top_left_to_bottom"
+                        android:tint="@color/grading_diagram_arrow"
+                        android:tintMode="src_in"
+                        app:layout_constraintBottom_toTopOf="@+id/firstWrongBlockTitle"
+                        app:layout_constraintStart_toEndOf="@+id/onFirstAnswerBlock"
+                        app:layout_constraintTop_toBottomOf="@+id/onFirstAnswerBlock" />
+
+                <TextView
+                        android:id="@+id/firstCorrectBlockTitle"
+                        android:layout_width="0dp"
+                        android:layout_height="78dp"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="64dp"
+                        android:layout_marginEnd="20dp"
+                        android:background="@drawable/background_diagram_block_correct_top_half"
+                        android:fontFamily="@font/nunito_extrabold"
+                        android:gravity="center"
+                        android:paddingStart="12dp"
+                        android:paddingTop="4dp"
+                        android:paddingEnd="12dp"
+                        android:paddingBottom="4dp"
+                        android:text="@string/diagram_block_correct"
+                        android:textColor="@color/text_remember_button_selected"
+                        app:autoSizeMaxTextSize="@dimen/text_size_grading_screen_block_title"
+                        app:autoSizeTextType="uniform"
+                        app:layout_constrainedWidth="true"
+                        app:layout_constraintEnd_toStartOf="@id/guideline"
+                        app:layout_constraintHorizontal_bias="1.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/onFirstAnswerBlock"
+                        app:layout_constraintWidth_max="170dp" />
+
+                <TextView
+                        android:id="@+id/onFirstCorrectAnswerValueTextView"
+                        android:layout_width="0dp"
+                        android:layout_height="48dp"
+                        android:background="@drawable/background_diagram_block_bottom_half"
+                        android:fontFamily="@font/nunito_bold"
+                        android:gravity="center"
+                        android:paddingStart="12dp"
+                        android:paddingTop="4dp"
+                        android:paddingEnd="12dp"
+                        android:paddingBottom="4dp"
+                        android:textColor="@color/text_remember_button_selected"
+                        android:textSize="@dimen/text_size_grading_screen_block_value"
+                        app:layout_constraintEnd_toEndOf="@+id/firstCorrectBlockTitle"
+                        app:layout_constraintStart_toStartOf="@+id/firstCorrectBlockTitle"
+                        app:layout_constraintTop_toBottomOf="@+id/firstCorrectBlockTitle"
+                        tools:text="+1" />
+
+                <View
+                        android:id="@+id/firstCorrectAnswerButton"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:background="@drawable/ripple_on_diagram_block"
+                        app:layout_constraintBottom_toBottomOf="@+id/onFirstCorrectAnswerValueTextView"
+                        app:layout_constraintEnd_toEndOf="@+id/firstCorrectBlockTitle"
+                        app:layout_constraintStart_toStartOf="@+id/firstCorrectBlockTitle"
+                        app:layout_constraintTop_toTopOf="@id/firstCorrectBlockTitle" />
+
+                <TextView
+                        android:id="@+id/firstWrongBlockTitle"
+                        android:layout_width="0dp"
+                        android:layout_height="78dp"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="64dp"
+                        android:layout_marginEnd="20dp"
+                        android:background="@drawable/background_diagram_block_wrong_top_half"
+                        android:fontFamily="@font/nunito_extrabold"
+                        android:gravity="center"
+                        android:paddingStart="12dp"
+                        android:paddingTop="4dp"
+                        android:paddingEnd="12dp"
+                        android:paddingBottom="4dp"
+                        android:text="@string/diagram_block_wrong"
+                        android:textColor="@color/text_remember_button_selected"
+                        app:autoSizeMaxTextSize="@dimen/text_size_grading_screen_block_title"
+                        app:autoSizeTextType="uniform"
+                        app:layout_constrainedWidth="true"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toEndOf="@id/guideline"
+                        app:layout_constraintTop_toBottomOf="@+id/onFirstAnswerBlock"
+                        app:layout_constraintWidth_max="170dp" />
+
+                <TextView
+                        android:id="@+id/onFirstWrongAnswerValueTextView"
+                        android:layout_width="0dp"
+                        android:layout_height="48dp"
+                        android:background="@drawable/background_diagram_block_bottom_half"
+                        android:fontFamily="@font/nunito_bold"
+                        android:gravity="center"
+                        android:paddingStart="12dp"
+                        android:paddingTop="4dp"
+                        android:paddingEnd="12dp"
+                        android:paddingBottom="4dp"
+                        android:textColor="@color/text_remember_button_selected"
+                        android:textSize="@dimen/text_size_grading_screen_block_value"
+                        app:layout_constraintEnd_toEndOf="@+id/firstWrongBlockTitle"
+                        app:layout_constraintStart_toStartOf="@+id/firstWrongBlockTitle"
+                        app:layout_constraintTop_toBottomOf="@+id/firstWrongBlockTitle"
+                        tools:text="-1" />
+
+                <View
+                        android:id="@+id/firstWrongAnswerButton"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:background="@drawable/ripple_on_diagram_block"
+                        app:layout_constraintBottom_toBottomOf="@+id/onFirstWrongAnswerValueTextView"
+                        app:layout_constraintEnd_toEndOf="@+id/firstWrongBlockTitle"
+                        app:layout_constraintStart_toStartOf="@+id/firstWrongBlockTitle"
+                        app:layout_constraintTop_toTopOf="@id/firstWrongBlockTitle" />
+
+                <ImageView
+                        android:id="@+id/arrowToAskAgainBlock"
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_marginStart="-8dp"
+                        android:layout_marginBottom="-8dp"
+                        android:adjustViewBounds="true"
+                        android:contentDescription="@string/description_diagram_arrow"
+                        android:padding="0dp"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/ic_diagram_arrow_from_top_to_bottom_left"
+                        android:tint="@color/grading_diagram_arrow"
+                        android:tintMode="src_in"
+                        app:layout_constraintBottom_toTopOf="@id/askAgainBlockTitle"
+                        app:layout_constraintStart_toEndOf="@id/askAgainBlockTitle"
+                        app:layout_constraintTop_toBottomOf="@+id/onFirstWrongAnswerValueTextView" />
+
+                <TextView
+                        android:id="@+id/askAgainBlockTitle"
+                        android:layout_width="170dp"
+                        android:layout_height="78dp"
+                        android:layout_marginTop="64dp"
+                        android:background="@drawable/background_diagram_block_ask_again_top_half"
+                        android:fontFamily="@font/nunito_extrabold"
+                        android:gravity="center"
+                        android:paddingStart="12dp"
+                        android:paddingTop="4dp"
+                        android:paddingEnd="12dp"
+                        android:paddingBottom="4dp"
+                        android:text="@string/diagram_block_ask_again"
+                        android:textColor="@color/on_accent"
+                        app:autoSizeMaxTextSize="@dimen/text_size_grading_screen_block_title"
+                        app:autoSizeTextType="uniform"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/onFirstWrongAnswerValueTextView" />
+
+                <ImageView
+                        android:id="@+id/arrowToOnRepeatedAnswerBlock"
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:adjustViewBounds="true"
+                        android:contentDescription="@string/description_diagram_arrow"
+                        android:padding="0dp"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/ic_diagram_arrow_from_top_to_bottom"
+                        android:tint="@color/grading_diagram_arrow"
+                        android:tintMode="src_in"
+                        app:layout_constraintBottom_toTopOf="@id/onRepeatedAnswerBlock"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/yesAskAgainButton" />
+
+                <TextView
+                        android:id="@+id/yesAskAgainButton"
+                        android:layout_width="0dp"
+                        android:layout_height="48dp"
+                        android:background="@drawable/background_diagram_block_bottom_left_half"
+                        android:fontFamily="@font/nunito_bold"
+                        android:gravity="center"
+                        android:paddingStart="12dp"
+                        android:paddingTop="4dp"
+                        android:paddingEnd="12dp"
+                        android:paddingBottom="4dp"
+                        android:text="@string/yes"
+                        android:textColor="@color/text_ask_again_button"
+                        android:textSize="@dimen/text_size_grading_screen_block_value"
+                        app:layout_constraintEnd_toStartOf="@+id/guideline"
+                        app:layout_constraintStart_toStartOf="@+id/askAgainBlockTitle"
+                        app:layout_constraintTop_toBottomOf="@+id/askAgainBlockTitle"
+                        tools:textColor="@color/text_remember_button_selected" />
+
+                <TextView
+                        android:id="@+id/noAskAgainButton"
+                        android:layout_width="0dp"
+                        android:layout_height="48dp"
+                        android:background="@drawable/background_diagram_block_bottom_right_half"
+                        android:fontFamily="@font/nunito_bold"
+                        android:gravity="center"
+                        android:paddingStart="12dp"
+                        android:paddingTop="4dp"
+                        android:paddingEnd="12dp"
+                        android:paddingBottom="4dp"
+                        android:text="@string/no"
+                        android:textColor="@color/text_ask_again_button"
+                        android:textSize="@dimen/text_size_grading_screen_block_value"
+                        app:layout_constraintEnd_toEndOf="@+id/askAgainBlockTitle"
+                        app:layout_constraintStart_toEndOf="@+id/guideline"
+                        app:layout_constraintTop_toBottomOf="@+id/askAgainBlockTitle"
+                        tools:selected="false"
+                        tools:textColor="@color/text_remember_button_unselected" />
+
+                <TextView
+                        android:id="@+id/onRepeatedAnswerBlock"
+                        android:layout_width="170dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="64dp"
+                        android:background="@drawable/background_grading_diagram_block_title"
+                        android:fontFamily="@font/nunito_extrabold"
+                        android:gravity="center"
+                        android:paddingStart="12dp"
+                        android:paddingTop="4dp"
+                        android:paddingEnd="12dp"
+                        android:paddingBottom="4dp"
+                        android:text="@string/diagram_block_on_repeated_answer"
+                        android:textColor="@color/text_medium_emphasis"
+                        android:textSize="@dimen/text_size_grading_screen_block_title"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHeight_min="78dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/yesAskAgainButton" />
+
+                <ImageView
+                        android:id="@+id/arrowToRepeatedCorrectBlock"
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_marginTop="-8dp"
+                        android:layout_marginEnd="-8dp"
+                        android:adjustViewBounds="true"
+                        android:contentDescription="@string/description_diagram_arrow"
+                        android:padding="0dp"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/ic_diagram_arrow_from_top_right_to_bottom"
+                        android:tint="@color/grading_diagram_arrow"
+                        android:tintMode="src_in"
+                        app:layout_constraintBottom_toTopOf="@id/repeatedCorrectBlockTitle"
+                        app:layout_constraintEnd_toStartOf="@+id/onRepeatedAnswerBlock"
+                        app:layout_constraintTop_toBottomOf="@+id/onRepeatedAnswerBlock" />
+
+                <ImageView
+                        android:id="@+id/arrowToRepeatedWrongBlock"
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_marginStart="-8dp"
+                        android:layout_marginTop="-8dp"
+                        android:adjustViewBounds="true"
+                        android:contentDescription="@string/description_diagram_arrow"
+                        android:padding="0dp"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/ic_diagram_arrow_from_top_left_to_bottom"
+                        android:tint="@color/grading_diagram_arrow"
+                        android:tintMode="src_in"
+                        app:layout_constraintBottom_toTopOf="@+id/repeatedWrongBlockTitle"
+                        app:layout_constraintStart_toEndOf="@+id/onRepeatedAnswerBlock"
+                        app:layout_constraintTop_toBottomOf="@+id/onRepeatedAnswerBlock" />
+
+                <TextView
+                        android:id="@+id/repeatedCorrectBlockTitle"
+                        android:layout_width="0dp"
+                        android:layout_height="78dp"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="64dp"
+                        android:layout_marginEnd="20dp"
+                        android:background="@drawable/background_diagram_block_correct_top_half"
+                        android:fontFamily="@font/nunito_extrabold"
+                        android:gravity="center"
+                        android:paddingStart="12dp"
+                        android:paddingTop="4dp"
+                        android:paddingEnd="12dp"
+                        android:paddingBottom="4dp"
+                        android:text="@string/diagram_block_correct"
+                        android:textColor="@color/text_remember_button_selected"
+                        app:autoSizeMaxTextSize="@dimen/text_size_grading_screen_block_title"
+                        app:autoSizeTextType="uniform"
+                        app:layout_constrainedWidth="true"
+                        app:layout_constraintEnd_toStartOf="@id/guideline"
+                        app:layout_constraintHorizontal_bias="1.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/onRepeatedAnswerBlock"
+                        app:layout_constraintWidth_max="170dp" />
+
+                <TextView
+                        android:id="@+id/onRepeatedCorrectAnswerValueTextView"
+                        android:layout_width="0dp"
+                        android:layout_height="48dp"
+                        android:layout_marginBottom="16dp"
+                        android:background="@drawable/background_diagram_block_bottom_half"
+                        android:fontFamily="@font/nunito_bold"
+                        android:gravity="center"
+                        android:paddingStart="12dp"
+                        android:paddingTop="4dp"
+                        android:paddingEnd="12dp"
+                        android:paddingBottom="4dp"
+                        android:textColor="@color/text_remember_button_selected"
+                        android:textSize="@dimen/text_size_grading_screen_block_value"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="@+id/repeatedCorrectBlockTitle"
+                        app:layout_constraintStart_toStartOf="@+id/repeatedCorrectBlockTitle"
+                        app:layout_constraintTop_toBottomOf="@+id/repeatedCorrectBlockTitle"
+                        tools:text="@string/grade_change_value_do_not_change" />
+
+                <View
+                        android:id="@+id/repeatedCorrectAnswerButton"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:background="@drawable/ripple_on_diagram_block"
+                        app:layout_constraintBottom_toBottomOf="@+id/onRepeatedCorrectAnswerValueTextView"
+                        app:layout_constraintEnd_toEndOf="@+id/repeatedCorrectBlockTitle"
+                        app:layout_constraintStart_toStartOf="@+id/repeatedCorrectBlockTitle"
+                        app:layout_constraintTop_toTopOf="@id/repeatedCorrectBlockTitle" />
+
+                <TextView
+                        android:id="@+id/repeatedWrongBlockTitle"
+                        android:layout_width="0dp"
+                        android:layout_height="78dp"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="64dp"
+                        android:layout_marginEnd="20dp"
+                        android:background="@drawable/background_diagram_block_wrong_top_half"
+                        android:fontFamily="@font/nunito_extrabold"
+                        android:gravity="center"
+                        android:paddingStart="12dp"
+                        android:paddingTop="4dp"
+                        android:paddingEnd="12dp"
+                        android:paddingBottom="4dp"
+                        android:text="@string/diagram_block_wrong"
+                        android:textColor="@color/text_remember_button_selected"
+                        app:autoSizeMaxTextSize="@dimen/text_size_grading_screen_block_title"
+                        app:autoSizeTextType="uniform"
+                        app:layout_constrainedWidth="true"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toEndOf="@id/guideline"
+                        app:layout_constraintTop_toBottomOf="@+id/onRepeatedAnswerBlock"
+                        app:layout_constraintWidth_max="170dp" />
+
+                <TextView
+                        android:id="@+id/onRepeatedWrongAnswerValueTextView"
+                        android:layout_width="0dp"
+                        android:layout_height="48dp"
+                        android:layout_marginBottom="16dp"
+                        android:background="@drawable/background_diagram_block_bottom_half"
+                        android:fontFamily="@font/nunito_bold"
+                        android:gravity="center"
+                        android:paddingStart="12dp"
+                        android:paddingTop="4dp"
+                        android:paddingEnd="12dp"
+                        android:paddingBottom="4dp"
+                        android:textColor="@color/text_remember_button_selected"
+                        android:textSize="@dimen/text_size_grading_screen_block_value"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="@+id/repeatedWrongBlockTitle"
+                        app:layout_constraintStart_toStartOf="@+id/repeatedWrongBlockTitle"
+                        app:layout_constraintTop_toBottomOf="@+id/repeatedWrongBlockTitle"
+                        tools:text="-1" />
+
+                <View
+                        android:id="@+id/repeatedWrongAnswerButton"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:background="@drawable/ripple_on_diagram_block"
+                        app:layout_constraintBottom_toBottomOf="@+id/onRepeatedWrongAnswerValueTextView"
+                        app:layout_constraintEnd_toEndOf="@+id/repeatedWrongBlockTitle"
+                        app:layout_constraintStart_toStartOf="@+id/repeatedWrongBlockTitle"
+                        app:layout_constraintTop_toTopOf="@id/repeatedWrongBlockTitle" />
+
+                <androidx.constraintlayout.widget.Group
+                        android:id="@+id/onRepeatedAnswerGroup"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"
+                        app:constraint_referenced_ids="arrowToOnRepeatedAnswerBlock, onRepeatedAnswerBlock, arrowToRepeatedCorrectBlock, arrowToRepeatedWrongBlock, repeatedCorrectBlockTitle, onRepeatedCorrectAnswerValueTextView, repeatedCorrectAnswerButton, repeatedWrongBlockTitle, onRepeatedWrongAnswerValueTextView, repeatedWrongAnswerButton"
+                        tools:visibility="visible" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </ScrollView>
+
+    </LinearLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

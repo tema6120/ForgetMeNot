@@ -1,0 +1,22 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape>
+            <corners
+                    android:bottomLeftRadius="@dimen/diagram_block_corner_radius"
+                    android:bottomRightRadius="@dimen/diagram_block_corner_radius" />
+            <solid android:color="@color/floating_button_in_exercise" />
+        </shape>
+    </item>
+    <item>
+        <ripple android:color="@color/ripple">
+            <item android:id="@android:id/mask">
+                <shape>
+                    <corners
+                            android:bottomLeftRadius="@dimen/diagram_block_corner_radius"
+                            android:bottomRightRadius="@dimen/diagram_block_corner_radius" />
+                    <solid android:color="@android:color/black" />
+                </shape>
+            </item>
+        </ripple>
+    </item>
+</layer-list>

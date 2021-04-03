@@ -14,6 +14,7 @@ import com.odnovolov.forgetmenot.presentation.screen.deckeditor.decksettings.Dec
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.decksettings.Tip.*
 import com.odnovolov.forgetmenot.presentation.screen.exampleexercise.ExampleExerciseDiScope
 import com.odnovolov.forgetmenot.presentation.screen.exampleplayer.ExamplePlayerDiScope
+import com.odnovolov.forgetmenot.presentation.screen.grading.GradingDiScope
 import com.odnovolov.forgetmenot.presentation.screen.intervals.IntervalsDiScope
 import com.odnovolov.forgetmenot.presentation.screen.intervals.IntervalsScreenState
 import com.odnovolov.forgetmenot.presentation.screen.motivationaltimer.MotivationalTimerDiScope
@@ -41,18 +42,6 @@ class DeckSettingsController(
             RandomOrderSwitchToggled -> {
                 val newRandomOrder = !currentExercisePreference.randomOrder
                 deckSettings.setRandomOrder(newRandomOrder)
-            }
-
-            IntervalsButtonClicked -> {
-                navigator.navigateToIntervals {
-                    val possibleTips = listOf(
-                        TipIntervalsScreenImportance,
-                        TipIntervalsScreenAdjustIntervalScheme
-                    )
-                    val tipToShow: Tip? = determineTipToShow(possibleTips)
-                    val screenState = IntervalsScreenState(tipToShow)
-                    IntervalsDiScope.create(screenState)
-                }
             }
 
             PronunciationButtonClicked -> {
@@ -129,21 +118,22 @@ class DeckSettingsController(
                 )
             }
 
-            PronunciationPlanButtonClicked -> {
-                navigator.navigateToPronunciationPlan(
-                    createExamplePlayerDiScope = ExamplePlayerDiScope::create,
-                    createPronunciationPlanDiScope = {
-                        val possibleTips = listOf(
-                            TipPronunciationPlanScreenDescription,
-                            TipPronunciationPlanScreenAboutLongerDelay,
-                            TipPronunciationPlanScreenAboutRepetitionPronunciation
-                        )
-                        val tipToShow: Tip? = determineTipToShow(possibleTips)
-                        val screenState = PronunciationPlanScreenState(tipToShow)
-                        val dialogState = PronunciationEventDialogState()
-                        PronunciationPlanDiScope.create(screenState, dialogState)
-                    }
-                )
+            IntervalsButtonClicked -> {
+                navigator.navigateToIntervals {
+                    val possibleTips = listOf(
+                        TipIntervalsScreenImportance,
+                        TipIntervalsScreenAdjustIntervalScheme
+                    )
+                    val tipToShow: Tip? = determineTipToShow(possibleTips)
+                    val screenState = IntervalsScreenState(tipToShow)
+                    IntervalsDiScope.create(screenState)
+                }
+            }
+
+            GradingButtonClicked -> {
+                navigator.navigateToGrading {
+                    GradingDiScope()
+                }
             }
 
             MotivationalTimerButtonClicked -> {
@@ -169,6 +159,23 @@ class DeckSettingsController(
                             timeInput
                         )
                         MotivationalTimerDiScope.create(screenState)
+                    }
+                )
+            }
+
+            PronunciationPlanButtonClicked -> {
+                navigator.navigateToPronunciationPlan(
+                    createExamplePlayerDiScope = ExamplePlayerDiScope::create,
+                    createPronunciationPlanDiScope = {
+                        val possibleTips = listOf(
+                            TipPronunciationPlanScreenDescription,
+                            TipPronunciationPlanScreenAboutLongerDelay,
+                            TipPronunciationPlanScreenAboutRepetitionPronunciation
+                        )
+                        val tipToShow: Tip? = determineTipToShow(possibleTips)
+                        val screenState = PronunciationPlanScreenState(tipToShow)
+                        val dialogState = PronunciationEventDialogState()
+                        PronunciationPlanDiScope.create(screenState, dialogState)
                     }
                 )
             }

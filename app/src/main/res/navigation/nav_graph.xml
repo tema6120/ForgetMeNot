@@ -226,6 +226,14 @@
                 app:popExitAnim="@anim/slide_out_right" />
 
         <action
+                android:id="@+id/deck_editor_to_grading"
+                app:destination="@id/grading"
+                app:enterAnim="@anim/slide_in_left"
+                app:exitAnim="@anim/slide_out_left"
+                app:popEnterAnim="@anim/slide_in_right"
+                app:popExitAnim="@anim/slide_out_right" />
+
+        <action
                 android:id="@+id/deck_editor_to_pronunciation_plan"
                 app:destination="@id/pronunciation_plan"
                 app:enterAnim="@anim/slide_in_left"
@@ -525,5 +533,10 @@
             android:id="@+id/card_limit_dialog"
             android:name="com.odnovolov.forgetmenot.presentation.screen.cardfilterforexercise.cardlimit.CardLimitDialog"
             tools:layout="@layout/dialog_card_limit" />
+
+    <fragment
+            android:id="@+id/grading"
+            android:name="com.odnovolov.forgetmenot.presentation.screen.grading.GradingFragment"
+            tools:layout="@layout/fragment_grading"/>
 
 </navigation>

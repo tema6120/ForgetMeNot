@@ -1,0 +1,11 @@
+<ripple xmlns:android="http://schemas.android.com/apk/res/android"
+        android:color="@color/ripple_on_floating_button_in_exercise">
+
+    <item android:id="@android:id/mask">
+        <shape>
+            <corners android:radius="@dimen/diagram_block_corner_radius" />
+            <solid android:color="#000" />
+        </shape>
+    </item>
+
+</ripple>

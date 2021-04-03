@@ -197,6 +197,11 @@
     <color name="button_in_card_appearance_selected">#A8A8AB</color>
     <color name="button_in_card_appearance_unselected">#535358</color>
 
+    <!-- Grading screen -->
+    <color name="grading_diagram_arrow">#4DFFFFFF</color>
+    <color name="text_ask_again_button_selected">@color/text_high_emphasis</color>
+    <color name="text_ask_again_button_unselected">#40FFFFFF</color>
+
     <!-- About screen -->
     <color name="app_bar_about_screen">@color/window</color>
 

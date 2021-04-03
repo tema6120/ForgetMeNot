@@ -66,26 +66,29 @@ class DeckSettingsFragment : BaseFragment() {
         randomButton.setOnClickListener {
             controller?.dispatch(RandomOrderSwitchToggled)
         }
+        pronunciationButton.setOnClickListener {
+            controller?.dispatch(PronunciationButtonClicked)
+        }
+        cardInversionButton.setOnClickListener {
+            controller?.dispatch(CardInversionButtonClicked)
+        }
+        questionDisplayButton.setOnClickListener {
+            controller?.dispatch(QuestionDisplayButtonClicked)
+        }
         testingMethodButton.setOnClickListener {
             controller?.dispatch(TestingMethodButtonClicked)
         }
         intervalsButton.setOnClickListener {
             controller?.dispatch(IntervalsButtonClicked)
         }
-        pronunciationButton.setOnClickListener {
-            controller?.dispatch(PronunciationButtonClicked)
-        }
-        questionDisplayButton.setOnClickListener {
-            controller?.dispatch(QuestionDisplayButtonClicked)
-        }
-        cardInversionButton.setOnClickListener {
-            controller?.dispatch(CardInversionButtonClicked)
-        }
-        pronunciationPlanButton.setOnClickListener {
-            controller?.dispatch(PronunciationPlanButtonClicked)
+        gradingButton.setOnClickListener {
+            controller?.dispatch(GradingButtonClicked)
         }
         motivationalTimerButton.setOnClickListener {
             controller?.dispatch(MotivationalTimerButtonClicked)
+        }
+        pronunciationPlanButton.setOnClickListener {
+            controller?.dispatch(PronunciationPlanButtonClicked)
         }
         scrollView.setOnScrollChangeListener(scrollListener)
         scrollListener.onScrollChange(scrollView, 0, 0, 0, 0)

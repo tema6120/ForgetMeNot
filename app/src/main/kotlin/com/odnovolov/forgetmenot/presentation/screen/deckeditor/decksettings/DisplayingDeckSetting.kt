@@ -154,7 +154,7 @@ fun getGradingDisplayText(grading: Grading, context: Context): String {
     return part1 + part2
 }
 
-private fun getGradeChangeDisplayText(
+fun getGradeChangeDisplayText(
     gradeChange: GradeChangeOnCorrectAnswer,
     context: Context
 ): String {
@@ -166,7 +166,7 @@ private fun getGradeChangeDisplayText(
     }
 }
 
-private fun getGradeChangeDisplayText(
+fun getGradeChangeDisplayText(
     gradeChange: GradeChangeOnWrongAnswer,
     context: Context
 ): String {

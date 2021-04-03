@@ -208,6 +208,11 @@
     <color name="background_text_opacity_in_light_theme">@android:color/white</color>
     <color name="background_text_opacity_in_dark_theme">#3B3B41</color>
 
+    <!-- Grading screen -->
+    <color name="grading_diagram_arrow">#4D000000</color>
+    <color name="text_ask_again_button_selected">@android:color/white</color>
+    <color name="text_ask_again_button_unselected">#40FFFFFF</color>
+
     <!-- About screen -->
     <color name="app_bar_about_screen">#282828</color>
 

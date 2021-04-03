@@ -24,6 +24,7 @@ import com.odnovolov.forgetmenot.presentation.screen.exampleplayer.ExamplePlayer
 import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseDiScope
 import com.odnovolov.forgetmenot.presentation.screen.export.ExportDiScope
 import com.odnovolov.forgetmenot.presentation.screen.fileimport.FileImportDiScope
+import com.odnovolov.forgetmenot.presentation.screen.grading.GradingDiScope
 import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticleDiScope
 import com.odnovolov.forgetmenot.presentation.screen.intervals.IntervalsDiScope
 import com.odnovolov.forgetmenot.presentation.screen.intervals.modifyinterval.ModifyIntervalDiScope
@@ -195,6 +196,11 @@ class Navigator : ActivityLifecycleCallbacks {
     fun navigateToHelpArticleFromIntervals(createDiScope: () -> HelpArticleDiScope) {
         HelpArticleDiScope.open(createDiScope)
         navigate(R.id.intervals_to_help_article)
+    }
+
+    fun navigateToGrading(createDiScope: () -> GradingDiScope) {
+        GradingDiScope.open(createDiScope)
+        navigate(R.id.deck_editor_to_grading)
     }
 
     fun navigateToPronunciation(
