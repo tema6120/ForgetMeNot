@@ -1,0 +1,40 @@
+CREATE TABLE GradingDb (
+    id INTEGER PRIMARY KEY,
+    onFirstCorrectAnswer TEXT NOT NULL,
+    onFirstWrongAnswer TEXT NOT NULL,
+    askAgain INTEGER NOT NULL,
+    onRepeatedCorrectAnswer TEXT NOT NULL,
+    onRepeatedWrongAnswer TEXT NOT NULL
+);
+
+CREATE TABLE new_ExercisePreferenceDb (
+    id INTEGER PRIMARY KEY,
+    name TEXT NOT NULL,
+    randomOrder INTEGER NOT NULL,
+    pronunciationId INTEGER NOT NULL,
+    cardInversion TEXT NOT NULL,
+    isQuestionDisplayed INTEGER NOT NULL,
+    testingMethod TEXT NOT NULL,
+    intervalSchemeId INTEGER,
+    gradingId INTEGER NOT NULL,
+    timeForAnswer INTEGER NOT NULL,
+    pronunciationPlanId INTEGER NOT NULL
+);
+
+INSERT INTO new_ExercisePreferenceDb
+SELECT id,
+       name,
+       randomOrder,
+       pronunciationId,
+       cardInversion,
+       isQuestionDisplayed,
+       testingMethod,
+       intervalSchemeId,
+       0,
+       timeForAnswer,
+       pronunciationPlanId
+FROM ExercisePreferenceDb;
+
+DROP TABLE ExercisePreferenceDb;
+
+ALTER TABLE new_ExercisePreferenceDb RENAME TO ExercisePreferenceDb;
