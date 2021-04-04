@@ -22,7 +22,7 @@ class GradingController(
         when (event) {
             HelpButtonClicked -> {
                 navigator.navigateToHelpArticleFromGrading {
-                    val screenState = HelpArticleScreenState(HelpArticle.GradeAndIntervals)
+                    val screenState = HelpArticleScreenState(HelpArticle.GradesAndIntervals)
                     HelpArticleDiScope.create(screenState)
                 }
             }

@@ -44,6 +44,7 @@ class CardsEditorController(
         object ShowCardIsCopiedMessage : Command()
         class ShowCardInfo(val cardInfo: CardInfo) : Command()
         object AskUserToConfirmExit : Command()
+        class ShowCardsHaveBeenCreatedMessage(val numberOfCards: Int) : Command()
     }
 
     private val currentEditableCard: EditableCard?
@@ -153,10 +154,10 @@ class CardsEditorController(
                     when (val savingResult: SavingResult = cardsEditor.save()) {
                         Success -> {
                             if (cardsEditor is CardsEditorForEditingDeck && cardsEditor.isNewDeck) {
+                                val numberOfCards = cardsEditor.deck.cards.size
+                                sendCommand(ShowCardsHaveBeenCreatedMessage(numberOfCards))
                                 navigator.navigateToDeckEditorFromCardsEditor {
-                                    val tabs = All(
-                                        initialTab = Settings
-                                    )
+                                    val tabs = All(initialTab = Settings)
                                     val screenState = DeckEditorScreenState(cardsEditor.deck, tabs)
                                     val batchCardEditor = BatchCardEditor(globalState)
                                     DeckEditorDiScope.create(screenState, batchCardEditor)

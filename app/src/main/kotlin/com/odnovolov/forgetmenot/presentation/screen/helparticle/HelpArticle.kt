@@ -21,10 +21,10 @@ enum class HelpArticle(
         R.string.help_article_title_testing_methods,
         R.drawable.ic_round_rule_24,
         { TestingMethodsArticleFragment() }),
-    GradeAndIntervals(
-        R.string.help_article_title_grade_and_intervals,
+    GradesAndIntervals(
+        R.string.help_article_title_grades_and_intervals,
         R.drawable.ic_round_trending_up_24,
-        { GradeAndIntervalsHelpArticleFragment() }),
+        { GradesAndIntervalsHelpArticleFragment() }),
     Pronunciation(
         R.string.help_article_title_pronunciation,
         R.drawable.ic_outline_sms_24,

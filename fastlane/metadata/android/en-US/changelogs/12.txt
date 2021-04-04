@@ -1,0 +1,8 @@
+- added text opacity settings in card appearance
+- undo/redo in cards editor
+- provided settings for exercise which include:
+    - prefiltering cards before starting the exercise
+    - ability to hide progress bar and text of card position
+    - ability to turn off vibration
+    - moving to the next card after marking a card as learned
+- Ability to specify how the answers should be graded (Grading)

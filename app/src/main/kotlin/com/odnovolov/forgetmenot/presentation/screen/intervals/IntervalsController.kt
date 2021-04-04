@@ -33,7 +33,7 @@ class IntervalsController(
         when (event) {
             HelpButtonClicked -> {
                 navigator.navigateToHelpArticleFromIntervals {
-                    val screenState = HelpArticleScreenState(HelpArticle.GradeAndIntervals)
+                    val screenState = HelpArticleScreenState(HelpArticle.GradesAndIntervals)
                     HelpArticleDiScope.create(screenState)
                 }
             }

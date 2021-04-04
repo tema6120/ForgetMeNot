@@ -18,6 +18,8 @@ import com.odnovolov.forgetmenot.presentation.screen.deckchooser.DeckChooserEven
 import com.odnovolov.forgetmenot.presentation.screen.fileimport.FileImportDiScope
 import com.odnovolov.forgetmenot.presentation.screen.fileimport.cardsfile.CardsFileEvent.SubmittedNameForNewDeck
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeDiScope
+import com.odnovolov.forgetmenot.presentation.screen.renamedeck.RenameDeckController.Command
+import com.odnovolov.forgetmenot.presentation.screen.renamedeck.RenameDeckController.Command.ShowDeckHasBeenCreatedMessage
 import com.odnovolov.forgetmenot.presentation.screen.renamedeck.RenameDeckDialogPurpose.*
 import com.odnovolov.forgetmenot.presentation.screen.renamedeck.RenameDeckEvent.OkButtonClicked
 import com.odnovolov.forgetmenot.presentation.screen.renamedeck.RenameDeckEvent.TextChanged
@@ -28,7 +30,11 @@ class RenameDeckController(
     private val navigator: Navigator,
     private val longTermStateSaver: LongTermStateSaver,
     private val dialogStateProvider: ShortTermStateProvider<RenameDeckDialogState>
-) : BaseController<RenameDeckEvent, Nothing>() {
+) : BaseController<RenameDeckEvent, Command>() {
+    sealed class Command {
+        class ShowDeckHasBeenCreatedMessage(val deckName: String) : Command()
+    }
+
     override fun handle(event: RenameDeckEvent) {
         when (event) {
             is TextChanged -> {
@@ -60,6 +66,7 @@ class RenameDeckController(
                         val cardsEditor: CardsEditorForEditingDeck? =
                             createDeck(newName, globalState)
                         if (cardsEditor != null) {
+                            sendCommand(ShowDeckHasBeenCreatedMessage(cardsEditor.deck.name))
                             val deckListToView: DeckList? =
                                 HomeDiScope.getOrRecreate().deckReviewPreference.deckList
                             deckListToView?.addDeckIds(listOf(cardsEditor.deck.id))

@@ -60,6 +60,7 @@
     <string name="toast_no_file_manager_to_create">У вас немає жодного файлового менеджера щоб
         створити файл</string>
     <string name="error_loading_file">Не вдалося прочитати файли:\n\n%1$s</string>
+    <string name="snackbar_deck_has_been_created">Створена колода \'%s\'</string>
     <string name="text_filter_button">Фільтри</string>
     <string name="title_deck_filters_popup">Фільтри</string>
     <string name="deck_filter_only_decks_available_for_exercise">Тільки колоди, доступні для вправи
@@ -124,6 +125,40 @@
     <string name="text_exercise_button">Вправа</string>
     <string name="text_exercise_button_with_cards_count">Вправа (%d)</string>
     <string name="progress_bar_reading_files">Читання файлів ..</string>
+
+
+    <!-- 'No card is ready for exercise' dialog -->
+
+    <string name="dialog_title_no_cards_ready_for_exercise">Немає карток готових для вправи</string>
+    <string name="description_no_exercise_card_dialog_paragraph_1_part_1">Відповідно до інтервалів,
+        застосованих до цих колод</string>
+    <string name="description_no_exercise_card_dialog_paragraph_1_part_1_with_args">Відповідно до
+        інтервалів, застосованих до цієї колоди (%1$s)</string>
+    <string name="description_no_exercise_card_dialog_paragraph_1_part_2">, ще немає карток,
+        доступних для вправи. Перша картка буде доступна через:</string>
+    <plurals name="days">
+        <item quantity="one">%d день</item>
+        <item quantity="few">%d дня</item>
+        <item quantity="many">%d днів</item>
+    </plurals>
+    <plurals name="hours">
+        <item quantity="one">%d годину</item>
+        <item quantity="few">%d години</item>
+        <item quantity="many">%d годин</item>
+    </plurals>
+    <plurals name="minutes">
+        <item quantity="one">%d хвилину</item>
+        <item quantity="few">%d хвилини</item>
+        <item quantity="many">%d хвилин</item>
+    </plurals>
+    <plurals name="seconds">
+        <item quantity="one">%d секунду</item>
+        <item quantity="few">%d секунди</item>
+        <item quantity="many">%d секунд</item>
+    </plurals>
+    <string name="description_no_exercise_card_dialog_paragraph_2">Ви можете змінити або вимкнути
+        інтервали в налаштуваннях колоди.</string>
+    <string name="button_go_to_deck_settings">Перейти до налаштувань колоди</string>
 
 
     <!-- Deck lists editor -->
@@ -463,6 +498,11 @@
     <string name="description_done_button">Готово</string>
     <string name="description_cancel_button">Скасувати</string>
     <string name="toast_fill_in_the_card">Заповніть картку</string>
+    <plurals name="snackbar_cards_have_been_created">
+        <item quantity="one">%d картка була створена</item>
+        <item quantity="few">%d картки були створені</item>
+        <item quantity="many">%d карток були створені</item>
+    </plurals>
 
 
     <!-- Deck settings screen -->
@@ -476,6 +516,7 @@
     <string name="deck_settings_item_question_display">Відображення запитань</string>
     <string name="deck_settings_item_testing_method">Метод тестування</string>
     <string name="deck_settings_item_intervals">Інтервали</string>
+    <string name="deck_settings_item_grading">Оцінювання</string>
     <string name="deck_settings_item_motivational_timer">Мотиваційний таймер</string>
     <string name="deck_settings_item_pronunciation_plan">План мовлення</string>
     <string name="description_navigate_icon">іконка \"Перейти\"</string>
@@ -488,6 +529,8 @@
     <string name="interval_unit_abbreviation_hours">г</string>
     <string name="interval_unit_abbreviation_days">дн</string>
     <string name="interval_unit_abbreviation_months">м</string>
+    <string name="grading_settings_description_part_1">При першій відповіді: [Правильно: %1$s, Неправильно: %2$s]</string>
+    <string name="grading_settings_description_part_2">,  При повторній відповіді: [Правильно: %1$s, Неправильно: %2$s]</string>
     <string name="time_for_answer">%d сек.</string>
 
 
@@ -606,6 +649,28 @@
     </plurals>
 
 
+    <!-- Grading screen -->
+
+    <string name="screen_title_grading">Оцінювання</string>
+    <string name="tip_grading_screen_indication">Вкажіть, як ви хочете оцінювати відповіді.</string>
+    <string name="tip_grading_screen_about_relationship_with_intervals">Оцінки визначають, який
+        інтервал повинен пройти після відповіді у вправі.</string>
+    <string name="tip_grading_screen_about_manual_change">Якщо ви вкажете оцінку вручну, ця схема
+        визначення оцінок не буде застосовуватися до картки протягом вправи.</string>
+    <string name="grade_change_value_do_not_change">Не змінювати</string>
+    <string name="grade_change_value_reset_to_zero">Скидати до 0</string>
+    <string name="diagram_block_on_first_answer">При першій відповіді</string>
+    <string name="diagram_block_wrong">Неправильно</string>
+    <string name="diagram_block_ask_again">Запитувати знову?</string>
+    <string name="diagram_block_on_repeated_answer">При повторній відповіді</string>
+    <string name="diagram_block_correct">Правильно</string>
+    <string name="description_diagram_arrow">Стрілка схеми</string>
+    <string name="dialog_title_change_grading_on_first_correct_answer">При першій правильній відповіді</string>
+    <string name="dialog_title_change_grading_on_first_wrong_answer">При першій неправильній відповіді</string>
+    <string name="dialog_title_change_grading_on_repeated_correct_answer">При правильній відповіді повторной картки</string>
+    <string name="dialog_title_change_grading_on_repeated_wrong_answer">При повторній неправильній відповіді</string>
+
+
     <!-- Motivational timer screen -->
 
     <string name="screen_title_motivational_timer">Мотиваційний таймер</string>
@@ -652,8 +717,6 @@
     <!-- Settings screen -->
 
     <string name="screen_title_settings">Налаштування</string>
-    <string name="text_walking_mode_title">Режим прогулянки</string>
-    <string name="text_walking_mode_settings_description">Зміна дій клавіш гучності</string>
     <string name="text_fullscreen_settings_title">Повноекранний режим</string>
     <string name="everywhere">Всюди</string>
     <string name="nowhere">Ніде</string>
@@ -661,14 +724,18 @@
     <string name="item_text_fullscreen_in_exercise">Під час вправи</string>
     <string name="item_text_fullscreen_in_card_player">В програвачі карток</string>
     <string name="item_text_fullscreen_in_other_places">В інших місцях</string>
-    <string name="text_card_appearance_settings_title">Зовнішній вигляд картки</string>
-    <string name="text_card_appearance_settings_description">Як картка виглядає у вправі, плеєрі
-        і редакторі</string>
     <string name="text_theme_settings_title">Тема</string>
     <string name="theme_light">Світла</string>
     <string name="theme_dark">Темна</string>
     <string name="theme_default">Відповідно до режиму енергозбереження</string>
     <string name="title_theme_dialog">Тема</string>
+    <string name="text_card_appearance_settings_title">Зовнішній вигляд картки</string>
+    <string name="text_card_appearance_settings_description">Як картка виглядає у вправі, плеєрі
+        і редакторі</string>
+    <string name="text_exercise_settings_title">Вправа</string>
+    <string name="text_exercise_settings_description">Деякі загальні налаштування вправи</string>
+    <string name="text_walking_mode_title">Режим прогулянки</string>
+    <string name="text_walking_mode_settings_description">Зміна дій клавіш гучності</string>
 
 
     <!-- Card appearance -->
@@ -681,6 +748,52 @@
     <string name="error_message_indicate_text_size">Вкажіть розмір тексту</string>
     <string name="dialog_title_question_text_size">Розмір тексту запитання</string>
     <string name="dialog_title_answer_text_size">Розмір тексту відповіді</string>
+    <string name="title_common">Загальні</string>
+    <string name="text_opacity_in_light_theme">Прозорість тексту в світлій темі</string>
+    <string name="text_opacity_in_dark_theme">Прозорість тексту в темній темі</string>
+    <string name="dialog_title_text_opacity">Прозорість тексту</string>
+    <string name="text_opacity_example_text">Приклад\n\n%1$s</string>
+
+
+    <!-- Exercise settings -->
+
+    <string name="screen_title_exercise_settings">Налаштування вправи</string>
+    <string name="exercise_setting_card_prefilter">Фільтрація карток перед початком вправи</string>
+    <string name="card_prefilter_mode_do_not_filter">Не фільтрувати</string>
+    <plurals name="card_prefilter_mode_limit_cards_to">
+        <item quantity="one">Обмежити до %d картки</item>
+        <item quantity="few">Обмежити до %d карток</item>
+        <item quantity="many">Обмежити до %d карток</item>
+    </plurals>
+    <string name="card_prefilter_mode_show_filter_when_cards_more_than">Показувати фільтр карток,
+        коли їх кількість більше, ніж %d</string>
+    <string name="card_prefilter_mode_always_show_filter">Завжди показувати фільтр карток</string>
+    <string name="title_cards_threshold_dialog">Поріг карток</string>
+    <string name="description_cards_threshold_dialog_to_change_card_number_limitation">Вкажіть
+        максимальну кількість карток, які ви хочете обробляти у вправі одночасно.</string>
+    <string name="description_cards_threshold_dialog_to_change_card_number_threshold_for_showing_filter">Вкажіть
+        межу карток, при перевищенні якого буде відображатися фільтр карток.</string>
+    <string name="title_card_limit_dialog">Максимальна кількість карток</string>
+    <string name="exercise_setting_card_position_display">Відображення позиції карток</string>
+    <string name="card_position_display_progress_bar">Смуга просування</string>
+    <string name="card_position_display_text">Текст</string>
+    <string name="exercise_setting_vibrate_on_wrong_answer">Вібрувати при неправильній відповіді</string>
+    <string name="exercise_setting_go_to_next_card_after_marking_the_card_as_learned">Переходити
+        до наступної картки після позначення поточної як \'Вивчена\'</string>
+    <string name="exercise_setting_ask_to_quit_exercise">Запитувати про вихід з вправи, якщо не
+        на всі картки отримано відповідь</string>
+
+
+    <!-- Card filter for Exercise -->
+
+    <string name="title_card_filter_maximum_number_of_cards">Максимальна кількість карток</string>
+    <plurals name="cards">
+        <item quantity="one" tools:ignore="ImpliedQuantity">картка</item>
+        <item quantity="few">картки</item>
+        <item quantity="many">карток</item>
+    </plurals>
+    <string name="no_limit">Без обмежень</string>
+    <string name="text_start_exercise_button">Почати вправу</string>
 
 
     <!-- Walking mode settings screen -->
@@ -742,7 +855,7 @@
     <string name="help_article_title_import_of_file">Імпорт файлу</string>
     <string name="help_article_title_exercise">Вправа</string>
     <string name="help_article_title_testing_methods">Методи тестування</string>
-    <string name="help_article_title_grade_and_intervals">Оцінка та інтервали</string>
+    <string name="help_article_title_grades_and_intervals">Оцінки та інтервали</string>
     <string name="help_article_title_pronunciation">Вимова</string>
     <string name="help_article_title_question_display">Відображення питання</string>
     <string name="help_article_title_motivational_timer">Мотиваційний таймер</string>
@@ -913,7 +1026,9 @@
         створіть колоду, де питання та відповідь будуть однаковими, вимкніть відображення запитань,
         виберіть мову та ввімкніть автоматичну вимову питання в налаштуваннях колоди.</string>
     <string name="article_grade_and_intervals_paragraph1">Кожна картка характеризується оцінкою.
-        Кожна відповідь у вправі впливає на оцінку наступним чином:
+        Кожна відповідь у вправі впливає на оцінку відповідно до налаштувань \'Оцінювання\'.
+        Ви можете налаштувати оцінювання в налаштуваннях колоди. За замовчуванням оцінки
+        змінюються наступним чином:
 
         \n\n\t- зменшується на одиницю для кожної неправильної відповіді, але не менше нуля
 

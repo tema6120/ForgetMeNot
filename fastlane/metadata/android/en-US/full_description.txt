@@ -5,7 +5,7 @@ The features that are supported are:
 
     • Import/export of files.
     • Support CSV, Tab text or any other kind of Delimiter-Separated Values.
-    • Intervals (Spaced repetition). You can specified your own interval scheme for each deck.
+    • Intervals (Spaced repetition). You can specify your own interval scheme for each deck. Also it is possible to indicate one's own algorithm of how the answers affects the choice of the next interval.
     • Several test methods. There are 'Self testing', 'Testing with variants', 'Spell check'.
     • Pronunciation of the text via TTS. You can choose languages for questions and answers, enable autospeaking of them.
     • Hiding the text of a question to stimulate improvement of listening skills that is very useful in foreign language learning.

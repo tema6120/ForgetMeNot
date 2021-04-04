@@ -19,8 +19,8 @@
     <color name="popup_dark">#3B3B41</color>
     <color name="divider_on_dark_popup">@color/divider</color>
     <color name="light_floating_button">#48484E</color>
-    <color name="tint_colorful_icon">#3335353B</color>
-    <color name="tint_colorful_icon_darker">#5935353B</color>
+    <color name="tint_colorful_icon">#2B35353B</color>
+    <color name="tint_colorful_icon_darker">#4D35353B</color>
     <color name="surface_for_switch" tools:ignore="MissingDefaultResource">#999999</color>
 
     <!-- Text | Common -->

@@ -112,7 +112,7 @@ class ExerciseHelpArticleFragment : BaseHelpArticleFragmentForComplexUi() {
                     "question_display" -> HelpArticle.QuestionDisplay
                     "pronunciation" -> HelpArticle.Pronunciation
                     "motivational_timer" -> HelpArticle.MotivationalTimer
-                    "grade" -> HelpArticle.GradeAndIntervals
+                    "grade" -> HelpArticle.GradesAndIntervals
                     "walking_mode" -> HelpArticle.WalkingMode
                     else -> return
                 }

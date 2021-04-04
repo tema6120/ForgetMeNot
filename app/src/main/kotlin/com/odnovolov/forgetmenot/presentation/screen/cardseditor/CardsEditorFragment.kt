@@ -220,6 +220,14 @@ class CardsEditorFragment : BaseFragment() {
                     "QuitCardsEditorBottomSheet"
                 )
             }
+            is ShowCardsHaveBeenCreatedMessage -> {
+                val message = resources.getQuantityString(
+                    R.plurals.snackbar_cards_have_been_created,
+                    command.numberOfCards,
+                    command.numberOfCards
+                )
+                showToast(message)
+            }
         }
     }
 

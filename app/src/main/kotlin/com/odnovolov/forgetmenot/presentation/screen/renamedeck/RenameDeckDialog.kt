@@ -6,11 +6,9 @@ import android.view.View
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.domain.entity.NameCheckResult
 import com.odnovolov.forgetmenot.domain.entity.NameCheckResult.*
+import com.odnovolov.forgetmenot.presentation.common.*
 import com.odnovolov.forgetmenot.presentation.common.base.BaseDialogFragment
-import com.odnovolov.forgetmenot.presentation.common.createDialog
-import com.odnovolov.forgetmenot.presentation.common.isFinishing
-import com.odnovolov.forgetmenot.presentation.common.observeText
-import com.odnovolov.forgetmenot.presentation.common.showSoftInput
+import com.odnovolov.forgetmenot.presentation.screen.renamedeck.RenameDeckController.Command.ShowDeckHasBeenCreatedMessage
 import com.odnovolov.forgetmenot.presentation.screen.renamedeck.RenameDeckEvent.OkButtonClicked
 import com.odnovolov.forgetmenot.presentation.screen.renamedeck.RenameDeckEvent.TextChanged
 import kotlinx.android.synthetic.main.dialog_input.view.*
@@ -34,6 +32,7 @@ class RenameDeckDialog : BaseDialogFragment() {
             controller = diScope.controller
             viewModel = diScope.viewModel
             observeViewModel(isRecreated = savedInstanceState != null)
+            controller!!.commands.observe(::executeCommand)
         }
         return createDialog(rootView).apply {
             setOnShowListener { rootView.dialogInput.showSoftInput() }
@@ -68,6 +67,18 @@ class RenameDeckDialog : BaseDialogFragment() {
                     Occupied -> getString(R.string.error_message_occupied_name)
                 }
                 rootView.okButton.isEnabled = nameCheckResult == Ok
+            }
+        }
+    }
+
+    private fun executeCommand(command: RenameDeckController.Command) {
+        when (command) {
+            is ShowDeckHasBeenCreatedMessage -> {
+                val message = getString(
+                    R.string.snackbar_deck_has_been_created,
+                    command.deckName
+                )
+                showToast(message)
             }
         }
     }

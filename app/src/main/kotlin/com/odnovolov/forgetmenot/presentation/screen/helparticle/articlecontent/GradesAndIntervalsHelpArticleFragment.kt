@@ -5,9 +5,6 @@ import android.graphics.Typeface
 import android.view.Gravity
 import android.view.View
 import android.widget.PopupWindow
-import androidx.core.content.ContextCompat
-import androidx.core.graphics.BlendModeColorFilterCompat
-import androidx.core.graphics.BlendModeCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.domain.entity.Interval
@@ -23,9 +20,9 @@ import kotlinx.android.synthetic.main.article_grade_and_intervals.*
 import kotlinx.android.synthetic.main.popup_intervals.view.*
 import com.odnovolov.forgetmenot.presentation.screen.helparticle.articlecontent.ExampleExerciseToDemonstrateCardsRetesting as ExampleExercise
 
-class GradeAndIntervalsHelpArticleFragment : BaseHelpArticleFragmentForComplexUi() {
+class GradesAndIntervalsHelpArticleFragment : BaseHelpArticleFragmentForComplexUi() {
     override val layoutRes: Int get() = R.layout.article_grade_and_intervals
-    override val helpArticle: HelpArticle get() = HelpArticle.GradeAndIntervals
+    override val helpArticle: HelpArticle get() = HelpArticle.GradesAndIntervals
     private val exercise by lazy(::createExercise)
     private val intervalsAdapter: IntervalsAdapter by lazy(::createIntervalsAdapter)
     private val intervalsPopup: PopupWindow by lazy(::createIntervalsPopup)

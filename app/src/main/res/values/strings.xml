@@ -56,6 +56,7 @@
     <string name="toast_no_file_manager_to_load">You don\'t have any file manager to load a file</string>
     <string name="toast_no_file_manager_to_create">You don\'t have any file manager to create a file</string>
     <string name="error_loading_file">Failed to read files:\n\n%1$s</string>
+    <string name="snackbar_deck_has_been_created">Deck \'%s\' has been created</string>
     <string name="text_filter_button">Filters</string>
     <string name="title_deck_filters_popup">Filters</string>
     <string name="deck_filter_only_decks_available_for_exercise">Only decks available for exercise</string>
@@ -116,6 +117,36 @@
     <string name="text_exercise_button">Exercise</string>
     <string name="text_exercise_button_with_cards_count">Exercise (%d)</string>
     <string name="progress_bar_reading_files">Reading files ..</string>
+
+
+    <!-- 'No card is ready for exercise' dialog -->
+
+    <string name="dialog_title_no_cards_ready_for_exercise">No card is ready for exercise</string>
+    <string name="description_no_exercise_card_dialog_paragraph_1_part_1">According to
+        the intervals applied to these decks</string>
+    <string name="description_no_exercise_card_dialog_paragraph_1_part_1_with_args">According to
+        the intervals applied to this deck (%1$s)</string>
+    <string name="description_no_exercise_card_dialog_paragraph_1_part_2">, no card is available
+        for exercise yet. The first card will be available in:</string>
+    <plurals name="days">
+        <item quantity="one">%d day</item>
+        <item quantity="other">%d days</item>
+    </plurals>
+    <plurals name="hours">
+        <item quantity="one">%d hour</item>
+        <item quantity="other">%d hours</item>
+    </plurals>
+    <plurals name="minutes">
+        <item quantity="one">%d minute</item>
+        <item quantity="other">%d minutes</item>
+    </plurals>
+    <plurals name="seconds">
+        <item quantity="one">%d second</item>
+        <item quantity="other">%d seconds</item>
+    </plurals>
+    <string name="description_no_exercise_card_dialog_paragraph_2">You can change or turn off
+        intervals in deck settings.</string>
+    <string name="button_go_to_deck_settings">Go to deck settings</string>
 
 
     <!-- Deck lists editor -->
@@ -433,6 +464,10 @@
     <string name="description_done_button">Done</string>
     <string name="description_cancel_button">Cancel</string>
     <string name="toast_fill_in_the_card">Fill in the card</string>
+    <plurals name="snackbar_cards_have_been_created">
+        <item quantity="one">%d card has been created</item>
+        <item quantity="other">%d cards have been created</item>
+    </plurals>
 
 
     <!-- Deck settings screen -->
@@ -446,6 +481,7 @@
     <string name="deck_settings_item_question_display">Question display</string>
     <string name="deck_settings_item_testing_method">Testing method</string>
     <string name="deck_settings_item_intervals">Intervals</string>
+    <string name="deck_settings_item_grading">Grading</string>
     <string name="deck_settings_item_motivational_timer">Motivational timer</string>
     <string name="deck_settings_item_pronunciation_plan">Pronunciation plan</string>
     <string name="description_navigate_icon">Navigate icon</string>
@@ -458,6 +494,8 @@
     <string name="interval_unit_abbreviation_hours">h</string>
     <string name="interval_unit_abbreviation_days">d</string>
     <string name="interval_unit_abbreviation_months">m</string>
+    <string name="grading_settings_description_part_1">On first answer: [Correct: %1$s, Wrong: %2$s]</string>
+    <string name="grading_settings_description_part_2">,  On repeated answer: [Correct: %1$s, Wrong: %2$s]</string>
     <string name="time_for_answer">%d sec.</string>
 
 
@@ -571,6 +609,28 @@
     </plurals>
 
 
+    <!-- Grading screen -->
+
+    <string name="screen_title_grading">Grading</string>
+    <string name="tip_grading_screen_indication">Indicate the way you want the answers to be graded.</string>
+    <string name="tip_grading_screen_about_relationship_with_intervals">Grades determine which
+        interval should pass after the answer in the exercise.</string>
+    <string name="tip_grading_screen_about_manual_change">If you specify a grade manually, this
+        grading scheme will not be applied to the card during the exercise.</string>
+    <string name="grade_change_value_do_not_change">Do not change</string>
+    <string name="grade_change_value_reset_to_zero">Reset to 0</string>
+    <string name="diagram_block_on_first_answer">On first answer</string>
+    <string name="diagram_block_wrong">Wrong</string>
+    <string name="diagram_block_ask_again">Ask again?</string>
+    <string name="diagram_block_on_repeated_answer">On repeated answer</string>
+    <string name="diagram_block_correct">Correct</string>
+    <string name="description_diagram_arrow">Diagram arrow</string>
+    <string name="dialog_title_change_grading_on_first_correct_answer">On first correct answer</string>
+    <string name="dialog_title_change_grading_on_first_wrong_answer">On first wrong answer</string>
+    <string name="dialog_title_change_grading_on_repeated_correct_answer">On correct answer of repeated card</string>
+    <string name="dialog_title_change_grading_on_repeated_wrong_answer">On repeated wrong answer</string>
+
+
     <!-- Motivational timer screen -->
 
     <string name="screen_title_motivational_timer">Motivational timer</string>
@@ -617,8 +677,6 @@
     <!-- Settings screen -->
 
     <string name="screen_title_settings">Settings</string>
-    <string name="text_walking_mode_title">Walking mode</string>
-    <string name="text_walking_mode_settings_description">Remapping volume keys actions</string>
     <string name="text_fullscreen_settings_title">Fullscreen mode</string>
     <string name="everywhere">Everywhere</string>
     <string name="nowhere">Nowhere</string>
@@ -626,14 +684,18 @@
     <string name="item_text_fullscreen_in_exercise">In exercise</string>
     <string name="item_text_fullscreen_in_card_player">In card player</string>
     <string name="item_text_fullscreen_in_other_places">In other places</string>
-    <string name="text_card_appearance_settings_title">Card appearance</string>
-    <string name="text_card_appearance_settings_description">How a card looks in the exercise,
-        player and editor</string>
     <string name="text_theme_settings_title">Theme</string>
     <string name="theme_light">Light</string>
     <string name="theme_dark">Dark</string>
     <string name="theme_default">Set by Battery Saver</string>
     <string name="title_theme_dialog">Theme</string>
+    <string name="text_card_appearance_settings_title">Card appearance</string>
+    <string name="text_card_appearance_settings_description">How a card looks in the exercise,
+        player and editor</string>
+    <string name="text_exercise_settings_title">Exercise</string>
+    <string name="text_exercise_settings_description">Some general exercise settings</string>
+    <string name="text_walking_mode_title">Walking mode</string>
+    <string name="text_walking_mode_settings_description">Remapping volume keys actions</string>
 
 
     <!-- Card appearance -->
@@ -647,6 +709,48 @@
     <string name="error_message_indicate_text_size">Specify the text size</string>
     <string name="dialog_title_question_text_size">Question text size</string>
     <string name="dialog_title_answer_text_size">Answer text size</string>
+    <string name="title_common">Common</string>
+    <string name="text_opacity_in_light_theme">Text opacity in light theme</string>
+    <string name="text_opacity_in_dark_theme">Text opacity in dark theme</string>
+    <string name="dialog_title_text_opacity">Text opacity</string>
+    <string name="text_opacity_example_text">Example\n\n%1$s</string>
+
+
+    <!-- Exercise settings -->
+
+    <string name="screen_title_exercise_settings">Exercise settings</string>
+    <string name="exercise_setting_card_prefilter">Filtering cards before starting the exercise</string>
+    <string name="card_prefilter_mode_do_not_filter">Do not filter</string>
+    <plurals name="card_prefilter_mode_limit_cards_to">
+        <item quantity="one">Limit to %d card</item>
+        <item quantity="other">Limit to %d cards</item>
+    </plurals>
+    <string name="card_prefilter_mode_show_filter_when_cards_more_than">Show the card filter when
+        the number of cards is greater than %d</string>
+    <string name="card_prefilter_mode_always_show_filter">Always show the card filter</string>
+    <string name="title_cards_threshold_dialog">Cards threshold</string>
+    <string name="description_cards_threshold_dialog_to_change_card_number_limitation">Specify the
+        maximum number of cards you want to handle in the exercise at once.</string>
+    <string name="description_cards_threshold_dialog_to_change_card_number_threshold_for_showing_filter">Specify
+        the card limit above which the card filter will be displayed.</string>
+    <string name="title_card_limit_dialog">Maximum number of cards</string>
+    <string name="exercise_setting_card_position_display">Card position display</string>
+    <string name="card_position_display_progress_bar">Progress bar</string>
+    <string name="card_position_display_text">Text</string>
+    <string name="exercise_setting_vibrate_on_wrong_answer">Vibrate on wrong answer</string>
+    <string name="exercise_setting_go_to_next_card_after_marking_the_card_as_learned">Go to the next card after marking the card as \'Learned\'</string>
+    <string name="exercise_setting_ask_to_quit_exercise">Ask to quit exercise if not all cards are answered</string>
+
+
+    <!-- Card filter for Exercise -->
+
+    <string name="title_card_filter_maximum_number_of_cards">Maximum number of cards</string>
+    <plurals name="cards">
+        <item quantity="one">card</item>
+        <item quantity="other">cards</item>
+    </plurals>
+    <string name="no_limit">No limit</string>
+    <string name="text_start_exercise_button">Start exercise</string>
 
 
     <!-- Walking mode settings screen -->
@@ -711,7 +815,7 @@
     <string name="help_article_title_import_of_file">Import of file</string>
     <string name="help_article_title_exercise">Exercise</string>
     <string name="help_article_title_testing_methods">Testing methods</string>
-    <string name="help_article_title_grade_and_intervals">Grade and intervals</string>
+    <string name="help_article_title_grades_and_intervals">Grades and intervals</string>
     <string name="help_article_title_pronunciation">Pronunciation</string>
     <string name="help_article_title_question_display">Question display</string>
     <string name="help_article_title_motivational_timer">Motivational timer</string>
@@ -882,7 +986,9 @@
         deck where the question and answer will be the same, turn off the question display, select
         the language and enable the auto-pronunciation of the question in the deck settings.</string>
     <string name="article_grade_and_intervals_paragraph1">Each card is characterized by the grade.
-        Each answer in the exercise affects the grade in the following way:
+        Each answer in the exercise affects the grade according to the \'Grading\' settings. You can
+        configure how the answers should be graded in the deck settings. By default, the grades are
+        changed in the following way:
 
         \n\n\t- decreases by one for each wrong answer, but not less than zero
 
@@ -1113,87 +1219,4 @@
     <string name="title_delete_dsv_format_dialog">Deleting DSV format \'%1$s\'</string>
     <string name="dialog_text_delete_dsv_format">Do you really want to delete this format?</string>
     <string name="message_dsv_format_is_deleted">DSV format \'%1$s\' is deleted</string>
-    <string name="title_common">Common</string>
-    <string name="text_opacity_in_light_theme">Text opacity in light theme</string>
-    <string name="text_opacity_in_dark_theme">Text opacity in dark theme</string>
-    <string name="dialog_title_text_opacity">Text opacity</string>
-    <string name="text_opacity_example_text">Example\n\n%1$s</string>
-    <string name="dialog_title_no_cards_ready_for_exercise">No card is ready for exercise</string>
-    <string name="description_no_exercise_card_dialog_paragraph_1_part_1">According to
-        the intervals applied to these decks</string>
-    <string name="description_no_exercise_card_dialog_paragraph_1_part_1_with_args">According to
-        the intervals applied to this deck (%1$s)</string>
-    <string name="description_no_exercise_card_dialog_paragraph_1_part_2">, no card is available
-        for exercise yet. The first card will be available in:</string>
-    <plurals name="days">
-        <item quantity="one">%d day</item>
-        <item quantity="other">%d days</item>
-    </plurals>
-    <plurals name="hours">
-        <item quantity="one">%d hour</item>
-        <item quantity="other">%d hours</item>
-    </plurals>
-    <plurals name="minutes">
-        <item quantity="one">%d minute</item>
-        <item quantity="other">%d minutes</item>
-    </plurals>
-    <plurals name="seconds">
-        <item quantity="one">%d second</item>
-        <item quantity="other">%d seconds</item>
-    </plurals>
-    <string name="description_no_exercise_card_dialog_paragraph_2">You can change or turn off
-        intervals in deck settings.</string>
-    <string name="button_go_to_deck_settings">Go to deck settings</string>
-    <string name="text_exercise_settings_title">Exercise</string>
-    <string name="text_exercise_settings_description">Some general exercise settings</string>
-    <string name="screen_title_exercise_settings">Exercise settings</string>
-    <string name="exercise_setting_card_prefilter">Filtering cards before starting the exercise</string>
-    <string name="card_prefilter_mode_do_not_filter">Do not filter</string>
-    <plurals name="card_prefilter_mode_limit_cards_to">
-        <item quantity="one">Limit to %d card</item>
-        <item quantity="other">Limit to %d cards</item>
-    </plurals>
-    <string name="card_prefilter_mode_show_filter_when_cards_more_than">Show the card filter when
-        the number of cards is greater than %d</string>
-    <string name="card_prefilter_mode_always_show_filter">Always show the card filter</string>
-    <string name="title_cards_threshold_dialog">Cards threshold</string>
-    <string name="description_cards_threshold_dialog_to_change_card_number_limitation">Specify the
-        maximum number of cards you want to handle in the exercise at once</string>
-    <string name="description_cards_threshold_dialog_to_change_card_number_threshold_for_showing_filter">Specify
-        the card limit above which the card filter will be displayed</string>
-    <string name="title_card_filter_maximum_number_of_cards">Maximum number of cards</string>
-    <string name="no_limit">No limit</string>
-    <string name="text_start_exercise_button">Start exercise</string>
-    <string name="title_card_limit_dialog">Maximum number of cards</string>
-    <string name="exercise_setting_card_position_display">Card position display</string>
-    <string name="card_position_display_progress_bar">Progress bar</string>
-    <string name="card_position_display_text">Text</string>
-    <string name="exercise_setting_vibrate_on_wrong_answer">Vibrate on wrong answer</string>
-    <string name="exercise_setting_go_to_next_card_after_marking_the_card_as_learned">Go to the next card after marking the card as \'Learned\'</string>
-    <string name="exercise_setting_ask_to_quit_exercise">Ask to quit exercise if not all cards are answered</string>
-    <string name="deck_settings_item_grading">Grading</string>
-    <string name="grade_change_value_do_not_change">Do not change</string>
-    <string name="grade_change_value_reset_to_zero">Reset to 0</string>
-    <plurals name="cards">
-        <item quantity="one">card</item>
-        <item quantity="other">cards</item>
-    </plurals>
-    <string name="grading_settings_description_part_1">On first answer: [Correct: %1$s, Wrong: %2$s]</string>
-    <string name="grading_settings_description_part_2">,  On repeated answer: [Correct: %1$s, Wrong: %2$s]</string>
-    <string name="screen_title_grading">Grading</string>
-    <string name="diagram_block_on_first_answer">On first answer</string>
-    <string name="diagram_block_wrong">Wrong</string>
-    <string name="diagram_block_ask_again">Ask again?</string>
-    <string name="diagram_block_on_repeated_answer">On repeated answer</string>
-    <string name="diagram_block_correct">Correct</string>
-    <string name="description_diagram_arrow">Diagram arrow</string>
-    <string name="dialog_title_change_grading_on_first_correct_answer">On first correct answer</string>
-    <string name="dialog_title_change_grading_on_first_wrong_answer">On first wrong answer</string>
-    <string name="dialog_title_change_grading_on_repeated_correct_answer">On correct answer of repeated card</string>
-    <string name="dialog_title_change_grading_on_repeated_wrong_answer">On repeated wrong answer</string>
-    <string name="tip_grading_screen_indication">Indicate the way you want the answers to be graded.</string>
-    <string name="tip_grading_screen_about_relationship_with_intervals">Grades determine which
-        interval should pass after the answer in the exercise.</string>
-    <string name="tip_grading_screen_about_manual_change">If you specify a grade manually, this
-        grading scheme will not be applied to the card during the exercise.</string>
 </resources>
