@@ -26,16 +26,14 @@ class Grading(
     )
 
     companion object {
-        val Default by lazy {
-            Grading(
-                id = 0L,
-                onFirstCorrectAnswer = GradeChangeOnCorrectAnswer.PlusOne,
-                onFirstWrongAnswer = GradeChangeOnWrongAnswer.MinusOne,
-                askAgain = true,
-                onRepeatedCorrectAnswer = GradeChangeOnCorrectAnswer.DoNotChange,
-                onRepeatedWrongAnswer = GradeChangeOnWrongAnswer.MinusOne
-            )
-        }
+        val Default = Grading(
+            id = 0L,
+            onFirstCorrectAnswer = GradeChangeOnCorrectAnswer.PlusOne,
+            onFirstWrongAnswer = GradeChangeOnWrongAnswer.MinusOne,
+            askAgain = true,
+            onRepeatedCorrectAnswer = GradeChangeOnCorrectAnswer.DoNotChange,
+            onRepeatedWrongAnswer = GradeChangeOnWrongAnswer.MinusOne
+        )
     }
 }
 

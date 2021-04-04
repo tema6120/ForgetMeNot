@@ -80,10 +80,13 @@ class DeckPropertyChangeHandler(
         val exists = exercisePreference.isDefault()
                 || database.exercisePreferenceQueries.exists(exercisePreference.id).executeAsOne()
         if (!exists) {
-            exercisePreference.intervalScheme
-                ?.let(exercisePreferencePropertyChangeHandler::insertIntervalSchemeIfNotExists)
             exercisePreferencePropertyChangeHandler.insertPronunciationIfNotExists(
                 exercisePreference.pronunciation
+            )
+            exercisePreference.intervalScheme
+                ?.let(exercisePreferencePropertyChangeHandler::insertIntervalSchemeIfNotExists)
+            exercisePreferencePropertyChangeHandler.insertGradingIfNotExists(
+                exercisePreference.grading
             )
             exercisePreferencePropertyChangeHandler.insertPronunciationPlanIfNotExists(
                 exercisePreference.pronunciationPlan

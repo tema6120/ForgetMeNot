@@ -114,7 +114,7 @@ class InitialDecksAdder(
         val deckList = DeckList(
             id = generateId(),
             name = "English irregular verbs",
-            color = 0xFF7F7F7F.toInt(),
+            color = 0xFFBFBFBF.toInt(),
             deckIds = decks.map { deck -> deck.id }.toSet()
         )
         globalState.deckLists += deckList

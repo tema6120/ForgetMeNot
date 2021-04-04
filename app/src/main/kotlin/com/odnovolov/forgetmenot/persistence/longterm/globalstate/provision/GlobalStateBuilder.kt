@@ -15,11 +15,16 @@ class GlobalStateBuilder private constructor(private val tables: TablesForGlobal
     }
 
     private fun build(): GlobalState {
-        val intervalSchemes: List<IntervalScheme> = buildIntervalSchemes()
         val pronunciations: List<Pronunciation> = buildPronunciations()
+        val intervalSchemes: List<IntervalScheme> = buildIntervalSchemes()
+        val gradings: List<Grading> = buildGradings()
         val pronunciationPlans: List<PronunciationPlan> = buildPronunciationPlans()
-        val exercisePreferences: List<ExercisePreference> =
-            buildExercisePreferences(intervalSchemes, pronunciations, pronunciationPlans)
+        val exercisePreferences: List<ExercisePreference> = buildExercisePreferences(
+            pronunciations,
+            intervalSchemes,
+            gradings,
+            pronunciationPlans
+        )
         val decks: CopyableList<Deck> = buildDecks(exercisePreferences)
         val deckLists: CopyableList<DeckList> = buildDeckLists()
         val sharedExercisePreferences: CopyableList<ExercisePreference> =
@@ -39,6 +44,10 @@ class GlobalStateBuilder private constructor(private val tables: TablesForGlobal
         )
     }
 
+    private fun buildPronunciations(): List<Pronunciation> {
+        return tables.pronunciationTable.map { it.toPronunciation() }
+    }
+
     private fun buildIntervalSchemes(): List<IntervalScheme> {
         return tables.intervalSchemeTable
             .map { intervalSchemeId: Long ->
@@ -51,8 +60,8 @@ class GlobalStateBuilder private constructor(private val tables: TablesForGlobal
             }
     }
 
-    private fun buildPronunciations(): List<Pronunciation> {
-        return tables.pronunciationTable.map { it.toPronunciation() }
+    private fun buildGradings(): List<Grading> {
+        return tables.gradingTable.map { it.toGrading() }
     }
 
     private fun buildPronunciationPlans(): List<PronunciationPlan> {
@@ -60,12 +69,19 @@ class GlobalStateBuilder private constructor(private val tables: TablesForGlobal
     }
 
     private fun buildExercisePreferences(
-        intervalSchemes: List<IntervalScheme>,
         pronunciations: List<Pronunciation>,
+        intervalSchemes: List<IntervalScheme>,
+        gradings: List<Grading>,
         pronunciationPlans: List<PronunciationPlan>
     ): List<ExercisePreference> {
         return tables.exercisePreferenceTable
             .map { exercisePreferencesDb ->
+                val pronunciation: Pronunciation =
+                    if (exercisePreferencesDb.pronunciationId == Pronunciation.Default.id) {
+                        Pronunciation.Default
+                    } else {
+                        pronunciations.first { it.id == exercisePreferencesDb.pronunciationId }
+                    }
                 val intervalScheme: IntervalScheme? =
                     when (exercisePreferencesDb.intervalSchemeId) {
                         null -> null
@@ -73,11 +89,11 @@ class GlobalStateBuilder private constructor(private val tables: TablesForGlobal
                         else -> intervalSchemes
                             .first { it.id == exercisePreferencesDb.intervalSchemeId }
                     }
-                val pronunciation: Pronunciation =
-                    if (exercisePreferencesDb.pronunciationId == Pronunciation.Default.id) {
-                        Pronunciation.Default
+                val grading: Grading =
+                    if (exercisePreferencesDb.gradingId == Grading.Default.id) {
+                        Grading.Default
                     } else {
-                        pronunciations.first { it.id == exercisePreferencesDb.pronunciationId }
+                        gradings.first { it.id == exercisePreferencesDb.gradingId }
                     }
                 val pronunciationPlan: PronunciationPlan =
                     if (exercisePreferencesDb.pronunciationPlanId == PronunciationPlan.Default.id) {
@@ -87,10 +103,8 @@ class GlobalStateBuilder private constructor(private val tables: TablesForGlobal
                             it.id == exercisePreferencesDb.pronunciationPlanId
                         }
                     }
-                // todo
-                val grading: Grading = Grading.Default
                 exercisePreferencesDb.toExercisePreference(
-                    intervalScheme, pronunciation, pronunciationPlan, grading
+                    pronunciation, intervalScheme, grading, pronunciationPlan
                 )
             }
     }

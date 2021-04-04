@@ -1,0 +1,42 @@
+import com.odnovolov.forgetmenot.domain.entity.GradeChangeOnCorrectAnswer;
+import com.odnovolov.forgetmenot.domain.entity.GradeChangeOnWrongAnswer;
+
+CREATE TABLE GradingDb (
+    id INTEGER PRIMARY KEY,
+    onFirstCorrectAnswer TEXT AS GradeChangeOnCorrectAnswer NOT NULL,
+    onFirstWrongAnswer TEXT AS GradeChangeOnWrongAnswer NOT NULL,
+    askAgain INTEGER AS Boolean NOT NULL,
+    onRepeatedCorrectAnswer TEXT AS GradeChangeOnCorrectAnswer NOT NULL,
+    onRepeatedWrongAnswer TEXT AS GradeChangeOnWrongAnswer NOT NULL
+);
+
+insert:
+INSERT INTO GradingDb VALUES ?;
+
+selectAll:
+SELECT * FROM GradingDb;
+
+updateOnFirstCorrectAnswer:
+UPDATE GradingDb SET onFirstCorrectAnswer = ? WHERE id = ?;
+
+updateOnFirstWrongAnswer:
+UPDATE GradingDb SET onFirstWrongAnswer = ? WHERE id = ?;
+
+updateAskAgain:
+UPDATE GradingDb SET askAgain = ? WHERE id = ?;
+
+updateOnRepeatedCorrectAnswer:
+UPDATE GradingDb SET onRepeatedCorrectAnswer = ? WHERE id = ?;
+
+updateOnRepeatedWrongAnswer:
+UPDATE GradingDb SET onRepeatedWrongAnswer = ? WHERE id = ?;
+
+delete:
+DELETE FROM GradingDb WHERE id = ?;
+
+exists:
+SELECT EXISTS (SELECT * FROM GradingDb WHERE id = ?);
+
+deleteUnused:
+DELETE FROM GradingDb
+WHERE id NOT IN (SELECT gradingId FROM ExercisePreferenceDb);

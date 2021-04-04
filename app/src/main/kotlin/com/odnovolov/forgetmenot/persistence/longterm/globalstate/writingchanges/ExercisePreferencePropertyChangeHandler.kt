@@ -5,6 +5,7 @@ import com.odnovolov.forgetmenot.domain.architecturecomponents.PropertyChangeReg
 import com.odnovolov.forgetmenot.domain.architecturecomponents.PropertyChangeRegistry.Change.PropertyValueChange
 import com.odnovolov.forgetmenot.domain.entity.*
 import com.odnovolov.forgetmenot.persistence.longterm.PropertyChangeHandler
+import com.odnovolov.forgetmenot.persistence.toGradingDb
 import com.odnovolov.forgetmenot.persistence.toIntervalSchemeDb
 import com.odnovolov.forgetmenot.persistence.toPronunciationDb
 import com.odnovolov.forgetmenot.persistence.toPronunciationPlanDb
@@ -29,27 +30,32 @@ class ExercisePreferencePropertyChangeHandler(
                 val randomOrder = change.newValue as Boolean
                 queries.updateRandomOrder(randomOrder, exercisePreferenceId)
             }
-            ExercisePreference::testingMethod -> {
-                val testingMethod = change.newValue as TestingMethod
-                queries.updateTestingMethod(testingMethod, exercisePreferenceId)
-            }
-            ExercisePreference::intervalScheme -> {
-                val linkedIntervalScheme = change.newValue as IntervalScheme?
-                linkedIntervalScheme?.let(::insertIntervalSchemeIfNotExists)
-                queries.updateIntervalSchemeId(linkedIntervalScheme?.id, exercisePreferenceId)
-            }
             ExercisePreference::pronunciation -> {
                 val linkedPronunciation = change.newValue as Pronunciation
                 insertPronunciationIfNotExists(linkedPronunciation)
                 queries.updatePronunciationId(linkedPronunciation.id, exercisePreferenceId)
             }
+            ExercisePreference::cardInversion -> {
+                val cardInversion = change.newValue as CardInversion
+                queries.updateCardInversion(cardInversion, exercisePreferenceId)
+            }
             ExercisePreference::isQuestionDisplayed -> {
                 val isQuestionDisplayed = change.newValue as Boolean
                 queries.updateIsQuestionDisplayed(isQuestionDisplayed, exercisePreferenceId)
             }
-            ExercisePreference::cardInversion -> {
-                val cardInversion = change.newValue as CardInversion
-                queries.updateCardInversion(cardInversion, exercisePreferenceId)
+            ExercisePreference::testingMethod -> {
+                val testingMethod = change.newValue as TestingMethod
+                queries.updateTestingMethod(testingMethod, exercisePreferenceId)
+            }
+            ExercisePreference::grading -> {
+                val linkedGrading = change.newValue as Grading
+                insertGradingIfNotExists(linkedGrading)
+                queries.updateGradingId(linkedGrading.id, exercisePreferenceId)
+            }
+            ExercisePreference::intervalScheme -> {
+                val linkedIntervalScheme = change.newValue as IntervalScheme?
+                linkedIntervalScheme?.let(::insertIntervalSchemeIfNotExists)
+                queries.updateIntervalSchemeId(linkedIntervalScheme?.id, exercisePreferenceId)
             }
             ExercisePreference::pronunciationPlan -> {
                 val linkedPronunciationPlan = change.newValue as PronunciationPlan
@@ -60,6 +66,15 @@ class ExercisePreferencePropertyChangeHandler(
                 val timeForAnswer = change.newValue as Int
                 queries.updateTimeForAnswer(timeForAnswer, exercisePreferenceId)
             }
+        }
+    }
+
+    fun insertPronunciationIfNotExists(pronunciation: Pronunciation) {
+        val exists: Boolean = pronunciation.id == Pronunciation.Default.id
+                || database.pronunciationQueries.exists(pronunciation.id).executeAsOne()
+        if (!exists) {
+            val pronunciationDb = pronunciation.toPronunciationDb()
+            database.pronunciationQueries.insert(pronunciationDb)
         }
     }
 
@@ -76,12 +91,12 @@ class ExercisePreferencePropertyChangeHandler(
         }
     }
 
-    fun insertPronunciationIfNotExists(pronunciation: Pronunciation) {
-        val exists: Boolean = pronunciation.id == Pronunciation.Default.id
-                || database.pronunciationQueries.exists(pronunciation.id).executeAsOne()
+    fun insertGradingIfNotExists(grading: Grading) {
+        val exists: Boolean = grading.id == Grading.Default.id
+                || database.gradingQueries.exists(grading.id).executeAsOne()
         if (!exists) {
-            val pronunciationDb = pronunciation.toPronunciationDb()
-            database.pronunciationQueries.insert(pronunciationDb)
+            val gradingDb = grading.toGradingDb()
+            database.gradingQueries.insert(gradingDb)
         }
     }
 

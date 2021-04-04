@@ -27,16 +27,14 @@ class Pronunciation(
     )
 
     companion object {
-        val Default by lazy {
-            Pronunciation(
-                id = 0L,
-                questionLanguage = null,
-                questionAutoSpeaking = false,
-                answerLanguage = null,
-                answerAutoSpeaking = false,
-                speakTextInBrackets = false
-            )
-        }
+        val Default = Pronunciation(
+            id = 0L,
+            questionLanguage = null,
+            questionAutoSpeaking = false,
+            answerLanguage = null,
+            answerAutoSpeaking = false,
+            speakTextInBrackets = false
+        )
     }
 }
 

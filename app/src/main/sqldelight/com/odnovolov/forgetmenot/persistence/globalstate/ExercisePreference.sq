@@ -5,13 +5,14 @@ CREATE TABLE ExercisePreferenceDb (
     id INTEGER PRIMARY KEY,
     name TEXT NOT NULL,
     randomOrder INTEGER AS Boolean NOT NULL,
+    pronunciationId INTEGER NOT NULL,
+    cardInversion TEXT AS CardInversion NOT NULL,
+    isQuestionDisplayed INTEGER AS Boolean NOT NULL,
     testingMethod TEXT AS TestingMethod NOT NULL,
     intervalSchemeId INTEGER,
-    pronunciationId INTEGER NOT NULL,
-    isQuestionDisplayed INTEGER AS Boolean NOT NULL,
-    cardInversion TEXT AS CardInversion NOT NULL,
-    pronunciationPlanId INTEGER NOT NULL,
-    timeForAnswer INTEGER AS Int NOT NULL
+    gradingId INTEGER NOT NULL,
+    timeForAnswer INTEGER AS Int NOT NULL,
+    pronunciationPlanId INTEGER NOT NULL
 );
 
 insert:
@@ -26,26 +27,29 @@ UPDATE ExercisePreferenceDb SET name = ? WHERE id = ?;
 updateRandomOrder:
 UPDATE ExercisePreferenceDb SET randomOrder = ? WHERE id = ?;
 
+updatePronunciationId:
+UPDATE ExercisePreferenceDb SET pronunciationId = ? WHERE id = ?;
+
+updateCardInversion:
+UPDATE ExercisePreferenceDb SET cardInversion = ? WHERE id = ?;
+
+updateIsQuestionDisplayed:
+UPDATE ExercisePreferenceDb SET isQuestionDisplayed = ? WHERE id = ?;
+
 updateTestingMethod:
 UPDATE ExercisePreferenceDb SET testingMethod = ? WHERE id = ?;
 
 updateIntervalSchemeId:
 UPDATE ExercisePreferenceDb SET intervalSchemeId = ? WHERE id = ?;
 
-updatePronunciationId:
-UPDATE ExercisePreferenceDb SET pronunciationId = ? WHERE id = ?;
-
-updateIsQuestionDisplayed:
-UPDATE ExercisePreferenceDb SET isQuestionDisplayed = ? WHERE id = ?;
-
-updateCardInversion:
-UPDATE ExercisePreferenceDb SET cardInversion = ? WHERE id = ?;
-
-updatePronunciationPlanId:
-UPDATE ExercisePreferenceDb SET pronunciationPlanId = ? WHERE id = ?;
+updateGradingId:
+UPDATE ExercisePreferenceDb SET gradingId = ? WHERE id = ?;
 
 updateTimeForAnswer:
 UPDATE ExercisePreferenceDb SET timeForAnswer = ? WHERE id = ?;
+
+updatePronunciationPlanId:
+UPDATE ExercisePreferenceDb SET pronunciationPlanId = ? WHERE id = ?;
 
 delete:
 DELETE FROM ExercisePreferenceDb WHERE id = ?;

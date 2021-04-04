@@ -55,10 +55,10 @@ fun Card.toCardDb(
 )
 
 fun ExercisePreferenceDb.toExercisePreference(
-    intervalScheme: IntervalScheme?,
     pronunciation: Pronunciation,
-    pronunciationPlan: PronunciationPlan,
-    grading: Grading
+    intervalScheme: IntervalScheme?,
+    grading: Grading,
+    pronunciationPlan: PronunciationPlan
 ) = ExercisePreference(
     id,
     name,
@@ -77,13 +77,32 @@ fun ExercisePreference.toExercisePreferenceDb(): ExercisePreferenceDb = Exercise
     id,
     name,
     randomOrder,
+    pronunciation.id,
+    cardInversion,
+    isQuestionDisplayed,
     testingMethod,
     intervalScheme?.id,
-    pronunciation.id,
-    isQuestionDisplayed,
-    cardInversion,
-    pronunciationPlan.id,
-    timeForAnswer
+    grading.id,
+    timeForAnswer,
+    pronunciationPlan.id
+)
+
+fun PronunciationDb.toPronunciation() = Pronunciation(
+    id,
+    questionLanguage,
+    questionAutoSpeaking,
+    answerLanguage,
+    answerAutoSpeaking,
+    speakTextInBrackets
+)
+
+fun Pronunciation.toPronunciationDb(): PronunciationDb = PronunciationDb(
+    id,
+    questionLanguage,
+    questionAutoSpeaking,
+    answerLanguage,
+    answerAutoSpeaking,
+    speakTextInBrackets
 )
 
 fun IntervalScheme.toIntervalSchemeDb(): IntervalSchemeDb = IntervalSchemeDb(
@@ -105,22 +124,22 @@ fun Interval.toIntervalDb(
     value
 )
 
-fun PronunciationDb.toPronunciation() = Pronunciation(
+fun GradingDb.toGrading() = Grading(
     id,
-    questionLanguage,
-    questionAutoSpeaking,
-    answerLanguage,
-    answerAutoSpeaking,
-    speakTextInBrackets
+    onFirstCorrectAnswer,
+    onFirstWrongAnswer,
+    askAgain,
+    onRepeatedCorrectAnswer,
+    onRepeatedWrongAnswer
 )
 
-fun Pronunciation.toPronunciationDb(): PronunciationDb = PronunciationDb(
+fun Grading.toGradingDb() = GradingDb(
     id,
-    questionLanguage,
-    questionAutoSpeaking,
-    answerLanguage,
-    answerAutoSpeaking,
-    speakTextInBrackets
+    onFirstCorrectAnswer,
+    onFirstWrongAnswer,
+    askAgain,
+    onRepeatedCorrectAnswer,
+    onRepeatedWrongAnswer
 )
 
 fun PronunciationPlanDb.toPronunciationPlan() = PronunciationPlan(

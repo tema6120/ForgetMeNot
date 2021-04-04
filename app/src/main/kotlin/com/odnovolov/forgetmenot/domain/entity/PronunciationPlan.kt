@@ -13,17 +13,15 @@ class PronunciationPlan(
     override fun copy() = PronunciationPlan(id, pronunciationEvents)
 
     companion object {
-        val Default by lazy {
-            PronunciationPlan(
-                id = 0L,
-                pronunciationEvents = listOf(
-                    SpeakQuestion,
-                    Delay(2.seconds),
-                    SpeakAnswer,
-                    Delay(1.seconds)
-                )
+        val Default = PronunciationPlan(
+            id = 0L,
+            pronunciationEvents = listOf(
+                SpeakQuestion,
+                Delay(2.seconds),
+                SpeakAnswer,
+                Delay(1.seconds)
             )
-        }
+        )
     }
 }
 

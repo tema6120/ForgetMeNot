@@ -61,6 +61,12 @@ object DatabaseInitializer {
             FileFormatDb.Adapter(
                 quoteModeAdapter = EnumColumnAdapter()
             ),
+            GradingDb.Adapter(
+                onFirstCorrectAnswerAdapter = EnumColumnAdapter(),
+                onFirstWrongAnswerAdapter = EnumColumnAdapter(),
+                onRepeatedCorrectAnswerAdapter = EnumColumnAdapter(),
+                onRepeatedWrongAnswerAdapter = EnumColumnAdapter(),
+            ),
             IntervalDb.Adapter(
                 valueAdapter = dateTimeSpanAdapter
             ),
