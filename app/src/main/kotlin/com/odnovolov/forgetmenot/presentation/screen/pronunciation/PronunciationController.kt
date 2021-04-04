@@ -31,7 +31,7 @@ class PronunciationController(
             screenState.tip = null
         }
 
-        is QuestionLanguageSelected -> {
+        is QuestionLanguageWasSelected -> {
             pronunciationSettings.setQuestionLanguage(event.language)
         }
 
@@ -39,7 +39,7 @@ class PronunciationController(
             pronunciationSettings.toggleQuestionAutoSpeaking()
         }
 
-        is AnswerLanguageSelected -> {
+        is AnswerLanguageWasSelected -> {
             pronunciationSettings.setAnswerLanguage(event.language)
         }
 
@@ -51,11 +51,11 @@ class PronunciationController(
             pronunciationSettings.toggleSpeakTextInBrackets()
         }
 
-        is MarkedLanguageAsFavorite -> {
+        is LanguageWasMarkedAsFavorite -> {
             pronunciationPreference.favoriteLanguages += event.language
         }
 
-        is UnmarkedLanguageAsFavorite -> {
+        is LanguageWasUnmarkedAsFavorite -> {
             pronunciationPreference.favoriteLanguages -= event.language
         }
     }

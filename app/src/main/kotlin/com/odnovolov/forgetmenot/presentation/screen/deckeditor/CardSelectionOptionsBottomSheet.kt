@@ -38,31 +38,31 @@ class CardSelectionOptionsBottomSheet : BaseBottomSheetDialogFragment() {
 
     private fun setupView() {
         invertOptionItem.setOnClickListener {
-            controller?.dispatch(InvertCardSelectionOptionSelected)
+            controller?.dispatch(InvertCardSelectionOptionWasSelected)
             dismiss()
         }
         changeGradeOptionItem.setOnClickListener {
-            controller?.dispatch(ChangeGradeCardSelectionOptionSelected)
+            controller?.dispatch(ChangeGradeCardSelectionOptionWasSelected)
             dismiss()
         }
         markAsLearnedOptionItem.setOnClickListener {
-            controller?.dispatch(MarkAsLearnedCardSelectionOptionSelected)
+            controller?.dispatch(MarkAsLearnedCardSelectionOptionWasSelected)
             dismiss()
         }
         markAsUnlearnedOptionItem.setOnClickListener {
-            controller?.dispatch(MarkAsUnlearnedCardSelectionOptionSelected)
+            controller?.dispatch(MarkAsUnlearnedCardSelectionOptionWasSelected)
             dismiss()
         }
         removeOptionItem.setOnClickListener {
-            controller?.dispatch(RemoveCardsCardSelectionOptionSelected)
+            controller?.dispatch(RemoveCardsCardSelectionOptionWasSelected)
             dismiss()
         }
         moveOptionItem.setOnClickListener {
-            controller?.dispatch(MoveCardSelectionOptionSelected)
+            controller?.dispatch(MoveCardSelectionOptionWasSelected)
             dismiss()
         }
         copyOptionItem.setOnClickListener {
-            controller?.dispatch(CopyCardSelectionOptionSelected)
+            controller?.dispatch(CopyCardSelectionOptionWasSelected)
             dismiss()
         }
     }

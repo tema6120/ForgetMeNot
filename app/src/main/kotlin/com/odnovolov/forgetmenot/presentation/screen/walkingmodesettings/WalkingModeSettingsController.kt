@@ -7,7 +7,7 @@ import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticle
 import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticleDiScope
 import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticleScreenState
 import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.WalkingModeSettingsEvent.HelpButtonClicked
-import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.WalkingModeSettingsEvent.SelectedKeyGestureAction
+import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.WalkingModeSettingsEvent.KeyGestureActionWasSelected
 
 class WalkingModeSettingsController(
     private val walkingModePreference: WalkingModePreference,
@@ -23,7 +23,7 @@ class WalkingModeSettingsController(
                 }
             }
 
-            is SelectedKeyGestureAction -> {
+            is KeyGestureActionWasSelected -> {
                 with(walkingModePreference) {
                     keyGestureMap = keyGestureMap.toMutableMap()
                         .apply { this[event.keyGesture] = event.keyGestureAction }

@@ -11,16 +11,16 @@ import com.odnovolov.forgetmenot.presentation.screen.cardseditor.CardsEditorEven
 import com.odnovolov.forgetmenot.presentation.screen.deckchooser.DeckChooserEvent.*
 import com.odnovolov.forgetmenot.presentation.screen.deckchooser.DeckChooserScreenState.Purpose.*
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorDiScope
-import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorEvent.DeckToCopyCardsToIsSelected
-import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorEvent.DeckToMoveCardsToIsSelected
+import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorEvent.DeckToCopyCardsToWasSelected
+import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorEvent.DeckToMoveCardsToWasSelected
 import com.odnovolov.forgetmenot.presentation.screen.fileimport.FileImportDiScope
-import com.odnovolov.forgetmenot.presentation.screen.fileimport.cardsfile.CardsFileEvent.TargetDeckIsSelected
+import com.odnovolov.forgetmenot.presentation.screen.fileimport.cardsfile.CardsFileEvent.TargetDeckWasSelected
 import com.odnovolov.forgetmenot.presentation.screen.home.DeckReviewPreference
 import com.odnovolov.forgetmenot.presentation.screen.home.DeckSorting.Direction.Asc
 import com.odnovolov.forgetmenot.presentation.screen.home.DeckSorting.Direction.Desc
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeDiScope
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeEvent
-import com.odnovolov.forgetmenot.presentation.screen.home.HomeEvent.DeckToMergeIntoIsSelected
+import com.odnovolov.forgetmenot.presentation.screen.home.HomeEvent.DeckToMergeIntoWasSelected
 import com.odnovolov.forgetmenot.presentation.screen.renamedeck.RenameDeckDiScope
 import com.odnovolov.forgetmenot.presentation.screen.renamedeck.RenameDeckDialogPurpose.ToCreateNewForDeckChooser
 import com.odnovolov.forgetmenot.presentation.screen.renamedeck.RenameDeckDialogState
@@ -75,12 +75,12 @@ class DeckChooserController(
                 when (screenState.purpose) {
                     ToImportCards -> {
                         FileImportDiScope.getOrRecreate().cardsFileController
-                            .dispatch(TargetDeckIsSelected(deck))
+                            .dispatch(TargetDeckWasSelected(deck))
                     }
                     ToMergeInto -> {
                         val abstractDeck = ExistingDeck(deck)
                         HomeDiScope.getOrRecreate().controller
-                            .dispatch(DeckToMergeIntoIsSelected(abstractDeck))
+                            .dispatch(DeckToMergeIntoWasSelected(abstractDeck))
                     }
                     ToMoveCard -> {
                         val abstractDeck = ExistingDeck(deck)
@@ -95,32 +95,32 @@ class DeckChooserController(
                     ToMoveCardsInDeckEditor -> {
                         val abstractDeck = ExistingDeck(deck)
                         DeckEditorDiScope.getOrRecreate().controller
-                            .dispatch(DeckToMoveCardsToIsSelected(abstractDeck))
+                            .dispatch(DeckToMoveCardsToWasSelected(abstractDeck))
                     }
                     ToCopyCardsInDeckEditor -> {
                         val abstractDeck = ExistingDeck(deck)
                         DeckEditorDiScope.getOrRecreate().controller
-                            .dispatch(DeckToCopyCardsToIsSelected(abstractDeck))
+                            .dispatch(DeckToCopyCardsToWasSelected(abstractDeck))
                     }
                     ToMoveCardsInSearch -> {
                         val abstractDeck = ExistingDeck(deck)
                         SearchDiScope.getOrRecreate().controller
-                            .dispatch(SearchEvent.DeckToMoveCardsToIsSelected(abstractDeck))
+                            .dispatch(SearchEvent.DeckToMoveCardsToWasSelected(abstractDeck))
                     }
                     ToCopyCardsInSearch -> {
                         val abstractDeck = ExistingDeck(deck)
                         SearchDiScope.getOrRecreate().controller
-                            .dispatch(SearchEvent.DeckToCopyCardsToIsSelected(abstractDeck))
+                            .dispatch(SearchEvent.DeckToCopyCardsToWasSelected(abstractDeck))
                     }
                     ToMoveCardsInHomeSearch -> {
                         val abstractDeck = ExistingDeck(deck)
                         HomeDiScope.getOrRecreate().controller
-                            .dispatch(HomeEvent.DeckToMoveCardsToIsSelected(abstractDeck))
+                            .dispatch(HomeEvent.DeckToMoveCardsToWasSelected(abstractDeck))
                     }
                     ToCopyCardsInHomeSearch -> {
                         val abstractDeck = ExistingDeck(deck)
                         HomeDiScope.getOrRecreate().controller
-                            .dispatch(HomeEvent.DeckToCopyCardsToIsSelected(abstractDeck))
+                            .dispatch(HomeEvent.DeckToCopyCardsToWasSelected(abstractDeck))
                     }
                 }
                 navigator.navigateUp()
@@ -139,7 +139,7 @@ class DeckChooserController(
                     ToImportCards -> {}
                     ToMergeInto -> {
                         HomeDiScope.getOrRecreate().controller
-                            .dispatch(DeckToMergeIntoIsSelected(abstractDeck))
+                            .dispatch(DeckToMergeIntoWasSelected(abstractDeck))
                     }
                     ToMoveCard -> {
                         CardsEditorDiScope.getOrRecreate().controller
@@ -151,27 +151,27 @@ class DeckChooserController(
                     }
                     ToMoveCardsInDeckEditor -> {
                         DeckEditorDiScope.getOrRecreate().controller
-                            .dispatch(DeckToMoveCardsToIsSelected(abstractDeck))
+                            .dispatch(DeckToMoveCardsToWasSelected(abstractDeck))
                     }
                     ToCopyCardsInDeckEditor -> {
                         DeckEditorDiScope.getOrRecreate().controller
-                            .dispatch(DeckToCopyCardsToIsSelected(abstractDeck))
+                            .dispatch(DeckToCopyCardsToWasSelected(abstractDeck))
                     }
                     ToMoveCardsInSearch -> {
                         SearchDiScope.getOrRecreate().controller
-                            .dispatch(SearchEvent.DeckToMoveCardsToIsSelected(abstractDeck))
+                            .dispatch(SearchEvent.DeckToMoveCardsToWasSelected(abstractDeck))
                     }
                     ToCopyCardsInSearch -> {
                         SearchDiScope.getOrRecreate().controller
-                            .dispatch(SearchEvent.DeckToCopyCardsToIsSelected(abstractDeck))
+                            .dispatch(SearchEvent.DeckToCopyCardsToWasSelected(abstractDeck))
                     }
                     ToMoveCardsInHomeSearch -> {
                         HomeDiScope.getOrRecreate().controller
-                            .dispatch(HomeEvent.DeckToMoveCardsToIsSelected(abstractDeck))
+                            .dispatch(HomeEvent.DeckToMoveCardsToWasSelected(abstractDeck))
                     }
                     ToCopyCardsInHomeSearch -> {
                         HomeDiScope.getOrRecreate().controller
-                            .dispatch(HomeEvent.DeckToCopyCardsToIsSelected(abstractDeck))
+                            .dispatch(HomeEvent.DeckToCopyCardsToWasSelected(abstractDeck))
                     }
                 }
                 navigator.navigateUp()

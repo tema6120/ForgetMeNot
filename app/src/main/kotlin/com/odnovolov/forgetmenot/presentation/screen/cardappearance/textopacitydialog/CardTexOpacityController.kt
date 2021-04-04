@@ -8,7 +8,7 @@ import com.odnovolov.forgetmenot.presentation.screen.cardappearance.CardAppearan
 import com.odnovolov.forgetmenot.presentation.screen.cardappearance.CardAppearanceScreenState.TextOpacityDialogDestination.ForDarkTheme
 import com.odnovolov.forgetmenot.presentation.screen.cardappearance.CardAppearanceScreenState.TextOpacityDialogDestination.ForLightTheme
 import com.odnovolov.forgetmenot.presentation.screen.cardappearance.textopacitydialog.CardTexOpacityDialogEvent.OkButtonClicked
-import com.odnovolov.forgetmenot.presentation.screen.cardappearance.textopacitydialog.CardTexOpacityDialogEvent.TextOpacityIsChanged
+import com.odnovolov.forgetmenot.presentation.screen.cardappearance.textopacitydialog.CardTexOpacityDialogEvent.TextOpacityWasSelected
 
 class CardTexOpacityController(
     private val cardAppearance: CardAppearance,
@@ -20,7 +20,7 @@ class CardTexOpacityController(
 
     override fun handle(event: CardTexOpacityDialogEvent) {
         when (event) {
-            is TextOpacityIsChanged -> {
+            is TextOpacityWasSelected -> {
                 if (event.textOpacity !in textOpacityRange) return
                 screenState.textOpacityInDialog = event.textOpacity
             }

@@ -5,6 +5,7 @@ import com.odnovolov.forgetmenot.domain.entity.TestingMethod
 import com.odnovolov.forgetmenot.domain.interactor.decksettings.DeckSettings
 import com.odnovolov.forgetmenot.domain.interactor.exercise.Exercise
 import com.odnovolov.forgetmenot.domain.interactor.exercise.example.ExampleExerciseStateCreator
+import com.odnovolov.forgetmenot.domain.interactor.exercise.example.ExerciseExamplePurpose.*
 import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.Navigator
 import com.odnovolov.forgetmenot.presentation.common.base.BaseController
@@ -48,9 +49,10 @@ class DeckSettingsController(
             PronunciationButtonClicked -> {
                 navigator.navigateToPronunciation(
                     createExampleExerciseDiScope = {
+                        val purpose = ToDemonstratePronunciationSettings
                         val exerciseState: Exercise.State =
-                            exampleExerciseStateCreator.create(doNotInvert = true)
-                        ExampleExerciseDiScope.create(exerciseState, useTimer = false)
+                            exampleExerciseStateCreator.create(purpose)
+                        ExampleExerciseDiScope.create(exerciseState, purpose)
                     },
                     createPronunciationDiScope = {
                         val possibleTips = listOf(
@@ -70,8 +72,10 @@ class DeckSettingsController(
             CardInversionButtonClicked -> {
                 navigator.navigateToCardInversion(
                     createExampleExerciseDiScope = {
-                        val exerciseState: Exercise.State = exampleExerciseStateCreator.create()
-                        ExampleExerciseDiScope.create(exerciseState, useTimer = false)
+                        val purpose = ToDemonstrateCardInversionSettings
+                        val exerciseState: Exercise.State =
+                            exampleExerciseStateCreator.create(purpose)
+                        ExampleExerciseDiScope.create(exerciseState, purpose)
                     },
                     createCardInversionDiScope = {
                         val possibleTips = listOf(TipCardInversionScreen)
@@ -85,8 +89,10 @@ class DeckSettingsController(
             QuestionDisplayButtonClicked -> {
                 navigator.navigateToQuestionDisplay(
                     createExampleExerciseDiScope = {
-                        val exerciseState: Exercise.State = exampleExerciseStateCreator.create()
-                        ExampleExerciseDiScope.create(exerciseState, useTimer = false)
+                        val purpose = ToDemonstrateQuestionDisplaySettings
+                        val exerciseState: Exercise.State =
+                            exampleExerciseStateCreator.create(purpose)
+                        ExampleExerciseDiScope.create(exerciseState, purpose)
                     },
                     createQuestionDisplayDiScope = {
                         val possibleTips = listOf(TipQuestionDisplayScreenWhy)
@@ -100,8 +106,10 @@ class DeckSettingsController(
             TestingMethodButtonClicked -> {
                 navigator.navigateToTestingMethod(
                     createExampleExerciseDiScope = {
-                        val exerciseState: Exercise.State = exampleExerciseStateCreator.create()
-                        ExampleExerciseDiScope.create(exerciseState, useTimer = false)
+                        val purpose = ToDemonstrateTestingMethodSettings
+                        val exerciseState: Exercise.State =
+                            exampleExerciseStateCreator.create(purpose)
+                        ExampleExerciseDiScope.create(exerciseState, purpose)
                     },
                     createTestingMethodDiScope = {
                         val possibleTipToShow: Tip =
@@ -132,7 +140,14 @@ class DeckSettingsController(
             }
 
             GradingButtonClicked -> {
-                navigator.navigateToGrading {
+                navigator.navigateToGrading(
+                    createExampleExerciseDiScope = {
+                        val purpose = ToDemonstrateGradingSettings
+                        val exerciseState: Exercise.State =
+                            exampleExerciseStateCreator.create(purpose)
+                        ExampleExerciseDiScope.create(exerciseState, purpose)
+                    },
+                    createGradingDiScope = {
                     val possibleTips =
                         if (currentExercisePreference.intervalScheme != null) {
                             listOf(
@@ -149,14 +164,16 @@ class DeckSettingsController(
                     val tipToShow: Tip? = determineTipToShow(possibleTips)
                     val screenState = GradingScreenState(tipToShow)
                     GradingDiScope.create(screenState)
-                }
+                })
             }
 
             MotivationalTimerButtonClicked -> {
                 navigator.navigateToMotivationalTimer(
                     createExampleExerciseDiScope = {
-                        val exerciseState: Exercise.State = exampleExerciseStateCreator.create()
-                        ExampleExerciseDiScope.create(exerciseState, useTimer = true)
+                        val purpose = ToDemonstrateTimerSettings
+                        val exerciseState: Exercise.State =
+                            exampleExerciseStateCreator.create(purpose)
+                        ExampleExerciseDiScope.create(exerciseState, purpose)
                     },
                     createMotivationalTimerDiScope = {
                         val possibleTips = listOf(

@@ -141,7 +141,7 @@ class HomeController(
                 }
             }
 
-            is DeckListSelected -> {
+            is DeckListWasSelected -> {
                 val selectedDeckList: DeckList? = event.deckListId?.let { deckListId: Long ->
                     globalState.deckLists.find { deckList: DeckList -> deckList.id == deckListId }
                 }
@@ -196,17 +196,17 @@ class HomeController(
                 sendCommand(ShowDeckOptions)
             }
 
-            StartExerciseDeckOptionSelected -> {
+            StartExerciseDeckOptionWasSelected -> {
                 val deckId: Long = screenState.deckForDeckOptionMenu?.id ?: return
                 tryToStartExercise(deckIds = listOf(deckId))
             }
 
-            AutoplayDeckOptionSelected -> {
+            AutoplayDeckOptionWasSelected -> {
                 val deckId: Long = screenState.deckForDeckOptionMenu?.id ?: return
                 navigateToAutoplaySettings(deckIds = listOf(deckId))
             }
 
-            RenameDeckOptionSelected -> {
+            RenameDeckOptionWasSelected -> {
                 val deckId: Long = screenState.deckForDeckOptionMenu?.id ?: return
                 navigator.showRenameDeckDialogFromNavHost {
                     val deck = globalState.decks.first { it.id == deckId }
@@ -218,32 +218,32 @@ class HomeController(
                 }
             }
 
-            SetupDeckOptionSelected -> {
+            SetupDeckOptionWasSelected -> {
                 val deckId: Long = screenState.deckForDeckOptionMenu?.id ?: return
                 navigateToDeckEditor(deckId, DeckEditorScreenTab.Settings)
             }
 
-            EditCardsDeckOptionSelected -> {
+            EditCardsDeckOptionWasSelected -> {
                 val deckId: Long = screenState.deckForDeckOptionMenu?.id ?: return
                 navigateToDeckEditor(deckId, DeckEditorScreenTab.Cards)
             }
 
-            PinDeckOptionSelected -> {
+            PinDeckOptionWasSelected -> {
                 screenState.deckForDeckOptionMenu?.isPinned = true
                 notifyDeckListUpdated()
             }
 
-            UnpinDeckOptionSelected -> {
+            UnpinDeckOptionWasSelected -> {
                 screenState.deckForDeckOptionMenu?.isPinned = false
                 notifyDeckListUpdated()
             }
 
-            AddToDeckListDeckOptionSelected, AddToDeckListDeckSelectionOptionSelected -> {
+            AddToDeckListDeckOptionWasSelected, AddToDeckListDeckSelectionOptionWasSelected -> {
                 screenState.chooseDeckListDialogPurpose = ToAddDeckToDeckList
                 sendCommand(ShowDeckListsChooser)
             }
 
-            RemoveFromDeckListDeckOptionSelected, RemoveFromDeckListDeckSelectionOptionSelected -> {
+            RemoveFromDeckListDeckOptionWasSelected, RemoveFromDeckListDeckSelectionOptionWasSelected -> {
                 var theOnlyDeckListToWhichRelevantDecksBelong: DeckList? = null
                 for (deckId: Long in deckIdsInOptionsMenu) {
                     for (deckList: DeckList in globalState.deckLists) {
@@ -267,7 +267,7 @@ class HomeController(
                 notifyDeckListUpdated()
             }
 
-            SetPresetDeckSelectionOptionSelected -> {
+            SetPresetDeckSelectionOptionWasSelected -> {
                 sendCommand(ShowPresetChooser)
             }
 
@@ -299,7 +299,7 @@ class HomeController(
                 deckPresetSetter.cancel()
             }
 
-            ExportDeckOptionSelected -> {
+            ExportDeckOptionWasSelected -> {
                 val deck = screenState.deckForDeckOptionMenu ?: return
                 navigator.navigateToExportFromNavHost {
                     val dialogState = ExportDialogState(listOf(deck))
@@ -307,11 +307,11 @@ class HomeController(
                 }
             }
 
-            MergeIntoDeckOptionSelected -> {
+            MergeIntoDeckOptionWasSelected -> {
                 navigateToDeckChooser()
             }
 
-            RemoveDeckOptionSelected -> {
+            RemoveDeckOptionWasSelected -> {
                 val deckId: Long = screenState.deckForDeckOptionMenu?.id ?: return
                 val numberOfRemovedDecks = deckRemover.removeDeck(deckId)
                 sendCommand(ShowDeckRemovingMessage(numberOfRemovedDecks))
@@ -372,7 +372,7 @@ class HomeController(
                 toggleCardSelection(foundCard)
             }
 
-            CancelledSelection -> {
+            SelectionWasCancelled -> {
                 when {
                     isDeckSelection() -> screenState.deckSelection = null
                     isCardSelection() -> batchCardEditor.clearSelection()
@@ -410,7 +410,7 @@ class HomeController(
                 }
             }
 
-            PinDeckSelectionOptionSelected -> {
+            PinDeckSelectionOptionWasSelected -> {
                 val selectedDeckIds: List<Long> =
                     screenState.deckSelection?.selectedDeckIds ?: return
                 for (deck in globalState.decks) {
@@ -422,7 +422,7 @@ class HomeController(
                 notifyDeckListUpdated()
             }
 
-            UnpinDeckSelectionOptionSelected -> {
+            UnpinDeckSelectionOptionWasSelected -> {
                 val selectedDeckIds: List<Long> =
                     screenState.deckSelection?.selectedDeckIds ?: return
                 for (deck in globalState.decks) {
@@ -434,7 +434,7 @@ class HomeController(
                 notifyDeckListUpdated()
             }
 
-            ExportDeckSelectionOptionSelected -> {
+            ExportDeckSelectionOptionWasSelected -> {
                 val selectedDeckIds: List<Long> =
                     screenState.deckSelection?.selectedDeckIds ?: return
                 if (selectedDeckIds.isEmpty()) return
@@ -446,11 +446,11 @@ class HomeController(
                 }
             }
 
-            MergeIntoDeckSelectionOptionSelected -> {
+            MergeIntoDeckSelectionOptionWasSelected -> {
                 navigateToDeckChooser()
             }
 
-            is DeckToMergeIntoIsSelected -> {
+            is DeckToMergeIntoWasSelected -> {
                 val selectedDeckIds: List<Long> =
                     screenState.deckSelection?.selectedDeckIds
                         ?: screenState.deckForDeckOptionMenu?.let { deck -> listOf(deck.id) }
@@ -476,7 +476,7 @@ class HomeController(
                 deckMerger.cancel()
             }
 
-            RemoveDeckSelectionOptionSelected -> {
+            RemoveDeckSelectionOptionWasSelected -> {
                 removeSelectedDecks()
             }
 
@@ -485,14 +485,14 @@ class HomeController(
                 notifyDeckListUpdated()
             }
 
-            InvertCardSelectionOptionSelected -> {
+            InvertCardSelectionOptionWasSelected -> {
                 val numberOfInvertedCards: Int = batchCardEditor.state.selectedCards.size
                 batchCardEditor.invert()
                 sendCommand(ShowCardsAreInvertedMessage(numberOfInvertedCards))
                 needToResearchOnCancel = false
             }
 
-            ChangeGradeCardSelectionOptionSelected -> {
+            ChangeGradeCardSelectionOptionWasSelected -> {
                 navigator.showChangeGradeDialogFromNavHost {
                     val dialogState = ChangeGradeDialogState(
                         gradeItems = determineGradeItems(),
@@ -502,28 +502,28 @@ class HomeController(
                 }
             }
 
-            is SelectedGrade -> {
+            is GradeWasSelected -> {
                 val numberOfAffectedCards: Int = batchCardEditor.state.selectedCards.size
                 batchCardEditor.changeGrade(event.grade)
                 sendCommand(ShowGradeIsChangedMessage(event.grade, numberOfAffectedCards))
                 needToResearchOnCancel = false
             }
 
-            MarkAsLearnedCardSelectionOptionSelected -> {
+            MarkAsLearnedCardSelectionOptionWasSelected -> {
                 val numberOfMarkedCards: Int = batchCardEditor.state.selectedCards.size
                 batchCardEditor.markAsLearned()
                 sendCommand(ShowCardsAreMarkedAsLearnedMessage(numberOfMarkedCards))
                 needToResearchOnCancel = false
             }
 
-            MarkAsUnlearnedCardSelectionOptionSelected -> {
+            MarkAsUnlearnedCardSelectionOptionWasSelected -> {
                 val numberOfMarkedCards: Int = batchCardEditor.state.selectedCards.size
                 batchCardEditor.markAsUnlearned()
                 sendCommand(ShowCardsAreMarkedAsUnlearnedMessage(numberOfMarkedCards))
                 needToResearchOnCancel = false
             }
 
-            RemoveCardsCardSelectionOptionSelected -> {
+            RemoveCardsCardSelectionOptionWasSelected -> {
                 val numberOfRemovedCards: Int = batchCardEditor.state.selectedCards.size
                 batchCardEditor.remove()
                 cardsSearcher.research()
@@ -531,14 +531,14 @@ class HomeController(
                 needToResearchOnCancel = true
             }
 
-            MoveCardSelectionOptionSelected -> {
+            MoveCardSelectionOptionWasSelected -> {
                 navigator.navigateToDeckChooserFromNavHost {
                     val screenState = DeckChooserScreenState(purpose = ToMoveCardsInHomeSearch)
                     DeckChooserDiScope.create(screenState)
                 }
             }
 
-            is DeckToMoveCardsToIsSelected -> {
+            is DeckToMoveCardsToWasSelected -> {
                 val numberOfMovedCards: Int = batchCardEditor.state.selectedCards.size
                 batchCardEditor.moveTo(event.abstractDeck)
                 val deckName: String = event.abstractDeck.name
@@ -550,14 +550,14 @@ class HomeController(
                 needToResearchOnCancel = true
             }
 
-            CopyCardSelectionOptionSelected -> {
+            CopyCardSelectionOptionWasSelected -> {
                 navigator.navigateToDeckChooserFromNavHost {
                     val screenState = DeckChooserScreenState(purpose = ToCopyCardsInHomeSearch)
                     DeckChooserDiScope.create(screenState)
                 }
             }
 
-            is DeckToCopyCardsToIsSelected -> {
+            is DeckToCopyCardsToWasSelected -> {
                 val numberOfCopiedCards: Int = batchCardEditor.state.selectedCards.size
                 batchCardEditor.copyTo(event.abstractDeck)
                 val deckName: String = event.abstractDeck.name
@@ -577,7 +577,7 @@ class HomeController(
                 }
             }
 
-            is DeckListForAddingDecksSelected -> {
+            is DeckListForAddingDecksWasSelected -> {
                 val deckList: DeckList = globalState.deckLists
                     .find { deckList: DeckList -> deckList.id == event.deckListId }
                     ?: return
@@ -597,7 +597,7 @@ class HomeController(
                 }
             }
 
-            is DeckListForRemovingDecksSelected -> {
+            is DeckListForRemovingDecksWasSelected -> {
                 val deckList: DeckList = globalState.deckLists
                     .find { deckList: DeckList -> deckList.id == event.deckListId }
                     ?: return

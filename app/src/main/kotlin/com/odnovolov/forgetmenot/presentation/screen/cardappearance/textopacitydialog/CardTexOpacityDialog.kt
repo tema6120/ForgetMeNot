@@ -15,7 +15,7 @@ import com.odnovolov.forgetmenot.presentation.screen.cardappearance.CardAppearan
 import com.odnovolov.forgetmenot.presentation.screen.cardappearance.CardAppearanceScreenState.TextOpacityDialogDestination.ForDarkTheme
 import com.odnovolov.forgetmenot.presentation.screen.cardappearance.CardAppearanceScreenState.TextOpacityDialogDestination.ForLightTheme
 import com.odnovolov.forgetmenot.presentation.screen.cardappearance.textopacitydialog.CardTexOpacityDialogEvent.OkButtonClicked
-import com.odnovolov.forgetmenot.presentation.screen.cardappearance.textopacitydialog.CardTexOpacityDialogEvent.TextOpacityIsChanged
+import com.odnovolov.forgetmenot.presentation.screen.cardappearance.textopacitydialog.CardTexOpacityDialogEvent.TextOpacityWasSelected
 import kotlinx.android.synthetic.main.dialog_card_text_opacity.view.*
 import kotlinx.coroutines.launch
 
@@ -53,7 +53,7 @@ class CardTexOpacityDialog : BaseDialogFragment() {
                 override fun onStartTrackingTouch(slider: Slider) {}
 
                 override fun onStopTrackingTouch(slider: Slider) {
-                    controller?.dispatch(TextOpacityIsChanged(slider.value))
+                    controller?.dispatch(TextOpacityWasSelected(slider.value))
                 }
             })
             cancelButton.setOnClickListener {

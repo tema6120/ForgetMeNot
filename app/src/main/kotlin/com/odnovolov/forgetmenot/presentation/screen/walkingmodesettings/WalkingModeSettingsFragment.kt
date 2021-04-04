@@ -18,7 +18,7 @@ import com.odnovolov.forgetmenot.presentation.common.isFinishing
 import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.KeyGesture.*
 import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.KeyGestureAction.*
 import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.WalkingModeSettingsEvent.HelpButtonClicked
-import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.WalkingModeSettingsEvent.SelectedKeyGestureAction
+import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.WalkingModeSettingsEvent.KeyGestureActionWasSelected
 import kotlinx.android.synthetic.main.fragment_walking_mode_settings.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
@@ -55,7 +55,7 @@ class WalkingModeSettingsFragment : BaseFragment() {
                 item as KeyGestureActionItem
                 chooseKeyGestureActionDialog.dismiss()
                 controller?.dispatch(
-                    SelectedKeyGestureAction(
+                    KeyGestureActionWasSelected(
                         activeRemappingKeyGesture!!,
                         item.keyGestureAction
                     )

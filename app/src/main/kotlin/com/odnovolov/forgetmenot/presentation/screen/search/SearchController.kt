@@ -92,7 +92,7 @@ class SearchController(
                 toggleCardSelection(foundCard)
             }
 
-            CancelledCardSelection -> {
+            CardSelectionWasCancelled -> {
                 batchCardEditor.clearSelection()
             }
 
@@ -102,7 +102,7 @@ class SearchController(
                 batchCardEditor.addCardsToSelection(allEditableCards)
             }
 
-            InvertCardSelectionOptionSelected -> {
+            InvertCardSelectionOptionWasSelected -> {
                 val numberOfInvertedCards: Int = batchCardEditor.state.selectedCards.size
                 batchCardEditor.invert()
                 sendCommand(ShowCardsAreInvertedMessage(numberOfInvertedCards))
@@ -110,7 +110,7 @@ class SearchController(
                 saveCardEditorDependentState()
             }
 
-            ChangeGradeCardSelectionOptionSelected -> {
+            ChangeGradeCardSelectionOptionWasSelected -> {
                 navigator.showChangeGradeDialogFromSearch {
                     val dialogState = ChangeGradeDialogState(
                         gradeItems = determineGradeItems(),
@@ -120,7 +120,7 @@ class SearchController(
                 }
             }
 
-            is SelectedGrade -> {
+            is GradeWasSelected -> {
                 val numberOfAffectedCards: Int = batchCardEditor.state.selectedCards.size
                 batchCardEditor.changeGrade(event.grade)
                 sendCommand(ShowGradeIsChangedMessage(event.grade, numberOfAffectedCards))
@@ -128,7 +128,7 @@ class SearchController(
                 saveCardEditorDependentState()
             }
 
-            MarkAsLearnedCardSelectionOptionSelected -> {
+            MarkAsLearnedCardSelectionOptionWasSelected -> {
                 val numberOfMarkedCards: Int = batchCardEditor.state.selectedCards.size
                 batchCardEditor.markAsLearned()
                 sendCommand(ShowCardsAreMarkedAsLearnedMessage(numberOfMarkedCards))
@@ -136,7 +136,7 @@ class SearchController(
                 saveCardEditorDependentState()
             }
 
-            MarkAsUnlearnedCardSelectionOptionSelected -> {
+            MarkAsUnlearnedCardSelectionOptionWasSelected -> {
                 val numberOfMarkedCards: Int = batchCardEditor.state.selectedCards.size
                 batchCardEditor.markAsUnlearned()
                 sendCommand(ShowCardsAreMarkedAsUnlearnedMessage(numberOfMarkedCards))
@@ -144,7 +144,7 @@ class SearchController(
                 saveCardEditorDependentState()
             }
 
-            RemoveCardsCardSelectionOptionSelected -> {
+            RemoveCardsCardSelectionOptionWasSelected -> {
                 val numberOfRemovedCards: Int = batchCardEditor.state.selectedCards.size
                 batchCardEditor.remove()
                 searcher.research()
@@ -153,14 +153,14 @@ class SearchController(
                 saveCardEditorDependentState()
             }
 
-            MoveCardSelectionOptionSelected -> {
+            MoveCardSelectionOptionWasSelected -> {
                 navigator.navigateToDeckChooserFromSearch {
                     val screenState = DeckChooserScreenState(purpose = ToMoveCardsInSearch)
                     DeckChooserDiScope.create(screenState)
                 }
             }
 
-            is DeckToMoveCardsToIsSelected -> {
+            is DeckToMoveCardsToWasSelected -> {
                 val numberOfMovedCards: Int = batchCardEditor.state.selectedCards.size
                 batchCardEditor.moveTo(event.abstractDeck)
                 val deckName: String = event.abstractDeck.name
@@ -173,14 +173,14 @@ class SearchController(
                 saveCardEditorDependentState()
             }
 
-            CopyCardSelectionOptionSelected -> {
+            CopyCardSelectionOptionWasSelected -> {
                 navigator.navigateToDeckChooserFromSearch {
                     val screenState = DeckChooserScreenState(purpose = ToCopyCardsInSearch)
                     DeckChooserDiScope.create(screenState)
                 }
             }
 
-            is DeckToCopyCardsToIsSelected -> {
+            is DeckToCopyCardsToWasSelected -> {
                 val numberOfCopiedCards: Int = batchCardEditor.state.selectedCards.size
                 batchCardEditor.copyTo(event.abstractDeck)
                 val deckName: String = event.abstractDeck.name

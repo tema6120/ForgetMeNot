@@ -68,7 +68,7 @@ class PlayerViewController(
 
     override fun handle(event: PlayerFragmentEvent) {
         when (event) {
-            is NewPageBecameSelected -> {
+            is PageWasChanged -> {
                 player.setCurrentPosition(event.position)
             }
 
@@ -77,7 +77,7 @@ class PlayerViewController(
                 audioFocusManager.abandonRequest(PlayerServiceController.AUDIO_FOCUS_KEY)
             }
 
-            is GradeWasChanged -> {
+            is GradeWasSelected -> {
                 player.setGrade(event.grade)
             }
 

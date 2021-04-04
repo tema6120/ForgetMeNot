@@ -3,5 +3,5 @@ package com.odnovolov.forgetmenot.presentation.screen.fileimport.cardsfile.sourc
 import java.nio.charset.Charset
 
 sealed class ImportedTextEditorEvent {
-    class EncodingIsChanged(val newEncoding: Charset) : ImportedTextEditorEvent()
+    class EncodingWasSelected(val newEncoding: Charset) : ImportedTextEditorEvent()
 }

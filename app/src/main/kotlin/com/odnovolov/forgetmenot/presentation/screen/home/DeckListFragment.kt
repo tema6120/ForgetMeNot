@@ -39,7 +39,7 @@ class DeckListFragment : BaseFragment() {
     private var needToShowSortingPopup = false
     private val selectableDeckListAdapter = SelectableDeckListAdapter(
         onDeckListButtonClicked = { deckListId: Long? ->
-            controller?.dispatch(DeckListSelected(deckListId))
+            controller?.dispatch(DeckListWasSelected(deckListId))
             filtersPopup?.dismiss()
         }
     )

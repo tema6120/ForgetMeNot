@@ -25,7 +25,7 @@ class AddCardsFragment : BaseFragment() {
     }
 
     private var controller: AddCardsController? = null
-    private var pendingEvent: ReceivedContent? = null
+    private var pendingEvent: ContentWasReceived? = null
     private var addCardsPopup: PopupWindow? = null
 
     override fun onCreateView(
@@ -104,7 +104,7 @@ class AddCardsFragment : BaseFragment() {
         ) {
             return
         }
-        val event = ReceivedContent(intent)
+        val event = ContentWasReceived(intent)
         if (controller == null) {
             pendingEvent = event
         } else {

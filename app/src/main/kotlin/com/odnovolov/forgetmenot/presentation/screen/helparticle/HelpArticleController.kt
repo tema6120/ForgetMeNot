@@ -18,7 +18,7 @@ class HelpArticleController(
 
     override fun handle(event: HelpArticleEvent) {
         when (event) {
-            is ArticleSelected -> {
+            is ArticleWasSelected -> {
                 sendCommand(OpenArticle(event.helpArticle, needToClearBackStack = true))
             }
 
@@ -26,7 +26,7 @@ class HelpArticleController(
                 sendCommand(OpenArticle(event.helpArticle, needToClearBackStack = false))
             }
 
-            is ArticleOpened -> {
+            is ArticleWasOpened -> {
                 if (screenState.currentArticle != event.helpArticle) {
                     screenState.currentArticle = event.helpArticle
                 }

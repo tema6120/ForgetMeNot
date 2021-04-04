@@ -143,7 +143,7 @@ class ExerciseFragment : BaseFragment() {
                     DOUBLE_PRESS -> VOLUME_UP_DOUBLE_PRESS
                     LONG_PRESS -> VOLUME_UP_LONG_PRESS
                 }
-                controller?.dispatch(KeyGestureDetected(keyGesture))
+                controller?.dispatch(KeyGestureWasDetected(keyGesture))
             })
         volumeDownGestureDetector = KeyGestureDetector(
             coroutineScope = viewCoroutineScope!!,
@@ -153,7 +153,7 @@ class ExerciseFragment : BaseFragment() {
                     DOUBLE_PRESS -> VOLUME_DOWN_DOUBLE_PRESS
                     LONG_PRESS -> VOLUME_DOWN_LONG_PRESS
                 }
-                controller?.dispatch(KeyGestureDetected(keyGesture))
+                controller?.dispatch(KeyGestureWasDetected(keyGesture))
             })
         keyEventInterceptor = { event: KeyEvent ->
             val isPressed = event.action == KeyEvent.ACTION_DOWN
@@ -431,12 +431,16 @@ class ExerciseFragment : BaseFragment() {
         requireWalkingModePopup()
     }
 
+    private fun showIntervalsPopup() {
+        requireIntervalsPopup().show(anchor = gradeButton, gravity = Gravity.BOTTOM)
+    }
+
     private fun requireIntervalsPopup(): PopupWindow {
         if (intervalsPopup == null) {
             val content: View = View.inflate(context, R.layout.popup_intervals, null)
             val onItemClick: (Int) -> Unit = { grade: Int ->
                 intervalsPopup?.dismiss()
-                controller?.dispatch(GradeWasChanged(grade))
+                controller?.dispatch(GradeWasSelected(grade))
             }
             intervalsAdapter = IntervalsAdapter(onItemClick)
             content.intervalsRecycler.adapter = intervalsAdapter
@@ -460,8 +464,8 @@ class ExerciseFragment : BaseFragment() {
         }
     }
 
-    private fun showIntervalsPopup() {
-        requireIntervalsPopup().show(anchor = gradeButton, gravity = Gravity.BOTTOM)
+    private fun showSpeakErrorPopup() {
+        requireSpeakErrorPopup().show(anchor = speakButton, gravity = Gravity.BOTTOM)
     }
 
     private fun requireSpeakErrorPopup(): PopupWindow {
@@ -494,8 +498,8 @@ class ExerciseFragment : BaseFragment() {
         }
     }
 
-    private fun showSpeakErrorPopup() {
-        requireSpeakErrorPopup().show(anchor = speakButton, gravity = Gravity.BOTTOM)
+    private fun showTimerPopup() {
+        requireTimerPopup().show(anchor = timerButton, gravity = Gravity.BOTTOM)
     }
 
     private fun requireTimerPopup(): PopupWindow {
@@ -556,8 +560,8 @@ class ExerciseFragment : BaseFragment() {
         }
     }
 
-    private fun showTimerPopup() {
-        requireTimerPopup().show(anchor = timerButton, gravity = Gravity.BOTTOM)
+    private fun showHintsPopup() {
+        requireHintsPopup().show(anchor = hintButton, gravity = Gravity.BOTTOM)
     }
 
     private fun requireHintsPopup(): PopupWindow {
@@ -616,8 +620,8 @@ class ExerciseFragment : BaseFragment() {
         }
     }
 
-    private fun showHintsPopup() {
-        requireHintsPopup().show(anchor = hintButton, gravity = Gravity.BOTTOM)
+    private fun showWalkingModePopup() {
+        requireWalkingModePopup().show(anchor = walkingModeButton, gravity = Gravity.BOTTOM)
     }
 
     private fun requireWalkingModePopup(): PopupWindow {
@@ -650,10 +654,6 @@ class ExerciseFragment : BaseFragment() {
             walkingModePopup = DarkPopupWindow(content)
         }
         return walkingModePopup!!
-    }
-
-    private fun showWalkingModePopup() {
-        requireWalkingModePopup().show(anchor = walkingModeButton, gravity = Gravity.BOTTOM)
     }
 
     override fun onResume() {
@@ -731,7 +731,7 @@ class ExerciseFragment : BaseFragment() {
 
     private val onPageChangeCallback = object : ViewPager2.OnPageChangeCallback() {
         override fun onPageSelected(position: Int) {
-            controller?.dispatch(PageSelected(position))
+            controller?.dispatch(PageWasChanged(position))
             timerButtonPaintingAnimation?.cancel()
             timerButtonPaintingAnimation = null
             val currentViewHolder = exerciseViewPager.findViewHolderForAdapterPosition(position)

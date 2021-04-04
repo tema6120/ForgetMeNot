@@ -10,8 +10,6 @@ import android.view.ViewGroup
 import android.widget.PopupWindow
 import android.widget.Toast
 import androidx.core.content.ContextCompat
-import androidx.core.graphics.BlendModeColorFilterCompat
-import androidx.core.graphics.BlendModeCompat
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.viewpager2.widget.ViewPager2
@@ -323,7 +321,7 @@ class PlayerFragment : BaseFragment() {
             val content: View = View.inflate(context, R.layout.popup_intervals, null)
             val onItemClick: (Int) -> Unit = { grade: Int ->
                 intervalsPopup?.dismiss()
-                controller?.dispatch(GradeWasChanged(grade))
+                controller?.dispatch(GradeWasSelected(grade))
             }
             intervalsAdapter = IntervalsAdapter(onItemClick)
             content.intervalsRecycler.adapter = intervalsAdapter
@@ -429,7 +427,7 @@ class PlayerFragment : BaseFragment() {
 
     private val onPageChangeCallback = object : ViewPager2.OnPageChangeCallback() {
         override fun onPageSelected(position: Int) {
-            controller?.dispatch(NewPageBecameSelected(position))
+            controller?.dispatch(PageWasChanged(position))
         }
     }
 

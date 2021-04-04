@@ -3,34 +3,59 @@ package com.odnovolov.forgetmenot.domain.interactor.exercise.example
 import com.odnovolov.forgetmenot.domain.entity.Card
 import com.odnovolov.forgetmenot.domain.entity.CardInversion
 import com.odnovolov.forgetmenot.domain.entity.Deck
+import com.odnovolov.forgetmenot.domain.entity.TestingMethod
 import com.odnovolov.forgetmenot.domain.entity.TestingMethod.*
 import com.odnovolov.forgetmenot.domain.generateId
 import com.odnovolov.forgetmenot.domain.interactor.exercise.*
+import com.odnovolov.forgetmenot.domain.interactor.exercise.example.ExerciseExamplePurpose.ToDemonstrateGradingSettings
+import com.odnovolov.forgetmenot.domain.interactor.exercise.example.ExerciseExamplePurpose.ToDemonstratePronunciationSettings
 import kotlin.random.Random
 
 class ExampleExerciseStateCreator(
     private val deck: Deck
 ) {
-    private var doNotInvert = false
-
-    fun create(doNotInvert: Boolean = false): Exercise.State {
-        this.doNotInvert = doNotInvert
+    fun create(purpose: ExerciseExamplePurpose): Exercise.State {
+        val doNotInvert: Boolean = purpose == ToDemonstratePronunciationSettings
         val isRandom = deck.exercisePreference.randomOrder
-        val exerciseCards: List<ExerciseCard> = deck.cards
-            .let { cards: List<Card> ->
-                val hasUnlearnedCard = cards.any { card: Card -> !card.isLearned }
-                if (hasUnlearnedCard)
-                    cards.filter { card: Card -> !card.isLearned }
-                else
-                    cards
+        val hasUnlearnedCard = deck.cards.any { card: Card -> !card.isLearned }
+        val filteredCards =
+            if (hasUnlearnedCard) {
+                deck.cards.filter { card: Card -> !card.isLearned }
+            } else {
+                deck.cards
             }
-            .let { cards: List<Card> -> if (isRandom) cards.shuffled() else cards }
-            .map { card -> card.toExerciseCard() }
-        QuizComposer.clearCache()
+        val exerciseCards: List<ExerciseCard> = when {
+            filteredCards.isEmpty() -> emptyList()
+            purpose == ToDemonstrateGradingSettings -> {
+                val randomCard: Card = filteredCards.random()
+                val copiedCard = Card(
+                    id = -1,
+                    question = randomCard.question,
+                    answer = randomCard.answer,
+                    grade = 4
+                )
+                val exerciseCard: ExerciseCard =
+                    copiedCard.toExerciseCard(doNotInvert, testingMethod = Manual)
+                listOf(exerciseCard)
+            }
+            else -> {
+                filteredCards.let { cards: List<Card> ->
+                    if (isRandom) cards.shuffled() else cards
+                }
+                    .map { card ->
+                        card.toExerciseCard(doNotInvert, deck.exercisePreference.testingMethod)
+                    }.also {
+                        QuizComposer.clearCache()
+                    }
+            }
+        }
         return Exercise.State(exerciseCards)
     }
 
-    private fun Card.toExerciseCard(): ExerciseCard {
+    private fun Card.toExerciseCard(
+        doNotInvert: Boolean,
+        testingMethod: TestingMethod
+    ): ExerciseCard {
         val isInverted =
             if (doNotInvert) {
                 false
@@ -52,7 +77,7 @@ class ExampleExerciseStateCreator(
             initialGrade = grade,
             isGradeEditedManually = false
         )
-        return when (deck.exercisePreference.testingMethod) {
+        return when (testingMethod) {
             Off -> OffTestExerciseCard(baseExerciseCard)
             Manual -> ManualTestExerciseCard(baseExerciseCard)
             Quiz -> {

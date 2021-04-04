@@ -434,7 +434,6 @@
                         android:id="@+id/onRepeatedCorrectAnswerValueTextView"
                         android:layout_width="0dp"
                         android:layout_height="48dp"
-                        android:layout_marginBottom="16dp"
                         android:background="@drawable/background_diagram_block_bottom_half"
                         android:fontFamily="@font/nunito_bold"
                         android:gravity="center"
@@ -444,7 +443,6 @@
                         android:paddingBottom="4dp"
                         android:textColor="@color/text_remember_button_selected"
                         android:textSize="@dimen/text_size_grading_screen_block_value"
-                        app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="@+id/repeatedCorrectBlockTitle"
                         app:layout_constraintStart_toStartOf="@+id/repeatedCorrectBlockTitle"
                         app:layout_constraintTop_toBottomOf="@+id/repeatedCorrectBlockTitle"
@@ -489,7 +487,6 @@
                         android:id="@+id/onRepeatedWrongAnswerValueTextView"
                         android:layout_width="0dp"
                         android:layout_height="48dp"
-                        android:layout_marginBottom="16dp"
                         android:background="@drawable/background_diagram_block_bottom_half"
                         android:fontFamily="@font/nunito_bold"
                         android:gravity="center"
@@ -499,7 +496,6 @@
                         android:paddingBottom="4dp"
                         android:textColor="@color/text_remember_button_selected"
                         android:textSize="@dimen/text_size_grading_screen_block_value"
-                        app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="@+id/repeatedWrongBlockTitle"
                         app:layout_constraintStart_toStartOf="@+id/repeatedWrongBlockTitle"
                         app:layout_constraintTop_toBottomOf="@+id/repeatedWrongBlockTitle"
@@ -523,10 +519,30 @@
                         app:constraint_referenced_ids="arrowToOnRepeatedAnswerBlock, onRepeatedAnswerBlock, arrowToRepeatedCorrectBlock, arrowToRepeatedWrongBlock, repeatedCorrectBlockTitle, onRepeatedCorrectAnswerValueTextView, repeatedCorrectAnswerButton, repeatedWrongBlockTitle, onRepeatedWrongAnswerValueTextView, repeatedWrongAnswerButton"
                         tools:visibility="visible" />
 
+                <Space
+                        android:id="@+id/bottomMargin"
+                        android:layout_width="wrap_content"
+                        android:layout_height="140dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/onRepeatedWrongAnswerValueTextView" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </ScrollView>
 
     </LinearLayout>
+
+    <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/exampleFragmentContainerView"
+            android:name="com.odnovolov.forgetmenot.presentation.screen.exampleexercise.ExampleExerciseFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:tag="ExampleExerciseFragment"
+            app:behavior_hideable="false"
+            app:behavior_peekHeight="@dimen/example_bottom_sheet_peek_height"
+            app:behavior_skipCollapsed="true"
+            app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

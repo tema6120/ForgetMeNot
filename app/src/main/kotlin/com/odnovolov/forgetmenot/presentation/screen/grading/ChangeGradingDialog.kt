@@ -12,7 +12,7 @@ import com.odnovolov.forgetmenot.presentation.common.customview.ChoiceDialogCrea
 import com.odnovolov.forgetmenot.presentation.common.customview.ChoiceDialogCreator.ItemAdapter
 import com.odnovolov.forgetmenot.presentation.common.customview.ChoiceDialogCreator.ItemForm.AsRadioButton
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.decksettings.getGradeChangeDisplayText
-import com.odnovolov.forgetmenot.presentation.screen.grading.GradingEvent.SelectedGradeChange
+import com.odnovolov.forgetmenot.presentation.screen.grading.GradingEvent.GradeChangeWasSelected
 import com.odnovolov.forgetmenot.presentation.screen.grading.GradingScreenState.DialogPurpose
 import com.odnovolov.forgetmenot.presentation.screen.grading.GradingScreenState.DialogPurpose.*
 import kotlinx.coroutines.launch
@@ -34,7 +34,7 @@ class ChangeGradingDialog : BaseDialogFragment() {
             takeTitle = ::titleView::set,
             onItemClick = { item: Item ->
                 item as GradeChangeItem
-                controller?.dispatch(SelectedGradeChange(item.gradeChange))
+                controller?.dispatch(GradeChangeWasSelected(item.gradeChange))
                 dismiss()
             },
             takeAdapter = ::gradeChangeItemAdapter::set

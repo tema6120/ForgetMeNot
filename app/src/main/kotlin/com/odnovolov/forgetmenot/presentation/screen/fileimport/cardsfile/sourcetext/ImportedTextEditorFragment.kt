@@ -1,23 +1,18 @@
 package com.odnovolov.forgetmenot.presentation.screen.fileimport.cardsfile.sourcetext
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.os.Bundle
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupWindow
-import androidx.core.content.ContextCompat
 import androidx.core.view.doOnLayout
 import androidx.core.view.isVisible
 import com.brackeys.ui.editorkit.listener.OnUndoRedoChangedListener
-import com.brackeys.ui.editorkit.model.ColorScheme
 import com.brackeys.ui.editorkit.span.ErrorSpan
 import com.brackeys.ui.editorkit.widget.TextProcessor
-import com.brackeys.ui.language.base.model.SyntaxScheme
 import com.odnovolov.forgetmenot.R
-import com.odnovolov.forgetmenot.R.color
 import com.odnovolov.forgetmenot.presentation.common.*
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.screen.fileimport.CharsetAdapter
@@ -25,7 +20,7 @@ import com.odnovolov.forgetmenot.presentation.screen.fileimport.CharsetItem
 import com.odnovolov.forgetmenot.presentation.screen.fileimport.FileImportDiScope
 import com.odnovolov.forgetmenot.presentation.screen.fileimport.cardsfile.CardsFileFragment
 import com.odnovolov.forgetmenot.presentation.screen.fileimport.cardsfile.ControllingTheScrollPosition
-import com.odnovolov.forgetmenot.presentation.screen.fileimport.cardsfile.sourcetext.ImportedTextEditorEvent.EncodingIsChanged
+import com.odnovolov.forgetmenot.presentation.screen.fileimport.cardsfile.sourcetext.ImportedTextEditorEvent.EncodingWasSelected
 import com.odnovolov.forgetmenot.presentation.screen.fileimport.editor.getEditorColorScheme
 import kotlinx.android.synthetic.main.fragment_cards_file.*
 import kotlinx.android.synthetic.main.fragment_imported_text_editor.*
@@ -214,7 +209,7 @@ class ImportedTextEditorFragment : BaseFragment(), ControllingTheScrollPosition 
             val content: View = View.inflate(requireContext(), R.layout.popup_charsets, null)
             val onItemClicked: (Charset) -> Unit = { charset: Charset ->
                 charsetPopup?.dismiss()
-                controller?.dispatch(EncodingIsChanged(charset))
+                controller?.dispatch(EncodingWasSelected(charset))
             }
             charsetAdapter = CharsetAdapter(onItemClicked)
             content.charsetRecycler.adapter = charsetAdapter

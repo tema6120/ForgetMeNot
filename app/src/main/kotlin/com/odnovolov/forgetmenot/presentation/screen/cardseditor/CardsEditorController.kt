@@ -53,11 +53,11 @@ class CardsEditorController(
 
     override fun handle(event: CardsEditorEvent) {
         when (event) {
-            is PageSelected -> {
+            is PageWasChanged -> {
                 cardsEditor.setCurrentPosition(event.position)
             }
 
-            is GradeWasChanged -> {
+            is GradeWasSelected -> {
                 cardsEditor.setGrade(event.grade)
             }
 

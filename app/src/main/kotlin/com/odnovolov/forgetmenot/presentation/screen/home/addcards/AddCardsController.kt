@@ -32,7 +32,7 @@ class AddCardsController(
 
     override fun handle(event: AddCardsEvent) {
         when (event) {
-            is ReceivedContent -> {
+            is ContentWasReceived -> {
                 homeScreenState.areFilesBeingReading = true
                 val results: List<FileFromIntentReader.Result> =
                     fileFromIntentReader.read(event.intent)

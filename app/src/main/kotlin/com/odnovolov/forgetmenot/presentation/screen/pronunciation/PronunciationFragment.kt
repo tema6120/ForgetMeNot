@@ -32,27 +32,27 @@ class PronunciationFragment : BaseFragment() {
     private var questionLanguagePopup: PopupWindow? = null
     private val questionLanguageAdapter = LanguageAdapter(
         onItemClicked = { language: Locale? ->
-            controller?.dispatch(QuestionLanguageSelected(language))
+            controller?.dispatch(QuestionLanguageWasSelected(language))
             questionLanguagePopup?.dismiss()
         },
         onMarkLanguageAsFavoriteButtonClicked = { language: Locale ->
-            controller?.dispatch(MarkedLanguageAsFavorite(language))
+            controller?.dispatch(LanguageWasMarkedAsFavorite(language))
         },
         onUnmarkLanguageAsFavoriteButtonClicked = { language: Locale ->
-            controller?.dispatch(UnmarkedLanguageAsFavorite(language))
+            controller?.dispatch(LanguageWasUnmarkedAsFavorite(language))
         }
     )
     private var answerLanguagePopup: PopupWindow? = null
     private val answerLanguageAdapter = LanguageAdapter(
         onItemClicked = { language: Locale? ->
-            controller?.dispatch(AnswerLanguageSelected(language))
+            controller?.dispatch(AnswerLanguageWasSelected(language))
             answerLanguagePopup?.dismiss()
         },
         onMarkLanguageAsFavoriteButtonClicked = { language: Locale ->
-            controller?.dispatch(MarkedLanguageAsFavorite(language))
+            controller?.dispatch(LanguageWasMarkedAsFavorite(language))
         },
         onUnmarkLanguageAsFavoriteButtonClicked = { language: Locale ->
-            controller?.dispatch(UnmarkedLanguageAsFavorite(language))
+            controller?.dispatch(LanguageWasUnmarkedAsFavorite(language))
         }
     )
     private lateinit var exampleFragment: ExampleExerciseFragment

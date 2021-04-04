@@ -20,8 +20,12 @@ class ExampleExerciseController(
                 exercise.end()
             }
 
-            is PageSelected -> {
+            is PageWasChanged -> {
                 exercise.setPosition(event.position)
+            }
+
+            is GradeWasSelected -> {
+                exercise.setGrade(event.grade)
             }
 
             SpeakButtonClicked -> {

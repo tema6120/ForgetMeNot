@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView.OnScrollListener
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.*
 import com.odnovolov.forgetmenot.presentation.common.base.BaseDialogFragment
-import com.odnovolov.forgetmenot.presentation.screen.changegrade.ChangeGradeEvent.GradeSelected
+import com.odnovolov.forgetmenot.presentation.screen.changegrade.ChangeGradeEvent.GradeWasSelected
 import kotlinx.android.synthetic.main.dialog_change_grade.view.*
 import kotlinx.android.synthetic.main.dialog_title.view.*
 import kotlinx.coroutines.launch
@@ -58,7 +58,7 @@ class ChangeGradeDialog : BaseDialogFragment() {
         dialogContentView.gradeRecycler.adapter = GradeItemAdapter(
             viewModel.gradeItems,
             onGradeSelected = { grade: Int ->
-                controller?.dispatch(GradeSelected(grade))
+                controller?.dispatch(GradeWasSelected(grade))
                 dismiss()
             }
         )

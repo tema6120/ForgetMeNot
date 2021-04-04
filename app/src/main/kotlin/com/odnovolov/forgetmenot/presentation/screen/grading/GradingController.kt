@@ -32,35 +32,35 @@ class GradingController(
                 screenState.tip = null
             }
 
-            FirstCorrectAnswerButton -> {
+            FirstCorrectAnswerButtonClicked -> {
                 screenState.dialogPurpose = ToChangeGradingOnFirstCorrectAnswer
                 navigator.showChangeGradingDialog()
             }
 
-            FirstWrongAnswerButton -> {
+            FirstWrongAnswerButtonClicked -> {
                 screenState.dialogPurpose = ToChangeGradingOnFirstWrongAnswer
                 navigator.showChangeGradingDialog()
             }
 
-            YesAskAgainButton -> {
+            YesAskAgainButtonClicked -> {
                 gradingSettings.setAskAgain(true)
             }
 
-            NoAskAgainButton -> {
+            NoAskAgainButtonClicked -> {
                 gradingSettings.setAskAgain(false)
             }
 
-            RepeatedCorrectAnswerButton -> {
+            RepeatedCorrectAnswerButtonClicked -> {
                 screenState.dialogPurpose = ToChangeGradingOnRepeatedCorrectAnswer
                 navigator.showChangeGradingDialog()
             }
 
-            RepeatedWrongAnswerButton -> {
+            RepeatedWrongAnswerButtonClicked -> {
                 screenState.dialogPurpose = ToChangeGradingOnRepeatedWrongAnswer
                 navigator.showChangeGradingDialog()
             }
 
-            is SelectedGradeChange -> {
+            is GradeChangeWasSelected -> {
                 when (screenState.dialogPurpose) {
                     ToChangeGradingOnFirstCorrectAnswer -> {
                         val gradeChange = event.gradeChange as? GradeChangeOnCorrectAnswer ?: return

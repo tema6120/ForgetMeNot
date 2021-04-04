@@ -26,7 +26,7 @@ class QuizTestExerciseCardController(
                 exercise.setQuestionSelection(event.selection)
             }
 
-            is VariantSelected -> {
+            is VariantWasSelected -> {
                 exercise.answer(Variant(event.variantIndex))
                 saveState()
             }

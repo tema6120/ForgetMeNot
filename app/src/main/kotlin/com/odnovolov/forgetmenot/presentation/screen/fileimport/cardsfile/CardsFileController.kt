@@ -72,7 +72,7 @@ class CardsFileController(
                 }
             }
 
-            is TargetDeckIsSelected -> {
+            is TargetDeckWasSelected -> {
                 val deck = ExistingDeck(event.deck)
                 fileImporter.setDeckWhereToAdd(deck)
                 if (fileImporter.state.maxVisitedPosition < fileImporter.state.files.lastIndex

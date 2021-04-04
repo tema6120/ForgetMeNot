@@ -6,13 +6,17 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
 import androidx.core.view.isVisible
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.domain.entity.GradeChangeOnCorrectAnswer
 import com.odnovolov.forgetmenot.domain.entity.GradeChangeOnWrongAnswer
+import com.odnovolov.forgetmenot.presentation.common.addBottomSheetCallbackWithInitialNotification
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.common.isFinishing
+import com.odnovolov.forgetmenot.presentation.common.mainactivity.MainActivity
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.decksettings.Tip
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.decksettings.getGradeChangeDisplayText
+import com.odnovolov.forgetmenot.presentation.screen.exampleexercise.ExampleExerciseFragment
 import com.odnovolov.forgetmenot.presentation.screen.grading.GradingEvent.*
 import kotlinx.android.synthetic.main.fragment_grading.*
 import kotlinx.android.synthetic.main.tip.*
@@ -26,6 +30,7 @@ class GradingFragment : BaseFragment() {
 
     private var controller: GradingController? = null
     private lateinit var viewModel: GradingViewModel
+    private lateinit var exampleFragment: ExampleExerciseFragment
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -47,6 +52,8 @@ class GradingFragment : BaseFragment() {
     }
 
     private fun setupView() {
+        exampleFragment = (childFragmentManager.findFragmentByTag("ExampleExerciseFragment")
+                as ExampleExerciseFragment)
         backButton.setOnClickListener {
             requireActivity().onBackPressed()
         }
@@ -54,22 +61,22 @@ class GradingFragment : BaseFragment() {
             controller?.dispatch(HelpButtonClicked)
         }
         firstCorrectAnswerButton.setOnClickListener {
-            controller?.dispatch(FirstCorrectAnswerButton)
+            controller?.dispatch(FirstCorrectAnswerButtonClicked)
         }
         firstWrongAnswerButton.setOnClickListener {
-            controller?.dispatch(FirstWrongAnswerButton)
+            controller?.dispatch(FirstWrongAnswerButtonClicked)
         }
         yesAskAgainButton.setOnClickListener {
-            controller?.dispatch(YesAskAgainButton)
+            controller?.dispatch(YesAskAgainButtonClicked)
         }
         noAskAgainButton.setOnClickListener {
-            controller?.dispatch(NoAskAgainButton)
+            controller?.dispatch(NoAskAgainButtonClicked)
         }
         repeatedCorrectAnswerButton.setOnClickListener {
-            controller?.dispatch(RepeatedCorrectAnswerButton)
+            controller?.dispatch(RepeatedCorrectAnswerButtonClicked)
         }
         repeatedWrongAnswerButton.setOnClickListener {
-            controller?.dispatch(RepeatedWrongAnswerButton)
+            controller?.dispatch(RepeatedWrongAnswerButtonClicked)
         }
     }
 
@@ -121,11 +128,24 @@ class GradingFragment : BaseFragment() {
         super.onResume()
         appBar.post { appBar.isActivated = contentScrollView.canScrollVertically(-1) }
         contentScrollView.viewTreeObserver.addOnScrollChangedListener(scrollListener)
+        exampleFragmentContainerView
+            .addBottomSheetCallbackWithInitialNotification(bottomSheetCallback)
+        (activity as MainActivity).registerBackPressInterceptor(backPressInterceptor)
     }
 
     override fun onPause() {
         super.onPause()
         contentScrollView.viewTreeObserver.removeOnScrollChangedListener(scrollListener)
+        val behavior = BottomSheetBehavior.from(exampleFragmentContainerView)
+        behavior.removeBottomSheetCallback(bottomSheetCallback)
+        (activity as MainActivity).unregisterBackPressInterceptor(backPressInterceptor)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        if (isFinishing()) {
+            GradingDiScope.close()
+        }
     }
 
     private val scrollListener = ViewTreeObserver.OnScrollChangedListener {
@@ -135,10 +155,24 @@ class GradingFragment : BaseFragment() {
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        if (isFinishing()) {
-            GradingDiScope.close()
+    private val bottomSheetCallback = object : BottomSheetBehavior.BottomSheetCallback() {
+        override fun onStateChanged(bottomSheet: View, newState: Int) {
+            exampleFragment.notifyBottomSheetStateChanged(newState)
+        }
+
+        override fun onSlide(bottomSheet: View, slideOffset: Float) {
+            exampleFragment.notifyBottomSheetSlideOffsetChanged(slideOffset)
+            screenFrame.alpha = 1f - slideOffset
+        }
+    }
+
+    private val backPressInterceptor = MainActivity.BackPressInterceptor {
+        val behavior = BottomSheetBehavior.from(exampleFragmentContainerView)
+        if (behavior.state != BottomSheetBehavior.STATE_COLLAPSED) {
+            behavior.state = BottomSheetBehavior.STATE_COLLAPSED
+            true
+        } else {
+            false
         }
     }
 }

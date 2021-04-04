@@ -2,7 +2,8 @@ package com.odnovolov.forgetmenot.presentation.screen.exampleexercise
 
 import com.odnovolov.forgetmenot.domain.interactor.exercise.Exercise
 import com.odnovolov.forgetmenot.domain.interactor.exercise.example.ExampleExercise
-import com.odnovolov.forgetmenot.persistence.shortterm.ExampleExerciseStateUseTimerProvider
+import com.odnovolov.forgetmenot.domain.interactor.exercise.example.ExerciseExamplePurpose
+import com.odnovolov.forgetmenot.persistence.shortterm.ExerciseExamplePurposeStateProvider
 import com.odnovolov.forgetmenot.persistence.shortterm.ExerciseStateProvider
 import com.odnovolov.forgetmenot.presentation.common.businessLogicThread
 import com.odnovolov.forgetmenot.presentation.common.di.AppDiScope
@@ -15,7 +16,7 @@ import kotlinx.coroutines.cancel
 
 class ExampleExerciseDiScope private constructor(
     initialExerciseState: Exercise.State? = null,
-    initialUseTimer: Boolean? = null
+    exerciseExamplePurpose: ExerciseExamplePurpose? = null
 ) {
     private val exerciseStateProvider = ExerciseStateProvider(
         AppDiScope.get().json,
@@ -27,23 +28,19 @@ class ExampleExerciseDiScope private constructor(
     private val exerciseState: Exercise.State =
         initialExerciseState ?: exerciseStateProvider.load()
 
-    private val useTimerProvider = ExampleExerciseStateUseTimerProvider(
+    private val exerciseExamplePurposeStateProvider = ExerciseExamplePurposeStateProvider(
         AppDiScope.get().json,
         AppDiScope.get().database,
-        key = "ExampleExerciseState useTimer"
+        key = "ExampleExerciseState purpose"
     )
 
-    private val useTimer: Boolean =
-        if (initialUseTimer != null) {
-            useTimerProvider.save(initialUseTimer)
-            initialUseTimer
-        } else {
-            useTimerProvider.load()
-        }
+    private val purpose: ExerciseExamplePurpose =
+        exerciseExamplePurpose?.also(exerciseExamplePurposeStateProvider::save)
+            ?: exerciseExamplePurposeStateProvider.load()
 
     val exercise = ExampleExercise(
         exerciseState,
-        useTimer,
+        purpose,
         AppDiScope.get().speakerImpl,
         coroutineContext = Job() + businessLogicThread
     )
@@ -57,7 +54,7 @@ class ExampleExerciseDiScope private constructor(
 
     val viewModel = ExampleExerciseViewModel(
         exercise.state,
-        useTimer,
+        purpose,
         AppDiScope.get().speakerImpl,
         AppDiScope.get().walkingModePreference,
         AppDiScope.get().exerciseSettings,
@@ -98,10 +95,10 @@ class ExampleExerciseDiScope private constructor(
     companion object : DiScopeManager<ExampleExerciseDiScope>() {
         fun create(
             initialExerciseState: Exercise.State,
-            useTimer: Boolean
+            purpose: ExerciseExamplePurpose
         ) = ExampleExerciseDiScope(
             initialExerciseState,
-            useTimer
+            purpose
         )
 
         override fun recreateDiScope() = ExampleExerciseDiScope()

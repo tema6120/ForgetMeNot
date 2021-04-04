@@ -6,6 +6,9 @@ import com.odnovolov.forgetmenot.domain.entity.GlobalState
 import com.odnovolov.forgetmenot.domain.entity.DO_NOT_USE_TIMER
 import com.odnovolov.forgetmenot.domain.interactor.exercise.Exercise
 import com.odnovolov.forgetmenot.domain.interactor.exercise.ExerciseCard
+import com.odnovolov.forgetmenot.domain.interactor.exercise.example.ExerciseExamplePurpose
+import com.odnovolov.forgetmenot.domain.interactor.exercise.example.ExerciseExamplePurpose.ToDemonstrateGradingSettings
+import com.odnovolov.forgetmenot.domain.interactor.exercise.example.ExerciseExamplePurpose.ToDemonstrateTimerSettings
 import com.odnovolov.forgetmenot.presentation.common.SpeakerImpl
 import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseViewModel
 import com.odnovolov.forgetmenot.presentation.screen.exercise.TimerStatus
@@ -16,7 +19,7 @@ import kotlinx.coroutines.flow.*
 
 class ExampleExerciseViewModel(
     exerciseState: Exercise.State,
-    useTimer: Boolean,
+    private val purpose: ExerciseExamplePurpose,
     speakerImpl: SpeakerImpl,
     walkingModePreference: WalkingModePreference,
     exerciseSettings: ExerciseSettings,
@@ -28,8 +31,11 @@ class ExampleExerciseViewModel(
     exerciseSettings,
     globalState
 ) {
+    val isGradeButtonVisible: Boolean
+        get() = purpose == ToDemonstrateGradingSettings
+
     override val timerStatus: Flow<TimerStatus> =
-        if (!useTimer) {
+        if (purpose != ToDemonstrateTimerSettings) {
             flowOf(TimerStatus.NotUsed)
         } else {
             currentExerciseCard.flatMapLatest { exerciseCard: ExerciseCard ->

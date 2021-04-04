@@ -3,8 +3,8 @@ package com.odnovolov.forgetmenot.presentation.screen.exercise
 import com.odnovolov.forgetmenot.presentation.screen.walkingmodesettings.KeyGesture
 
 sealed class ExerciseEvent {
-    class PageSelected(val position: Int) : ExerciseEvent()
-    class GradeWasChanged(val grade: Int) : ExerciseEvent()
+    class PageWasChanged(val position: Int) : ExerciseEvent()
+    class GradeWasSelected(val grade: Int) : ExerciseEvent()
     object MarkAsLearnedButtonClicked : ExerciseEvent()
     object MarkAsUnlearnedButtonClicked : ExerciseEvent()
     object SpeakButtonClicked : ExerciseEvent()
@@ -21,7 +21,7 @@ sealed class ExerciseEvent {
     object HelpButtonClicked : ExerciseEvent()
     object FragmentResumed : ExerciseEvent()
     object FragmentPaused : ExerciseEvent()
-    class KeyGestureDetected(val keyGesture: KeyGesture) : ExerciseEvent()
+    class KeyGestureWasDetected(val keyGesture: KeyGesture) : ExerciseEvent()
     object BackButtonClicked : ExerciseEvent()
     object ShowUnansweredCardButtonClicked : ExerciseEvent()
     object UserConfirmedExit : ExerciseEvent()

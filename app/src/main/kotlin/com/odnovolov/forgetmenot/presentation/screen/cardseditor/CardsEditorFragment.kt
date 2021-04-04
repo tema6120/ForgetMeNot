@@ -8,8 +8,6 @@ import android.view.ViewGroup
 import android.widget.PopupWindow
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.core.graphics.BlendModeColorFilterCompat
-import androidx.core.graphics.BlendModeCompat
 import androidx.core.view.isVisible
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.snackbar.Snackbar
@@ -234,7 +232,7 @@ class CardsEditorFragment : BaseFragment() {
             val content: View = View.inflate(context, R.layout.popup_intervals, null)
             val onItemClick: (Int) -> Unit = { grade: Int ->
                 intervalsPopup?.dismiss()
-                controller?.dispatch(GradeWasChanged(grade))
+                controller?.dispatch(GradeWasSelected(grade))
             }
             intervalsAdapter = IntervalsAdapter(onItemClick)
             content.intervalsRecycler.adapter = intervalsAdapter
@@ -331,7 +329,7 @@ class CardsEditorFragment : BaseFragment() {
 
     private val onPageChangeCallback = object : ViewPager2.OnPageChangeCallback() {
         override fun onPageSelected(position: Int) {
-            controller?.dispatch(PageSelected(position))
+            controller?.dispatch(PageWasChanged(position))
         }
     }
 

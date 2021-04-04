@@ -82,7 +82,7 @@ class ExamplePlayerController(
                 player.pause()
             }
 
-            is NewPageBecameSelected -> {
+            is PageWasChanged -> {
                 player.setCurrentPosition(event.position)
             }
 

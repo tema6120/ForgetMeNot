@@ -73,7 +73,7 @@ class CardsFileFragment : BaseFragment() {
             controller = diScope.cardsFileController
             fileImportController = diScope.fileImportController
             val id = requireArguments().getLong(ARG_ID)
-            fileImportController!!.dispatch(CardsFileIsOpened(id))
+            fileImportController!!.dispatch(CardsFileWasOpened(id))
             viewModel = diScope.cardsFileViewModel(id)
             observeViewModel()
             controller?.commands!!.observe(::executeCommand)

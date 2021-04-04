@@ -1,13 +1,12 @@
 package com.odnovolov.forgetmenot.domain.interactor.exercise.example
 
-import com.odnovolov.forgetmenot.domain.entity.Card
-import com.odnovolov.forgetmenot.domain.entity.CardInversion
-import com.odnovolov.forgetmenot.domain.entity.Speaker
-import com.odnovolov.forgetmenot.domain.entity.TestingMethod
+import com.odnovolov.forgetmenot.domain.entity.*
 import com.odnovolov.forgetmenot.domain.generateId
 import com.odnovolov.forgetmenot.domain.interactor.exercise.*
 import com.odnovolov.forgetmenot.domain.interactor.exercise.Exercise.Answer
 import com.odnovolov.forgetmenot.domain.interactor.exercise.Exercise.Answer.*
+import com.odnovolov.forgetmenot.domain.interactor.exercise.example.ExerciseExamplePurpose.ToDemonstrateGradingSettings
+import com.odnovolov.forgetmenot.domain.interactor.exercise.example.ExerciseExamplePurpose.ToDemonstrateTimerSettings
 import kotlinx.coroutines.*
 import java.util.*
 import kotlin.coroutines.CoroutineContext
@@ -15,7 +14,7 @@ import kotlin.random.Random
 
 class ExampleExercise(
     val state: Exercise.State,
-    private val useTimer: Boolean,
+    val purpose: ExerciseExamplePurpose,
     private val speaker: Speaker,
     override val coroutineContext: CoroutineContext
 ) : CoroutineScope {
@@ -52,6 +51,12 @@ class ExampleExercise(
             currentPronunciation.questionAutoSpeaking else
             currentPronunciation.answerAutoSpeaking
 
+    private val grading: Grading
+        get() = currentExerciseCard.base.deck.exercisePreference.grading
+
+    private val useTimer: Boolean
+        get() = purpose == ToDemonstrateTimerSettings
+
     fun begin() {
         if (!isPositionValid()) return
         isExerciseActive = true
@@ -64,26 +69,44 @@ class ExampleExercise(
         speaker.stop()
         resetTimer()
         isExerciseActive = false
+        if (purpose == ToDemonstrateGradingSettings) {
+            resetStateForDemonstratingGradingSettings()
+        }
+    }
+
+    private fun resetStateForDemonstratingGradingSettings() {
+        val initialExerciseCard = state.exerciseCards.firstOrNull() ?: return
+        initialExerciseCard.base.isAnswerCorrect = null
+        initialExerciseCard.base.isQuestionDisplayed =
+            initialExerciseCard.base.deck.exercisePreference.isQuestionDisplayed
+        initialExerciseCard.base.isGradeEditedManually = false
+        initialExerciseCard.base.card.grade = initialExerciseCard.base.initialGrade
+        state.currentPosition = 0
+        state.exerciseCards = listOf(initialExerciseCard)
     }
 
     fun notifyExercisePreferenceChanged() {
         if (!isPositionValid()) return
-        var isExerciseCardsListChanged = false
-        val newExerciseCards: List<ExerciseCard> =
-            state.exerciseCards.map { exerciseCard: ExerciseCard ->
-                if (!exerciseCard.doesCorrespondTestingMethod()) {
-                    isExerciseCardsListChanged = true
-                    recreateExerciseCard(exerciseCard)
-                } else {
-                    exerciseCard.apply {
-                        conformToExercisePreference()
+        if (purpose == ToDemonstrateGradingSettings) {
+            resetStateForDemonstratingGradingSettings()
+        } else {
+            var isExerciseCardsListChanged = false
+            val newExerciseCards: List<ExerciseCard> =
+                state.exerciseCards.map { exerciseCard: ExerciseCard ->
+                    if (!exerciseCard.doesCorrespondTestingMethod()) {
+                        isExerciseCardsListChanged = true
+                        recreateExerciseCard(exerciseCard)
+                    } else {
+                        exerciseCard.apply {
+                            conformToExercisePreference()
+                        }
                     }
                 }
+            if (isExerciseCardsListChanged) {
+                state.exerciseCards = newExerciseCards
             }
-        if (isExerciseCardsListChanged) {
-            state.exerciseCards = newExerciseCards
+            QuizComposer.clearCache()
         }
-        QuizComposer.clearCache()
     }
 
     private fun ExerciseCard.doesCorrespondTestingMethod(): Boolean =
@@ -239,6 +262,19 @@ class ExampleExercise(
         speaker.stop()
     }
 
+    fun setGrade(grade: Int) {
+        if (purpose != ToDemonstrateGradingSettings) return
+        if (!isPositionValid()) return
+        if (grade < 0) return
+        currentExerciseCard.base.card.grade = grade
+        state.exerciseCards.filter { exerciseCard: ExerciseCard ->
+            exerciseCard.base.card.id == currentExerciseCard.base.card.id
+        }
+            .forEach { exerciseCard: ExerciseCard ->
+                exerciseCard.base.isGradeEditedManually = true
+            }
+    }
+
     fun startTimer() {
         if (!isPositionValid()) return
         with(currentExerciseCard.base) {
@@ -355,6 +391,7 @@ class ExampleExercise(
         currentExerciseCard.base.isAnswerCorrect = true
         showQuestion()
         deleteCardsForRetesting()
+        updateGrade()
     }
 
     private fun setAnswerAsWrong() {
@@ -363,6 +400,7 @@ class ExampleExercise(
         currentExerciseCard.base.isAnswerCorrect = false
         showQuestion()
         addExerciseCardToRetestIfNeed()
+        updateGrade()
     }
 
     private fun deleteCardsForRetesting() {
@@ -377,6 +415,7 @@ class ExampleExercise(
     }
 
     private fun addExerciseCardToRetestIfNeed() {
+        if (!grading.askAgain) return
         if (hasExerciseCardForRetesting()) return
         val baseExerciseCard = with(currentExerciseCard.base) {
             ExerciseCard.Base(
@@ -391,16 +430,20 @@ class ExampleExercise(
             )
         }
         val retestingExerciseCard: ExerciseCard =
-            when (currentExerciseCard.base.deck.exercisePreference.testingMethod) {
-                TestingMethod.Off -> OffTestExerciseCard(baseExerciseCard)
-                TestingMethod.Manual -> ManualTestExerciseCard(baseExerciseCard)
-                TestingMethod.Quiz -> {
-                    val variants: List<Card?> = with(baseExerciseCard) {
-                        QuizComposer.compose(card, deck, isInverted, withCaching = false)
+            if (purpose == ToDemonstrateGradingSettings) {
+                ManualTestExerciseCard(baseExerciseCard)
+            } else {
+                when (currentExerciseCard.base.deck.exercisePreference.testingMethod) {
+                    TestingMethod.Off -> OffTestExerciseCard(baseExerciseCard)
+                    TestingMethod.Manual -> ManualTestExerciseCard(baseExerciseCard)
+                    TestingMethod.Quiz -> {
+                        val variants: List<Card?> = with(baseExerciseCard) {
+                            QuizComposer.compose(card, deck, isInverted, withCaching = false)
+                        }
+                        QuizTestExerciseCard(baseExerciseCard, variants)
                     }
-                    QuizTestExerciseCard(baseExerciseCard, variants)
+                    TestingMethod.Entry -> EntryTestExerciseCard(baseExerciseCard)
                 }
-                TestingMethod.Entry -> EntryTestExerciseCard(baseExerciseCard)
             }
         state.exerciseCards += retestingExerciseCard
     }
@@ -409,5 +452,39 @@ class ExampleExercise(
         return state.exerciseCards
             .drop(state.currentPosition + 1)
             .any { it.base.card.id == currentExerciseCard.base.card.id }
+    }
+
+    private fun updateGrade() {
+        if (purpose != ToDemonstrateGradingSettings) return
+        if (currentExerciseCard.base.isGradeEditedManually) return
+        var isFirstAnswer = true
+        var calculatingGrade: Int = currentExerciseCard.base.initialGrade
+        for (exerciseCard in state.exerciseCards) {
+            if (exerciseCard.base.card.id != currentExerciseCard.base.card.id) continue
+            calculatingGrade = applyGradeChange(exerciseCard, calculatingGrade, isFirstAnswer)
+            isFirstAnswer = false
+        }
+        currentExerciseCard.base.card.grade = calculatingGrade
+    }
+
+    private fun applyGradeChange(
+        exerciseCard: ExerciseCard,
+        gradeBeforeAnswer: Int,
+        isFirstAnswer: Boolean
+    ): Int {
+        val gradeChange: GradeChange = when (exerciseCard.base.isAnswerCorrect) {
+            null -> return gradeBeforeAnswer
+            true -> {
+                if (isFirstAnswer)
+                    grading.onFirstCorrectAnswer else
+                    grading.onRepeatedCorrectAnswer
+            }
+            false -> {
+                if (isFirstAnswer)
+                    grading.onFirstWrongAnswer else
+                    grading.onRepeatedWrongAnswer
+            }
+        }
+        return gradeChange.apply(gradeBeforeAnswer)
     }
 }

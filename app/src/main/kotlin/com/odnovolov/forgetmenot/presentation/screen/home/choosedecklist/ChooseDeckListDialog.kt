@@ -29,8 +29,8 @@ class ChooseDeckListDialog : BaseDialogFragment() {
         onDeckListButtonClicked = { deckListId: Long? ->
             deckListId ?: return@SelectableDeckListAdapter
             val event = when (purpose) {
-                ToAddDeckToDeckList -> DeckListForAddingDecksSelected(deckListId)
-                ToRemoveDeckFromDeckList -> DeckListForRemovingDecksSelected(deckListId)
+                ToAddDeckToDeckList -> DeckListForAddingDecksWasSelected(deckListId)
+                ToRemoveDeckFromDeckList -> DeckListForRemovingDecksWasSelected(deckListId)
                 null -> return@SelectableDeckListAdapter
             }
             controller?.dispatch(event)

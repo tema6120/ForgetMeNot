@@ -10,7 +10,7 @@ import com.odnovolov.forgetmenot.presentation.common.inflateAsync
 import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticle
 import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticleController
 import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticleDiScope
-import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticleEvent.ArticleOpened
+import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticleEvent.ArticleWasOpened
 import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticleContainerFragment
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.Flow
@@ -42,7 +42,7 @@ abstract class BaseHelpArticleFragmentForComplexUi : Fragment() {
         viewCoroutineScope!!.launch {
             val diScope = HelpArticleDiScope.getAsync() ?: return@launch
             controller = diScope.controller
-            controller!!.dispatch(ArticleOpened(helpArticle))
+            controller!!.dispatch(ArticleWasOpened(helpArticle))
         }
         (parentFragment as HelpArticleContainerFragment).doWhenDrawerClosed {
             if (isInAndroidViewScope) {

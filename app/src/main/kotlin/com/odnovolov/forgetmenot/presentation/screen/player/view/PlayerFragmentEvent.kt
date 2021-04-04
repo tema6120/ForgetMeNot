@@ -1,9 +1,9 @@
 package com.odnovolov.forgetmenot.presentation.screen.player.view
 
 sealed class PlayerFragmentEvent {
-    class NewPageBecameSelected(val position: Int) : PlayerFragmentEvent()
+    class PageWasChanged(val position: Int) : PlayerFragmentEvent()
     object GradeButtonClicked : PlayerFragmentEvent()
-    class GradeWasChanged(val grade: Int) : PlayerFragmentEvent()
+    class GradeWasSelected(val grade: Int) : PlayerFragmentEvent()
     object MarkAsLearnedButtonClicked : PlayerFragmentEvent()
     object MarkAsUnlearnedButtonClicked : PlayerFragmentEvent()
     object SpeakButtonClicked : PlayerFragmentEvent()

@@ -56,7 +56,7 @@ class FileImportController(
 
     override fun handle(event: FileImportEvent) {
         when (event) {
-            is CardsFileIsOpened -> {
+            is CardsFileWasOpened -> {
                 val newPosition: Int =
                     fileImporter.state.files.indexOfFirst { it.id == event.cardsFileId }
                 if (newPosition == -1) return

@@ -1,6 +1,5 @@
 package com.odnovolov.forgetmenot.presentation.screen.home.deckoptions
 
-import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -43,43 +42,43 @@ class DeckOptionsBottomSheet : BaseBottomSheetDialogFragment() {
 
     private fun setupView() {
         startExerciseDeckOptionItem.setOnClickListener {
-            controller?.dispatch(StartExerciseDeckOptionSelected)
+            controller?.dispatch(StartExerciseDeckOptionWasSelected)
             dismiss()
         }
         autoplayDeckOptionItem.setOnClickListener {
-            controller?.dispatch(AutoplayDeckOptionSelected)
+            controller?.dispatch(AutoplayDeckOptionWasSelected)
             dismiss()
         }
         renameDeckOptionItem.setOnClickListener {
-            controller?.dispatch(RenameDeckOptionSelected)
+            controller?.dispatch(RenameDeckOptionWasSelected)
             dismiss()
         }
         setupDeckOptionItem.setOnClickListener {
-            controller?.dispatch(SetupDeckOptionSelected)
+            controller?.dispatch(SetupDeckOptionWasSelected)
             dismiss()
         }
         editCardsDeckOptionItem.setOnClickListener {
-            controller?.dispatch(EditCardsDeckOptionSelected)
+            controller?.dispatch(EditCardsDeckOptionWasSelected)
             dismiss()
         }
         addToDeckListDeckOptionItem.setOnClickListener {
-            controller?.dispatch(AddToDeckListDeckOptionSelected)
+            controller?.dispatch(AddToDeckListDeckOptionWasSelected)
             dismiss()
         }
         removeFromDeckListDeckOptionItem.setOnClickListener {
-            controller?.dispatch(RemoveFromDeckListDeckOptionSelected)
+            controller?.dispatch(RemoveFromDeckListDeckOptionWasSelected)
             dismiss()
         }
         exportDeckOptionItem.setOnClickListener {
-            controller?.dispatch(ExportDeckOptionSelected)
+            controller?.dispatch(ExportDeckOptionWasSelected)
             dismiss()
         }
         mergeIntoDeckOptionItem.setOnClickListener {
-            controller?.dispatch(MergeIntoDeckOptionSelected)
+            controller?.dispatch(MergeIntoDeckOptionWasSelected)
             dismiss()
         }
         removeDeckOptionItem.setOnClickListener {
-            controller?.dispatch(RemoveDeckOptionSelected)
+            controller?.dispatch(RemoveDeckOptionWasSelected)
             dismiss()
         }
     }
@@ -106,8 +105,8 @@ class DeckOptionsBottomSheet : BaseBottomSheetDialogFragment() {
                 pinDeckOptionItem.setOnClickListener {
                     controller?.dispatch(
                         if (isPinned)
-                            UnpinDeckOptionSelected else
-                            PinDeckOptionSelected
+                            UnpinDeckOptionWasSelected else
+                            PinDeckOptionWasSelected
                     )
                     dismiss()
                 }

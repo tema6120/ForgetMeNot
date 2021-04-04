@@ -168,7 +168,7 @@ class HelpArticleContainerFragment : BaseFragment() {
     private fun initAdapter() {
         val onItemSelected: (HelpArticle) -> Unit = { helpArticle: HelpArticle ->
             helpDrawerLayout.closeDrawer(GravityCompat.END)
-            controller?.dispatch(ArticleSelected(helpArticle))
+            controller?.dispatch(ArticleWasSelected(helpArticle))
         }
         val adapter = HelpArticleAdapter(onItemSelected)
         tableOfContentsRecycler.adapter = adapter

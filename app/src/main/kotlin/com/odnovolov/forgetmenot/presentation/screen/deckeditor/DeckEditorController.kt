@@ -93,13 +93,13 @@ class DeckEditorController(
                 batchCardEditor.addCardsToSelection(allEditableCards)
             }
 
-            InvertCardSelectionOptionSelected -> {
+            InvertCardSelectionOptionWasSelected -> {
                 val numberOfInvertedCards: Int = batchCardEditor.state.selectedCards.size
                 batchCardEditor.invert()
                 sendCommand(ShowCardsAreInvertedMessage(numberOfInvertedCards))
             }
 
-            ChangeGradeCardSelectionOptionSelected -> {
+            ChangeGradeCardSelectionOptionWasSelected -> {
                 val gradeItems: List<GradeItem> =
                     screenState.deck.exercisePreference.intervalScheme
                         ?.intervals?.map { interval: Interval ->
@@ -126,38 +126,38 @@ class DeckEditorController(
                 }
             }
 
-            is SelectedGrade -> {
+            is GradeWasSelected -> {
                 val numberOfAffectedCards: Int = batchCardEditor.state.selectedCards.size
                 batchCardEditor.changeGrade(event.grade)
                 sendCommand(ShowGradeIsChangedMessage(event.grade, numberOfAffectedCards))
             }
 
-            MarkAsLearnedCardSelectionOptionSelected -> {
+            MarkAsLearnedCardSelectionOptionWasSelected -> {
                 val numberOfMarkedCards: Int = batchCardEditor.state.selectedCards.size
                 batchCardEditor.markAsLearned()
                 sendCommand(ShowCardsAreMarkedAsLearnedMessage(numberOfMarkedCards))
             }
 
-            MarkAsUnlearnedCardSelectionOptionSelected -> {
+            MarkAsUnlearnedCardSelectionOptionWasSelected -> {
                 val numberOfMarkedCards: Int = batchCardEditor.state.selectedCards.size
                 batchCardEditor.markAsUnlearned()
                 sendCommand(ShowCardsAreMarkedAsUnlearnedMessage(numberOfMarkedCards))
             }
 
-            RemoveCardsCardSelectionOptionSelected -> {
+            RemoveCardsCardSelectionOptionWasSelected -> {
                 val numberOfRemovedCards: Int = batchCardEditor.state.selectedCards.size
                 batchCardEditor.remove()
                 sendCommand(ShowCardsAreRemovedMessage(numberOfRemovedCards))
             }
 
-            MoveCardSelectionOptionSelected -> {
+            MoveCardSelectionOptionWasSelected -> {
                 navigator.navigateToDeckChooserFromDeckEditor {
                     val screenState = DeckChooserScreenState(purpose = ToMoveCardsInDeckEditor)
                     DeckChooserDiScope.create(screenState)
                 }
             }
 
-            is DeckToMoveCardsToIsSelected -> {
+            is DeckToMoveCardsToWasSelected -> {
                 val numberOfMovedCards: Int = batchCardEditor.state.selectedCards.size
                 batchCardEditor.moveTo(event.abstractDeck)
                 val deckName: String = event.abstractDeck.name
@@ -167,14 +167,14 @@ class DeckEditorController(
                 )
             }
 
-            CopyCardSelectionOptionSelected -> {
+            CopyCardSelectionOptionWasSelected -> {
                 navigator.navigateToDeckChooserFromDeckEditor {
                     val screenState = DeckChooserScreenState(purpose = ToCopyCardsInDeckEditor)
                     DeckChooserDiScope.create(screenState)
                 }
             }
 
-            is DeckToCopyCardsToIsSelected -> {
+            is DeckToCopyCardsToWasSelected -> {
                 val numberOfCopiedCards: Int = batchCardEditor.state.selectedCards.size
                 batchCardEditor.copyTo(event.abstractDeck)
                 val deckName: String = event.abstractDeck.name

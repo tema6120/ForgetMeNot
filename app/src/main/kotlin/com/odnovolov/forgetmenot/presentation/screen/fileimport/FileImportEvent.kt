@@ -1,7 +1,7 @@
 package com.odnovolov.forgetmenot.presentation.screen.fileimport
 
 sealed class FileImportEvent {
-    class CardsFileIsOpened(val cardsFileId: Long) : FileImportEvent()
+    class CardsFileWasOpened(val cardsFileId: Long) : FileImportEvent()
     object PreviousButtonClicked : FileImportEvent()
     object NextButtonClicked : FileImportEvent()
     object SkipButtonClicked : FileImportEvent()

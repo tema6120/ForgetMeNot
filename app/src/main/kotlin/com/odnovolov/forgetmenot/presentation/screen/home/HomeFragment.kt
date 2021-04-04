@@ -109,7 +109,7 @@ class HomeFragment : BaseFragment() {
 
     private fun setupSelectionToolbar() {
         cancelSelectionButton.run {
-            setOnClickListener { controller?.dispatch(CancelledSelection) }
+            setOnClickListener { controller?.dispatch(SelectionWasCancelled) }
             setTooltipTextFromContentDescription()
         }
         selectAllButton.run {
@@ -626,7 +626,7 @@ class HomeFragment : BaseFragment() {
         backPressInterceptor = MainActivity.BackPressInterceptor {
             when {
                 selectionToolbar.isVisible -> {
-                    controller?.dispatch(CancelledSelection)
+                    controller?.dispatch(SelectionWasCancelled)
                     true
                 }
                 searchEditText.hasFocus() -> {

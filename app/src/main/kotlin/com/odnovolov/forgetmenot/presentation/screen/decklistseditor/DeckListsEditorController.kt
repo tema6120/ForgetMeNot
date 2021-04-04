@@ -38,7 +38,7 @@ class DeckListsEditorController(
                 sendCommand(ShowColorChooserFor(event.deckListId))
             }
 
-            is ColorHexTextIsChanged -> {
+            is ColorHexTextWasSelected -> {
                 screenState.editableDeckListForColorChooser?.color =
                     try {
                         "#${event.text}".toColorInt()
@@ -47,7 +47,7 @@ class DeckListsEditorController(
                     }
             }
 
-            is ColorIsSelected -> {
+            is ColorWasSelected -> {
                 screenState.editableDeckListForColorChooser?.color = event.color
             }
 

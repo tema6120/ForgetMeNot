@@ -41,35 +41,35 @@ class DeckSelectionOptionsBottomSheet : BaseBottomSheetDialogFragment() {
 
     private fun setupView() {
         pinDeckSelectionOptionItem.setOnClickListener {
-            controller?.dispatch(PinDeckSelectionOptionSelected)
+            controller?.dispatch(PinDeckSelectionOptionWasSelected)
             dismiss()
         }
         unpinDeckSelectionOptionItem.setOnClickListener {
-            controller?.dispatch(UnpinDeckSelectionOptionSelected)
+            controller?.dispatch(UnpinDeckSelectionOptionWasSelected)
             dismiss()
         }
         addToDeckListDeckSelectionOptionItem.setOnClickListener {
-            controller?.dispatch(AddToDeckListDeckSelectionOptionSelected)
+            controller?.dispatch(AddToDeckListDeckSelectionOptionWasSelected)
             dismiss()
         }
         removeFromDeckListDeckSelectionOptionItem.setOnClickListener {
-            controller?.dispatch(RemoveFromDeckListDeckSelectionOptionSelected)
+            controller?.dispatch(RemoveFromDeckListDeckSelectionOptionWasSelected)
             dismiss()
         }
         setPresetDeckSelectionOptionItem.setOnClickListener {
-            controller?.dispatch(SetPresetDeckSelectionOptionSelected)
+            controller?.dispatch(SetPresetDeckSelectionOptionWasSelected)
             dismiss()
         }
         exportDeckSelectionOptionItem.setOnClickListener {
-            controller?.dispatch(ExportDeckSelectionOptionSelected)
+            controller?.dispatch(ExportDeckSelectionOptionWasSelected)
             dismiss()
         }
         mergeIntoDeckSelectionOptionItem.setOnClickListener {
-            controller?.dispatch(MergeIntoDeckSelectionOptionSelected)
+            controller?.dispatch(MergeIntoDeckSelectionOptionWasSelected)
             dismiss()
         }
         removeDeckSelectionOptionItem.setOnClickListener {
-            controller?.dispatch(RemoveDeckSelectionOptionSelected)
+            controller?.dispatch(RemoveDeckSelectionOptionWasSelected)
             dismiss()
         }
     }

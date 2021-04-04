@@ -94,7 +94,7 @@ class DeckEditorFragment : BaseFragment() {
             setTooltipTextFromContentDescription()
         }
         removeOptionItem.run {
-            setOnClickListener { controller?.dispatch(RemoveCardsCardSelectionOptionSelected) }
+            setOnClickListener { controller?.dispatch(RemoveCardsCardSelectionOptionWasSelected) }
             setTooltipTextFromContentDescription()
         }
         moreOptionsButton.run {

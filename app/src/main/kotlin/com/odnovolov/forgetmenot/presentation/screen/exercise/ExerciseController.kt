@@ -57,11 +57,11 @@ class ExerciseController(
 
     override fun handle(event: ExerciseEvent) {
         when (event) {
-            is PageSelected -> {
+            is PageWasChanged -> {
                 exercise.setCurrentPosition(event.position)
             }
 
-            is GradeWasChanged -> {
+            is GradeWasSelected -> {
                 exercise.setGrade(event.grade)
             }
 
@@ -185,7 +185,7 @@ class ExerciseController(
                 exercise.resetTimer()
             }
 
-            is KeyGestureDetected -> {
+            is KeyGestureWasDetected -> {
                 onKeyGestureDetected(event)
             }
 
@@ -220,7 +220,7 @@ class ExerciseController(
         }
     }
 
-    private fun onKeyGestureDetected(event: KeyGestureDetected) {
+    private fun onKeyGestureDetected(event: KeyGestureWasDetected) {
         val keyGestureAction: KeyGestureAction =
             walkingModePreference.keyGestureMap[event.keyGesture] ?: return
         when (keyGestureAction) {

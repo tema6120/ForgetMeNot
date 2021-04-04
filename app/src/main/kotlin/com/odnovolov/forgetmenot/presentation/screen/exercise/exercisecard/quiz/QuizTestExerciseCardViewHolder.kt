@@ -133,7 +133,7 @@ class QuizTestExerciseCardViewHolder(
             forEachVariantButton { variant: Int ->
                 textSize = cardAppearance.answerTextSize.toFloat()
                 setCardTextColorStateList(cardAppearance)
-                setOnClickListener { controller.dispatch(VariantSelected(variant)) }
+                setOnClickListener { controller.dispatch(VariantWasSelected(variant)) }
                 observeSelectedText { selection: String ->
                     controller.dispatch(AnswerTextSelectionChanged(selection))
                 }
@@ -199,7 +199,7 @@ class QuizTestExerciseCardViewHolder(
                             postDelayed({ background = null }, 600)
                         } else {
                             setTextIsSelectable(false)
-                            setOnClickListener { controller.dispatch(VariantSelected(variant)) }
+                            setOnClickListener { controller.dispatch(VariantWasSelected(variant)) }
                             background = ContextCompat.getDrawable(context, rippleId)
                         }
                     }

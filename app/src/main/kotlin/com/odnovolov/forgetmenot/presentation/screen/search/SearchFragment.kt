@@ -104,7 +104,7 @@ class SearchFragment : BaseFragment() {
 
     private fun setupSelectionToolbar() {
         cancelSelectionButton.run {
-            setOnClickListener { controller?.dispatch(CancelledCardSelection) }
+            setOnClickListener { controller?.dispatch(CardSelectionWasCancelled) }
             setTooltipTextFromContentDescription()
         }
         selectAllButton.run {
@@ -112,7 +112,7 @@ class SearchFragment : BaseFragment() {
             setTooltipTextFromContentDescription()
         }
         removeOptionItem.run {
-            setOnClickListener { controller?.dispatch(RemoveCardsCardSelectionOptionSelected) }
+            setOnClickListener { controller?.dispatch(RemoveCardsCardSelectionOptionWasSelected) }
             setTooltipTextFromContentDescription()
         }
         moreOptionsButton.run {
@@ -325,7 +325,7 @@ class SearchFragment : BaseFragment() {
     private val backPressInterceptor = MainActivity.BackPressInterceptor {
         when {
             isSelectionMode -> {
-                controller?.dispatch(CancelledCardSelection)
+                controller?.dispatch(CardSelectionWasCancelled)
                 true
             }
             else -> false

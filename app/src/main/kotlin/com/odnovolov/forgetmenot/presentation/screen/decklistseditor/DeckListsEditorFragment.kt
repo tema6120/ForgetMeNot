@@ -40,7 +40,7 @@ class DeckListsEditorFragment : BaseFragment() {
     private var colorChooserPopup: PopupWindow? = null
     private val colorAdapter = DeckListColorAdapter(
         onItemClicked = { color: Int ->
-            controller?.dispatch(ColorIsSelected(color))
+            controller?.dispatch(ColorWasSelected(color))
             colorChooserPopup?.dismiss()
         }
     )
@@ -219,7 +219,7 @@ class DeckListsEditorFragment : BaseFragment() {
                     }
                     colorEdittext.observeText { text: String ->
                         if (text.length == 6) {
-                            controller?.dispatch(ColorHexTextIsChanged(text))
+                            controller?.dispatch(ColorHexTextWasSelected(text))
                         }
                     }
                     colorEdittext.setOnEditorActionListener { _, actionId, _ ->

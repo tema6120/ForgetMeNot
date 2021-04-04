@@ -8,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupWindow
 import android.widget.Toast
-import androidx.core.content.ContextCompat
 import androidx.core.view.children
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
@@ -258,7 +257,7 @@ class ExamplePlayerFragment : BaseFragment() {
 
     private val onPageChangeCallback = object : ViewPager2.OnPageChangeCallback() {
         override fun onPageSelected(position: Int) {
-            controller?.dispatch(NewPageBecameSelected(position))
+            controller?.dispatch(PageWasChanged(position))
         }
     }
 }

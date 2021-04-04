@@ -3,8 +3,8 @@ package com.odnovolov.forgetmenot.presentation.screen.exampleexercise
 import android.animation.ArgbEvaluator
 import android.animation.ValueAnimator
 import android.annotation.SuppressLint
-import android.graphics.Color
-import android.graphics.PorterDuff
+import android.graphics.Paint
+import android.graphics.Typeface
 import android.os.*
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -31,7 +31,10 @@ import com.odnovolov.forgetmenot.presentation.screen.exercise.*
 import com.odnovolov.forgetmenot.presentation.screen.exercise.ReasonForInabilityToSpeak.*
 import com.odnovolov.forgetmenot.presentation.screen.exercise.SpeakingStatus.*
 import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.entry.EntryTestExerciseCardViewHolder
+import com.odnovolov.forgetmenot.presentation.screen.exercise.exercisecard.manual.ManualTestExerciseCardViewHolder
 import kotlinx.android.synthetic.main.fragment_example_exercise.*
+import kotlinx.android.synthetic.main.item_exercise_card_manual_test.view.*
+import kotlinx.android.synthetic.main.popup_intervals.view.*
 import kotlinx.android.synthetic.main.popup_speak_error.view.*
 import kotlinx.android.synthetic.main.popup_timer.view.*
 import kotlinx.coroutines.launch
@@ -47,6 +50,8 @@ class ExampleExerciseFragment : BaseFragment() {
     private val vibrator: Vibrator? by lazy {
         ContextCompat.getSystemService(requireContext(), Vibrator::class.java)
     }
+    private var intervalsAdapter: IntervalsAdapter? = null
+    private var intervalsPopup: PopupWindow? = null
     private var speakErrorPopup: PopupWindow? = null
     private var timerPopup: PopupWindow? = null
     private var timerButtonPaintingAnimation: ValueAnimator? = null
@@ -78,6 +83,10 @@ class ExampleExerciseFragment : BaseFragment() {
             (it as RecyclerView).isNestedScrollingEnabled = false
         }
         exampleExerciseViewPager.registerOnPageChangeCallback(onPageChangeCallback)
+        gradeButton.run {
+            setOnClickListener { showIntervalsPopup() }
+            setTooltipTextFromContentDescription()
+        }
         timerButton.run {
             setOnClickListener { showTimerPopup() }
             setTooltipTextFromContentDescription()
@@ -99,6 +108,24 @@ class ExampleExerciseFragment : BaseFragment() {
                     speakFrame.isVisible = false
                     timerButton.isVisible = false
                     emptyCardView.isVisible = true
+                }
+            }
+            if (isGradeButtonVisible) {
+                gradeOfCurrentCard.observe { grade: Int ->
+                    updateGradeButtonColor(grade)
+                    gradeButton.text = grade.toString()
+                    gradeButton.uncover()
+                }
+                isGradeEditedManually.observe { isEdited: Boolean ->
+                    with(gradeButton) {
+                        if (isEdited) {
+                            paintFlags = paintFlags or Paint.UNDERLINE_TEXT_FLAG
+                            setTypeface(null, Typeface.BOLD)
+                        } else {
+                            paintFlags = paintFlags and Paint.UNDERLINE_TEXT_FLAG.inv()
+                            setTypeface(null, Typeface.NORMAL)
+                        }
+                    }
                 }
             }
             speakingStatus.observe { speakingStatus: SpeakingStatus ->
@@ -154,6 +181,17 @@ class ExampleExerciseFragment : BaseFragment() {
             }
             timerStatus.observe(::onTimerStatusChanged)
             vibrateCommand.observe { vibrate() }
+        }
+    }
+
+    private fun updateGradeButtonColor(grade: Int) {
+        val gradeColorRes: Int = getGradeColorRes(grade)
+        gradeButton.setBackgroundTintFromRes(gradeColorRes)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            val brightGradeColor: Int =
+                ContextCompat.getColor(requireContext(), getBrightGradeColorRes(grade))
+            gradeButton.outlineAmbientShadowColor = brightGradeColor
+            gradeButton.outlineSpotShadowColor = brightGradeColor
         }
     }
 
@@ -220,6 +258,39 @@ class ExampleExerciseFragment : BaseFragment() {
         }
     }
 
+    private fun showIntervalsPopup() {
+        requireIntervalsPopup().show(anchor = gradeButton, gravity = Gravity.BOTTOM)
+    }
+
+    private fun requireIntervalsPopup(): PopupWindow {
+        if (intervalsPopup == null) {
+            val content: View = View.inflate(context, R.layout.popup_intervals, null)
+            val onItemClick: (Int) -> Unit = { grade: Int ->
+                intervalsPopup?.dismiss()
+                controller?.dispatch(GradeWasSelected(grade))
+            }
+            intervalsAdapter = IntervalsAdapter(onItemClick)
+            content.intervalsRecycler.adapter = intervalsAdapter
+            intervalsPopup = DarkPopupWindow(content)
+            subscribeIntervalsPopupToViewModel()
+        }
+        return intervalsPopup!!
+    }
+
+    private fun subscribeIntervalsPopupToViewModel() {
+        viewCoroutineScope!!.launch {
+            val diScope = ExampleExerciseDiScope.getAsync() ?: return@launch
+            diScope.viewModel.intervalItems.observe { intervalItems: List<IntervalItem>? ->
+                intervalsPopup?.contentView?.run {
+                    intervalItems?.let { intervalsAdapter!!.intervalItems = it }
+                    intervalsIcon.isActivated = intervalItems != null
+                    intervalsRecycler.isVisible = intervalItems != null
+                    intervalsAreOffTextView.isVisible = intervalItems == null
+                }
+            }
+        }
+    }
+
     @SuppressLint("ClickableViewAccessibility")
     fun notifyBottomSheetStateChanged(newState: Int) {
         when (newState) {
@@ -229,8 +300,14 @@ class ExampleExerciseFragment : BaseFragment() {
                 controller?.dispatch(BottomSheetExpanded)
                 val currentViewHolder = exampleExerciseViewPager
                     .findViewHolderForAdapterPosition(exampleExerciseViewPager.currentItem)
-                if (currentViewHolder is EntryTestExerciseCardViewHolder) {
-                    currentViewHolder.onPageSelected()
+                when (currentViewHolder) {
+                    is ManualTestExerciseCardViewHolder -> {
+                        // This is not the best solution
+                        currentViewHolder.itemView.bottomButtonsLayout.translationX = 0f
+                    }
+                    is EntryTestExerciseCardViewHolder -> {
+                        currentViewHolder.onPageSelected()
+                    }
                 }
             }
             BottomSheetBehavior.STATE_COLLAPSED -> {
@@ -406,7 +483,7 @@ class ExampleExerciseFragment : BaseFragment() {
 
     private val onPageChangeCallback = object : ViewPager2.OnPageChangeCallback() {
         override fun onPageSelected(position: Int) {
-            controller?.dispatch(PageSelected(position))
+            controller?.dispatch(PageWasChanged(position))
             timerButtonPaintingAnimation?.cancel()
             timerButtonPaintingAnimation = null
             val currentViewHolder =

@@ -7,6 +7,6 @@ sealed class CardsFileEvent {
     object AddCardsToNewDeckButtonClicked : CardsFileEvent()
     class SubmittedNameForNewDeck(val deckName: String) : CardsFileEvent()
     object AddCardsToExistingDeckButtonClicked : CardsFileEvent()
-    class TargetDeckIsSelected(val deck: Deck) : CardsFileEvent()
+    class TargetDeckWasSelected(val deck: Deck) : CardsFileEvent()
     object UserAcceptedToUseSelectedDeckForImportNextFiles : CardsFileEvent()
 }

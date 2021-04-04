@@ -5,7 +5,7 @@ import com.odnovolov.forgetmenot.domain.interactor.fileimport.FileImporter.State
 import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.ShortTermStateProvider
 import com.odnovolov.forgetmenot.presentation.common.base.BaseController
-import com.odnovolov.forgetmenot.presentation.screen.fileimport.cardsfile.sourcetext.ImportedTextEditorEvent.EncodingIsChanged
+import com.odnovolov.forgetmenot.presentation.screen.fileimport.cardsfile.sourcetext.ImportedTextEditorEvent.EncodingWasSelected
 
 class ImportedTextEditorController(
     private val fileImporter: FileImporter,
@@ -14,7 +14,7 @@ class ImportedTextEditorController(
 ) : BaseController<ImportedTextEditorEvent, Nothing>() {
     override fun handle(event: ImportedTextEditorEvent) {
         when (event) {
-            is EncodingIsChanged -> {
+            is EncodingWasSelected -> {
                 fileImporter.setCharset(event.newEncoding)
             }
         }
