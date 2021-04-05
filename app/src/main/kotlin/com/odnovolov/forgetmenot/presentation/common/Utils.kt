@@ -44,6 +44,15 @@ import kotlinx.coroutines.flow.*
 import java.util.*
 
 fun Locale.toFlagEmoji(): String? {
+    when (toLanguageTag()) {
+        "hr" -> return "\uD83C\uDDED\uD83C\uDDF7"
+        "bs" -> return "\uD83C\uDDE7\uD83C\uDDE6"
+        "ca" -> return "\uD83C\uDDEA\uD83C\uDDF8"
+        "cy" -> return "\uD83C\uDFF4\uDB40\uDC67\uDB40\uDC62\uDB40\uDC77\uDB40\uDC6C\uDB40\uDC73\uDB40\uDC7F"
+        "sr" -> return "\uD83C\uDDF7\uD83C\uDDF8"
+        "sq" -> return "\uD83C\uDDE6\uD83C\uDDF1"
+    }
+
     if (country.length != 2) {
         return null
     }

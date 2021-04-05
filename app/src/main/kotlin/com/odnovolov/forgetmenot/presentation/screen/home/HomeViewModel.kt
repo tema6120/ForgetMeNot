@@ -375,14 +375,16 @@ class HomeViewModel(
     ) { deckSelection: DeckSelection?, selectedCards: Collection<EditableCard> ->
         when {
             deckSelection != null -> {
-                when (deckSelection.purpose) {
-                    DeckSelection.Purpose.General -> {
+                when {
+                    deckSelection.selectedDeckIds.isNotEmpty() -> {
                         val numberOfSelectedDecks: Int = deckSelection.selectedDeckIds.size
                         SelectionToolbarTitle.NumberOfSelectedDecks(numberOfSelectedDecks)
                     }
-                    DeckSelection.Purpose.ForAutoplay -> SelectionToolbarTitle.ChooseDecksToPlay
-                    DeckSelection.Purpose.ForExercise ->
+                    deckSelection.purpose == DeckSelection.Purpose.ForAutoplay ->
+                        SelectionToolbarTitle.ChooseDecksToPlay
+                    deckSelection.purpose == DeckSelection.Purpose.ForExercise ->
                         SelectionToolbarTitle.ChooseDecksForExercise
+                    else -> null
                 }
             }
             selectedCards.isNotEmpty() -> {

@@ -2,10 +2,7 @@ package com.odnovolov.forgetmenot.presentation.screen.helparticle
 
 import android.animation.ObjectAnimator
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.MotionEvent
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.view.animation.DecelerateInterpolator
 import android.view.animation.LinearInterpolator
 import androidx.core.view.GravityCompat
@@ -213,11 +210,16 @@ class HelpArticleContainerFragment : BaseFragment() {
     }
 
     private val backPressInterceptor = MainActivity.BackPressInterceptor {
-        if (childFragmentManager.backStackEntryCount > 0) {
-            childFragmentManager.popBackStack()
-            true
-        } else {
-            false
+        when {
+            helpDrawerLayout.isDrawerOpen(GravityCompat.END) -> {
+                helpDrawerLayout.closeDrawer(GravityCompat.END)
+                true
+            }
+            childFragmentManager.backStackEntryCount > 0 -> {
+                childFragmentManager.popBackStack()
+                true
+            }
+            else -> false
         }
     }
 

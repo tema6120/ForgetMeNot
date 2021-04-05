@@ -9,7 +9,7 @@
     <color name="icon_on_surface">#B8FFFFFF</color>
     <color name="icon_on_surface_disabled">#29FFFFFF</color>
     <color name="divider">#1effffff</color>
-    <color name="ripple">#1FFFFFFF</color>
+    <color name="ripple">#26FFFFFF</color>
     <color name="background_highlighted_text">#60E7D900</color>
     <color name="selected_item_background">@color/background_item_selected_on_dark_popup</color>
     <color name="empty_list">#33FFFFFF</color>
@@ -36,7 +36,7 @@
     <!-- Card -->
     <color name="card">#3B3B41</color>
     <color name="card_expired">#443C42</color>
-    <color name="text_on_card_overview">#ABFFFFFF</color>
+    <color name="text_on_card_default">#ABFFFFFF</color>
     <color name="text_on_card_overview_learned">#2EFFFFFF</color>
     <color name="curtain">#333339</color>
     <color name="text_on_curtain">#40FFFFFF</color>
@@ -52,11 +52,12 @@
     <color name="correct_answer_background_disabled">#80414D50</color>
     <color name="stroke_correct_variant_but_not_selected_learned">#361C9383</color>
     <color name="icon_correct_answer_learned">#361C9383</color>
-    <color name="text_correct_answer">#00C2A5</color>
+    <color name="text_correct_answer">#55D5C3</color>
     <color name="wrong_answer">#A6493E</color>
     <color name="wrong_answer_background">#504549</color>
     <color name="wrong_answer_background_disabled">#80504549</color>
     <color name="icon_wrong_answer_learned">#36B24A3E</color>
+    <color name="text_wrong_answer">#F36C5A</color>
     <color name="floating_button_in_exercise">#45454B</color>
     <color name="text_remember_button_selected">@color/text_high_emphasis</color>
     <color name="text_remember_button_unselected">@color/text_medium_emphasis</color>
@@ -69,7 +70,7 @@
     <!-- Control panel -->
     <color name="control_panel">@color/surface</color>
     <color name="icon_on_control_panel">@color/icon_on_surface</color>
-    <color name="icon_on_control_panel_deactivated">#5CFFFFFF</color>
+    <color name="icon_on_control_panel_deactivated">#42FFFFFF</color>
     <color name="ripple_on_control_panel">@color/ripple</color>
 
     <!-- Popup for control panel -->

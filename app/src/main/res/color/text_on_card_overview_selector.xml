@@ -1,4 +1,4 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:color="@color/text_on_card_overview" android:state_enabled="true" />
+    <item android:color="@color/text_on_card_default" android:state_enabled="true" />
     <item android:color="@color/text_on_card_overview_learned" />
 </selector>

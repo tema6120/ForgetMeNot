@@ -181,6 +181,10 @@ class ExampleExerciseFragment : BaseFragment() {
             }
             timerStatus.observe(::onTimerStatusChanged)
             vibrateCommand.observe { vibrate() }
+            if (showProgressBar) progressBarForViewPager2.attach(exampleExerciseViewPager)
+            if (showTextOfCardPosition) cardPosition.observe(positionTextView::setText)
+            progressBarForViewPager2.isVisible = showProgressBar
+            positionTextView.isVisible = showTextOfCardPosition
         }
     }
 
