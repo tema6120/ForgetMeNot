@@ -48,6 +48,7 @@
     <string name="toast_no_file_manager_to_load">No tiene un administrador de archivos para cargar un archivo</string>
     <string name="toast_no_file_manager_to_create">No tiene un administrador de archivos para crear un archivo</string>
     <string name="error_loading_file">Error al leer archivos:\n\n%1$s</string>
+    <string name="snackbar_deck_has_been_created">El mazo \'%s\' ha sido creado</string>
     <string name="text_filter_button">Filtros</string>
     <string name="title_deck_filters_popup">Filtros</string>
     <string name="deck_filter_only_decks_available_for_exercise">Solo mazos disponibles para un ejercicio</string>
@@ -107,6 +108,36 @@
     <string name="text_exercise_button">Ejercicio</string>
     <string name="text_exercise_button_with_cards_count">Ejercicio (%d)</string>
     <string name="progress_bar_reading_files">Cargando archivos...</string>
+
+    <!-- 'No card is ready for exercise' dialog -->
+
+    <string name="dialog_title_no_cards_ready_for_exercise">No hay tarjetas listas para un ejercicio</string>
+    <string name="description_no_exercise_card_dialog_paragraph_1_part_1">Según los
+        intervalos aplicados a estos mazos</string>
+    <string name="description_no_exercise_card_dialog_paragraph_1_part_1_with_args">Según los
+        intervalos aplicados a este mazo (%1$s)</string>
+    <string name="description_no_exercise_card_dialog_paragraph_1_part_2">, aún no hay tarjetas
+        disponibles para un ejercicio. La primera tarjeta estaría disponible en:</string>
+    <plurals name="days">
+        <item quantity="one">%d día</item>
+        <item quantity="other">%d días</item>
+    </plurals>
+    <plurals name="hours">
+        <item quantity="one">%d hora</item>
+        <item quantity="other">%d horas</item>
+    </plurals>
+    <plurals name="minutes">
+        <item quantity="one">%d minuto</item>
+        <item quantity="other">%d minutos</item>
+    </plurals>
+    <plurals name="seconds">
+        <item quantity="one">%d segundo</item>
+        <item quantity="other">%d segundos</item>
+    </plurals>
+    <string name="description_no_exercise_card_dialog_paragraph_2">Puede cambiar o deshabilitar
+        los intervalos en la configuración del mazo.</string>
+    <string name="button_go_to_deck_settings">Ir a la configuración del mazo</string>
+
     <!-- Deck lists editor -->
     <string name="screen_title_deck_lists">Lista de mazos</string>
     <string name="hint_deck_list_edittext">Nombre de la lista</string>
@@ -383,6 +414,10 @@
     <string name="description_done_button">Hecho</string>
     <string name="description_cancel_button">Cancelar</string>
     <string name="toast_fill_in_the_card">Llenar la tarjeta</string>
+    <plurals name="snackbar_cards_have_been_created">
+        <item quantity="one">%d tarjeta ha sido creada</item>
+        <item quantity="other">%d tarjetas han sido creadas</item>
+    </plurals>
     <!-- Deck settings screen -->
     <string name="deck_settings_section_general">General</string>
     <string name="deck_settings_section_exercise">Ejercicio</string>
@@ -393,6 +428,7 @@
     <string name="deck_settings_item_question_display">Mostrar texto de la pregunta</string>
     <string name="deck_settings_item_testing_method">Método de repaso</string>
     <string name="deck_settings_item_intervals">Intervalos</string>
+    <string name="deck_settings_item_grading">Calificación</string>
     <string name="deck_settings_item_motivational_timer">Temporizador motivacional</string>
     <string name="deck_settings_item_pronunciation_plan">Plan de pronunciación</string>
     <string name="description_navigate_icon">Icono de navegación</string>
@@ -405,6 +441,8 @@
     <string name="interval_unit_abbreviation_hours">h</string>
     <string name="interval_unit_abbreviation_days">d</string>
     <string name="interval_unit_abbreviation_months">m</string>
+    <string name="grading_settings_description_part_1">En la primera pasada: [Correcto: %1$s, Equivocado: %2$s]</string>
+    <string name="grading_settings_description_part_2">,  En la repetición: [Correcto: %1$s, Equivocado: %2$s]</string>
     <string name="time_for_answer">%d seg.</string>
     <!-- Presets -->
     <string name="title_preset_name_input_dialog">Nombre para la nueva configuración preestablecida</string>
@@ -503,6 +541,29 @@
         <item quantity="one">mes</item>
         <item quantity="other">meses</item>
     </plurals>
+
+    <!-- Grading screen -->
+
+    <string name="screen_title_grading">Calificación</string>
+    <string name="tip_grading_screen_indication">Indique la manera en que quiere calificar las respuestas.</string>
+    <string name="tip_grading_screen_about_relationship_with_intervals">Las calificaciones determinan
+        el intervalo de repaso para una tarjeta.</string>
+    <string name="tip_grading_screen_about_manual_change">Si usted especifica la calificación manualmente,
+        esta calificación no se aplicará a la tarjeta durante el ejercicio.</string>
+    <string name="grade_change_value_do_not_change">No cambiar</string>
+    <string name="grade_change_value_reset_to_zero">Volver a 0</string>
+    <string name="diagram_block_on_first_answer">En la primera pasada</string>
+    <string name="diagram_block_wrong">Equivocado</string>
+    <string name="diagram_block_ask_again">¿Preguntar de nuevo?</string>
+    <string name="diagram_block_on_repeated_answer">En la repetición</string>
+    <string name="diagram_block_correct">Correcto</string>
+    <string name="description_diagram_arrow">Flecha del diagrama</string>
+    <string name="dialog_title_change_grading_on_first_correct_answer">En la primera respuesta correcta</string>
+    <string name="dialog_title_change_grading_on_first_wrong_answer">En la primera respuesta equivocada</string>
+    <string name="dialog_title_change_grading_on_repeated_correct_answer">En la primera respuesta correcta
+        de una tarjeta repetida</string>
+    <string name="dialog_title_change_grading_on_repeated_wrong_answer">En una respuesta equivocada de una tarjeta repetida</string>
+
     <!-- Motivational timer screen -->
     <string name="screen_title_motivational_timer">Temporizador motivacional</string>
     <string name="tip_motivational_timer_screen_description">El \'temporizador motivacional\'
@@ -542,8 +603,6 @@
         evento de \'Pronunciar respuesta\'</string>
     <!-- Settings screen -->
     <string name="screen_title_settings">Configuración</string>
-    <string name="text_walking_mode_title">Modo caminar</string>
-    <string name="text_walking_mode_settings_description">Usar botones de volumen</string>
     <string name="text_fullscreen_settings_title">Modo pantalla completa</string>
     <string name="everywhere">Siempre</string>
     <string name="nowhere">Nunca</string>
@@ -558,6 +617,10 @@
     <string name="theme_dark">Oscuro</string>
     <string name="theme_default">Determinado por Ahorrador de energía</string>
     <string name="title_theme_dialog">Tema</string>
+    <string name="text_exercise_settings_title">Ejercicio</string>
+    <string name="text_exercise_settings_description">Configuración general del ejercicio</string>
+    <string name="text_walking_mode_title">Modo caminar</string>
+    <string name="text_walking_mode_settings_description">Cambiar las acciones de los botones de volumen</string>
     <!-- Card appearance -->
     <string name="screen_title_card_appearance">Apariencia de las tarjetas</string>
     <string name="title_question_field">Campo de pregunta</string>
@@ -565,6 +628,56 @@
     <string name="text_alignment">Alineación del texto</string>
     <string name="text_size">Tamaño del texto</string>
     <string name="error_message_indicate_text_size">Especificar el tamaño del texto</string>
+    <string name="dialog_title_question_text_size">Tamaño del texto de la pregunta</string>
+    <string name="dialog_title_answer_text_size">Tamaño de texto de la respuesta</string>
+    <string name="title_common">Común</string>
+    <string name="text_opacity_in_light_theme">Opacidad del texto en el tema claro</string>
+    <string name="text_opacity_in_dark_theme">Opacidad del texto en el tema oscuro</string>
+    <string name="dialog_title_text_opacity">Opacidad del texto</string>
+    <string name="text_opacity_example_text">Ejemplo\n\n%1$s</string>
+
+
+    <!-- Exercise settings -->
+
+    <string name="screen_title_exercise_settings">Configuración del ejercicio</string>
+    <string name="exercise_setting_card_prefilter">Filtrar tarjetas antes de empezar un ejercicio</string>
+    <string name="card_prefilter_mode_do_not_filter">No filtrar</string>
+    <plurals name="card_prefilter_mode_limit_cards_to">
+        <item quantity="one">Limitar a %d tarjeta</item>
+        <item quantity="other">Limitar a %d tarjetas</item>
+    </plurals>
+    <string name="card_prefilter_mode_show_filter_when_cards_more_than">Mostrar el filtro de tarjetas
+        cuando el número de tarjetas es mayor que %d</string>
+    <string name="card_prefilter_mode_always_show_filter">Siempre mostrar el filtro de tarjetas</string>
+    <string name="title_cards_threshold_dialog">Límite de tarjetas</string>
+    <string name="description_cards_threshold_dialog_to_change_card_number_limitation">Especificar el
+        número máximo de tarjetas que quiere para un ejercicio</string>
+    <string name="description_cards_threshold_dialog_to_change_card_number_threshold_for_showing_filter">
+        Especificar el límite de tarjetas en donde se mostrará el filtro
+    </string>
+    <string name="title_card_limit_dialog">Número máximo de tarjetas</string>
+    <string name="exercise_setting_card_position_display">Posición de tarjeta</string>
+    <string name="card_position_display_progress_bar">Barra de progreso</string>
+    <string name="card_position_display_text">Texto</string>
+    <string name="exercise_setting_vibrate_on_wrong_answer">Vibrar en respuesta equivocada</string>
+    <string name="exercise_setting_go_to_next_card_after_marking_the_card_as_learned">
+        Ir a la próxima tarjeta después de marcar la tarjeta como \'Aprendido\'
+    </string>
+    <string name="exercise_setting_ask_to_quit_exercise">
+            Preguntar antes de salir del ejericicio si no se ha respondido a todas las tarjetas
+    </string>
+
+
+    <!-- Card filter for Exercise -->
+
+    <string name="title_card_filter_maximum_number_of_cards">Número máximo de tarjetas</string>
+    <plurals name="cards">
+        <item quantity="one">tarjeta</item>
+        <item quantity="other">tarjetas</item>
+    </plurals>
+    <string name="no_limit">Sin límite</string>
+    <string name="text_start_exercise_button">Empezar ejercicio</string>
+
     <!-- Walking mode settings screen -->
     <string name="screen_title_walking_mode_settings">Configuración de modo caminar</string>
     <string name="text_volume_up_button_section">Botón de subir volumen</string>
@@ -789,7 +902,9 @@
         \'Mostrar pregunta\' y habilite auto-pronunciación de la pregunta, con el idioma adecuado
         en la configuración del mazo.</string>
     <string name="article_grade_and_intervals_paragraph1">Cada tarjeta tiene una calificación.
-        Cada respuesta en un ejercicio afecta la calificación de la siguiente forma:
+        Cada respuesta en un ejercicio afecta la calificación según la configuración de \'Calificación\'.
+        Puede configurar como se califican las respuestas en la configuración del mazo. Por defecto,
+        las calificaciones funcionan de la siguiente forma:
 
         \n\n\t- resta uno para cada respuesta equivocada (solo cuando la calificación es mayor que
         cero)
