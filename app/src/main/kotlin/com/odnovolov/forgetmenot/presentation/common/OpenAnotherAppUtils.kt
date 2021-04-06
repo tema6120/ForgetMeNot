@@ -11,9 +11,9 @@ fun Fragment.openTtsSettings() {
         action = "com.android.settings.TTS_SETTINGS"
         flags = Intent.FLAG_ACTIVITY_NEW_TASK
     }
-    if (intent.resolveActivity(requireContext().packageManager) != null) {
+    try{
         startActivity(intent)
-    } else {
+    } catch(e: ActivityNotFoundException) {
         showToast(R.string.toast_no_tts_settings)
     }
 }
@@ -21,9 +21,9 @@ fun Fragment.openTtsSettings() {
 fun Fragment.openUrl(url: String) {
     val uri = Uri.parse(url)
     val intent = Intent(Intent.ACTION_VIEW, uri)
-    if (intent.resolveActivity(requireContext().packageManager) != null) {
-        startActivity(Intent.createChooser(intent, null))
-    } else {
+    try {
+        startActivity(intent)
+    } catch (e: ActivityNotFoundException) {
         showToast(R.string.toast_no_browser)
     }
 }
@@ -31,9 +31,9 @@ fun Fragment.openUrl(url: String) {
 fun Fragment.openEmailComposer(receiver: String) {
     val uri = Uri.fromParts("mailto", receiver, null)
     val intent = Intent(Intent.ACTION_SENDTO, uri)
-    if (intent.resolveActivity(requireContext().packageManager) != null) {
-        startActivity(Intent.createChooser(intent, null))
-    } else {
+    try{
+        startActivity(intent)
+    } catch(e: ActivityNotFoundException) {
         showToast(R.string.toast_no_email_client)
     }
 }
