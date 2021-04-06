@@ -67,7 +67,7 @@ class ExerciseStateCreatorWithFiltering(
             }
             .flattenWithShallowShuffling()
         val limit = state.cardFilter.limit
-        if (limit != null) {
+        if (limit > 0) {
             exerciseCards = exerciseCards.take(limit)
         }
         QuizComposer.clearCache()
