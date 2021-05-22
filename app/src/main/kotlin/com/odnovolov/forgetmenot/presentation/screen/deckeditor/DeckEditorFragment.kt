@@ -26,7 +26,9 @@ import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.common.mainactivity.MainActivity
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorController.Command.*
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorEvent.*
+import com.odnovolov.forgetmenot.presentation.screen.deckeditor.deckcontent.DeckContentDiScope
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.deckcontent.DeckContentFragment
+import com.odnovolov.forgetmenot.presentation.screen.deckeditor.decksettings.DeckSettingsDiScope
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.decksettings.DeckSettingsFragment
 import kotlinx.android.synthetic.main.fragment_deck_editor.*
 import kotlinx.android.synthetic.main.toolbar_item_selection.*
@@ -406,6 +408,8 @@ class DeckEditorFragment : BaseFragment() {
         super.onDestroy()
         if (isFinishing()) {
             DeckEditorDiScope.close()
+            DeckSettingsDiScope.close()
+            DeckContentDiScope.close()
         }
     }
 

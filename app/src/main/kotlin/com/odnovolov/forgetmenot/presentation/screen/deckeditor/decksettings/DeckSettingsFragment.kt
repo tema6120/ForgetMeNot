@@ -11,7 +11,6 @@ import com.odnovolov.forgetmenot.domain.entity.*
 import com.odnovolov.forgetmenot.domain.entity.PronunciationEvent.*
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.common.inflateAsync
-import com.odnovolov.forgetmenot.presentation.common.isFinishing
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.decksettings.DeckSettingsEvent.*
 import kotlinx.android.synthetic.main.fragment_deck_settings.*
 import kotlinx.coroutines.launch
@@ -138,12 +137,5 @@ class DeckSettingsFragment : BaseFragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         isInflated = false
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        if (isFinishing()) {
-            DeckSettingsDiScope.close()
-        }
     }
 }

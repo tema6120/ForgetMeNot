@@ -67,11 +67,4 @@ class DeckContentFragment : BaseFragment() {
         super.onDestroyView()
         isInflated = false
     }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        if (isFinishing()) {
-            DeckContentDiScope.close()
-        }
-    }
 }
