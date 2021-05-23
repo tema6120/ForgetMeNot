@@ -355,7 +355,6 @@ dans le temps alloué</string>
     <string name="message_no_paste_data">Le presse-papier ne contient pas de texte</string>
     <!-- Cards Editor screen -->
     <string name="card_label_duplicated">Dupliqué</string>
-    <string name="explanation_card_label_duplicated">Il y a une autre carte avec la même question et la même réponse dans ce jeu de cartes.</string>
     <string name="hint_question_edittext">Saisissez une question</string>
     <string name="hint_answer_edittext">Saisissez la réponse</string>
     <string name="description_invert_card_button">Inverser la carte</string>

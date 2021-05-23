@@ -359,8 +359,6 @@
     <string name="message_no_paste_data">Zwischenablage enthält keinen Text</string>
     <!-- Cards Editor screen -->
     <string name="card_label_duplicated">Duplicated</string>
-    <string name="explanation_card_label_duplicated">There is another card with the same question
-        and answer in this deck.</string>
     <string name="hint_question_edittext">Frage eingeben</string>
     <string name="hint_answer_edittext">Antwort eingeben</string>
     <string name="description_invert_card_button">Karte umdrehen</string>

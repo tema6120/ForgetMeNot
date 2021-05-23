@@ -215,19 +215,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="36dp"
                 android:layout_gravity="top|center_horizontal"
+                android:alpha="0"
                 android:background="@drawable/background_card_label"
-                android:backgroundTint="@color/issue"
                 android:enabled="false"
                 android:fontFamily="@font/comfortaa"
                 android:gravity="center_vertical"
                 android:paddingStart="32dp"
                 android:paddingEnd="32dp"
-                android:stateListAnimator="@animator/card_label"
-                android:text="@string/card_label_duplicated"
+                android:stateListAnimator="@animator/editable_card_label"
                 android:textColor="@color/text_label"
                 android:textSize="@dimen/text_size_card_label"
-                android:textStyle="bold"
-                android:translationY="-37dp" />
+                android:textStyle="bold" />
 
     </androidx.cardview.widget.CardView>
 

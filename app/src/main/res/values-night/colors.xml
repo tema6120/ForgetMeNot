@@ -44,6 +44,10 @@
     <color name="card_label_learned">#2E91C0</color>
     <color name="card_label_expired">@color/issue</color>
     <color name="card_label_example">#7E78C0</color>
+    <color name="card_label_duplicated">@color/issue</color>
+    <color name="card_label_current_in_exercise">#2DA172</color>
+    <color name="card_label_found">#A577B1</color>
+    <color name="card_label_new">@color/issue</color>
     <color name="text_label">#D9FFFFFF</color>
 
     <!-- Answer in exercise -->

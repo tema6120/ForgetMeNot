@@ -443,8 +443,10 @@
     <!-- Cards Editor screen -->
 
     <string name="card_label_duplicated">Duplicated</string>
-    <string name="explanation_card_label_duplicated">There is another card with the same question
-        and answer in this deck.</string>
+    <string name="card_label_current_in_exercise">Current in exercise</string>
+    <string name="card_label_current_in_player">Current in player</string>
+    <string name="card_label_found">Found</string>
+    <string name="card_label_new">New</string>
     <string name="hint_question_edittext">Enter a question</string>
     <string name="hint_answer_edittext">Enter the answer</string>
     <string name="description_invert_card_button">Invert card</string>

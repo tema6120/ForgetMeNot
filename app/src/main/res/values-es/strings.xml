@@ -391,8 +391,6 @@
     <string name="message_no_paste_data">El portapapeles no contiene texto</string>
     <!-- Cards Editor screen -->
     <string name="card_label_duplicated">Duplicado</string>
-    <string name="explanation_card_label_duplicated">Hay otra tarjeta con la misma pregunta y
-        respuesta en este mazo.</string>
     <string name="hint_question_edittext">Escribir la pregunta</string>
     <string name="hint_answer_edittext">Escribir la respuesta</string>
     <string name="description_invert_card_button">Cambiar sentido de la tarjeta</string>

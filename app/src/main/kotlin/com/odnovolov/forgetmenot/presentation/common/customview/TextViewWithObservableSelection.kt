@@ -46,7 +46,7 @@ class TextViewWithObservableSelection @JvmOverloads constructor(
             SelectedRange.EMPTY
         } else {
             val startIndex = maxOf(minOf(selStart, selEnd), 0)
-            val endIndex = minOf(maxOf(selStart, selEnd), length() - 1)
+            val endIndex = minOf(maxOf(selStart, selEnd), length())
             SelectedRange(startIndex, endIndex)
         }
     }
