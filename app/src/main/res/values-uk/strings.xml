@@ -402,6 +402,8 @@
 
     <string name="description_cancel_selection">Скасувати обрання</string>
     <string name="description_select_all">Вибрати все</string>
+    <string name="description_unselect_all">Скасувати вибір усіх</string>
+    <string name="description_select_only_new">Вибрати лише нові</string>
     <string name="description_remove">Видалити</string>
     <string name="description_more_options">Більше опцій</string>
 

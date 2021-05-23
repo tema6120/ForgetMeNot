@@ -5,8 +5,7 @@ import com.odnovolov.forgetmenot.domain.interactor.fileimport.FileImporter.State
 import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.ShortTermStateProvider
 import com.odnovolov.forgetmenot.presentation.common.base.BaseController
-import com.odnovolov.forgetmenot.presentation.screen.fileimport.cardsfile.cards.ImportedCardsEvent.CardClicked
-import com.odnovolov.forgetmenot.presentation.screen.fileimport.cardsfile.cards.ImportedCardsEvent.SelectAllButtonClicked
+import com.odnovolov.forgetmenot.presentation.screen.fileimport.cardsfile.cards.ImportedCardsEvent.*
 
 class ImportedCardsController(
     private val fileImporter: FileImporter,
@@ -21,6 +20,14 @@ class ImportedCardsController(
 
             SelectAllButtonClicked -> {
                 fileImporter.selectAll()
+            }
+
+            UnselectAllButtonClicked -> {
+                fileImporter.unselectAll()
+            }
+
+            SelectOnlyNewButtonClicked -> {
+                fileImporter.selectOnlyNew()
             }
         }
     }

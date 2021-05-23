@@ -9,10 +9,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.domain.interactor.fileimport.CardPrototype
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
+import com.odnovolov.forgetmenot.presentation.common.setTooltipTextFromContentDescription
 import com.odnovolov.forgetmenot.presentation.screen.fileimport.FileImportDiScope
 import com.odnovolov.forgetmenot.presentation.screen.fileimport.cardsfile.ControllingTheScrollPosition
-import com.odnovolov.forgetmenot.presentation.screen.fileimport.cardsfile.cards.ImportedCardsEvent.CardClicked
-import com.odnovolov.forgetmenot.presentation.screen.fileimport.cardsfile.cards.ImportedCardsEvent.SelectAllButtonClicked
+import com.odnovolov.forgetmenot.presentation.screen.fileimport.cardsfile.cards.ImportedCardsEvent.*
 import kotlinx.android.synthetic.main.fragment_imported_cards.*
 import kotlinx.coroutines.launch
 
@@ -58,6 +58,15 @@ class ImportedCardsFragment : BaseFragment(), ControllingTheScrollPosition {
         selectAllButton.setOnClickListener {
             controller?.dispatch(SelectAllButtonClicked)
         }
+        unselectAllButton.setOnClickListener {
+            controller?.dispatch(UnselectAllButtonClicked)
+        }
+        selectOnlyNewButton.setOnClickListener {
+            controller?.dispatch(SelectOnlyNewButtonClicked)
+        }
+        selectAllButton.setTooltipTextFromContentDescription()
+        unselectAllButton.setTooltipTextFromContentDescription()
+        selectOnlyNewButton.setTooltipTextFromContentDescription()
     }
 
     private fun observeViewModel() {
@@ -74,6 +83,9 @@ class ImportedCardsFragment : BaseFragment(), ControllingTheScrollPosition {
                     numberOfSelectedCards,
                     numberOfSelectedCards
                 )
+            }
+            isSelectOnlyNewButtonAvailable.observe { isButtonAvailable: Boolean ->
+                selectOnlyNewButton.isVisible = isButtonAvailable
             }
         }
     }

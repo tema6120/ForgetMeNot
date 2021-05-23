@@ -376,6 +376,8 @@
 
     <string name="description_cancel_selection">Cancel selection</string>
     <string name="description_select_all">Select all</string>
+    <string name="description_unselect_all">Unselect all</string>
+    <string name="description_select_only_new">Select only new</string>
     <string name="description_remove">Remove</string>
     <string name="description_more_options">More options</string>
 

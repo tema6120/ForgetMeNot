@@ -183,9 +183,42 @@ class FileImporter(
     fun selectAll() {
         with(currentFile) {
             cardPrototypes = cardPrototypes.map { cardPrototype: CardPrototype ->
-                if (cardPrototype.isSelected)
-                    cardPrototype else
+                if (cardPrototype.isSelected) {
+                    cardPrototype
+                } else {
                     cardPrototype.copy(isSelected = true)
+                }
+            }
+        }
+    }
+
+    fun unselectAll() {
+        with(currentFile) {
+            cardPrototypes = cardPrototypes.map { cardPrototype: CardPrototype ->
+                if (cardPrototype.isSelected) {
+                    cardPrototype.copy(isSelected = false)
+                } else {
+                    cardPrototype
+                }
+            }
+        }
+    }
+
+    fun selectOnlyNew() {
+        val existingCards: List<Card> =
+            (currentFile.deckWhereToAdd as? ExistingDeck)?.deck?.cards ?: return
+        with(currentFile) {
+            cardPrototypes = cardPrototypes.map { cardPrototype: CardPrototype ->
+                val doesImportedCardExist = existingCards.any { existingCard: Card ->
+                    existingCard.question == cardPrototype.question
+                            && existingCard.answer == cardPrototype.answer
+                }
+                val shouldBeSelected = !doesImportedCardExist
+                if (cardPrototype.isSelected != shouldBeSelected) {
+                    cardPrototype.copy(isSelected = shouldBeSelected)
+                } else {
+                    cardPrototype
+                }
             }
         }
     }

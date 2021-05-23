@@ -399,6 +399,8 @@
 
     <string name="description_cancel_selection">Отменить избрание</string>
     <string name="description_select_all">Выбрать все</string>
+    <string name="description_unselect_all">Отменить выбор всех элементов</string>
+    <string name="description_select_only_new">Выбрать только новые</string>
     <string name="description_remove">Удалить</string>
     <string name="description_more_options">Больше опций</string>
 

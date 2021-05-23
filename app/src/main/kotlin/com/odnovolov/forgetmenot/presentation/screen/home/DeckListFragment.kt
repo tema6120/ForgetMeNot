@@ -172,10 +172,6 @@ class DeckListFragment : BaseFragment() {
             content.contentScrollView.viewTreeObserver.addOnScrollChangedListener(scrollListener)
             filtersPopup = LightPopupWindow(content).apply {
                 width = 250.dp
-                setOnDismissListener {
-                    content.contentScrollView.viewTreeObserver
-                        .removeOnScrollChangedListener(scrollListener)
-                }
             }
             subscribeFiltersPopupToViewModel(content)
         }
