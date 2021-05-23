@@ -5,6 +5,7 @@ import com.odnovolov.forgetmenot.domain.entity.AbstractDeck
 import com.odnovolov.forgetmenot.domain.entity.Card
 import com.odnovolov.forgetmenot.domain.entity.Deck
 import com.odnovolov.forgetmenot.domain.entity.GlobalState
+import com.odnovolov.forgetmenot.domain.generateId
 import com.odnovolov.forgetmenot.domain.interactor.autoplay.Player
 import com.odnovolov.forgetmenot.domain.interactor.cardeditor.CardsEditor.SavingResult.Success
 import com.odnovolov.forgetmenot.domain.interactor.exercise.Exercise
@@ -15,6 +16,57 @@ open class CardsEditorForEditingSpecificCards(
     val exercise: Exercise? = null,
     val player: Player? = null
 ) : CardsEditor(state, globalState) {
+    init {
+        ensureLastEmptyCard()
+    }
+
+    override fun setQuestion(question: String) {
+        super.setQuestion(question)
+        ensureLastEmptyCard()
+    }
+
+    override fun setAnswer(answer: String) {
+        super.setAnswer(answer)
+        ensureLastEmptyCard()
+    }
+
+    private fun ensureLastEmptyCard() {
+        val deckWhereToAddNewCards: Deck = when {
+            exercise != null -> {
+                with(exercise.state) {
+                    exerciseCards[currentPosition].base.deck
+                }
+            }
+            player != null -> {
+                with(player.state) {
+                    playingCards[currentPosition].deck
+                }
+            }
+            else -> return
+        }
+        with(state) {
+            if (editableCards.last().isFullyBlank()) {
+                var redundantCardCount = 0
+                for (i in editableCards.lastIndex - 1 downTo currentPosition) {
+                    if (editableCards[i].isFullyBlank()) {
+                        redundantCardCount++
+                    } else {
+                        break
+                    }
+                }
+                if (redundantCardCount > 0) {
+                    editableCards = editableCards.dropLast(redundantCardCount)
+                }
+            } else {
+                val newEditableCard = EditableCard(
+                    Card(id = generateId(), question = "", answer = ""),
+                    deckWhereToAddNewCards
+                )
+                editableCards = editableCards + newEditableCard
+            }
+        }
+    }
+
     override fun isCurrentCardRemovable(): Boolean = isCurrentCardMovable()
 
     override fun moveTo(abstractDeck: AbstractDeck): Boolean {
@@ -58,6 +110,7 @@ open class CardsEditorForEditingSpecificCards(
 
     override fun save(): SavingResult {
         check()?.let { failure -> return failure }
+        saveNewCards()
         applyCopying()
         applyRemovals()
         applyMovements()
@@ -65,14 +118,25 @@ open class CardsEditorForEditingSpecificCards(
         return Success
     }
 
-    protected fun check(): SavingResult.Failure? {
+    private fun check(): SavingResult.Failure? {
         val underfilledPositions: List<Int> =
             state.editableCards.mapIndexedNotNull { index, editableCard ->
-                if (editableCard.hasBlankField()) index
-                else null
+                when {
+                    editableCard.isNew() && editableCard.isHalfFilled() -> index
+                    !editableCard.isNew() && editableCard.hasBlankField() -> index
+                    else -> null
+                }
             }
         return if (underfilledPositions.isEmpty()) null
         else SavingResult.Failure(underfilledPositions)
+    }
+
+    private fun saveNewCards() {
+        for (editableCard in state.editableCards) {
+            if (!editableCard.isNew()) continue
+            if (editableCard.isFullyBlank()) continue
+            editableCard.deck.cards = (editableCard.deck.cards + editableCard.card).toCopyableList()
+        }
     }
 
     private fun applyRemovals() {
@@ -162,4 +226,6 @@ open class CardsEditorForEditingSpecificCards(
             }
         }
     }
+
+    private fun EditableCard.isNew(): Boolean = card.question == "" && card.answer == ""
 }
