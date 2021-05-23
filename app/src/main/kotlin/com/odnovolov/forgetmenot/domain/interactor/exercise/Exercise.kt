@@ -374,10 +374,11 @@ class Exercise(
 
     private fun checkEntry() {
         val entryExerciseCard = currentExerciseCard as EntryTestExerciseCard
-        val correctAnswer = with(entryExerciseCard.base) {
+        val correctAnswer: String = with(entryExerciseCard.base) {
             if (isInverted) card.question else card.answer
-        }
-        val isUserAnswerCorrect = entryExerciseCard.userInput?.trim() == correctAnswer.trim()
+        }.trim()
+        val userAnswer: String? = entryExerciseCard.userInput?.trim()
+        val isUserAnswerCorrect = correctAnswer.equals(userAnswer, ignoreCase = true)
         if (isUserAnswerCorrect)
             setAnswerAsCorrect() else
             setAnswerAsWrong()
