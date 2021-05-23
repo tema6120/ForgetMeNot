@@ -249,6 +249,7 @@
         <item name="android:gravity">start|center_vertical</item>
         <item name="android:textSize">@dimen/text_size_exercise_screen_variant_button</item>
         <item name="android:textColor">@color/text_on_card_default</item>
+        <item name="android:autoLink">web</item>
         <item name="drawableStartCompat">@drawable/ic_radiobutton_unchecked_24</item>
     </style>
 

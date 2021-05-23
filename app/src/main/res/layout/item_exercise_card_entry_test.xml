@@ -34,6 +34,7 @@
                             android:id="@+id/questionTextView"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:autoLink="web"
                             android:gravity="center"
                             android:padding="16dp"
                             android:textColor="@color/text_on_card_default"
