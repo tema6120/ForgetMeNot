@@ -2,6 +2,7 @@ package com.odnovolov.forgetmenot.presentation.screen.about
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.text.method.LinkMovementMethod
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -45,6 +46,8 @@ class AboutFragment : Fragment() {
         supportAppButton.setOnClickListener {
             (parentFragment as NavHostFragment).navigateTo(NavigationDestination.SupportApp)
         }
+        thanksToTranslatorsTextView.movementMethod = LinkMovementMethod.getInstance()
+        translationRecycler.adapter = TranslationAdapter()
     }
 
     override fun onDestroy() {

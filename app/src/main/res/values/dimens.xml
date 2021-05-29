@@ -122,4 +122,6 @@
     <dimen name="text_size_grading_screen_block_title">18sp</dimen>
     <dimen name="text_size_grading_screen_block_value">16sp</dimen>
     <dimen name="diagram_block_corner_radius">20dp</dimen>
+    <dimen name="text_size_flag_in_translation_table">17sp</dimen>
+    <dimen name="text_size_in_translation_table">15sp</dimen>
 </resources>

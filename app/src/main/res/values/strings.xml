@@ -1177,6 +1177,16 @@
 
         \n\nI am not in any way pursuing commercial goals. My app is completely free and open
         source. I\'d like to know what you think about my app!</string>
+    <string name="translations_title">Translations</string>
+    <string name="thanks_to_translators">I would like to express my deep gratitude to everyone
+        (especially the people from <a href="https://www.sekinfo.org">sekinfo.org</a>), who support
+        the project by providing translation. You’re the best!</string>
+    <string name="language_french">French</string>
+    <string name="language_german">German</string>
+    <string name="language_greek">Greek</string>
+    <string name="language_russian">Russian</string>
+    <string name="language_spanish">Spanish</string>
+    <string name="language_ukrainian">Ukrainian</string>
     <string name="text_support_app_button">Support app</string>
 
 

@@ -1,0 +1,57 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingStart="16dp"
+        android:paddingTop="8dp"
+        android:paddingEnd="16dp"
+        android:paddingBottom="8dp">
+
+    <TextView
+            android:id="@+id/flagTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.10"
+            android:gravity="center_horizontal"
+            android:textColor="#000"
+            android:textSize="@dimen/text_size_flag_in_translation_table"
+            tools:text="🇺🇦" />
+
+    <TextView
+            android:id="@+id/languageNameTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_weight="0.30"
+            android:fontFamily="@font/nunito_bold"
+            android:gravity="center_horizontal"
+            android:textColor="@color/text_medium_emphasis"
+            android:textSize="@dimen/text_size_in_translation_table"
+            tools:text="Ukrainian" />
+
+    <TextView
+            android:id="@+id/translationProgressTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_weight="0.15"
+            android:fontFamily="@font/nunito_bold"
+            android:gravity="center_horizontal"
+            android:textColor="@color/text_medium_emphasis"
+            android:textSize="@dimen/text_size_in_translation_table"
+            tools:text="100%" />
+
+    <TextView
+            android:id="@+id/translatorsTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_weight="0.45"
+            android:fontFamily="@font/nunito_bold"
+            android:gravity="center_horizontal"
+            android:textColor="@color/text_medium_emphasis"
+            android:textSize="@dimen/text_size_in_translation_table"
+            tools:text="Odnovolov Artem" />
+
+</LinearLayout>

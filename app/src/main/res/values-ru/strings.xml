@@ -1220,6 +1220,16 @@
 
         \n\nЯ никоим образом не преследую коммерческих целей. Мой приложение абсолютно бесплатное и
         с открытым исходным кодом. Я хотел бы знать, что вы думаете о моем приложение!</string>
+    <string name="translations_title">Переводы</string>
+    <string name="thanks_to_translators">Хочу выразить огромную благодарность всем (особенно людям
+        из <a href="https://www.sekinfo.org">sekinfo.org</a>), кто поддерживает проект обеспечивая
+        перевод. Вы лучшие!</string>
+    <string name="language_french">Французский</string>
+    <string name="language_german">Немецкий</string>
+    <string name="language_greek">Греческий</string>
+    <string name="language_russian">Русский</string>
+    <string name="language_spanish">Испанский</string>
+    <string name="language_ukrainian">Украинский</string>
     <string name="text_support_app_button">Поддержать приложение</string>
 
 

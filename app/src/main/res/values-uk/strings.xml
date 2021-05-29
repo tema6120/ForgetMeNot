@@ -1212,6 +1212,16 @@
 
         \n\nЯ жодним чином не переслідую комерційних цілей. Мій додаток абсолютно безкоштовний і з
         відкритим кодом. Я хотів би знати, що ви думаєте про мій додаток!</string>
+    <string name="translations_title">Переклади</string>
+    <string name="thanks_to_translators">Хочу висловити величезну подяку всім (особливо людям з
+        <a href="https://www.sekinfo.org">sekinfo.org</a>), хто підтримує проект забезпечуючи
+         переклад. Ви найкращі!</string>
+    <string name="language_french">Французька</string>
+    <string name="language_german">Німецька</string>
+    <string name="language_greek">Грецька</string>
+    <string name="language_russian">Російська</string>
+    <string name="language_spanish">Іспанська</string>
+    <string name="language_ukrainian">Українська</string>
     <string name="text_support_app_button">Підтримати додаток</string>
 
 

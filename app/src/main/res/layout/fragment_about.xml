@@ -176,6 +176,42 @@
                     android:textSize="@dimen/text_size_description"
                     android:textStyle="italic" />
 
+            <TextView
+                    android:id="@+id/translations_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:fontFamily="@font/nunito_bold"
+                    android:padding="16dp"
+                    android:text="@string/translations_title"
+                    android:textColor="@color/text_medium_emphasis"
+                    android:textIsSelectable="true"
+                    android:textSize="@dimen/text_size_about_screen_section_title"
+                    android:textStyle="bold" />
+
+            <TextView
+                    android:id="@+id/thanksToTranslatorsTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/nunito_bold"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:text="@string/thanks_to_translators"
+                    android:textColor="@color/text_medium_emphasis"
+                    android:textIsSelectable="true"
+                    android:textSize="@dimen/text_size_description"
+                    android:textStyle="italic" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/translationRecycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:overScrollMode="never"
+                    android:scrollbars="none"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:listitem="@layout/item_app_translation" />
+
             <com.google.android.material.button.MaterialButton
                     android:id="@+id/supportAppButton"
                     android:layout_width="wrap_content"
