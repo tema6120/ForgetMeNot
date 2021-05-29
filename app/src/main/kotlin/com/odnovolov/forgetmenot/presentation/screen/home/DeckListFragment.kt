@@ -98,7 +98,19 @@ class DeckListFragment : BaseFragment() {
     }
 
     private fun showFiltersPopup(anchor: View) {
+        refreshFiltersPopupScrollListener()
         requireFiltersPopup().show(anchor = anchor, gravity = Gravity.TOP or Gravity.START)
+    }
+
+    private fun refreshFiltersPopupScrollListener() {
+        val content: View = requireFiltersPopup().contentView
+        val scrollListener = ViewTreeObserver.OnScrollChangedListener {
+            val canScrollUp = content.contentScrollView.canScrollVertically(-1)
+            if (content.divider.isVisible != canScrollUp) {
+                content.divider.isVisible = canScrollUp
+            }
+        }
+        content.contentScrollView.viewTreeObserver.addOnScrollChangedListener(scrollListener)
     }
 
     private fun showSortingPopup(anchor: View) {
@@ -163,13 +175,6 @@ class DeckListFragment : BaseFragment() {
                         controller?.dispatch(CreateDeckListButtonClicked)
                     }
                 }
-            val scrollListener = ViewTreeObserver.OnScrollChangedListener {
-                val canScrollUp = content.contentScrollView.canScrollVertically(-1)
-                if (content.divider.isVisible != canScrollUp) {
-                    content.divider.isVisible = canScrollUp
-                }
-            }
-            content.contentScrollView.viewTreeObserver.addOnScrollChangedListener(scrollListener)
             filtersPopup = LightPopupWindow(content).apply {
                 width = 250.dp
             }

@@ -349,12 +349,12 @@
     <string name="title_card_filter_grade">Оцінка</string>
     <string name="title_card_filter_last_tested">Час останнього тестування</string>
     <string name="title_last_tested_from">З</string>
-    <string name="title_last_tested_to">по</string>
+    <string name="title_last_tested_to">до</string>
     <string name="zero_time">Самого початку</string>
     <string name="now">Нині</string>
     <string name="time_ago">%1$s тому</string>
     <string name="title_dialog_last_tested_from">Останній раз тестувалася з</string>
-    <string name="title_dialog_last_tested_to">Останній раз тестувалася по</string>
+    <string name="title_dialog_last_tested_to">Останній раз тестувалася до</string>
     <string name="ago">тому</string>
     <string name="text_start_playing_button">Почати програвати</string>
     <string name="toast_text_no_card_matches_filter_conditions">Жодна картка не відповідає умовам

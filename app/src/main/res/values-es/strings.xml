@@ -338,6 +338,8 @@
     <!-- Selection toolbar -->
     <string name="description_cancel_selection">Cancelar selección</string>
     <string name="description_select_all">Seleccionar todos</string>
+    <string name="description_unselect_all">Deseleccionar todos</string>
+    <string name="description_select_only_new">Seleccionar solo los nuevos</string>
     <string name="description_remove">Eliminar</string>
     <string name="description_more_options">Más opciones</string>
     <!-- Card selection toolbar -->
@@ -391,6 +393,10 @@
     <string name="message_no_paste_data">El portapapeles no contiene texto</string>
     <!-- Cards Editor screen -->
     <string name="card_label_duplicated">Duplicado</string>
+    <string name="card_label_current_in_exercise">Actual en el ejercicio</string>
+    <string name="card_label_current_in_player">Actual en el reproductor</string>
+    <string name="card_label_found">Encontrado</string>
+    <string name="card_label_new">Nuevo</string>
     <string name="hint_question_edittext">Escribir la pregunta</string>
     <string name="hint_answer_edittext">Escribir la respuesta</string>
     <string name="description_invert_card_button">Cambiar sentido de la tarjeta</string>
@@ -608,13 +614,13 @@
     <string name="item_text_fullscreen_in_exercise">En ejercicios</string>
     <string name="item_text_fullscreen_in_card_player">En auto-reproducción</string>
     <string name="item_text_fullscreen_in_other_places">En otros lugares</string>
-    <string name="text_card_appearance_settings_title">Apariencia de las tarjetas</string>
-    <string name="text_card_appearance_settings_description">Como se ve una tarjeta en un ejercicio</string>
     <string name="text_theme_settings_title">Tema</string>
     <string name="theme_light">Claro</string>
     <string name="theme_dark">Oscuro</string>
     <string name="theme_default">Determinado por Ahorrador de energía</string>
     <string name="title_theme_dialog">Tema</string>
+    <string name="text_card_appearance_settings_title">Apariencia de las tarjetas</string>
+    <string name="text_card_appearance_settings_description">Como se ve una tarjeta en un ejercicio</string>
     <string name="text_exercise_settings_title">Ejercicio</string>
     <string name="text_exercise_settings_description">Configuración general del ejercicio</string>
     <string name="text_walking_mode_title">Modo caminar</string>

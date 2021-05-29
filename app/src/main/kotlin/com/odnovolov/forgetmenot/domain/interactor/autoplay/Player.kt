@@ -104,7 +104,7 @@ class Player(
 
     fun showAnswer() {
         if (!isPositionValid()) return
-        showQuestion()
+        currentPlayingCard.isQuestionDisplayed = true
         currentPlayingCard.isAnswerDisplayed = true
     }
 

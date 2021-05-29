@@ -345,12 +345,12 @@
     <string name="title_card_filter_grade">Оценка</string>
     <string name="title_card_filter_last_tested">Время последнего тестирования</string>
     <string name="title_last_tested_from">С</string>
-    <string name="title_last_tested_to">по</string>
+    <string name="title_last_tested_to">до</string>
     <string name="zero_time">Самого начала</string>
     <string name="now">Ныне</string>
     <string name="time_ago">%1$s тому назад</string>
     <string name="title_dialog_last_tested_from">Последний раз тестировалась с</string>
-    <string name="title_dialog_last_tested_to">Последний раз тестировалась по</string>
+    <string name="title_dialog_last_tested_to">Последний раз тестировалась до</string>
     <string name="ago">тому назад</string>
     <string name="text_start_playing_button">Начать проигрывать</string>
     <string name="toast_text_no_card_matches_filter_conditions">Ни одна карточка не соответствует
@@ -681,7 +681,7 @@
         чтобы удержать вас от отвлекающих факторов. Если вы не ответите в течение отведенного
         времени, вы получите наказание в виде обозначения ответа как неправильного.</string>
     <string name="tip_motivational_timer_screen_how_to_do_with_this">Выделите себе достаточно
-        времени, чтобы отвечать на вопросы, не беспокоясь о обратный отсчет. Если вы чувствуете,
+        времени, чтобы отвечать на вопросы, не беспокоясь об обратном отсчете. Если вы чувствуете,
         что вам нужно больше времени, вы можете остановить таймер.</string>
     <string name="error_motivational_timer_input">число должно быть\nбольше нуля</string>
     <string name="saved">Сохранено!</string>

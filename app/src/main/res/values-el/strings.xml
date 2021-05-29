@@ -1,181 +1,181 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Common -->
-    <string name="description_help_button">Hilfe</string>
-    <string name="description_back_button">Zurück</string>
-    <string name="description_back_button2">Zurück</string>
-    <string name="description_close">schließen</string>
-    <string name="description_attention_icon">Aufmerksamkeits-Symbol</string>
-    <string name="title_example_in_settings_bottom_sheet">Beispiel</string>
-    <string name="yes">Ja</string>
-    <string name="no">Nein</string>
-    <string name="disabled">Deaktiviert</string>
-    <string name="label_name">Titel</string>
-    <string name="quit_without_saving_message">Ihre ungespeicherten Änderungen gehen verloren. Änderungen vor dem Verlassen speichern?</string>
-    <string name="button_save">Speichern</string>
-    <string name="button_quit_without_saving">Verlassen ohne zu speichern</string>
-    <string name="no_cards">Keine Karten</string>
-    <string name="button_go_back">Zurück</string>
+    <string name="description_help_button">Βοήθεια</string>
+    <string name="description_back_button">Μετάβαση πίσω</string>
+    <string name="description_back_button2">Επιστροφή</string>
+    <string name="description_close">κλείσιμο</string>
+    <string name="description_attention_icon">εικονίδιο προσοχής</string>
+    <string name="title_example_in_settings_bottom_sheet">Παράδειγμα</string>
+    <string name="yes">Ναι</string>
+    <string name="no">Όχι</string>
+    <string name="disabled">Απενεργοποιημένο</string>
+    <string name="label_name">Όνομα</string>
+    <string name="quit_without_saving_message">Οι μη αποθηκευμένες αλλαγές σας θα χαθούν. Αποθήκευση αλλαγών πριν την έξοδο;</string>
+    <string name="button_save">Αποθήκευση</string>
+    <string name="button_quit_without_saving">Έξοδος χωρίς αποθήκευση</string>
+    <string name="no_cards">Δεν υπάρχουν κάρτες</string>
+    <string name="button_go_back">Επιστροφή</string>
     <!-- Main drawer -->
-    <string name="drawer_item_decks">Stapel</string>
-    <string name="drawer_item_settings">Einstellungen</string>
-    <string name="drawer_item_support_app">App unterstützen</string>
-    <string name="drawer_item_help">Hilfe</string>
-    <string name="drawer_item_about">Über</string>
+    <string name="drawer_item_decks">Τράπουλες</string>
+    <string name="drawer_item_settings">Ρυθμίσεις</string>
+    <string name="drawer_item_support_app">Υποστήριξη της εφαρμογής</string>
+    <string name="drawer_item_help">Βοήθεια</string>
+    <string name="drawer_item_about">Σχετικά</string>
     <!-- Deck list screen -->
-    <string name="description_drawer_button">Menü öffnen</string>
-    <string name="hint_search_edittext">Suchen</string>
-    <string name="title_deck_selection_toolbar_choose_decks_to_play">Stapel zum Spielen auswählen</string>
-    <string name="title_deck_selection_toolbar_choose_decks_for_exercise">Stapel für\'s Training auswählen</string>
+    <string name="description_drawer_button">Άνοιγμα μενού πλοήγησης</string>
+    <string name="hint_search_edittext">Αναζήτηση</string>
+    <string name="title_deck_selection_toolbar_choose_decks_to_play">Επιλέξτε τράπουλες για αναπαραγωγή</string>
+    <string name="title_deck_selection_toolbar_choose_decks_for_exercise">Επιλέξτε τράπουλες για εξάσκηση</string>
     <plurals name="title_selection_toolbar_number_of_selected_decks">
-        <item quantity="one">%d Stapel</item>
-        <item quantity="other">%d decks</item>
+        <item quantity="one">%d deck</item>
+        <item quantity="other">%d τράπουλες</item>
     </plurals>
-    <string name="tab_decks">Stapel</string>
-    <string name="tab_cards">Karten</string>
-    <string name="no_matching_decks">Keine passenden Stapel</string>
-    <string name="no_matching_cards">Keine passenden Karten</string>
-    <string name="no_decks">Keine Stapel</string>
-    <string name="deck_list_title_all_decks">Alle Stapel</string>
-    <string name="deck_list_title_decks_available_for_exercise">Für Training verfügbare Stapel</string>
-    <string name="deck_list_title_specific_deck_list_available_for_exercise">Für Training verfügbare \'%1$s\'</string>
-    <string name="text_add_cards_button">Karten hinzufügen</string>
-    <string name="title_add_cards_popup">Karten hinzufügen</string>
-    <string name="text_import_file_button">Datei importieren</string>
-    <string name="text_browse_catalog_button">Katalog durchsuchen</string>
-    <string name="text_create_new_deck_button">Neuen Stapel erstellen</string>
-    <string name="toast_no_file_manager_to_load">Sie haben keinen Dateimanager um Dateien zu laden</string>
-    <string name="toast_no_file_manager_to_create">Sie haben keinen Dateimanager um Dateien zu erstellen</string>
-    <string name="error_loading_file">Fehler beim Lesen der Dateien:\n\n%1$s</string>
-    <string name="snackbar_deck_has_been_created">Deck \'%s\' has been created</string>
-    <string name="text_filter_button">Filter</string>
-    <string name="title_deck_filters_popup">Filter</string>
-    <string name="deck_filter_only_decks_available_for_exercise">Nur Stapel, die für\'s Training verfügbar sind</string>
-    <string name="section_title_in_filters_popup_deck_lists">Stapellisten</string>
-    <string name="create_new_deck_list">Neue Liste erstellen</string>
-    <string name="sort_by_name">Nach Titel</string>
-    <string name="sort_by_time_created">Nach Erstellungsdatum</string>
-    <string name="sort_by_time_last_tested">Nach letztem Test</string>
-    <string name="sort_by_frequency_of_use">Nach Nutzungsfrequenz</string>
-    <string name="sort_by_task">Nach Aufgaben</string>
-    <string name="title_deck_sorting_popup">Sortieren nach</string>
-    <string name="description_change_sorting_direction">Sortierrichtung ändern</string>
-    <string name="deck_sorting_name">Titel</string>
-    <string name="deck_sorting_time_created">Erstellungsdatum</string>
-    <string name="deck_sorting_by_time_last_tested">Zuletzt getestet</string>
-    <string name="deck_sorting_by_frequency_of_use">Nutzungsfrequenz</string>
-    <string name="deck_sorting_by_task">Aufgabe</string>
-    <string name="description_pin_icon">Icon anheften</string>
-    <string name="deck_summary_table_average_laps">Durchschnittl. Runden</string>
-    <string name="deck_summary_table_learned">Gelernt</string>
-    <string name="deck_summary_table_task">Aufgabe</string>
-    <string name="deck_summary_table_last_tested">Zuletzt getestet</string>
-    <string name="deck_options">Stapeloptionen</string>
-    <string name="deck_option_start_exercise">Training beginnen</string>
-    <string name="deck_option_autoplay">Automatische Wiedergabe</string>
-    <string name="deck_option_rename">Umbenennen</string>
-    <string name="deck_option_edit_cards">Karten bearbeiten</string>
-    <string name="deck_option_setup">Einrichtung</string>
-    <string name="deck_option_pin">Anheften</string>
-    <string name="deck_option_unpin">Lösen</string>
-    <string name="deck_option_add_to_deck_list">Zu Stapelliste hinzufügen</string>
-    <string name="deck_option_remove_from_deck_list">Remove from some deck list</string>
-    <string name="deck_option_remove_from_deck_list_with_arg">Remove from deck list \'%1$s\'</string>
-    <string name="deck_option_set_preset">Set preset</string>
-    <string name="deck_option_export">Exportieren</string>
-    <string name="deck_option_merge_into">Merge into</string>
-    <string name="deck_option_remove">Entfernen</string>
+    <string name="tab_decks">Τράπουλες</string>
+    <string name="tab_cards">Κάρτες</string>
+    <string name="no_matching_decks">Δε βρέθηκαν τράπουλες</string>
+    <string name="no_matching_cards">Δε βρέθηκαν κάρτες</string>
+    <string name="no_decks">Δεν υπάρχουν τράπουλες</string>
+    <string name="deck_list_title_all_decks">Όλες οι τράπουλες</string>
+    <string name="deck_list_title_decks_available_for_exercise">Τράπουλες διαθέσιμες για εξάσκηση</string>
+    <string name="deck_list_title_specific_deck_list_available_for_exercise">%1$s διαθέσιμες για εξάσκηση</string>
+    <string name="text_add_cards_button">Προσθήκη καρτών</string>
+    <string name="title_add_cards_popup">Προσθήκη καρτών</string>
+    <string name="text_import_file_button">Εισαγωγή αρχείου</string>
+    <string name="text_browse_catalog_button">Αναζήτηση καταλόγου</string>
+    <string name="text_create_new_deck_button">Δημιουργία νέας τράπουλας</string>
+    <string name="toast_no_file_manager_to_load">Δεν έχετε κανένα διαχειριστή αρχείων για να φορτώσετε ένα αρχείο</string>
+    <string name="toast_no_file_manager_to_create">Δεν έχετε κανένα διαχειριστή αρχείων για να δημιουργήσετε ένα αρχείο</string>
+    <string name="error_loading_file">Αποτυχία ανάγνωσης αρχείων:\n\n%1$s</string>
+    <string name="snackbar_deck_has_been_created">Η τράπουλα \'%s\' έχει δημιουργηθεί</string>
+    <string name="text_filter_button">Φίλτρα</string>
+    <string name="title_deck_filters_popup">Φίλτρα</string>
+    <string name="deck_filter_only_decks_available_for_exercise">Μόνο τράπουλες διαθέσιμες για εξάσκηση</string>
+    <string name="section_title_in_filters_popup_deck_lists">Λίστα τραπουλών</string>
+    <string name="create_new_deck_list">Δημιουργία νέας λίστας</string>
+    <string name="sort_by_name">Κατ \'όνομα</string>
+    <string name="sort_by_time_created">Κατά το χρόνο δημιουργίας</string>
+    <string name="sort_by_time_last_tested">Κατά το χρόνο τελευταίας δοκιμής</string>
+    <string name="sort_by_frequency_of_use">Κατά τη συχνότητα χρήσης</string>
+    <string name="sort_by_task">Κατά εργασία</string>
+    <string name="title_deck_sorting_popup">Ταξινόμηση κατά</string>
+    <string name="description_change_sorting_direction">Αλλαγή κατεύθυνσης ταξινόμησης</string>
+    <string name="deck_sorting_name">Όνομα</string>
+    <string name="deck_sorting_time_created">Χρόνος δημιουργίας</string>
+    <string name="deck_sorting_by_time_last_tested">Χρόνος τελευταίας εξέτασης</string>
+    <string name="deck_sorting_by_frequency_of_use">Συχνότητα χρήσης</string>
+    <string name="deck_sorting_by_task">Εργασία</string>
+    <string name="description_pin_icon">Εικονίδιο καρφιτσώματος</string>
+    <string name="deck_summary_table_average_laps">Μ.Ο. γύρων</string>
+    <string name="deck_summary_table_learned">Διδαγμένα</string>
+    <string name="deck_summary_table_task">Εργασία</string>
+    <string name="deck_summary_table_last_tested">Τελευταία εξέταση</string>
+    <string name="deck_options">Επιλογές τράπουλας</string>
+    <string name="deck_option_start_exercise">Έναρξη εξέτασης</string>
+    <string name="deck_option_autoplay">Αυτόματη αναπαραγωγή</string>
+    <string name="deck_option_rename">Μετονομασία</string>
+    <string name="deck_option_edit_cards">Επεξεργασία καρτών</string>
+    <string name="deck_option_setup">Ρυθμίσεις</string>
+    <string name="deck_option_pin">Καρφίτσωμα</string>
+    <string name="deck_option_unpin">Ξεκαρφίτσωμα</string>
+    <string name="deck_option_add_to_deck_list">Προσθήκη σε λίστα τραπουλών</string>
+    <string name="deck_option_remove_from_deck_list">Αφαίρεση από λίστα</string>
+    <string name="deck_option_remove_from_deck_list_with_arg">Αφαίρεση από την λίστα \'%1$s\'</string>
+    <string name="deck_option_set_preset">Ορισμός προεπιλογής</string>
+    <string name="deck_option_export">Εξαγωγή</string>
+    <string name="deck_option_merge_into">Συγχώνευση σε</string>
+    <string name="deck_option_remove">Διαγραφή</string>
     <plurals name="snackbar_decks_removing">
         <item quantity="one">Deck has been removed</item>
-        <item quantity="other">%d decks have been removed</item>
+        <item quantity="other">%d τράπουλες έχουν διαγραφεί</item>
     </plurals>
     <plurals name="snackbar_decks_merging">
         <item quantity="one">%1$d deck has been merged into \'%2$s\'</item>
-        <item quantity="other">%1$d decks have been merged into \'%2$s\'</item>
+        <item quantity="other">%1$d τράπουλες έχουν συγχωνευτεί με την \'%2$s\'</item>
     </plurals>
-    <string name="dialog_title_choose_deck_list">Choose deck list</string>
-    <string name="dialog_title_choose_preset">Choose preset</string>
+    <string name="dialog_title_choose_deck_list">Επιλέξτε λίστα τραπουλών</string>
+    <string name="dialog_title_choose_preset">Επιλέξτε προεπιλογή</string>
     <plurals name="snackbar_default_preset_has_been_applied">
-        <item quantity="one">Default preset has been applied to %d deck</item>
-        <item quantity="other">Default preset has been applied to %d decks</item>
+        <item quantity="one">Η προεπιλεγμένη ρύθμιση έχει εφαρμοστεί σε %d τράπουλα</item>
+        <item quantity="other">Η προεπιλεγμένη ρύθμιση έχει εφαρμοστεί σε %d τράπουλες</item>
     </plurals>
     <plurals name="snackbar_preset_has_been_applied">
-        <item quantity="one">Preset \'%1$s\' has been applied to %2$d deck</item>
-        <item quantity="other">Preset \'%1$s\' has been applied to %2$d decks</item>
+        <item quantity="one">Η προεπιλογή \'%1$s\' έχει εφαρμοστεί σε %2$d τράπουλα</item>
+        <item quantity="other">Η προεπιλογή \'%1$s\' έχει εφαρμοστεί σε %2$d τράπουλες</item>
     </plurals>
-    <string name="text_autoplay_button">Automatische Wiedergabe</string>
-    <string name="text_exercise_button">Übung</string>
-    <string name="text_exercise_button_with_cards_count">Übung (%d)</string>
-    <string name="progress_bar_reading_files">Reading files ..</string>
+    <string name="text_autoplay_button">Αυτόματη αναπαραγωγή</string>
+    <string name="text_exercise_button">Εξάσκηση</string>
+    <string name="text_exercise_button_with_cards_count">Εξάσκηση (%d)</string>
+    <string name="progress_bar_reading_files">Ανάγνωση αρχείων ..</string>
     <!-- 'No card is ready for exercise' dialog -->
-    <string name="dialog_title_no_cards_ready_for_exercise">No card is ready for exercise</string>
-    <string name="description_no_exercise_card_dialog_paragraph_1_part_1">According to
-        the intervals applied to these decks</string>
-    <string name="description_no_exercise_card_dialog_paragraph_1_part_1_with_args">According to
-        the intervals applied to this deck (%1$s)</string>
-    <string name="description_no_exercise_card_dialog_paragraph_1_part_2">, no card is available
-        for exercise yet. The first card will be available in:</string>
+    <string name="dialog_title_no_cards_ready_for_exercise">Καμία κάρτα δεν είναι έτοιμη για εξάσκηση</string>
+    <string name="description_no_exercise_card_dialog_paragraph_1_part_1">Σύμφωνα με
+        τα χρονικά διαστήματα που έχουν εφαρμοστεί στις τράπουλες</string>
+    <string name="description_no_exercise_card_dialog_paragraph_1_part_1_with_args">Σύμφωνα με
+        τα χρονικά διαστήματα που έχουν εφαρμοστεί σε αυτήν την τράπουλα (%1$s)</string>
+    <string name="description_no_exercise_card_dialog_paragraph_1_part_2">, δεν υπάρχει διαθέσιμη κάρτα
+        για εξάσκηση ακόμα. Η πρώτη κάρτα θα είναι διαθέσιμη σε:</string>
     <plurals name="days">
         <item quantity="one">%d day</item>
-        <item quantity="other">%d days</item>
+        <item quantity="other">%d μέρες</item>
     </plurals>
     <plurals name="hours">
-        <item quantity="one">%d hour</item>
-        <item quantity="other">%d hours</item>
+        <item quantity="one">%d ώρα</item>
+        <item quantity="other">%d ώρες</item>
     </plurals>
     <plurals name="minutes">
-        <item quantity="one">%d minute</item>
-        <item quantity="other">%d minutes</item>
+        <item quantity="one">%d λεπτό</item>
+        <item quantity="other">%d λεπτά</item>
     </plurals>
     <plurals name="seconds">
         <item quantity="one">%d second</item>
-        <item quantity="other">%d seconds</item>
+        <item quantity="other">%d δευτερόλεπτα</item>
     </plurals>
-    <string name="description_no_exercise_card_dialog_paragraph_2">You can change or turn off
-        intervals in deck settings.</string>
-    <string name="button_go_to_deck_settings">Go to deck settings</string>
+    <string name="description_no_exercise_card_dialog_paragraph_2">Μπορείτε να αλλάξετε ή να απενεργοποιήσετε
+        χρονικά διαστήματα στις ρυθμίσεις τράπουλας.</string>
+    <string name="button_go_to_deck_settings">Μετάβαση στις ρυθμίσεις τράπουλας</string>
     <!-- Deck lists editor -->
-    <string name="screen_title_deck_lists">Deck lists</string>
-    <string name="hint_deck_list_edittext">List name</string>
-    <string name="description_deck_list_icon">Deck list icon</string>
-    <string name="title_select_deck_list_color_popup">Deck list color</string>
-    <string name="custom_color">Custom color</string>
-    <string name="toast_deck_list_is_removed">Deck list has been removed</string>
+    <string name="screen_title_deck_lists">Λίστες τραπουλών</string>
+    <string name="hint_deck_list_edittext">Όνομα λίστας</string>
+    <string name="description_deck_list_icon">Εικονίδιο λίστας τράπουλας</string>
+    <string name="title_select_deck_list_color_popup">Χρώμα λίστας τραπουλών</string>
+    <string name="custom_color">Άλλο χρώμα</string>
+    <string name="toast_deck_list_is_removed">Η λίστα τραπουλών έχει αφαιρεθεί</string>
     <!-- Export dialog -->
-    <string name="dialog_title_export">Export</string>
-    <string name="title_choose_format">Choose format</string>
-    <string name="title_waiting_for_destination">Waiting for destination ..</string>
-    <string name="button_select_destination">Select Destination</string>
-    <string name="toast_couldnt_get_destination">Couldn\'t get destination!</string>
-    <string name="progress_bar_exporting">Exporting ..</string>
+    <string name="dialog_title_export">Εξαγωγή</string>
+    <string name="title_choose_format">Επιλογή μορφής</string>
+    <string name="title_waiting_for_destination">Αναμονή για τον προορισμό ..</string>
+    <string name="button_select_destination">Επιλογή Προορισμού</string>
+    <string name="toast_couldnt_get_destination">Αδυναμία πρόσβασης στον προορισμό!</string>
+    <string name="progress_bar_exporting">Εξαγωγή ..</string>
     <plurals name="export_result_successful">
         <item quantity="one">Deck is exported successfully</item>
-        <item quantity="other">%d decks are exported successfully</item>
+        <item quantity="other">Έγινε εξαγωγή %d τραπουλών με επιτυχία</item>
     </plurals>
-    <string name="export_result_error">Error while exporting decks:\n\'%s\'</string>
+    <string name="export_result_error">Σφάλμα κατά την εξαγωγή τραπουλών:\n\'%s\'</string>
     <!-- File import screen -->
-    <string name="screen_title_file_import">File import</string>
-    <string name="text_skip_button">Skip</string>
-    <string name="add_to">Add to:</string>
-    <string name="deck_label_in_file_import_new">New deck</string>
-    <string name="deck_label_in_file_import_existing">Existing deck</string>
-    <string name="popup_change_deck_for_import_new_button">New deck</string>
-    <string name="popup_change_deck_for_import_existing_button">Existing deck</string>
-    <string name="tab_name_source_text">Source text</string>
+    <string name="screen_title_file_import">Εισαγωγή αρχείου</string>
+    <string name="text_skip_button">Παράλειψη</string>
+    <string name="add_to">Προσθήκη σε:</string>
+    <string name="deck_label_in_file_import_new">Νέα τράπουλα</string>
+    <string name="deck_label_in_file_import_existing">Υπάρχουσα τράπουλα</string>
+    <string name="popup_change_deck_for_import_new_button">Νέα τράπουλα</string>
+    <string name="popup_change_deck_for_import_existing_button">Υπάρχουσα τράπουλα</string>
+    <string name="tab_name_source_text">Κείμενο πηγής</string>
     <plurals name="source_text_error_button">
-        <item quantity="one">%d error</item>
-        <item quantity="other">%d errors</item>
+        <item quantity="one">%d σφάλμα</item>
+        <item quantity="other">%d σφάλματα</item>
     </plurals>
-    <string name="description_undo_button">Undo</string>
-    <string name="description_redo_button">Redo</string>
-    <string name="label_file_format">Format</string>
-    <string name="description_file_format_icon">File format icon</string>
-    <string name="popup_title_file_format">Format</string>
-    <string name="item_file_format_fmn_format">\'Q:A:\' format</string>
-    <string name="text_dsv_format_radiobutton">Delimiter-separated values</string>
-    <string name="description_view_format_settings">View format settings</string>
-    <string name="description_edit_format_settings">Edit format settings</string>
-    <string name="description_add_new_format_settings">Add a new format settings</string>
+    <string name="description_undo_button">Αναίρεση</string>
+    <string name="description_redo_button">Επανάληψη</string>
+    <string name="label_file_format">Μορφή</string>
+    <string name="description_file_format_icon">Τύπος αρχείου εικονιδίου</string>
+    <string name="popup_title_file_format">Μορφοποίηση</string>
+    <string name="item_file_format_fmn_format">\'Ε:Α:\' μορφή</string>
+    <string name="text_dsv_format_radiobutton">Τιμές διαχωρισμένες με οριοθέτηση</string>
+    <string name="description_view_format_settings">Προβολή ρυθμίσεων μορφοποίησης</string>
+    <string name="description_edit_format_settings">Επεξεργασία ρυθμίσεων μορφοποίησης</string>
+    <string name="description_add_new_format_settings">Προσθήκη νέων ρυθμίσεων μορφοποίησης</string>
     <string name="label_encoding">Encoding</string>
     <string name="description_charset_icon">Encoding icon</string>
     <string name="popup_title_charset">Encoding</string>
@@ -211,57 +211,57 @@
     <string name="screen_title_choose_a_deck_to_copy_cards">Choose a deck to copy the cards to</string>
     <string name="description_add_deck_button">Add deck</string>
     <!-- Exercise screen -->
-    <string name="card_label_learned">Gelernt</string>
-    <string name="card_label_expired">Abgelaufen</string>
-    <string name="explanation_card_label_learned">\'Gelernt\' bedeutet, dass die Karte nicht erneut 
-        in der Übung abgefragt wird</string>
-    <string name="explanation_card_label_expired">\'Abgelaufen\' bedeutet, dass eine Frage nicht innerhalb der vorgesehenen Zeit
-        beantwortet wurde</string>
-    <string name="text_show_question_button">Frage anzeigen</string>
-    <string name="text_show_answer_button">Antwort anzeigen</string>
-    <string name="text_remember_button">Merken</string>
-    <string name="text_not_remember_button">Nicht merken</string>
-    <string name="text_check_button">Prüfen</string>
-    <string name="description_grade_button">Bewertung</string>
-    <string name="popup_title_intervals">Intervalle</string>
-    <string name="description_intervals_icon">Intervall-Symbol</string>
-    <string name="description_intervals_are_off">Intervalle sind aus für diese Karte</string>
-    <string name="description_mark_as_learned_button">Als \'Gelernt\' markieren</string>
-    <string name="description_mark_as_unlearned_button">Als \'Ungelernt\' markieren</string>
-    <string name="description_speak_button">Sprechen</string>
-    <string name="description_stop_speaking_button">Sprechen stoppen</string>
-    <string name="description_cannot_speak_button">Beschreibung des Sprachfehlers öffnen</string>
-    <string name="title_speak_error_popup">Aussprache ist nicht verfügbar</string>
-    <string name="description_issue_icon">Ticket-Symbol</string>
-    <string name="speak_error_description_failed_to_initialized">TTS-Engine konnte nicht initialisiert werden</string>
-    <string name="speak_error_description_failed_to_initialized_with_specifying_tts_engine">TTS-Engine
-        konnte nicht initialisiert werden (%1$s)</string>
-    <string name="speak_error_description_language_is_not_supported">Aktuelle TTS Engine unterstützt
- %1$s nicht</string>
-    <string name="speak_error_description_language_is_not_supported_with_specifying_tts_engine">Aktuelle
-        TTS Engine (%1$s) unterstützt %2$s nicht</string>
-    <string name="speak_error_description_missing_data_for_language">Fehlende Daten für %1$s</string>
-    <string name="error_message_failed_to_speak">Sprechen fehlgeschlagen</string>
+    <string name="card_label_learned">Learned</string>
+    <string name="card_label_expired">Expired</string>
+    <string name="explanation_card_label_learned">\'Learned\' means the card will not be asked
+        again in exercise</string>
+    <string name="explanation_card_label_expired">\'Expired\' means that you didn\'t get to answer
+        a question within the allotted time</string>
+    <string name="text_show_question_button">Show question</string>
+    <string name="text_show_answer_button">Show answer</string>
+    <string name="text_remember_button">Remember</string>
+    <string name="text_not_remember_button">Not remember</string>
+    <string name="text_check_button">Check</string>
+    <string name="description_grade_button">Grade</string>
+    <string name="popup_title_intervals">Intervals</string>
+    <string name="description_intervals_icon">Intervals icon</string>
+    <string name="description_intervals_are_off">Intervals are off for this card</string>
+    <string name="description_mark_as_learned_button">Mark as \'Learned\'</string>
+    <string name="description_mark_as_unlearned_button">Mark as \'Unlearned\'</string>
+    <string name="description_speak_button">Speak</string>
+    <string name="description_stop_speaking_button">Stop speaking</string>
+    <string name="description_cannot_speak_button">Open speaking error description</string>
+    <string name="title_speak_error_popup">Pronunciation is not available</string>
+    <string name="description_issue_icon">Issue icon</string>
+    <string name="speak_error_description_failed_to_initialized">Failed to initialized TTS engine</string>
+    <string name="speak_error_description_failed_to_initialized_with_specifying_tts_engine">Failed
+        to initialized TTS engine (%1$s)</string>
+    <string name="speak_error_description_language_is_not_supported">Current TTS engine doesn\'t
+        support %1$s</string>
+    <string name="speak_error_description_language_is_not_supported_with_specifying_tts_engine">Current
+        TTS engine (%1$s) doesn\'t support %2$s</string>
+    <string name="speak_error_description_missing_data_for_language">Missing data for %1$s</string>
+    <string name="error_message_failed_to_speak">Failed to speak</string>
     <string name="error_message_cannot_get_audio_focus">Cannot get audio focus</string>
-    <string name="description_hint_button">Hinweis</string>
-    <string name="popup_title_hints">Hinweise</string>
-    <string name="description_hint_icon">Hinweis-Symbol</string>
-    <string name="text_hint_get_variants">Varianten erhalten</string>
-    <string name="text_hint_mask_letters_button">Buchstaben verbergen</string>
-    <string name="text_unmask_the_first_letter_button">Den ersten Buchstaben aufdecken</string>
-    <string name="text_unmask_selected_region_button">Ausgewählten Bereich aufdecken</string>
-    <string name="hints_are_not_accessible_because_the_card_is_answered">Die Hinweise sind nicht
-        zugreifbar, da die Karte beantwortet wurde</string>
-    <string name="hints_are_not_accessible_because_the_card_is_learned">Die Hinweise sind nicht
-        zugreifbar, da die Karte gelernt wurde</string>
-    <string name="description_timer_button">Zeitschaltuhr</string>
-    <string name="popup_title_timer">Zeitschaltuhr</string>
+    <string name="description_hint_button">Hint</string>
+    <string name="popup_title_hints">Hints</string>
+    <string name="description_hint_icon">Hint icon</string>
+    <string name="text_hint_get_variants">Get variants</string>
+    <string name="text_hint_mask_letters_button">Mask letters</string>
+    <string name="text_unmask_the_first_letter_button">Unmask the first letter</string>
+    <string name="text_unmask_selected_region_button">Unmask selected region</string>
+    <string name="hints_are_not_accessible_because_the_card_is_answered">The hints are not
+        accessible because the card is answered</string>
+    <string name="hints_are_not_accessible_because_the_card_is_learned">The hints are not
+        accessible because the card is learned</string>
+    <string name="description_timer_button">Timer</string>
+    <string name="popup_title_timer">Timer</string>
     <string name="description_timer_icon">Timer icon</string>
-    <string name="text_stop_timer_button">Beenden</string>
+    <string name="text_stop_timer_button">Stop</string>
     <string name="timer_is_off_because_walking_mode">The timer is off because \'Walking mode\' is
         enabled. Since in this mode we perceive cards aurally rather than visually, the timer may
         be confusing.</string>
-    <string name="timer_stopped">Der Timer ist angehalten</string>
+    <string name="timer_stopped">The timer is stopped</string>
     <string name="time_is_over">Time is over!</string>
     <string name="description_edit_card">Edit card</string>
     <string name="description_edit_deck_settings">Edit deck settings</string>
@@ -330,10 +330,10 @@
     <string name="error_message_occupied_name">This name is occupied</string>
     <string name="tab_name_settings">Settings</string>
     <string name="tab_name_cards">Cards</string>
-    <string name="description_add_card_button">Karte hinzufügen</string>
+    <string name="description_add_card_button">Add card</string>
     <!-- Selection toolbar -->
-    <string name="description_cancel_selection">Auswahl aufheben</string>
-    <string name="description_select_all">Alle auswählen</string>
+    <string name="description_cancel_selection">Cancel selection</string>
+    <string name="description_select_all">Select all</string>
     <string name="description_unselect_all">Unselect all</string>
     <string name="description_select_only_new">Select only new</string>
     <string name="description_remove">Remove</string>
@@ -380,78 +380,78 @@
         <item quantity="other">%1$d cards have been copied to \'%2$s\'</item>
     </plurals>
     <!-- Deck content screen -->
-    <string name="button_export">Exportieren</string>
-    <string name="button_search">Suche</string>
+    <string name="button_export">Export</string>
+    <string name="button_search">Search</string>
     <string name="the_deck_does_not_yet_contain_cards">The deck does not yet contain cards</string>
     <!-- Search screen -->
-    <string name="hint_search_in_all_cards">Alle Karten durchsuchen</string>
-    <string name="hint_search_in_specific_deck">Suchen in \'%1$s\'</string>
-    <string name="message_no_paste_data">Zwischenablage enthält keinen Text</string>
+    <string name="hint_search_in_all_cards">Search in all cards</string>
+    <string name="hint_search_in_specific_deck">Search in \'%1$s\'</string>
+    <string name="message_no_paste_data">Clipboard doesn\'t contain text</string>
     <!-- Cards Editor screen -->
     <string name="card_label_duplicated">Duplicated</string>
     <string name="card_label_current_in_exercise">Current in exercise</string>
     <string name="card_label_current_in_player">Current in player</string>
     <string name="card_label_found">Found</string>
     <string name="card_label_new">New</string>
-    <string name="hint_question_edittext">Frage eingeben</string>
-    <string name="hint_answer_edittext">Antwort eingeben</string>
-    <string name="description_invert_card_button">Karte umdrehen</string>
-    <string name="description_paste_button">Einfügen</string>
-    <string name="description_clear_button">Leeren</string>
-    <string name="description_remove_card_button">Karte entfernen</string>
+    <string name="hint_question_edittext">Enter a question</string>
+    <string name="hint_answer_edittext">Enter the answer</string>
+    <string name="description_invert_card_button">Invert card</string>
+    <string name="description_paste_button">Paste</string>
+    <string name="description_clear_button">Clear</string>
+    <string name="description_remove_card_button">Remove card</string>
     <string name="description_move_card_button">Move card to another deck</string>
     <string name="description_copy_card_button">Copy card to another deck</string>
     <string name="description_card_info_button">Card info</string>
-    <string name="card_is_removed">Karte wurde entfernt</string>
+    <string name="card_is_removed">Card is removed</string>
     <string name="card_is_moved">Card is moved</string>
     <string name="card_is_copied">Card is copied</string>
-    <string name="snackbar_action_cancel" tools:ignore="ButtonCase">abbrechen</string>
+    <string name="snackbar_action_cancel" tools:ignore="ButtonCase">cancel</string>
     <string name="popup_title_card_info">Card info</string>
     <string name="description_info_icon">Info icon</string>
     <string name="card_info_popup_deck_title">Deck</string>
     <string name="card_info_popup_number_of_tests_title">Number of tests</string>
     <string name="card_info_popup_time_of_the_last_test_title">Time of the last test</string>
-    <string name="description_done_button">Fertig</string>
-    <string name="description_cancel_button">Abbrechen</string>
-    <string name="toast_fill_in_the_card">Karte ausfüllen</string>
+    <string name="description_done_button">Done</string>
+    <string name="description_cancel_button">Cancel</string>
+    <string name="toast_fill_in_the_card">Fill in the card</string>
     <plurals name="snackbar_cards_have_been_created">
         <item quantity="one">%d card has been created</item>
         <item quantity="other">%d cards have been created</item>
     </plurals>
     <!-- Deck settings screen -->
-    <string name="deck_settings_section_general">Allgemein</string>
-    <string name="deck_settings_section_exercise">Übung</string>
-    <string name="deck_settings_section_autoplay">Automatische Wiedergabe</string>
-    <string name="deck_settings_item_random_order">Zufällige Reihenfolge</string>
-    <string name="deck_settings_item_pronunciation">Aussprache</string>
-    <string name="deck_settings_item_card_inversion">Kartenumkehr</string>
-    <string name="deck_settings_item_question_display">Fragenanzeige</string>
-    <string name="deck_settings_item_testing_method">Testverfahren</string>
-    <string name="deck_settings_item_intervals">Intervalle</string>
+    <string name="deck_settings_section_general">General</string>
+    <string name="deck_settings_section_exercise">Exercise</string>
+    <string name="deck_settings_section_autoplay">Autoplay</string>
+    <string name="deck_settings_item_random_order">Random order</string>
+    <string name="deck_settings_item_pronunciation">Pronunciation</string>
+    <string name="deck_settings_item_card_inversion">Card inversion</string>
+    <string name="deck_settings_item_question_display">Question display</string>
+    <string name="deck_settings_item_testing_method">Testing method</string>
+    <string name="deck_settings_item_intervals">Intervals</string>
     <string name="deck_settings_item_grading">Grading</string>
-    <string name="deck_settings_item_motivational_timer">Motivations-Timer</string>
-    <string name="deck_settings_item_pronunciation_plan">Aussprachen-Plan</string>
-    <string name="description_navigate_icon">Navigier-Symbol</string>
+    <string name="deck_settings_item_motivational_timer">Motivational timer</string>
+    <string name="deck_settings_item_pronunciation_plan">Pronunciation plan</string>
+    <string name="description_navigate_icon">Navigate icon</string>
     <string name="speak_event_abbr_speak_question">Q</string>
     <string name="speak_event_abbr_speak_answer">A</string>
-    <string name="speak_event_abbr_delay">%dSek.</string>
-    <string name="on">Ein</string>
-    <string name="off">Aus</string>
+    <string name="speak_event_abbr_delay">%ds</string>
+    <string name="on">On</string>
+    <string name="off">Off</string>
     <string name="interval_unit_abbreviation_minutes">min</string>
-    <string name="interval_unit_abbreviation_hours">S</string>
-    <string name="interval_unit_abbreviation_days">T</string>
-    <string name="interval_unit_abbreviation_months">M</string>
+    <string name="interval_unit_abbreviation_hours">h</string>
+    <string name="interval_unit_abbreviation_days">d</string>
+    <string name="interval_unit_abbreviation_months">m</string>
     <string name="grading_settings_description_part_1">On first answer: [Correct: %1$s, Wrong: %2$s]</string>
     <string name="grading_settings_description_part_2">,  On repeated answer: [Correct: %1$s, Wrong: %2$s]</string>
-    <string name="time_for_answer">%d Sek.</string>
+    <string name="time_for_answer">%d sec.</string>
     <!-- Presets -->
-    <string name="title_preset_name_input_dialog">Voreinstellungs-Name</string>
-    <string name="preset_name_default">Vorgabe</string>
-    <string name="preset_name_individual">Individuell</string>
-    <string name="description_save_preset">Voreinstellung speichern</string>
-    <string name="title_preset_popup">Voreinstellungen</string>
-    <string name="description_rename_preset_button">Voreinstellung umbenennen</string>
-    <string name="description_delete_preset_button">Voreinstellung löschen</string>
+    <string name="title_preset_name_input_dialog">Preset name</string>
+    <string name="preset_name_default">Default</string>
+    <string name="preset_name_individual">Individual</string>
+    <string name="description_save_preset">Save preset</string>
+    <string name="title_preset_popup">Presets</string>
+    <string name="description_rename_preset_button">Rename preset</string>
+    <string name="description_delete_preset_button">Delete preset</string>
     <string name="description_add_new_preset">Add new preset</string>
     <string name="title_remove_preset_dialog">Deleting preset \'%1$s\'</string>
     <string name="top_dialog_text_remove_preset">This preset is used by these decks:</string>
