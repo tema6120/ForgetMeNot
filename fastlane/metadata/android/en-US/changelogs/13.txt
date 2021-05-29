@@ -1,0 +1,5 @@
+- support for links in cards
+- ability to create new cards from exercise or player
+- ability to select only new cards when import updated file
+- added translations info in 'About'
+- spell checking is performed ignoring case
