@@ -80,6 +80,10 @@ class SpeakerImpl(
         var isSpeaking: Boolean = false
         var languageStatus: LanguageStatus? = null
         var lastUsedAt: Long = System.currentTimeMillis()
+
+        // Sometimes after being in the background some engines returns LANG_NOT_SUPPORTED.
+        // To fix it, we try to restart engine but no more that once.
+        var hasAttemptToRestartEngineToFixProblems: Boolean = true
     }
 
     private class SpeakingTask(val text: String, val language: Locale?)
@@ -368,10 +372,23 @@ class SpeakerImpl(
 
     private fun TtsWrapper.updateLanguageStatus() {
         languageStatus = if (isInitialized) {
-            when (tts.setLanguage(language)) {
+            val setLanguageResultCode: Int = tts.setLanguage(language)
+            if (hasAttemptToRestartEngineToFixProblems &&
+                (setLanguageResultCode == TextToSpeech.LANG_NOT_SUPPORTED
+                        ||
+                        setLanguageResultCode == TextToSpeech.LANG_MISSING_DATA)
+            ) {
+                hasAttemptToRestartEngineToFixProblems = false
+                restartTts()
+                return
+            }
+            when (setLanguageResultCode) {
                 TextToSpeech.LANG_NOT_SUPPORTED -> NotSupported
                 TextToSpeech.LANG_MISSING_DATA -> MissingData
-                else -> Available
+                else -> {
+                    hasAttemptToRestartEngineToFixProblems = true
+                    Available
+                }
             }
         } else {
             null
