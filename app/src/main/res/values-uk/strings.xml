@@ -1215,12 +1215,15 @@
     <string name="thanks_to_translators">Хочу висловити величезну подяку всім (особливо людям з
         <a href="https://www.sekinfo.org">sekinfo.org</a>), хто підтримує проект забезпечуючи
          переклад. Ви найкращі!</string>
+    <string name="language_basque">Баскська</string>
     <string name="language_french">Французька</string>
     <string name="language_german">Німецька</string>
     <string name="language_greek">Грецька</string>
+    <string name="language_portuguese_brazilian">Португальська, Бразильська</string>
     <string name="language_russian">Російська</string>
     <string name="language_spanish">Іспанська</string>
     <string name="language_ukrainian">Українська</string>
+    <string name="language_vietnamese">В\'єтнамська</string>
     <string name="text_support_app_button">Підтримати додаток</string>
 
 

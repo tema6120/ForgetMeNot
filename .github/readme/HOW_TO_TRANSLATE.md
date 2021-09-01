@@ -26,11 +26,14 @@ I would like to express my deep gratitude to everyone (especially the people fro
 
 Language | Progress | Translators
 ---------|----------|------------
-🇫🇷 French | 47% | [Mr B](https://crowdin.com/profile/mrb7), [Sitavi](https://crowdin.com/profile/sitavi), [QuantiQia](https://crowdin.com/profile/quantiqia), [Ryu1845](https://crowdin.com/profile/ryu1845)
-🇩🇪 German | 7% | [Yushin Washio](https://crowdin.com/profile/yuwash), [baschi29](https://crowdin.com/profile/baschi29), [Unwoven](https://crowdin.com/profile/unwovencrestless)
-🇬🇷 Greek | 7% | [Vasilis Ioannidis](https://crowdin.com/profile/vioannidis)
+🏴󠁥󠁳󠁰󠁶󠁿 Basque | 28% | [avtkal](https://crowdin.com/profile/avtkal)
+🇫🇷 French | 56% | [Mr B](https://crowdin.com/profile/mrb7), [Sitavi](https://crowdin.com/profile/sitavi), [QuantiQia](https://crowdin.com/profile/quantiqia), [Ryu1845](https://crowdin.com/profile/ryu1845)
+🇩🇪 German | 20% | [statoquant](https://crowdin.com/profile/statoquant), [Yushin Washio](https://crowdin.com/profile/yuwash), [baschi29](https://crowdin.com/profile/baschi29), [Unwoven](https://crowdin.com/profile/unwovencrestless), [avtkal](https://crowdin.com/profile/avtkal), [Nausika](https://crowdin.com/profile/nausika)
+🇬🇷 Greek | 6% | [Vasilis Ioannidis](https://crowdin.com/profile/vioannidis)
+🇧🇷 Portuguese, Brazilian | 31% | [Marcos Maciel](https://crowdin.com/profile/marcos_maciel_lima), [Lucas França](https://crowdin.com/profile/lucasnomad5g), [aleguiss](https://crowdin.com/profile/aleguiss)
 🇷🇺 Russian | 100% | Odnovolov Artem
-🇪🇸 Spanish | 99% | [sekinfo.org](https://www.sekinfo.org), [Edwins0](https://crowdin.com/profile/edwins0), [Cod3Radar](https://crowdin.com/profile/cod3radar)
+🇪🇸 Spanish | 99% | [sekinfo.org](https://www.sekinfo.org), [Edwins0](https://crowdin.com/profile/edwins0), [Cod3Radar](https://crowdin.com/profile/cod3radar), [avtkal](https://crowdin.com/profile/avtkal)
 🇺🇦 Ukrainian | 100% | Odnovolov Artem
+🇻🇳 Vietnamese | 16% | [bruhwut](https://crowdin.com/profile/bruhwut)
 
 *P.S. English is not my native language. So feel free to point out my spelling mistakes.*
