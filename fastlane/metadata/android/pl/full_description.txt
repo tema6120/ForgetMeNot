@@ -1,0 +1,37 @@
+ForgetMeNot jest aplikacją do zapamiętywania informacji przy pomocy fiszek. Prostota, użyteczność oraz szybkość były brane pod uwagę przy procesie tworzenia tego programu edukacyjnego. Aplikacja zapewnia doskonałe warunki do osiągnięcia wysokiej efektywności zapamiętywania.
+
+
+Funkcje obsługiwane przez aplikację:
+
+    • Importowanie/eksportowanie plików.
+    • Obsługa CSV, Tab text oraz dowolnych innych formatów typu DSV.
+    • Interwałowe powtórki. Możesz określić własny schemat interwałów dla każdej talii fiszek. Ponadto możliwym jest wskazanie własnego algorytmu, zgodnie z którym odpowiedzi wpłyną na wybór następnego interwału.
+    • Kilka form testowania wiedzy. Dostępne są: "Samokontrola", "Test wyboru", "Sprawdzian pisowni".
+    • Synteza mowy poprzez funkcję TTS. Można dokonać wyboru języka dla pytań oraz odpowiedzi, ustawić ich automatyczne odtwarzanie.
+    • Ukrywanie tekstu pytania w celu zwiększenia percepcji narządem słuchu, przydatne zwłaszcza przy nauce języków obcych.
+    • Odwracanie kart stronami.
+    • Podpowiedzi w postaci zakrywania liter.
+    • Opcjonalny "Motywujący timer" zmuszający do większej koncentracji na Twojej nauce.
+    • Zapisywanie ustawień poszczególnych talii fiszek jako predefiniowane, w celu szybszego i prostszego zastosowania ich później.
+    • Edycja i wyszukiwanie kart bezpośrednio podczas nauki.
+    • "Tryb spacerowicza" pozwalający na naukę bez patrzenia na ekran.
+    • "Tryb automatycznego odtwarzania". W tym trybie pytania i odpowiedzi są odtwarzane po sobie. Możesz połączyć swoje własne zajęcia z powtórką materiałów do nauki.
+    • Katalog gotowych talii. W skład katalogu wchodzi wiele talii fiszek do nauki języków obcych, zawierających zestawy podstawowych słów, słówka i frazy tematyczne, a także całe zdania.
+    • Grupowanie talii fiszek na odrębne listy.
+    • Dostosowywanie wyglądu kart.
+    • Ciemny motyw.
+
+
+Co sprawia, że ForgetMeNot jest tak wydajne w nauce:
+
+    - Brak reklam. Ze względu na prostotę i wygodę interfejsu użytkownika można użytkować wielu fiszek w krótkim czasie. Nic nie powstrzymuje Cię od nauki.
+    - Powtórki zostały zaprojektowane w taki sposób, aby ostatecznie każdy mógł pojąć odpowiedź. Jeśli Twoja odpowiedź jest nieprawidłowa, fiszka zostaje odłożona na koniec listy, do czasu gdy będziesz znał poprawną odpowiedź.
+    - Interwałowe powtórki. Interwałowe powtórki zmniejszają ilość zapominanego materiału, który nie jest napotykany przez uczącego się przez dłuższy okres czasu. Dodatkowo związane są one z aktywnym przypominaniem materiału, co dodatkowo pomaga w nauce.
+    - Możliwość edytowania fiszki podczas nauki. Pozwala to nie tylko na poprawę błędów, lecz również na przeróbkę fiszek gdy są one zbyt trudne do zapamiętania. Na przykład możliwym jest wprowadzenie dodatkowych skojarzeń w nawiasach.
+    - Wsparcie dźwiękowe. Jest ono szczególnie pomocne przy nauce języków; wspomaga umiejętności słuchania, pomaga w skupieniu na nauce oraz sprzyja zapamiętywaniu. Możliwym jest nawet złożenie talii fiszek z pytaniami do wyłącznej percepcji słuchowej.
+    - Tryby umożliwiające na ćwiczenie nie tylko w Twoim czasie wolnym. "Tryb spacerowicza" pozwala na naukę podczas chodzenia. "Tryb automatycznego odtwarzania" pozwala na słuchanie pytań i odpowiedzi w czasie gdy Twoje ręce i oczy są zajęte, lecz uszy swobodne :)
+    - Pomoc w koncentracji. "Motywujący timer" przypomni Ci, gdy stracisz uwagę podczas ćwiczenia. Tryb pełnoekranowy ukrywa pasek stanu, który może być dodatkowym źródłem rozproszenia.
+
+
+ForgetMeNot jest oprogramowaniem darmowym o otwartym źródle.
+https://github.com/tema6120/ForgetMeNot

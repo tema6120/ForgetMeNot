@@ -1,35 +1,36 @@
-ForgetMeNot es una aplicación para memorizar información a través de tarjetas. La simplicidad, usabilidad, y rapidez se tuvieron en cuenta en el proceso de desarrollo de este programa educativo. Esta aplicación proporciona excelentes características para lograr una alta eficiencia de memorización.
+ForgetMeNot es una aplicación para memorizar información a través de tarjetas de aprendizaje. La simplicidad, la usabilidad, y la rapidez se tuvieron en cuenta en el proceso de desarrollo de este programa educativo. Esta aplicación proporciona excelentes condiciones para lograr una alta eficiencia de memorización.
 
 
 Las características soportadas son:
 
     • Importar/exportar archivos.
-    • Soporta archivos del tipo CSV, texto separado por un tabulador o cualquier otro tipo de archivo con valores separados por un delimitador.
-    • Intervalos de repaso (repaso espaciado). Puede especificar su propio esquema de intervalos para cada mazo.
-    • Varios métodos de repaso. Hay 'Auto-calificar', 'Selección múltiple', 'Escribir respuesta'.
-    • Pronunciación del texto a través de TTS. Puede elegir independientemente idiomas para las preguntas y las respuestas.
-    • Esconder el texto de una pregunta para estimular las habilidades de escucha, que es muy útil en el aprendizaje de nuevos idiomas.
-    • Cambiar el sentido de las tarjetas (mostrar la respuesta como si fuera la pregunta).
-    • Pistas sobre la respuesta. Se empieza con las letras cubiertas, y se va mostrando letra por letra.
+    • Soporte CSV, texto tab o cualquier otro tipo de valores separados.
+    • Intervalos (repetición espaciada). Puede especificar su propio esquema de intervalos para cada mazo. También es posible indicar el propio algoritmo de cómo las respuestas afectan la elección del siguiente intervalo.
+    • Varios métodos de prueba. Hay 'Auto pruebas', 'Pruebas con variantes', 'Verificación de ortografía'.
+    • Pronunciación del texto a través de TTS. Puede elegir idiomas para preguntas y respuestas, habilitar el auto hablar de ellas.
+    • Esconder el texto de una pregunta para estimular la mejora de las habilidades de escucha, que es muy útil en el aprendizaje de idiomas extranjeros.
+    • Inversión de tarjeta.
+    • Consejos en la forma de enmascarado de letras.
     • 'Temporizador Motivacional' que le hará concentrarse en sus estudios (opcionalmente).
-    • Guardar los ajustes del mazo como configuraciones preestablecidas y reutilizarlas para evitar la rutina de configurar cada mazo.
-    • Edición y búsqueda de tarjetas directamente desde un ejercicio.
-    • 'Modo caminar' que le permite repasar sin mirar la pantalla.
-    • 'Auto-reproducir'. En este modo, las preguntas y respuestas se pronuncian secuencialmente. Usted puede hacer otras actividades mientras escucha las tarjetas.
-    • Catálogo de mazos prefabricados. El catálogo contiene muchos mazos para el aprendizaje de idiomas, que incluyen conjuntos básicos de palabras, palabras y frases por temas, y oraciones enteras.
+    • Guardar los ajustes del mazo como preajustes y reutilizarlos para evitar el trabajo de rutina en los ajustes.
+    • Edición y búsqueda de cartas directamente en el ejercicio.
+    • 'Modo caminar' que te permite hacer el ejercicio sin mirar la pantalla.
+    • 'Modo de reproducción automática'. En este modo, las preguntas y respuestas se pronuncian secuencialmente. Puedes combinar tus propias actividades y la repetición de material de enseñanza.
+    • Catálogo de mazos prefabricados. El catálogo contiene muchos mazos para el aprendizaje de idiomas, que incluyen conjuntos básicos de palabras, palabras y frases temáticas, oraciones enteras.
     • Agrupar mazos en distintas listas.
-    • Personalizar la apariencia de la tarjeta.
+    • Cambiar el sentido de las tarjetas (mostrar la respuesta como si fuera la pregunta).
+    • Tema oscuro.
 
 
 Lo que hace que ForgetMeNot sea tan eficiente para la memorización:
 
-    - Nada de publicidad. Puede manejar muchas tarjetas en poco tiempo debido a la sencillez y comodidad de la interfaz de usuario. Nada te impide estudiar.
-    - El ejercicio está diseñado para que eventualmente usted aprenda la respuesta. Si su respuesta es incorrecta, la tarjeta se pospone al final de la lista hasta que responda correctamente.
-    - Intervalos (repaso espaciado). El repaso espaciado reduce el olvido que ocurre cuando no se repasa el material durante un período de tiempo significativo. También implica recordar activamente el material aprendido, lo que apoya el aprendizaje.
+    - Nada de publicidad. Puedes manejar muchas tarjetas en poco tiempo debido a la sencillez y comodidad de la interfaz de usuario. Nada te impide estudiar.
+    - El ejercicio está diseñado para que eventualmente usted agarre la respuesta. Si su respuesta es incorrecta, la tarjeta se pospone al final de la lista hasta que responda correctamente.
+    - Intervalos (repetición espaciada). La repetición espaciada reduce el olvido que ocurre cuando el material no se encuentra durante un período de tiempo significativo. También implica recordar activamente el material aprendido, lo que apoya el aprendizaje.
     - Posibilidad de editar una tarjeta en el ejercicio. Esto le permite no sólo corregir errores, sino también reconstruir tarjetas si son difíciles de recordar. Por ejemplo, puede añadir una asociación adicional entre paréntesis.
-    - Acompañamiento de voz. Esto es especialmente útil a la hora de aprender idiomas porque mejora las habilidades de escucha, ayuda a centrarse en estudiar y favorece la memorización. Incluso puede configurar un mazo para percibir una pregunta fonéticamente.
-    - Modos que le permiten practicar no sólo en su tiempo libre. El "modo caminar" le permite repasar durante una caminata. 'Auto-reproducir' le permite escuchar preguntas y respuestas cuando sus manos y ojos están ocupados, pero sus oídos están libres :)
-    - Ayudas para la concentración. El "temporizador motivacional" le recuerda cuando ha perdido la concentración. El modo de pantalla completa oculta la barra de estado, que podría ser una fuente adicional de distracción.
+    - Acompañamiento de voz. Esto es especialmente útil a la hora de aprender idiomas porque mejora las habilidades de escucha, ayuda a centrarse en estudiar y favorece la memorización. Incluso puede configurar un mazo para hacer una pregunta excepcionalmente por orejeo.
+    - Modos que te permiten practicar no sólo en tu tiempo libre. El "modo caminar" te permite hacer el ejercicio durante la caminata. 'Modo de reproducción automática' te permite escuchar preguntas y respuestas cuando tus manos y ojos están ocupados, pero tus oídos están libres :)
+    - Ayudas para la concentración. El "temporizador motivacional" te recuerda cuando has perdido tu atención. El modo de pantalla completa oculta la barra de estado, que podría ser una fuente adicional de distracción.
 
 
 ForgetMeNot es software libre y de código abierto.

@@ -1,0 +1,37 @@
+ForgetMeNot é um aplicativo para memorizar informações usando flashcards. Simplicidade, usabilidade, rapidez foram levadas em consideração no processo de desenvolver esse programa educativo. Este aplicativo fornece condições excelentes para alcançar uma alta eficiência na memorização.
+
+
+As funcionalidades que são suportadas são:
+
+    • Importar/exportar arquivos.
+    • Suporta CSV, Tab text ou qualquer outro tipo de valores separados por delimitador.
+    • Intervalos (Repetição espaçada). Você pode especificar seu próprio esquema de intervalos para cada baralho. Também é possível indicar um algoritmo próprio de como as respostas afetam a escolha do intervalo seguinte.
+    • Vários métodos de teste. Como 'Teste automático', 'Testes com variantes', 'Verificação ortográfica'.
+    Conversão do texto em fala via TTS. Você pode escolher idiomas para perguntas e respostas e ativar fala automática deles.
+    • Ocultar o texto de uma pergunta para estimular uma melhora nas habilidades de escuta, o que é muito útil na aprendizagem de línguas estrangeiras.
+    • Inversão de cartão.
+    • Dicas na forma de cartas mascaradas.
+    • 'Cronômetro motivacional' que te fará se focar nos seus estudos (opcionalmente).
+    • Salvar as configurações do baralho como predefinições e reutilizá-las para evitar trabalho rotineiro nas configurações.
+    • Edição e busca de cartões diretamente no exercício.
+    • 'Modo de Caminhada' que te permite fazer os exercícios sem precisar olhar para a tela.
+    • 'Modo de reprodução automática'. Neste modo, as perguntas e as respostas são pronunciadas sequencialmente. Você pode combinar suas próprias atividades e a repetição do material de ensino.
+    • Catálogo de baralhos pré-criados. O catálogo contém muitos baralhos para aprender idiomas, que incluem conjuntos básicos de palavras, palavras e frases temáticas, frases inteiras.
+    • Agrupar baralhos em listas separadas.
+    • Personalizar a aparência do cartão.
+    • Tema escuro.
+
+
+O que torna o ForgetMeNot tão eficiente para memorizar:
+
+    - Sem anúncios. Você pode lidar com várias cartas em um curto espaço de tempo devido à simplicidade e conveniência da interface do usuário. Nada te impede de estudar.
+    - O exercício foi projetado para que você eventualmente consiga entender a resposta. Se sua resposta estiver errada, o cartão é colocado no final da lista até que você responda corretamente.
+    - Intervalos (Repetição espaçada). A repetição espaçada reduz a possibilidade de se esquecer o que foi visto, que ocorre quando o material não é usado por um período de tempo significativo. Também implica em recordar ativamente o material aprendido, o que melhora a aprendizagem.
+    - Possibilidade de editar um cartão apenas no exercício. Isso permite que você não só corrija os erros, mas também reconstrua os cartões, caso sejam difíceis de lembrar. Por exemplo, você pode colocar uma associação adicional entre parênteses.
+    -Acompanhamento por voz. Isso é especialmente útil quando se aprende idiomas porque melhora as habilidades de escuta, ajuda a se concentrar no estudo e favorece a memorização. Você pode até configurar um baralho para perceber uma questão excepcionalmente por ouvido.
+    - Modos que permitem que você pratique não apenas no seu tempo livre. O 'Modo de Caminhada' permite que você faça os exercícios durante uma caminhada. O 'Modo de Reprodução Automática' permite ouvir perguntas e respostas quando suas mãos e olhos estiverem ocupados, mas seus ouvidos estiverem livres : )
+    - Funcionalidades que te ajudam a ficar concentrado. 'Cronômetro Motivacional' te lembra quando você perder a atenção. O modo de tela cheia oculta a barra de status, que pode ser uma fonte adicional de distração.
+
+
+O ForgetMeNot é um software livre e de código aberto.
+https://github.com/tema6120/ForgetMeNot

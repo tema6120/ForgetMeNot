@@ -1,0 +1,37 @@
+ForgetMeNot informazioa hezkuntza-txartelen bidez memorizatzeko aplikazioa da. Hezkuntza-programa hau garatzeko prozesuan sinpletasuna, erabilgarritasuna eta abiadura hartu ziren kontuan. Aplikazio honek baldintza bikainak eskaintzen ditu memorizazioan eraginkortasun handia lortzeko.
+
+
+Ezaugarri hauek ditu:
+
+    • Fitxategien inportatzea/esportatzea.
+    • Support CSV, Tab text or any other kind of Delimiter-Separated Values.
+    • Tarteak (Errepikapen tartekatua). Nahi duzun tartea zehaztu dezakezu sorta bakoitzerako. Gainera, erantzunek hurrengo tartean nola eragingo duten adierazi daiteke norberaren algoritmoarekin.
+    • Proba-metodo anitzak. 'Autoproba', 'Proba aukerekin' eta 'Idatziz' aukerak daude.
+    • Testuaren ahoskera TTS bidez. Hizkuntzak hautatu ditzakezu galdera eta erantzunentzat, horiek automatikoki hitz egiteko aukera gaituta.
+    • Galdera baten testua ezkutatzea entzumen-trebetasuna hobetzeko, hizkuntzak ikasteko oso baliagarria.
+    • Txartelen alderantzikatzea.
+    • Hints in the form of masking letters.
+    • 'Motivational timer' that will make you concentrate on your studies (optionally).
+    • Saving settings of deck as presets and reusing them in order to avoid routine work on settings.
+    • Txartelak ariketak egin bitartean editatzea eta bilatzea.
+    • 'Ibiltze-modua' pantaila begiratu gabe ariketak egin ahal izateko.
+    • 'Automatikoki erreproduzitzea' modua. Modu honetan galderak eta erantzunak sekuentzialki ahoskatzen dira. You can combine your own activities and repetition of teaching material.
+    • Catalog of pre-made decks. The catalog contains many decks for language learning, which includes basic sets of words, thematic words and phrases, whole sentences.
+    • Grouping decks into separate lists.
+    • Customizing the card appearance.
+    • Gai iluna.
+
+
+What makes ForgetMeNot so efficient for memorizing:
+
+    - No amount of advertising. You can handle a lot of cards in a short time due to the simplicity and convenience of the user interface. Nothing prevents you from studying.
+    - The exercise is designed so that you must eventually grasp the answer. If your answer is wrong, the card is postponed to the end of the list until you answer correct.
+    - Tarteak (Errepikapen tartekatua). Spaced repetition reduces the forgetting that occurs when material is not encountered for a significant time period. It also involves actively recalling learned material, which supports learning.
+    - Possibility to edit a card just in the exercise. This allows you not only to correct mistakes, but also to rebuild cards if they are difficult to remember. For example, you can add an additional association in parentheses.
+    - Voice accompaniment. This is especially helpful when learning languages because it improves listening skills, helps to focus on studying and favors memorization. You can even set up a deck to perceive a question exceptionally by ear.
+    - Modes that allow you to practice not only in your free time. 'Walking mode' enables you do the exercise during walking. 'Autoplaying mode' lets you listen to questions and answers when your hands and eyes are busy, but your ears are free : )
+    - Focusing aids. 'Motivational timer' reminds you when you've lost your attention. Full screen mode hides the status bar, which might be an additional source of distraction.
+
+
+ForgetMeNot software librea eta kode irekikoa da.
+https://github.com/tema6120/ForgetMeNot

@@ -854,7 +854,6 @@
 
     <string name="screen_title_help">Помощь</string>
     <string name="title_articles">Статьи</string>
-    <string name="description_help_article_icon">иконка статьи помощи</string>
     <string name="help_article_title_import_of_file">Импорт файла</string>
     <string name="help_article_title_exercise">Упражнение</string>
     <string name="help_article_title_testing_methods">Методы тестирования</string>

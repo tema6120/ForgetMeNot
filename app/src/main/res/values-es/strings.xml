@@ -108,9 +108,7 @@
     <string name="text_exercise_button">Ejercicio</string>
     <string name="text_exercise_button_with_cards_count">Ejercicio (%d)</string>
     <string name="progress_bar_reading_files">Cargando archivos...</string>
-
     <!-- 'No card is ready for exercise' dialog -->
-
     <string name="dialog_title_no_cards_ready_for_exercise">No hay tarjetas listas para un ejercicio</string>
     <string name="description_no_exercise_card_dialog_paragraph_1_part_1">Según los
         intervalos aplicados a estos mazos</string>
@@ -137,7 +135,6 @@
     <string name="description_no_exercise_card_dialog_paragraph_2">Puede cambiar o deshabilitar
         los intervalos en la configuración del mazo.</string>
     <string name="button_go_to_deck_settings">Ir a la configuración del mazo</string>
-
     <!-- Deck lists editor -->
     <string name="screen_title_deck_lists">Lista de mazos</string>
     <string name="hint_deck_list_edittext">Nombre de la lista</string>
@@ -306,7 +303,7 @@
     <string name="toast_text_no_card_matches_filter_conditions">Ninguna tarjeta coincide con el filtro</string>
     <!-- Player screen -->
     <string name="player_notification_channel_name">Reproductor de tarjetas</string>
-    <string name="player_notification_channel_description">Pronunciación de
+    <string name="player_notification_channel_description">Pronunciación de 
         preguntas y respuestas</string>
     <string name="player_notification_title">Reproductor de tarjetas</string>
     <string name="pause_in_notification">Pausa</string>
@@ -512,7 +509,7 @@
         usted piensa revisar el mazo solo una o dos veces.</string>
     <string name="tip_testing_method_screen_self_testing">En la mayoría de los casos,
         \'Auto-calificar\' es la mejor elección. Usted mismo decide si sabe la respuesta o no.</string>
-    <string name="tip_testing_method_screen_testing_with_variants">\'Selección múltiple\' es un
+    <string name="tip_testing_method_screen_testing_with_variants">\'Elección múltiple\' es un
         método divertido para jugar. Elija la respuesta adecuada entre cuatro opciones. Las opciones
         se toman del mismo mazo.</string>
     <string name="tip_testing_method_screen_spell_check">Con \'Escribir respuesta\', se comprueba
@@ -520,7 +517,7 @@
         ortografía.</string>
     <string name="testing_method_without_testing">Sin calificar</string>
     <string name="testing_method_self_testing">Auto-calificar</string>
-    <string name="testing_method_testing_with_variants">Selección múltiple</string>
+    <string name="testing_method_testing_with_variants">Elección múltiple</string>
     <string name="testing_method_spell_check">Escribir respuesta</string>
     <!-- Intervals screen -->
     <string name="screen_title_intervals">Intervalos</string>
@@ -545,9 +542,7 @@
         <item quantity="one">mes</item>
         <item quantity="other">meses</item>
     </plurals>
-
     <!-- Grading screen -->
-
     <string name="screen_title_grading">Calificación</string>
     <string name="tip_grading_screen_indication">Indique la manera en que quiere calificar las respuestas.</string>
     <string name="tip_grading_screen_about_relationship_with_intervals">Las calificaciones determinan
@@ -567,7 +562,6 @@
     <string name="dialog_title_change_grading_on_repeated_correct_answer">En la primera respuesta correcta
         de una tarjeta repetida</string>
     <string name="dialog_title_change_grading_on_repeated_wrong_answer">En una respuesta equivocada de una tarjeta repetida</string>
-
     <!-- Motivational timer screen -->
     <string name="screen_title_motivational_timer">Temporizador motivacional</string>
     <string name="tip_motivational_timer_screen_description">El \'temporizador motivacional\'
@@ -624,7 +618,7 @@
     <string name="text_exercise_settings_title">Ejercicio</string>
     <string name="text_exercise_settings_description">Configuración general del ejercicio</string>
     <string name="text_walking_mode_title">Modo caminar</string>
-    <string name="text_walking_mode_settings_description">Cambiar las acciones de los botones de volumen</string>
+    <string name="text_walking_mode_settings_description">Usar botones de volumen</string>
     <!-- Card appearance -->
     <string name="screen_title_card_appearance">Apariencia de las tarjetas</string>
     <string name="title_question_field">Campo de pregunta</string>
@@ -639,10 +633,7 @@
     <string name="text_opacity_in_dark_theme">Opacidad del texto en el tema oscuro</string>
     <string name="dialog_title_text_opacity">Opacidad del texto</string>
     <string name="text_opacity_example_text">Ejemplo\n\n%1$s</string>
-
-
     <!-- Exercise settings -->
-
     <string name="screen_title_exercise_settings">Configuración del ejercicio</string>
     <string name="exercise_setting_card_prefilter">Filtrar tarjetas antes de empezar un ejercicio</string>
     <string name="card_prefilter_mode_do_not_filter">No filtrar</string>
@@ -656,24 +647,18 @@
     <string name="title_cards_threshold_dialog">Límite de tarjetas</string>
     <string name="description_cards_threshold_dialog_to_change_card_number_limitation">Especificar el
         número máximo de tarjetas que quiere para un ejercicio</string>
-    <string name="description_cards_threshold_dialog_to_change_card_number_threshold_for_showing_filter">
-        Especificar el límite de tarjetas en donde se mostrará el filtro
+    <string name="description_cards_threshold_dialog_to_change_card_number_threshold_for_showing_filter">        Especificar el límite de tarjetas en donde se mostrará el filtro
     </string>
     <string name="title_card_limit_dialog">Número máximo de tarjetas</string>
     <string name="exercise_setting_card_position_display">Posición de tarjeta</string>
     <string name="card_position_display_progress_bar">Barra de progreso</string>
     <string name="card_position_display_text">Texto</string>
     <string name="exercise_setting_vibrate_on_wrong_answer">Vibrar en respuesta equivocada</string>
-    <string name="exercise_setting_go_to_next_card_after_marking_the_card_as_learned">
-        Ir a la próxima tarjeta después de marcar la tarjeta como \'Aprendido\'
+    <string name="exercise_setting_go_to_next_card_after_marking_the_card_as_learned">        Ir a la próxima tarjeta después de marcar la tarjeta como \'Aprendido\'
     </string>
-    <string name="exercise_setting_ask_to_quit_exercise">
-            Preguntar antes de salir del ejericicio si no se ha respondido a todas las tarjetas
+    <string name="exercise_setting_ask_to_quit_exercise">            Preguntar antes de salir del ejericicio si no se ha respondido a todas las tarjetas
     </string>
-
-
     <!-- Card filter for Exercise -->
-
     <string name="title_card_filter_maximum_number_of_cards">Número máximo de tarjetas</string>
     <plurals name="cards">
         <item quantity="one">tarjeta</item>
@@ -681,7 +666,6 @@
     </plurals>
     <string name="no_limit">Sin límite</string>
     <string name="text_start_exercise_button">Empezar ejercicio</string>
-
     <!-- Walking mode settings screen -->
     <string name="screen_title_walking_mode_settings">Configuración de modo caminar</string>
     <string name="text_volume_up_button_section">Botón de subir volumen</string>
@@ -722,14 +706,13 @@
         Comparta su experiencia con ellos.</string>
     <string name="text_share_with_friends_button">Compartir con amigos</string>
     <string name="share_with">Compartir con</string>
-    <string name="text_share_with_friends">Acuérdese de todo con tarjetas de memorización.</string>
+    <string name="text_share_with_friends">Acuérdese de todo con tarjetas de memoria.</string>
     <string name="cta_join_us_on_social_media">Únase con nosotros en las redes sociales</string>
     <string name="cta_join_us_on_social_media_description">Lee las noticias más recientes, comparte
         artículos interesantes y haga preguntas.</string>
     <!-- Help screen -->
     <string name="screen_title_help">Ayuda</string>
     <string name="title_articles">Artículos</string>
-    <string name="description_help_article_icon">Icono de articulo de ayuda</string>
     <string name="help_article_title_import_of_file">Importar un archivo</string>
     <string name="help_article_title_exercise">Ejercicio</string>
     <string name="help_article_title_testing_methods">Métodos de repaso</string>
@@ -863,9 +846,9 @@
         fragmento del texto y presione \'Mostrar región seleccionada\' en la ventana emergente de la
         pista.
 
-        \n\n\t- \'Selección múltiple\'. Se presentarán cuatro opciones para elegir. Las opciones se
+        \n\n\t- \'Elección múltiple\'. Se presentarán cuatro opciones para elegir. Las opciones se
         toman desde el mismo mazo al que pertenece la tarjeta. Esto puede hacer muy fácil
-        responder si el mazo no está diseñado para \'Selección múltiple\'.</string>
+        responder si el mazo no está diseñado para \'Elección múltiple\'.</string>
     <string name="article_exercise_paragraph_4">Puede hacer un ejercicio sin mirar la pantalla con el
         <annotation clickable="walking_mode">\'Modo caminar\'</annotation>.</string>
     <string name="article_testing_methods_paragraph_1">El método de repaso define como se va a
@@ -883,7 +866,7 @@
     <string name="article_testing_methods_manual_section_description">Método de repaso básico.
         Usted decide si recuerda la respuesta o no. La ventaja principal es la eficiencia de
         la memorización.</string>
-    <string name="article_testing_methods_quiz_section_title">3. Selección múltiple</string>
+    <string name="article_testing_methods_quiz_section_title">3. Elección múltiple</string>
     <string name="question_example_quiz_testing_method">окунь</string>
     <string name="answer_example_quiz_testing_method_variant1">arenque</string>
     <string name="answer_example_quiz_testing_method_variant2">trucha</string>
@@ -928,9 +911,9 @@
         dificultades.
 
         \n\nTal vez por alguna razón, quiere cambiar la calificación. Simplemente presione el icono
-        de \'Calificar\' y elija una nueva calificación. Típicamente cuando cambia la calificación,
-        le gustaría aclarar en cuanto tiempo se va a presentar de nuevo esta tarjeta. Si cambió
-        manualmente la calificación, no aplicaría a esta tarjeta durante el ejercicio actual.</string>
+        de \'Calificar\' y elija. Típicamente cuando cambia la calificación, le gustaría aclarar
+        en cuanto tiempo se va a presentar de nuevo esta tarjeta. Si cambió manualmente la
+        calificación, no aplicaría a esta tarjeta durante el ejercicio actual.</string>
     <string name="article_question_display_paragraph_1">Puede elegir no mostrar el texto de las preguntas.
         En este caso, se supone que va a percibir la pregunta fonéticamente. Esto le ayudará a mejorar
         sus capacidades de escucha mientras aprende un idioma nuevo. Junto con esto, es aconsejable
@@ -981,7 +964,7 @@
         Android: las apps solo pueden utilizar los botones de volumen cuando una app está corriendo
         en el primer plano.
 
-        \n\n- Los métodos \'Selección múltiple\' y \'Escribir respuesta\' no son adecuados
+        \n\n- Los métodos \'Elección múltiple\' y \'Escribir respuesta\' no son adecuados
         para usar en este modo y por eso se cambia al método \'Auto-calificar\' automáticamente
         cuando se habilita el \'modo caminar\'.
 
@@ -1002,7 +985,8 @@
         de escucharla.</string>
     <string name="article_presets">Una \'configuración preestablecida\' es un conjunto de
         configuraciones para los mazos creados que se pueden reutilizar. Con \'configuraciones
-        preestablecidas\', puede evitar la rutina de configurar cada mazo.
+        preestablecidas\', puede evitar la rutina de configurar cada mazo
+        individualmente.
 
         \n\nLo que significan los nombres de las configuraciones preestablecidas es:
 
@@ -1021,7 +1005,7 @@
 
         \n\n2. Cree mazos tomando en cuenta la configuración que les va a dar.
 
-        \n\n\t- Para el método \'Selección múltiple\', las opciones se toman del mismo mazo.
+        \n\n\t- Para el método \'Elección múltiple\', las opciones se toman del mismo mazo.
         Entonces, las tarjetas deben contener respuestas que son adecuadas como opciones.
 
         \n\n\t- En la configuración de pronunciación de un mazo, puede especificar un idioma para
@@ -1102,6 +1086,16 @@
 
         \n\nNo busco fines comerciales de ninguna forma. Mi app es completamente software libre.
         ¡Me gustaría saber que piensa de mi app!</string>
+    <string name="translations_title">Traducciones</string>
+    <string name="thanks_to_translators">I would like to express my deep gratitude to everyone
+        (especially the people from <a href="https://www.sekinfo.org">sekinfo.org</a>), who support
+        the project by providing translation. You’re the best!</string>
+    <string name="language_french">Francés</string>
+    <string name="language_german">Alemán</string>
+    <string name="language_greek">Griego</string>
+    <string name="language_russian">Ruso</string>
+    <string name="language_spanish">Español</string>
+    <string name="language_ukrainian">Ucraniano</string>
     <string name="text_support_app_button">Apoyar app</string>
     <!-- DSV format screen -->
     <string name="screen_title_dsv_format">Formato DSV</string>

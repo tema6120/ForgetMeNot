@@ -855,7 +855,6 @@
 
     <string name="screen_title_help">Допомога</string>
     <string name="title_articles">Статті</string>
-    <string name="description_help_article_icon">іконка статті допомоги</string>
     <string name="help_article_title_import_of_file">Імпорт файлу</string>
     <string name="help_article_title_exercise">Вправа</string>
     <string name="help_article_title_testing_methods">Методи тестування</string>

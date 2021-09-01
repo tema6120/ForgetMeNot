@@ -18,7 +18,6 @@
                 android:layout_height="24dp"
                 android:layout_gravity="center_vertical"
                 android:layout_marginStart="16dp"
-                android:contentDescription="@string/description_help_article_icon"
                 android:tint="@color/text_medium_emphasis"
                 android:tintMode="src_in"
                 tools:srcCompat="@drawable/ic_outline_description_24" />

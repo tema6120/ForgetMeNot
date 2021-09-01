@@ -1,1 +1,1 @@
-Una app de tarjetas de memorización que no le dejará olvidar nada.
+Una aplicación de tarjetas de aprendizaje que no te permitirá olvidar nada.
