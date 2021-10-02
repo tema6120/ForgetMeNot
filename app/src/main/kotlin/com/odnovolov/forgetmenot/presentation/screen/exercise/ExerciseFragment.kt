@@ -41,6 +41,8 @@ import kotlinx.android.synthetic.main.popup_intervals.view.*
 import kotlinx.android.synthetic.main.popup_speak_error.view.*
 import kotlinx.android.synthetic.main.popup_timer.view.*
 import kotlinx.android.synthetic.main.popup_walking_mode.view.*
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class ExerciseFragment : BaseFragment() {
@@ -66,6 +68,7 @@ class ExerciseFragment : BaseFragment() {
     private lateinit var volumeUpGestureDetector: KeyGestureDetector
     private lateinit var volumeDownGestureDetector: KeyGestureDetector
     private var timerButtonPaintingAnimation: ValueAnimator? = null
+    private var stopKeepingScreenOn: Job? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -160,10 +163,12 @@ class ExerciseFragment : BaseFragment() {
             when (event.keyCode) {
                 KeyEvent.KEYCODE_VOLUME_UP -> {
                     volumeUpGestureDetector.dispatchKeyEvent(isPressed)
+                    setKeepScreenOn(true)
                     true
                 }
                 KeyEvent.KEYCODE_VOLUME_DOWN -> {
                     volumeDownGestureDetector.dispatchKeyEvent(isPressed)
+                    setKeepScreenOn(true)
                     true
                 }
                 else -> false
@@ -311,7 +316,7 @@ class ExerciseFragment : BaseFragment() {
                 walkingModeButton.isActivated = isEnabled
                 (activity as MainActivity).keyEventInterceptor =
                     if (isEnabled) keyEventInterceptor else null
-                walkingModeButton.keepScreenOn = isEnabled
+                setKeepScreenOn(isEnabled)
             }
             keyGestureMap.observe { keyGestureMap: Map<KeyGesture, KeyGestureAction> ->
                 volumeUpGestureDetector.run {
@@ -404,6 +409,20 @@ class ExerciseFragment : BaseFragment() {
                 vibrator.vibrate(VIBRATION_DURATION)
             }
         }
+    }
+
+    private fun setKeepScreenOn(keepScreenOn: Boolean) {
+        walkingModeButton?.keepScreenOn = keepScreenOn
+        stopKeepingScreenOn?.cancel()
+        stopKeepingScreenOn =
+            if (keepScreenOn) {
+                viewCoroutineScope?.launch {
+                    delay(MAX_TIME_TO_KEEP_SCREEN_ON)
+                    walkingModeButton?.keepScreenOn = false
+                }
+            } else {
+                null
+            }
     }
 
     private fun executeCommand(command: ExerciseController.Command) {
@@ -709,6 +728,7 @@ class ExerciseFragment : BaseFragment() {
             keyEventInterceptor = null
             unregisterBackPressInterceptor(backPressInterceptor)
         }
+        setKeepScreenOn(false)
         intervalsAdapter = null
         intervalsPopup?.dismiss()
         intervalsPopup = null
@@ -750,6 +770,7 @@ class ExerciseFragment : BaseFragment() {
         const val TIME_TO_PAINT_TIMER_BUTTON = 10_000L
         const val VIBRATION_DURATION = 50L
         const val LEARNED_CARD_SOUND_DURATION = 400
+        const val MAX_TIME_TO_KEEP_SCREEN_ON = 5L * 60L * 1000L
         const val STATE_INTERVALS_POPUP = "STATE_INTERVALS_POPUP"
         const val STATE_SPEAK_ERROR_POPUP = "STATE_SPEAK_ERROR_POPUP"
         const val STATE_TIMER_POPUP = "STATE_TIMER_POPUP"
