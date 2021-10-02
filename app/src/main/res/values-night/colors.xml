@@ -197,6 +197,7 @@
     <color name="button_select_deck_list_color">#1F000000</color>
     <color name="stroke_of_selected_deck_list_color">#6BFFFFFF</color>
     <color name="background_deck_list_color_edittext">#12FFFFFF</color>
+    <color name="random_color_button">#99FFFFFF</color>
 
     <!-- Card appearance screen -->
     <color name="button_in_card_appearance_selected">#A8A8AB</color>

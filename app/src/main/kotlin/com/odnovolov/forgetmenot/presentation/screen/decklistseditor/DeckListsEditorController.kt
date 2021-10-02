@@ -12,6 +12,7 @@ import com.odnovolov.forgetmenot.presentation.common.base.BaseController
 import com.odnovolov.forgetmenot.presentation.screen.decklistseditor.DeckListsEditorController.Command
 import com.odnovolov.forgetmenot.presentation.screen.decklistseditor.DeckListsEditorController.Command.*
 import com.odnovolov.forgetmenot.presentation.screen.decklistseditor.DeckListsEditorEvent.*
+import kotlin.random.Random
 
 class DeckListsEditorController(
     private val deckListsEditor: DeckListsEditor,
@@ -36,6 +37,11 @@ class DeckListsEditorController(
                         editableDeckList.deckList.id == event.deckListId
                     } ?: return
                 sendCommand(ShowColorChooserFor(event.deckListId))
+            }
+
+            RandomColorButtonClicked -> {
+                screenState.editableDeckListForColorChooser?.color =
+                    Random.nextInt(until = 0xffffff + 1)
             }
 
             is ColorHexTextWasSelected -> {

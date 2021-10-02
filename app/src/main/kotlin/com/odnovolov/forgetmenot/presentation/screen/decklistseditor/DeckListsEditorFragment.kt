@@ -196,8 +196,13 @@ class DeckListsEditorFragment : BaseFragment() {
                     closeButton.setOnClickListener {
                         colorChooserPopup?.dismiss()
                     }
+                    closeButton.setTooltipTextFromContentDescription()
                     colorRecycler.layoutManager = GridLayoutManager(requireContext(), 8)
                     colorRecycler.adapter = colorAdapter
+                    randomColorButton.setOnClickListener {
+                        controller?.dispatch(RandomColorButtonClicked)
+                    }
+                    randomColorButton.setTooltipTextFromContentDescription()
                     colorEdittext.filters += object : InputFilter {
                         private val hexRegex = Regex("""^\p{XDigit}+${'$'}""")
 

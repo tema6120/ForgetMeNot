@@ -205,6 +205,7 @@
     <color name="button_select_deck_list_color">#1F000000</color>
     <color name="stroke_of_selected_deck_list_color">#47000000</color>
     <color name="background_deck_list_color_edittext">#17000000</color>
+    <color name="random_color_button">#99000000</color>
 
     <!-- Card appearance screen -->
     <color name="button_in_card_appearance_selected">#6E6E6E</color>

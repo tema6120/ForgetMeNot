@@ -2,6 +2,7 @@ package com.odnovolov.forgetmenot.presentation.screen.decklistseditor
 
 sealed class DeckListsEditorEvent {
     class SelectDeckListColorButtonClicked(val deckListId: Long) : DeckListsEditorEvent()
+    object RandomColorButtonClicked : DeckListsEditorEvent()
     class ColorHexTextWasSelected(val text: String) : DeckListsEditorEvent()
     class ColorWasSelected(val color: Int) : DeckListsEditorEvent()
     class NewDeckListNameChanged(val name: String) : DeckListsEditorEvent()
