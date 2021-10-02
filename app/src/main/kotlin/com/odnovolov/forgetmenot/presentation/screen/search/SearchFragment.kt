@@ -136,7 +136,7 @@ class SearchFragment : BaseFragment() {
 
     private fun observeViewModel(viewModel: SearchViewModel) {
         with(viewModel) {
-            foundCards.observe(adapter::submitList)
+            foundCards.observe(adapter::items::set)
             searchDeckName.observe { searchDeckName: String? ->
                 searchEditText.hint = (if (searchDeckName == null)
                     getString(R.string.hint_search_in_all_cards) else

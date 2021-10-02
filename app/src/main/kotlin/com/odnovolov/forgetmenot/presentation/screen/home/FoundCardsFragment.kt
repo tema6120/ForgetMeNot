@@ -51,7 +51,7 @@ class FoundCardsFragment : BaseFragment() {
 
     private fun observeViewModel(viewModel: HomeViewModel) {
         with(viewModel) {
-            foundCards.observe(adapter::submitList)
+            foundCards.observe(adapter::items::set)
             cardsNotFound.observe { cardsNotFound: Boolean ->
                 emptyTextView.isVisible = cardsNotFound
             }
