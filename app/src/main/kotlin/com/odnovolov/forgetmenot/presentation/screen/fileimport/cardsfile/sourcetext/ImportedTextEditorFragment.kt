@@ -32,7 +32,7 @@ import java.nio.charset.Charset
 class ImportedTextEditorFragment : BaseFragment(), ControllingTheScrollPosition {
     companion object {
         const val ARG_ID = "ARG_ID"
-        const val MAX_TEXT_LENGTH_TO_EDIT = 20_000
+        const val MAX_TEXT_LENGTH_TO_EDIT = 50_000
         const val MAX_ERROR_LINES_TO_SHOW = 50
         const val STATE_CHARSET_POPUP = "STATE_CHARSET_POPUP"
 

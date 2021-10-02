@@ -1236,4 +1236,5 @@
     <string name="dialog_text_delete_dsv_format">Do you really want to delete this format?</string>
     <string name="message_dsv_format_is_deleted">DSV format \'%1$s\' is deleted</string>
     <string name="description_random_color">Random color</string>
+    <string name="check_box_new_decks_first">New decks first</string>
 </resources>

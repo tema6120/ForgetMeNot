@@ -26,6 +26,7 @@ class DeckReviewPreferencePropertyChangeHandler(
                 queries.updateDeckSorting(
                     deckSorting.criterion,
                     deckSorting.direction,
+                    deckSorting.newDecksFirst,
                     deckReviewPreferenceId
                 )
             }

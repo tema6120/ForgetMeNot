@@ -183,6 +183,9 @@ class DeckChooserFragment : BaseFragment() {
                         controller?.dispatch(SortingDirectionButtonClicked)
                     }
                     sortingDirectionButton.setTooltipTextFromContentDescription()
+                    newDecksFirstButton.setOnClickListener {
+                        controller?.dispatch(NewDecksFirstCheckboxClicked)
+                    }
                 }
             sortingPopup = LightPopupWindow(content)
             subscribeSortingPopupToViewModel(content)
@@ -215,6 +218,7 @@ class DeckChooserFragment : BaseFragment() {
                 sortByTimeLastTestedTextView.isSelected = deckSorting.criterion == LastTestedAt
                 sortByFrequencyOfUseTextView.isSelected = deckSorting.criterion == FrequencyOfUse
                 sortByTaskTextView.isSelected = deckSorting.criterion == Task
+                newDecksFirstCheckBox.isChecked = deckSorting.newDecksFirst
             }
         }
     }

@@ -70,6 +70,12 @@ class DeckChooserController(
                 }
             }
 
+            NewDecksFirstCheckboxClicked -> {
+                with(deckReviewPreference) {
+                    deckSorting = deckSorting.copy(newDecksFirst = !deckSorting.newDecksFirst)
+                }
+            }
+
             is DeckButtonClicked -> {
                 val deck: Deck = globalState.decks.first { it.id == event.deckId }
                 when (screenState.purpose) {
@@ -136,7 +142,8 @@ class DeckChooserController(
             is SubmittedNewDeckName -> {
                 val abstractDeck = NewDeck(event.deckName)
                 when (screenState.purpose) {
-                    ToImportCards -> {}
+                    ToImportCards -> {
+                    }
                     ToMergeInto -> {
                         HomeDiScope.getOrRecreate().controller
                             .dispatch(DeckToMergeIntoWasSelected(abstractDeck))

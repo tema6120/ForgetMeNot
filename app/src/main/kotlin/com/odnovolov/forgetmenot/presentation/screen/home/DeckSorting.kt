@@ -5,7 +5,8 @@ import com.odnovolov.forgetmenot.presentation.screen.home.DeckSorting.Direction.
 
 data class DeckSorting(
     val criterion: Criterion,
-    val direction: Direction
+    val direction: Direction,
+    val newDecksFirst: Boolean
 ) {
     enum class Criterion {
         Name,

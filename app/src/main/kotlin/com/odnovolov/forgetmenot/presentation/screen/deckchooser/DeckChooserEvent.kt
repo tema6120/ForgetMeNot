@@ -8,6 +8,7 @@ sealed class DeckChooserEvent {
     class DeckListSelected(val deckListId: Long?) : DeckChooserEvent()
     object SortingDirectionButtonClicked : DeckChooserEvent()
     class SortByButtonClicked(val criterion: DeckSorting.Criterion) : DeckChooserEvent()
+    object NewDecksFirstCheckboxClicked : DeckChooserEvent()
     class DeckButtonClicked(val deckId: Long) : DeckChooserEvent()
     object AddDeckButtonClicked : DeckChooserEvent()
     class SubmittedNewDeckName(val deckName: String) : DeckChooserEvent()

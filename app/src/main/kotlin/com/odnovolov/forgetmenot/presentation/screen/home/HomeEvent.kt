@@ -15,6 +15,7 @@ sealed class HomeEvent {
     // Sorting:
     object SortingDirectionButtonClicked : HomeEvent()
     class SortByButtonClicked(val criterion: DeckSorting.Criterion) : HomeEvent()
+    object NewDecksFirstCheckboxClicked : HomeEvent()
 
     // Deck item:
     class DeckButtonClicked(val deckId: Long) : HomeEvent()

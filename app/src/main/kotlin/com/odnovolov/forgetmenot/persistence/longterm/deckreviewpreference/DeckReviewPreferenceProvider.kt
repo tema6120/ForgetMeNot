@@ -17,11 +17,12 @@ class DeckReviewPreferenceProvider(
         val deckReviewPreferenceDb: DeckReviewPreferenceDb =
             database.deckReviewPreferenceQueries.select(id).executeAsOne()
         val deckList: DeckList? = deckReviewPreferenceDb.deckListId?.let { deckListId: Long ->
-            globalState.deckLists.find { it.id == deckListId }
+            globalState.deckLists.find { deckList: DeckList -> deckList.id == deckListId }
         }
         val deckSorting = DeckSorting(
             deckReviewPreferenceDb.deckSortingCriterion,
-            deckReviewPreferenceDb.deckSortingDirection
+            deckReviewPreferenceDb.deckSortingDirection,
+            deckReviewPreferenceDb.newDecksFirst
         )
         return DeckReviewPreference(
             deckReviewPreferenceDb.id,

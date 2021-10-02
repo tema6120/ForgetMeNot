@@ -174,6 +174,12 @@ class HomeController(
                 }
             }
 
+            NewDecksFirstCheckboxClicked -> {
+                with(deckReviewPreference) {
+                    deckSorting = deckSorting.copy(newDecksFirst = !deckSorting.newDecksFirst)
+                }
+            }
+
             is DeckButtonClicked -> {
                 if (screenState.deckSelection != null) {
                     toggleDeckSelection(event.deckId)

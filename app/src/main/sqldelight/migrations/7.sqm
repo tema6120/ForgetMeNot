@@ -1,0 +1,23 @@
+import com.odnovolov.forgetmenot.presentation.screen.home.DeckSorting;
+
+CREATE TABLE new_DeckReviewPreferenceDb (
+    id INTEGER PRIMARY KEY,
+    deckListId INTEGER,
+    deckSortingCriterion TEXT AS DeckSorting.Criterion NOT NULL,
+    deckSortingDirection TEXT AS DeckSorting.Direction NOT NULL,
+    newDecksFirst INTEGER AS Boolean NOT NULL,
+    displayOnlyDecksAvailableForExercise INTEGER AS Boolean NOT NULL
+);
+
+INSERT INTO new_DeckReviewPreferenceDb
+SELECT id,
+       deckListId,
+       deckSortingCriterion,
+       deckSortingDirection,
+       1,
+       displayOnlyDecksAvailableForExercise
+FROM DeckReviewPreferenceDb;
+
+DROP TABLE DeckReviewPreferenceDb;
+
+ALTER TABLE new_DeckReviewPreferenceDb RENAME TO DeckReviewPreferenceDb;
