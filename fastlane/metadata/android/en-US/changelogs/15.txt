@@ -1,0 +1,2 @@
+- updated translations
+- accelerated the search for cards
