@@ -66,6 +66,7 @@
     <string name="deck_sorting_by_time_last_tested">Usado por último</string>
     <string name="deck_sorting_by_frequency_of_use">Frequência de uso</string>
     <string name="deck_sorting_by_task">Tarefa</string>
+    <string name="check_box_new_decks_first">New decks first</string>
     <string name="description_pin_icon">Ícone do Pin</string>
     <string name="deck_summary_table_average_laps">Médias de volta</string>
     <string name="deck_summary_table_learned">Aprendido</string>
@@ -141,6 +142,7 @@
     <string name="description_deck_list_icon">Ícone da lista do deck</string>
     <string name="title_select_deck_list_color_popup">Cor da lista de deck</string>
     <string name="custom_color">Cor personalizada</string>
+    <string name="description_random_color">Random color</string>
     <string name="toast_deck_list_is_removed">A lista de decks foi removida</string>
     <!-- Export dialog -->
     <string name="dialog_title_export">Exportar</string>
@@ -1062,12 +1064,15 @@
     <string name="thanks_to_translators">I would like to express my deep gratitude to everyone
         (especially the people from <a href="https://www.sekinfo.org">sekinfo.org</a>), who support
         the project by providing translation. You’re the best!</string>
+    <string name="language_basque">Basque</string>
     <string name="language_french">French</string>
     <string name="language_german">German</string>
     <string name="language_greek">Greek</string>
+    <string name="language_portuguese_brazilian">Portuguese, Brazilian</string>
     <string name="language_russian">Russian</string>
     <string name="language_spanish">Spanish</string>
     <string name="language_ukrainian">Ukrainian</string>
+    <string name="language_vietnamese">Vietnamese</string>
     <string name="text_support_app_button">Support app</string>
     <!-- DSV format screen -->
     <string name="screen_title_dsv_format">DSV format</string>

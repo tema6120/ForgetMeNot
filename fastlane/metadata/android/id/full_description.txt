@@ -1,0 +1,37 @@
+ForgetMeNot adalah aplikasi untuk menghafal informasi melalui flashcard. Simplicity, usability, speed were taken into account in the process of developing this educational program. This app provides excellent conditions for achieving high efficiency of memorization.
+
+
+Fitur-fitur yang didukung:
+
+    • Import/export of files.
+    • Support CSV, Tab text or any other kind of Delimiter-Separated Values.
+    • Intervals (Spaced repetition). You can specify your own interval scheme for each deck. Also it is possible to indicate one's own algorithm of how the answers affects the choice of the next interval.
+    • Beberapa metode pengujian. There are 'Self testing', 'Testing with variants', 'Spell check'.
+    • Pronunciation of the text via TTS. You can choose languages for questions and answers, enable autospeaking of them.
+    • Hiding the text of a question to stimulate improvement of listening skills that is very useful in foreign language learning.
+    • Card inversion.
+    • Hints in the form of masking letters.
+    • 'Motivational timer' that will make you concentrate on your studies (optionally).
+    • Saving settings of deck as presets and reusing them in order to avoid routine work on settings.
+    • Editing and searching cards right in the exercise.
+    • 'Walking mode' that enables you do the exercise without looking at the screen.
+    • 'Autoplaying mode'. In this mode questions and answers are pronounced sequentially. You can combine your own activities and repetition of teaching material.
+    • Catalog of pre-made decks. The catalog contains many decks for language learning, which includes basic sets of words, thematic words and phrases, whole sentences.
+    • Grouping decks into separate lists.
+    • Customizing the card appearance.
+    • Tema gelap.
+
+
+Apa yang membuat ForgetMeNot sangat efisien untuk menghafal:
+
+    - Nol iklan. You can handle a lot of cards in a short time due to the simplicity and convenience of the user interface. Tak ada yang menghalangi Anda untuk belajar.
+    - The exercise is designed so that you must eventually grasp the answer. If your answer is wrong, the card is postponed to the end of the list until you answer correct.
+    - Intervals (Spaced repetition). Spaced repetition reduces the forgetting that occurs when material is not encountered for a significant time period. It also involves actively recalling learned material, which supports learning.
+    - Possibility to edit a card just in the exercise. This allows you not only to correct mistakes, but also to rebuild cards if they are difficult to remember. For example, you can add an additional association in parentheses.
+    - Voice accompaniment. This is especially helpful when learning languages because it improves listening skills, helps to focus on studying and favors memorization. You can even set up a deck to perceive a question exceptionally by ear.
+    - Modes that allow you to practice not only in your free time. 'Walking mode' enables you do the exercise during walking. 'Autoplaying mode' lets you listen to questions and answers when your hands and eyes are busy, but your ears are free : )
+    - Focusing aids. 'Motivational timer' reminds you when you've lost your attention. Full screen mode hides the status bar, which might be an additional source of distraction.
+
+
+ForgetMeNot adalah perangkat lunak gratis dan sumber-terbuka.
+https://github.com/tema6120/ForgetMeNot

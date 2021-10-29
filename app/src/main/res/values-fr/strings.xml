@@ -66,6 +66,7 @@
     <string name="deck_sorting_by_time_last_tested">Dernière évaluation</string>
     <string name="deck_sorting_by_frequency_of_use">Fréquence d\'utilisation</string>
     <string name="deck_sorting_by_task">Tâche</string>
+    <string name="check_box_new_decks_first">New decks first</string>
     <string name="description_pin_icon">Icône d\'épingle</string>
     <string name="deck_summary_table_average_laps">Tps. moyen</string>
     <string name="deck_summary_table_learned">Appris</string>
@@ -141,6 +142,7 @@
     <string name="description_deck_list_icon">Icône de la liste de decks</string>
     <string name="title_select_deck_list_color_popup">Couleur de la liste des paquets</string>
     <string name="custom_color">Couleur personnalisée</string>
+    <string name="description_random_color">Random color</string>
     <string name="toast_deck_list_is_removed">La liste de paquets a été supprimée</string>
     <!-- Export dialog -->
     <string name="dialog_title_export">Exporter</string>
@@ -386,7 +388,7 @@ dans le temps alloué</string>
     <!-- Cards Editor screen -->
     <string name="card_label_duplicated">Dupliqué</string>
     <string name="card_label_current_in_exercise">Entraînement en cours</string>
-    <string name="card_label_current_in_player">Current in player</string>
+    <string name="card_label_current_in_player">Actuellement dans le lecteur</string>
     <string name="card_label_found">Trouvé</string>
     <string name="card_label_new">Nouveau</string>
     <string name="hint_question_edittext">Saisissez une question</string>
@@ -464,10 +466,10 @@ dans le temps alloué</string>
         l\'auto-expression de langue étrangère. Ainsi, vous comprendrez immédiatement comment les mots doivent être prononcés
         et cela peut vous aider à mémoriser plus rapidement les informations.</string>
     <string name="tip_pronunciation_screen_about_selection">Pour faire prononcer oralement une partie de texte, mettez-le simplement en surbrillance et cliquez sur l\'icône \'Lecture vocale\'.</string>
-    <string name="tip_pronunciation_screen_about_brackets">Provided \'Speak text in brackets\' is
-        off, it is easy to separate the text that should be pronounced from the text that
-        shouldn\'t. Use the brackets () [] {} &lt;&gt; for this. For example, wrap transcription,
-        synonyms, definition in them.</string>
+    <string name="tip_pronunciation_screen_about_brackets">Étant donné que « Lire le texte entre les parenthèses » est
+        désactivé, il est facile de séparer le texte qui devrait être prononcé du texte qui
+        ne doit pas être prononcé. Utilisez les parenthèses (), les crochets [], les accolades {} et les chevrons &lt;&gt; pour ça. Par exemple, entourez les transcriptions,
+        les synonymes et les définitions dans ceux-ci.</string>
     <string name="text_question_title_textview">Question</string>
     <string name="text_answer_title_textview">Réponse</string>
     <string name="default_language">Langue par défaut</string>
@@ -494,16 +496,16 @@ dans le temps alloué</string>
         d\'activer \'l\'énonciation automatique\' de la question afin de rendre l\'exercice plus confortable.</string>
     <!-- Testing method screen -->
     <string name="screen_title_testing_method">Méthode de test</string>
-    <string name="tip_testing_method_screen_without_testing">\'Without testing\' is suitable for
-        cases when you plan to run the cards once or twice.</string>
+    <string name="tip_testing_method_screen_without_testing">« Sans test » est approprié pour
+        les cas où vous planifiez de faire un tour des cartes une ou deux fois.</string>
     <string name="tip_testing_method_screen_self_testing">Dans la plupart des cas, « Auto-test » est le
         le meilleur choix. C\'est vous qui décidez si vous connaissez ou non la réponse.</string>
-    <string name="tip_testing_method_screen_testing_with_variants">\'Testing with variants\' is a
-        more playable testing method. You select right answer of four variants. The variants are
-        extracted from the same deck.</string>
-    <string name="tip_testing_method_screen_spell_check">With \'Spell check\', it is checked
-        whether the answer you entered matches the real answer. Suitable if spelling is
-        important to you.</string>
+    <string name="tip_testing_method_screen_testing_with_variants">« Tester avec des variantes » est une
+        méthode de test plus amusante. Vous devez sélectionner la réponse parmi quatre choix. Ces variantes sont
+        extraitent du même deck.</string>
+    <string name="tip_testing_method_screen_spell_check">Avec « Vérification de l\'orthographe », il est vérifié
+        si la réponse que vous avez entrée correspond à la vrai réponse. Convenable si l\'orthographe est
+        importante pour vous.</string>
     <string name="testing_method_without_testing">Sans test</string>
     <string name="testing_method_self_testing">Auto-test</string>
     <string name="testing_method_testing_with_variants">Test avec des variantes</string>
@@ -634,7 +636,7 @@ dans le temps alloué</string>
     <string name="description_cards_threshold_dialog_to_change_card_number_threshold_for_showing_filter">Spécifiez
         la limite de carte au-dessus de laquelle le filtre de carte sera affiché.</string>
     <string name="title_card_limit_dialog">Nombre maximum de cartes</string>
-    <string name="exercise_setting_card_position_display">Card position display</string>
+    <string name="exercise_setting_card_position_display">Affichage de la position de la carte</string>
     <string name="card_position_display_progress_bar">Barre de progression</string>
     <string name="card_position_display_text">Texte</string>
     <string name="exercise_setting_vibrate_on_wrong_answer">Vibrer en cas de mauvaise réponse</string>
@@ -698,7 +700,7 @@ dans le temps alloué</string>
     <string name="help_article_title_import_of_file">Importation de fichier</string>
     <string name="help_article_title_exercise">Entraînement</string>
     <string name="help_article_title_testing_methods">Méthodes de test</string>
-    <string name="help_article_title_grades_and_intervals">Grades and intervals</string>
+    <string name="help_article_title_grades_and_intervals">Notes et intervalles</string>
     <string name="help_article_title_pronunciation">Prononciation</string>
     <string name="help_article_title_question_display">Affichage des questions</string>
     <string name="help_article_title_motivational_timer">Minuteur de motivation</string>
@@ -771,40 +773,39 @@ dans le temps alloué</string>
 
         \n\nPuisque ce format n\'est pas strict, vous êtes invités à choisir un format de clarification parmi
         les prédéfinis ou créer le vôtre.</string>
-    <string name="article_exercise_paragraph_1">In the exercise, you should answer questions. For
-        each deck, you can specify unique settings, which can significantly change the examination
-        manner:
+    <string name="article_exercise_paragraph_1">Durant la relecture, vous devez répondre à des questions. Pour
+        chaque deck, vous pouvez spécifier des paramètres uniques, ce qui peut changer significativement la façon
+        d\'examiner:
 
-        \n\n\t- show cards in random order or not (Random order)
-        \n\n\t- how to check the answer
-        (<annotation clickable="testing_method">Testing method</annotation>)
-        \n\n\t- present the question visually or orally
-        (<annotation clickable="question_display">Question display</annotation>,
-        <annotation clickable="pronunciation">Pronunciation</annotation>)
-        \n\n\t- whether to pronounce question or answer automatically
-        (<annotation clickable="pronunciation">Pronunciation</annotation>)
-        \n\n\t- whether it is necessary to exchange the question and the answer. Of course, it might
-        be needed if they are interchangeable. (Card Inversion)
-        \n\n\t- is there a time limit for response
-        (<annotation clickable="motivational_timer">Motivational timer</annotation>)
+        \n\n\t- Si les cartes doivent être ordonnées aléatoirement ou non (Ordre aléatoire)
+        \n\n\t- La façon de vérifier les réponses
+        (<annotation clickable="testing_method">Méthode de test</annotation>)
+        \n\n\t- Si la question doit être présentée visuellement ou orallement
+        (<annotation clickable="question_display">Affichage des questions</annotation>,
+        <annotation clickable="pronunciation">Prononciation</annotation>)
+        \n\n\t- Si la question ou la réponse doit être lue automatiquement
+        (<annotation clickable="pronunciation">Prononciation</annotation>)
+        \n\n\t- Si il est nécessaire d\'intervertir la question et la réponse. (Inversion des cartes)
+        \n\n\t- Si il y une limite de temps pour répondre
+        (<annotation clickable="motivational_timer">Minuterie motivationnelle</annotation>)
 
-        \n\nRegardless of <annotation clickable="testing_method">testing method</annotation>,
-        the answer may be either correct or wrong. If the answer is wrong, the card will be asked
-        again until the answer is correct. It is needed in order to make sure that you commit the
-        answer to memory.</string>
+        \n\nPeu importe la <annotation clickable="testing_method">méthode de test</annotation>,
+        la réponse peut être soit juste soit fausse. Si la réponse est fausse, la carte sera démandée
+        de nouveau jusqu\'à ce que la réponse soit juste. C\'est nécessaire pour s\'assurer que vous
+        mémorisez la réponse.</string>
     <string name="question1_in_exercise_article">Un chapeau</string>
     <string name="answer1_in_exercise_article">Hat</string>
     <string name="question2_in_exercise_article">Des gants</string>
     <string name="answer2_in_exercise_article">Gloves</string>
     <string name="question3_in_exercise_article">Un manteau</string>
     <string name="answer3_in_exercise_article">Coat</string>
-    <string name="article_exercise_paragraph_2">Your answers influence
-        <annotation clickable="grade">the grade</annotation> of the card. If intervals are enabled,
-        the grade determines when the card will be asked again.
+    <string name="article_exercise_paragraph_2">Vos réponses influencent
+        <annotation clickable="grade">la note</annotation> de la carte. Si les intervalles sont activées,
+        la note determine quand la carte peut être demandée à nouveau.
 
-        \n\nIf you know the question well and you don\'t want this card ever to be asked again or
-        you don\'t want to study the card, click the \'Mark as learned\' icon. This card will never
-        be asked again.</string>
+        \n\nSi vous connaissez bien la question et que vous ne voulez plus que cette carte soit demandée de nouveau ou
+        parce que vous ne voulez plus étudier cette carte, cliquez sur l\'icône « Marqué comme appris ». Cette carte ne sera jamais
+        demandée de nouveau.</string>
     <string name="question4_in_exercise_article">Comment t\'appelles-tu ?</string>
     <string name="answer4_in_exercise_article">What\'s your name?</string>
     <string name="question5_in_exercise_article">Bonjour</string>
@@ -812,198 +813,198 @@ dans le temps alloué</string>
     <string name="variant2_in_exercise_article">Good afternoon</string>
     <string name="variant3_in_exercise_article">Good evening</string>
     <string name="variant4_in_exercise_article">Good night</string>
-    <string name="article_exercise_paragraph_3">You can edit the card just in the exercise. It
-        might be needed not only for correcting mistakes on the card, but also for improving the
-        card if it is difficult to remember. You may also use search if you confused answers.
+    <string name="article_exercise_paragraph_3">Vous pouvez modifier la carte durant la relecture. Cela
+        peut être nécessaire pas seulement lors de corrections d\'erreurs dans la carte, mais aussi pour améliorer la
+        carte si elle est difficile à mémoriser. Vous pouvez aussi utiliser la recherche si vous avez confondu des réponses.
 
-        \n\nThere are two types of hints available in the exercise:
+        \n\nIl y a deux types d\'indices disponible durant la relecture:
 
-        \n\n\t- \'Mask letters\'. This hint can be applied many times. The first time you turn to
-        the hint, all letters will be replaced with a masked character ■. You can see how many
-        words are in the answer, how many letters are in each word. If this is not enough, you can
-        unmask part of the answer. Just select a fragment and press \'Unmask selected region\' on
-        hint popup window.
+        \n\n\t- « Masquer les lettres ». Cette indice peut être appliqué plusieurs fois. La première fois que vous enclenchez
+        l\'indice, toutes les lettres vont être remplacées par un caractère masqué ■. Vous pouvez voir combien
+        de mots sont dans la réponse et combien de lettres sont dans chaque mot. Si ce n\'est pas assez, vous pouvez
+        démasquer des parties de la réponse. Sélectionnez un fragment de la réponse et appuyez sur « Démasquer le segment sélectionné » sur
+        la fenêtre popup de l\'indice.
 
-        \n\n\t- \'Get variants\'. Four variants will be provided to choose. The variants are taken
-        from the deck to which the card belongs. This hint can make it a lot easier to answer if the
-        deck is not designed for \'Testing method with variants\'.</string>
-    <string name="article_exercise_paragraph_4">You can also do the exercise without looking at the
-        screen in <annotation clickable="walking_mode">\'Walking mode\'</annotation>.</string>
+        \n\n\t- « Obtenir des variantes ». Quatre variantes vont être fournies. Les variantes sont prises
+        du deck d\'où les cartes proviennent. Cet indice peut rendre plus facile de répondre si le
+        deck n\'est pas conceptualisé pour « Méthode de test avec variantes ».</string>
+    <string name="article_exercise_paragraph_4">Vous pouvez également faire la relecture sans regarder votre
+        écran avec le mode <annotation clickable="walking_mode">« Mode marche »</annotation>.</string>
     <string name="article_testing_methods_paragraph_1">Les méthodes de test définissent comment la réponse sera testée.
 Il y a 4 options :</string>
     <string name="article_testing_methods_off_section_title">1. Sans test</string>
     <string name="question_example_off_testing_method">Всі діти в цьому класі дуже ввічливі.</string>
     <string name="answer_example_off_testing_method">Tous les enfants dans cette classe sont très polis.</string>
-    <string name="article_testing_methods_off_section_description">It may be used for decks with
-        which you do not plan to work for a long time. For example, it might be a deck that contains
-        sentences in the native and target language and you want to translate once without further
-        repetition.</string>
+    <string name="article_testing_methods_off_section_description">Cela peut être utilisé dans les decks avec
+        ceux où vous ne prévoyez pas de travailler longtemps. Par exemple, cela peut être un deck qui contient
+        des phrases dans le langage natif et le langage cible et vous voulez les traduires une seule fois sans plus de
+        répétition.</string>
     <string name="article_testing_methods_manual_section_title">2. Auto-test</string>
-    <string name="question_example_manual_testing_method">mime\n\n\\verb\\</string>
-    <string name="answer_example_manual_testing_method">[maɪm]\n\nuse gesture and movement without
-        words in the acting of a play or role</string>
+    <string name="question_example_manual_testing_method">mimer\n\n\\verbe\\</string>
+    <string name="answer_example_manual_testing_method">[mime]\n\nExprimer par le geste, par le jeu de physionomie, sans
+        parler, les attitudes de quelqu\'un, des sentiments, une action</string>
     <string name="article_testing_methods_manual_section_description">Méthode de test basique. Vous décidez si vous vous souvenez de la réponse ou non. L\'avantage principal est l\'efficacité de la mémorisation.</string>
     <string name="article_testing_methods_quiz_section_title">3. Test avec des variantes</string>
     <string name="question_example_quiz_testing_method">la perche</string>
-    <string name="answer_example_quiz_testing_method_variant1">herring</string>
+    <string name="answer_example_quiz_testing_method_variant1">Hareng</string>
     <string name="answer_example_quiz_testing_method_variant2">truite</string>
     <string name="answer_example_quiz_testing_method_variant3">saumon</string>
     <string name="answer_example_quiz_testing_method_variant4">bar</string>
-    <string name="article_testing_methods_quiz_section_description">In this mode, you need to choose
-        the correct variant from the four offered. Variants are taken from the deck to which the
-        card belongs. Therefore, if you are going to use this testing method, it is important to
-        create a deck where variants are appropriate. For example, it could be a
-        \'word-translation\' deck with the same parts of speech. This is a more playful form of
-        testing, so it\'s great for kids. The disadvantage is the average memory efficiency, as
-        variants are an significant clue.</string>
+    <string name="article_testing_methods_quiz_section_description">Dans ce mode, vous devez choisir
+        la variante correcte parmi les quatre données. Les variantes sont prisent du deck d\'où
+        les cartes proviennent. Par conséquent, si vous allez utiliser cette méthode de test, il est important de
+        créer un deck où les variantes sont appropriées. Par exemple, cela pourrait être un
+        deck « Traduction de mots » avec la même thématique. C\'est une forme de test plus
+        ludique, donc c\'est une meilleure méthode pour les enfants. Le désavantage est le taux de mémorisation réduit avec
+        cette méthode, car les variantes sont des indices plutôt significatifs.</string>
     <string name="article_testing_methods_entry_section_title">4. Vérification de l’orthographe</string>
-    <string name="question_example_entry_testing_method">Past participle form of \'bring\'</string>
-    <string name="answer_example_entry_testing_method">brought</string>
-    <string name="article_testing_methods_entry_section_description">This method will be useful if
-        you want to test the spelling of words. It can be used as a dictation. To do this, create a
-        deck where the question and answer will be the same, turn off the question display, select
-        the language and enable the auto-pronunciation of the question in the deck settings.</string>
-    <string name="article_grade_and_intervals_paragraph1">Each card is characterized by the grade.
-        Each answer in the exercise affects the grade according to the \'Grading\' settings. You can
-        configure how the answers should be graded in the deck settings. By default, the grades are
-        changed in the following way:
+    <string name="question_example_entry_testing_method">Participe passé d\'« amener »</string>
+    <string name="answer_example_entry_testing_method">Amené</string>
+    <string name="article_testing_methods_entry_section_description">Cette méthode est utile si
+        vous voulez vous tester sur l\'orthographe des mots. Elle peut être utilisée comme une dictée. Pour faire cela, créez un
+        deck où la question et la réponse sont identiques, désactivez l\'affichage de la question, sélectionnez
+        la langue et activez la prononciation automatique de la question dans les paramètres du deck.</string>
+    <string name="article_grade_and_intervals_paragraph1">Chaque carte est caractérisée par une note.
+        Chaque réponse dans la relecture impacte la note selon les paramètres de « Notation ». Vous pouvez
+        configurer comment les réponses devraient être notées dans les paramètres du deck. Par défaut, les notes sont
+        changées de la manière suivant:
 
-        \n\n\t- decreases by one for each wrong answer, but not less than zero
+        \n\n\t- Diminue de un pour chaque mauvaise réponse, mais ne va jamais en dessous de zéro
 
-        \n\n\t- increases by one with the correct answer, but only if the card is answered for the
-        first time in this exercise session
+        \n\n\t- Augmente de un pour chaque réponse correcte, mais seulement si la carte a été répondue pour la
+        première fois dans cette session de relecture
 
-        \n\n\t- does not change if the answer is correct, but this card was sent for retesting,
-        due to an incorrect answer the previous time</string>
+        \n\n\t- Ne change pas si la réponse est correct, mais cette carte a été envoyée de nouveau pour être testée,
+        dû à une réponse incorrecte la première fois</string>
     <string name="question_in_grade_and_intervals_article">цинк</string>
     <string name="answer_in_grade_and_intervals_article">zinc</string>
-    <string name="article_grade_and_intervals_paragraph2">The grade is directly related to
-        intervals, which are applied to the deck. The intervals affect when the card is available
-        for the exercise next time after responding. Usually, the higher the grade, the longer the
-        interval. That is, the intervals are needed so that you deal more with poorly-studied cards
-        and less with well-studied ones.
+    <string name="article_grade_and_intervals_paragraph2">La note est directement reliée aux
+        intervalles qui sont appliquées sur le deck. Les intervalles changent quand la carte est disponible
+        pour la prochaine relecture après avoir répondu. Habituellement, plus élevée est la note, plus longue
+        sera l\'intervalle. Les intervalles sont nécessaires pour que vous puissiez réviser plus les cartes les moins bien apprises
+        et moins avec les cartes les mieux apprises.
 
-        \n\nPerhaps, for some reason, you want to change the grade. Just tap on the \'Grade\' icon
-        and choose the one you want. Usually, when you change the grade, you would like to clarify
-        how long it will take to be this card questioned again. If you manually changed the grade,
-        the standard scheme would not apply to this card for this exercise session.</string>
-    <string name="article_question_display_paragraph_1">You can turn off the question display. In
-        this case, it is supposed that you will get the question via voice playback. This will help
-        improve your listening skills when learning a foreign language. Together with this, it is
-        appropriate to enable the automatic pronunciation of the question. If you still want to see
-        the question, just click on \'Show question\'.</string>
+        \n\nPeut-être, pour une quelconque raison, vous voulez changer la note d\'une carte. Cliquez sur l\'icône « Note »
+        et choisissez celle que vous voulez. Souvent, quand vous changez la note, vous voulez spécifier
+        combien de temps catte carte va prendre pour être demandée à nouveau. Si vous changez manuellement la note,
+        le schéma des intervalles ne sera pas appliqué pour cette carte durant la session actuelle de relecture.</string>
+    <string name="article_question_display_paragraph_1">Vous pouvez désactiver l\'affichage de la question. Dans
+        ce cas, il est supposé que vous aurez la question via la lecture vocal. Cela va vous aider
+        à améliorer vos compétences d\'écoute lors de l\'apprentissage d\'une langue étrangère. Avec cela, il est
+        approprié d\'activer la prononciation automatique de la question. Si vous voulez toujours voir
+        la question, cliquez sur « Afficher la question ».</string>
     <string name="question_in_question_display_article">Je demande à voir un avocat!</string>
     <string name="answer_in_question_display_article">I demand to see an avocado!</string>
-    <string name="article_motivational_timer">\'Motivational timer\' designed to focus your
-        attention on learning. If it is on, then you have some time to answer the question. If you
-        miss the deadline, the card is considered as expired, and the answer is automatically
-        marked as incorrect. If you have set enough time to respond, then the reason for expiring
-        the card is that you have lost concentration, and the motivational timer will act as a
-        reminder of this. If you are thinking of the answer and feel that you don\'t have enough
-        time, tap on \'Stop\' on timer popup window to stop the timer.</string>
+    <string name="article_motivational_timer">Le « Minuterie motivationnelle » est conçu pour concentrer votre attention
+        sur l\'apprentissage. Si ce paramètre est activé, vous allez avoir un temps limité pour répondre à la question. Si vous
+        dépassez la limite, la carte sera considérée comme expirée, et la réponse sera automatiquement
+        marquée comme incorrecte. Si vous avez définis assez de temps pour répondre, alors la raison pour laquelle la carte
+        a expirée est que vous avez perdu de la concentration, et que la minuterie motivationnelle va agir comme un
+        rappel de ceci. Si vous pensez que vous n\'avez pas assez
+        de temps pour réfléchir à la réponse, appuiez sur « Stop » sur la popup de la minuterie pour arrêter la minuterie.</string>
     <string name="question_in_motivational_timer_article">Combien fait 0,0193 km en décimètres?</string>
     <string name="answer_in_motivational_timer_article">193</string>
-    <string name="article_pronunciation">This app supports the pronunciation of text
-        through Text-to-speech API provided by Android OS. For each deck, you can choose the
-        language in which to pronounce the question, and the language in which to pronounce the
-        answer. Therefore, it is important to use one language for questions and one language for
-        answers when creating a deck. If you want to have cards with different languages of
-        questions and answers, then you need to create separate decks. It is recommended to always
-        indicate languages.
+    <string name="article_pronunciation">Cette app supporte la lecture de texte
+        par l\'API Text-to-speech fournie par Android OS. Pour chaque deck, vous pouvez choisir la
+        langue dans laquelle prononcer la question, et la langue dans laquelle prononcer la
+        réponse. Par conséquent, il est important d\'utiliser uniquement une seule langue pour les questions et une pour
+        les réponses lors de la création d\'un deck. Si vous voulez avoir des cartes dans différentes langues pour
+        les questions et les réponses, vous allez avoir besoin de créer des decks séparés. Il est recommandé de toujours
+        indiquer les langues pour les questions et réponses.
 
-        \n\nYou can also choose to automatically pronounce the question or answer. This is always
-        useful when learning languages.
+        \n\nVous pouvez aussi choisir d\'activer la prononciation automatique de la question ou de la réponse. C\'est toujours
+        utile lors de l\'apprentissage de langues.
 
-        \n\nIf \'Speak text in brackets\' is disabled, then the application will not speak the text
-        framed in brackets () {} [] &lt;&gt;. So you can add any additional information in brackets,
-        for example, transcription of words, synonyms, words with which you often confuse
-        translation.
+        \n\nSi « Prononcer le texte entre paranthèses » est désactivé, alors l\'application ne prononcera pas le texte
+        entouré par des paranthèses ( « ( ) » ), des accolades ( « { } » ), des crochets ( « [ ] » ) ou des chevrons ( « &lt; &gt; » ).
+        Vous pouvez donc ajouter des informations supplémentaires dans ces paranthèses,
+        par exemple, la transcription des mots, des synonymes ou encore des mots que vous confondez souvent.
 
-        \n\nTo pronounce some part of the text, just highlight it and click the pronunciation
-        icon.</string>
-    <string name="article_walking_mode">\'Walking mode\' is a special mode of exercise where you
-        can answer questions without looking at the screen. Control is carried out using
-        <annotation clickable="walking_mode_settings">gestures of the volume buttons</annotation>.
-        Each action is accompanied with pronunciation, for example, when you go to the next card,
-        a question will be pronounced, when you answer (remember/not remember), the answer will be
-        pronounced.
+        \n\nPour prononcer une partie spécifique du texte, surlignez la partie à prononcer et cliquez sur l\'icône de
+        prononciation.</string>
+    <string name="article_walking_mode">Le « mode marche » est une mode particulier d\'exercice où vous
+        pouvez répondre aux questions sans avoir besoin de regarder l\'écran. Le contrôle s\'effectue par l\'utilisation des
+        <annotation clickable="walking_mode_settings">Mouvements et boutons de volume</annotation>.
+        Chaque action est accompagnée d\'une prononciation, par exemple, quand vous allez sur la carte suivante,
+        la question sera prononcée. Et quand vous répondez (Mémorisé/Pas mémorisé), la réponse sera
+        prononcée.
 
-        \n\nThis mode can be used when you walk to somewhere and you want to make good use of time.
-        That\'s where it got its name from.
+        \n\nCe mode peut être utilisé quand vous marchez et que vous voulez faire bon usage de ce temps.
+        C\'est pour cela que ce mode a obtenu ce nom.
 
-        \n\n⚠️ Precautions:
+        \n\n⚠️ Précautions :
 
-        \n\n- the screen must be keep on. This is due to the Android operating system: applications
-        can use the volume keys only when it is in the foreground.
+        \n\n- L\'écran doit rester allumé. Cela est dû au système d\'exploitation Android : les applications
+        peuvent uniquement utiliser les boutons de volume quand l\'application est au premier plan.
 
-        \n\n- Methods \'Testing with variants\' and \'Spell check\' are inappropriate to
-        use in this mode and therefore forcibly switch to the \'Self testing\'.
+        \n\n- Les méthodes « Test avec des variantes » et « Contrôle de l\'orthographe » sont inapropriées
+        lors de l\'utilisation du mode marche et par conséquent, la méthode passe à « Auto-test ».
 
-        \n\n- auto-pronunciation of questions and answers is turned on. Don\'t forget to specify
-        the correct languages ​​in the deck pronunciation settings.
+        \n\n- La prononciation des questions et des réponses est activée automatiquement. N\'oubliez pas de spécifier
+        les langues correctes à utiliser dans les paramètres de prononciation du deck.
 
-        \n\n- \'Motivational timer\' is turned off.</string>
-    <string name="article_autoplaying_cards">Autoplaying cards is a mode in which questions and
-        answers are pronounced in turn. It can be compared to an audio player, but instead of
-        tracks, questions and answers are played. This mode is suitable when you are doing
-        something, but could listen simultaneously, for example, when preparing food.
+        \n\n- La « Minuterie motivationnelle » est désactivée.</string>
+    <string name="article_autoplaying_cards">La lecture automatique des cartes est un mode dans lequel les questions et
+        les réponses sont prononcées une par une. Cela peut être comparé à un lecteur audio, mais à la place de
+        pistes, les questions et les réponses sont lues. Ce mode est adapté à quand vous faites
+        quelque chose mais que vous pouvez écouter simultanément. Par exemple, quand vous préparez à manger.
 
-        \n\nFor each deck, you can customize the pronunciation plan. For example, to pronounce a
-        question twice, or to increase the interval between question and answer so that you have
-        enough time to remember the answer before you hear it.</string>
-    <string name="article_presets">Preset is a set of controls created in advance that can be
-        reused. Presets are needed to avoid the routine of settings decks.
+        \n\nPour chaque deck, vous pouvez personnaliser le plan de prononciation. Par exemple, pour prononcer la
+        question deux fois ou pour augmenter l\'intervalle entre les questions et les réponses pour que vous ayez
+        assez de temps pour vous souvenir de la réponse avant de l\'entendre.</string>
+    <string name="article_presets">Les préréglages sont un ensemble de réglages créés en avance qui peuvent être
+        réutilisés. Les préréglages sont nécessaires pour éviter une routine de réglage des decks.
 
-        \n\nWhat preset names mean:
+        \n\nCe que les noms des préréglages signifient :
 
-        \n\n\tDefault - standard unchangeable settings.
+        \n\n\tPar défaut - Réglages standards non modifiables.
 
-        \n\n\tIndividual - no preset is applied.
+        \n\n\tIndividuel - Aucun préréglage n\'est utilisé.
 
-        \n\n\t\'Your preset name\' - a saved preset that can be shared. Any change of this preset
-        will affect each deck to which it is applied.</string>
-    <string name="article_advice_on_compiling_deck">1. Try to keep your cards as short as possible.
-        It is better to create several than to put everything into one. For example, if you create
-        a card for memorizing a foreign word, then it should describe only one interpretation of
-        it, which can be expressed in no more than 3 words. You can add additional information in
-        parentheses, but the answer itself should be short.
+        \n\n\t« Votre nom de préréglage » - Un préréglage sauvegardé qui peut être partagé. Chaque changement de ce préréglage
+        va affecter les autres decks sur lesquels le préréglage en question est appliqué.</string>
+    <string name="article_advice_on_compiling_deck">1. Essayez de garder vos cartes aussi courtes que possible.
+        Il vaut mieux créer plusieurs cartes que de mettre tout dans une seule. Par exemple, si vous créez
+        une carte pour mémoriser un mot étranger, alors elle devrait décrire uniquement une seule interprétation
+        du mot, qui peut être exprimé en pas plus de 3 mots. Vous pouvez ajouter des informations supplémentaires dans les
+        paranthèses, mais la réponse elle-même doit être courte.
 
-        \n\n2. Create decks taking into account the settings that you are going to apply to them.
+        \n\n2. Créez des decks qui prennent en compte les réglages que vous allez appliquer au deck.
 
-        \n\n\t- For testing method \'Testing with variants\', variants are taken from the same
-        deck. Therefore, the cards should contain answers that fit to be variants.
+        \n\n\t- Pour la méthode de test « Test avec variantes », les variantes sont prises depuis le même
+        deck. Par conséquent, les cartes devraient contenir uniquement des réponses qui conviennent à la méthode des variantes.
 
-        \n\n\t- In the pronunciation settings of a deck, you can specify a language for questions
-        and another language for answers. Therefore, you need to create deck where one language is
-        used for questions, and also one language is used for answers.
+        \n\n\t- Dans les paramètres de prononciation d\'un deck, vous pouvez spécifier une langue pour les questions
+        et une autre pour les réponses. Par conséquent, vous aurez besoin de créer des decks dans lesquels la même langue est
+        utilisées pour toutes les questions, et une autre ou la même pour toutes les réponses.
 
-        \n\n\t- If you want to use \'Card inversion\', then create such a card so that an answer can
-        look like a question.
+        \n\n\t- Si vous voulez utiliser « Inversion des cartes », alors créez des cartes où une réponse peut
+        ressemble à une question.
 
-        \n\n3. If you are creating the deck as a file on your computer, you can download
-        <a href="https://drive.google.com/file/d/1pfAZ6tCgNMwCfXnc-F7-Fi5f8_W5eDXT/view?usp=sharing">this template file</a>.
-        All you need to do is replace \'question\' with your question and \'answer\' with your
-        answer. Use Copy/Paste to speed up composing. If you are creating a deck on your Android
-        device, try to use multi-window mode.
+        \n\n3. Si vous êtes en train de créer un deck en tant que fichier sur votre ordinateur, vous pouvez télécharger
+        <a href="https://drive.google.com/file/d/1pfAZ6tCgNMwCfXnc-F7-Fi5f8_W5eDXT/view?usp=sharing">ce fichier modèle</a>.
+        Tout ce que vous avez besoin de faire c\'est de remplacer « question » par votre question et « answer » par votre
+        réponse. Utilisez Copier/Coller pour accélérer la création du fichier. Si vous créez un deck sur votre appareil
+        Android, vous pouvez essayer d\'utiliser le mode fenêtres multiples.
 
-        \n\n4. Think of the deck compiling as part of the learning process. Try to remember
-        everything on the fly.</string>
-    <string name="article_advice_on_studying">1. Don\'t memorize an answer word for word. The main
-        thing is that you have an understanding of the answer. Always visualize the question being
-        asked.
+        \n\n4. Pensez à la compilation du deck comme étant part de votre processus d\'apprentissage. Essayez de mémoriser
+        tout à la volée.</string>
+    <string name="article_advice_on_studying">1. Ne mémorisez pas une réponse mot pour mot. Le principal
+        est que vous comprenez la réponse. Visualisez tout le temps la question
+        posée.
 
-        \n\n2. If you are learning a foreign language, speak answers aloud. This will help you not
-        only to pronounce words correctly, but also to focus on your studies.
+        \n\n2. Si vous apprenez une langue étrangère, prononcez les réponses à voix haute. Cela ne vous aidera pas
+        uniquement à prononcer les mots correctement, mais aussi à vous concentrer sur votre apprentissage.
 
-        \n\n3. Use tools that help you focus on your studies. Use
-        <annotation clickable="motivational_timer">\'Motivational timer\'</annotation>, turn on
-        full screen mode, activate the \'Do not disturb\' mode in the device settings.
+        \n\n3. Utilisez des outils qui vous aident à vous concentrer sur votre apprentissage. Utilisez la
+        <annotation clickable="motivational_timer">« Minuterie motivationnelle »</annotation>, activez
+        le mode plein-écran et activez le mode « Ne pas déranger » dans les réglages de votre appareil.
 
-        \n\n4. If the question is bad for you to remember, edit the card, rephrase the question,
-        remove the unnecessary in the answer. If you got the answers mixed up, use the search and
-        find the confusing card.
+        \n\n4. Si la question est tellement dure à mémoriser pour vous, modifiez la carte, reformulez la question et
+        supprimez l\'inutile dans la réponse. Si vous confondez des réponses, utilisez l\'outil de recherche pour
+        trouver la carte qui cause cette confusion.
 
-        \n\n5. Make it a rule that once a day you should not have any tasks left to study.</string>
+        \n\n5. Faites-vous une règle pour que, chaque jour, vous devriez avoir plus aucune tâche restante à apprendre.</string>
     <!-- About screen -->
     <string name="description_app_logo">Logo de l\'application</string>
     <string name="about_item_developer">Odnovolov Artem</string>
@@ -1047,45 +1048,48 @@ Il y a 4 options :</string>
 
         \n\nJe ne poursuis, en aucune manière, des objectifs commerciaux. Mon application est entièrement gratuite et ouverte
         source. J\'aimerais savoir ce que vous pensez de mon application !</string>
-    <string name="translations_title">Translations</string>
-    <string name="thanks_to_translators">I would like to express my deep gratitude to everyone
-        (especially the people from <a href="https://www.sekinfo.org">sekinfo.org</a>), who support
-        the project by providing translation. You’re the best!</string>
-    <string name="language_french">French</string>
-    <string name="language_german">German</string>
-    <string name="language_greek">Greek</string>
-    <string name="language_russian">Russian</string>
-    <string name="language_spanish">Spanish</string>
-    <string name="language_ukrainian">Ukrainian</string>
+    <string name="translations_title">Traductions</string>
+    <string name="thanks_to_translators">J\'aimerai exprimer ma profonde gratitude à tout le monde
+        (en particulier aux gens de <a href="https://www.sekinfo.org">sekinfo.org</a>), qui soutiennent
+        ce projet en fournissant une traduction. Vous êtes les meilleurs !</string>
+    <string name="language_basque">Basque</string>
+    <string name="language_french">Français</string>
+    <string name="language_german">Allemand</string>
+    <string name="language_greek">Grec</string>
+    <string name="language_portuguese_brazilian">Portuguese, Brazilian</string>
+    <string name="language_russian">Russe</string>
+    <string name="language_spanish">Espagnol</string>
+    <string name="language_ukrainian">Ukrainien</string>
+    <string name="language_vietnamese">Vietnamese</string>
     <string name="text_support_app_button">Aider l\'app</string>
     <!-- DSV format screen -->
     <string name="screen_title_dsv_format">Format DSV</string>
-    <string name="tip_dsv_format">Delimiter-separated values are processed with the
-        <annotation clickable="csv_library">Apache Commons CSV library</annotation>. Visit
-        <annotation clickable="CSVFormat">this page</annotation> to learn more about format
-        settings.
+    <string name="tip_dsv_format">Les valeurs séparées par un délimiteur sont traitées avec la
+        <annotation clickable="csv_library">librairie Apache Commons CSV</annotation>. Visitez
+        <annotation clickable="CSVFormat">cette page</annotation> pour en savoir plus à propos des réglages
+        du format.
 
-        \n\nSpecial characters:
-        \n\t\\n - new line
-        \n\t\\r - carriage return
-        \n\t\\t - horizontal tab</string>
+        \n\nCaractères spéciaux :
+        \n\t\\n - Nouvelle ligne
+        \n\t\\r - Retour chariot
+        \n\t\\t - Tabulation horizontale</string>
     <string name="description_delete_format_settings">Supprimer les paramètres de format</string>
     <string name="dsv_format_setting_delimiter">Séparateur</string>
     <string name="dsv_format_setting_trailing_delimiter">Délimiteur de fin</string>
-    <string name="dsv_format_setting_quote_character">Quote character</string>
-    <string name="dsv_format_setting_quote_mode">Quote mode\n(Used for outputs)</string>
-    <string name="dsv_format_setting_escape_character">Escape character</string>
-    <string name="dsv_format_setting_null_string">Null string</string>
-    <string name="dsv_format_setting_ignore_surrounding_spaces">Ignore surrounding spaces</string>
-    <string name="dsv_format_setting_trim">Trim</string>
+    <string name="dsv_format_setting_quote_character">Guillemets</string>
+    <string name="dsv_format_setting_quote_mode">Mode d\'ajout des guillemets\n(Utilisé pour les sorties (outputs))</string>
+    <string name="dsv_format_setting_escape_character">Caractère d\'échappement</string>
+    <string name="dsv_format_setting_null_string">Chaîne de caractères nulle</string>
+    <string name="dsv_format_setting_ignore_surrounding_spaces">Ignorer les espaces entourant</string>
+    <string name="dsv_format_setting_trim">Supprimer les espaces de début et de fin</string>
     <string name="dsv_format_setting_ignore_empty_lines">Ignorer les lignes vides</string>
-    <string name="dsv_format_setting_record_separator">Record separator\n(Used for outputs)</string>
-    <string name="dsv_format_setting_comment_character">Comment character</string>
+    <string name="dsv_format_setting_record_separator">Sépérateur d\'entrées\n(Utilisé pour les sorties (outputs))</string>
+    <string name="dsv_format_setting_comment_character">Caractère de commentaire</string>
     <string name="dsv_format_setting_skip_header_record">Ignorer l\'enregistrement de l\'en-tête</string>
     <string name="dsv_format_setting_header_column_names">Noms des colonnes d\'en-tête</string>
-    <string name="dsv_format_setting_ignore_header_names_case">Ignore header names case</string>
-    <string name="dsv_format_setting_allow_duplicate_header_names">Allow duplicate header names</string>
-    <string name="dsv_format_setting_allow_missing_column_names">Allow missing column names</string>
+    <string name="dsv_format_setting_ignore_header_names_case">Ignorer la casse des noms des en-têtes</string>
+    <string name="dsv_format_setting_allow_duplicate_header_names">Autoriser les doublons dans les noms d\'en-tête</string>
+    <string name="dsv_format_setting_allow_missing_column_names">Autoriser les noms de colonnes manquants</string>
     <string name="dsv_format_setting_header_comments">Commentaires d\'en-tête</string>
     <string name="dsv_format_setting_auto_flush">Nettoyage auto</string>
     <string name="dsv_quote_mode_all">Tous</string>

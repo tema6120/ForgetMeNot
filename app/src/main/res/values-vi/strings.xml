@@ -65,6 +65,7 @@
     <string name="deck_sorting_by_time_last_tested">Thời gian kiểm tra lần cuối</string>
     <string name="deck_sorting_by_frequency_of_use">Tần suất sử dụng</string>
     <string name="deck_sorting_by_task">Công việc</string>
+    <string name="check_box_new_decks_first">New decks first</string>
     <string name="description_pin_icon">Biểu tượng ghim</string>
     <string name="deck_summary_table_average_laps">Số vòng t.bình</string>
     <string name="deck_summary_table_learned">Đã học</string>
@@ -132,6 +133,7 @@
     <string name="description_deck_list_icon">Biểu tượng danh sách bộ thẻ</string>
     <string name="title_select_deck_list_color_popup">Màu danh sách bộ thẻ</string>
     <string name="custom_color">Màu tùy chỉnh</string>
+    <string name="description_random_color">Random color</string>
     <string name="toast_deck_list_is_removed">Danh sách bộ thẻ đã bị xoá</string>
     <!-- Export dialog -->
     <string name="dialog_title_export">Xuất</string>
@@ -228,31 +230,31 @@
         TTS hiện tại (%1$s) không hỗ trợ %2$s</string>
     <string name="speak_error_description_missing_data_for_language">Thiếu dữ liệu cho %1$s</string>
     <string name="error_message_failed_to_speak">Nói thất bại</string>
-    <string name="error_message_cannot_get_audio_focus">Cannot get audio focus</string>
-    <string name="description_hint_button">Hint</string>
-    <string name="popup_title_hints">Hints</string>
-    <string name="description_hint_icon">Hint icon</string>
-    <string name="text_hint_get_variants">Get variants</string>
-    <string name="text_hint_mask_letters_button">Mask letters</string>
-    <string name="text_unmask_the_first_letter_button">Unmask the first letter</string>
-    <string name="text_unmask_selected_region_button">Unmask selected region</string>
-    <string name="hints_are_not_accessible_because_the_card_is_answered">The hints are not
-        accessible because the card is answered</string>
-    <string name="hints_are_not_accessible_because_the_card_is_learned">The hints are not
-        accessible because the card is learned</string>
-    <string name="description_timer_button">Timer</string>
-    <string name="popup_title_timer">Timer</string>
-    <string name="description_timer_icon">Timer icon</string>
-    <string name="text_stop_timer_button">Stop</string>
-    <string name="timer_is_off_because_walking_mode">The timer is off because \'Walking mode\' is
-        enabled. Since in this mode we perceive cards aurally rather than visually, the timer may
-        be confusing.</string>
-    <string name="timer_stopped">The timer is stopped</string>
-    <string name="time_is_over">Time is over!</string>
-    <string name="description_edit_card">Edit card</string>
-    <string name="description_edit_deck_settings">Edit deck settings</string>
-    <string name="description_search_button">Search</string>
-    <string name="description_walking_mode_button">Walking mode</string>
+    <string name="error_message_cannot_get_audio_focus">Không thể tập trung âm thanh</string>
+    <string name="description_hint_button">Gợi ý</string>
+    <string name="popup_title_hints">Gợi ý</string>
+    <string name="description_hint_icon">Biểu tượng gợi ý</string>
+    <string name="text_hint_get_variants">Lấy biến thể</string>
+    <string name="text_hint_mask_letters_button">Che chữ cái</string>
+    <string name="text_unmask_the_first_letter_button">Bỏ che chữ cái đầu</string>
+    <string name="text_unmask_selected_region_button">Bỏ che khu vực được chọn</string>
+    <string name="hints_are_not_accessible_because_the_card_is_answered">Không truy cập được
+        gợi ý vì thẻ đã được trả lời</string>
+    <string name="hints_are_not_accessible_because_the_card_is_learned">Không truy cập được
+        gợi ý vì thẻ đã được học</string>
+    <string name="description_timer_button">Hẹn giờ</string>
+    <string name="popup_title_timer">Hẹn giờ</string>
+    <string name="description_timer_icon">Biểu tượng hẹn giờ</string>
+    <string name="text_stop_timer_button">Dừng</string>
+    <string name="timer_is_off_because_walking_mode">Hẹn giờ bị tắt vì \'Chế độ đi bộ\' đang bật.
+        Vì ở chế độ này chúng ta nhìn nhận các thẻ theo âm thanh thay vì thị giác, việc hẹn giờ
+        có thể bị gây khó hiểu.</string>
+    <string name="timer_stopped">Hẹn giờ đã dừng</string>
+    <string name="time_is_over">Hết thời gian!</string>
+    <string name="description_edit_card">Chỉnh sửa thẻ</string>
+    <string name="description_edit_deck_settings">Chỉnh sửa cài đặt bộ thẻ</string>
+    <string name="description_search_button">Tìm kiếm</string>
+    <string name="description_walking_mode_button">Chế độ đi bộ</string>
     <string name="popup_title_walking_mode">Chế độ đi bộ</string>
     <string name="description_walking_mode_icon">Biểu tượng chế độ đi bộ</string>
     <string name="description_walking_mode_settings_button">Cài đặt chế độ đi bộ</string>
@@ -276,199 +278,200 @@
     <string name="title_card_filter_last_tested">Kiểm tra lần cuối</string>
     <string name="title_last_tested_from">Từ</string>
     <string name="title_last_tested_to">đến</string>
-    <string name="zero_time">Zero time</string>
-    <string name="now">Now</string>
-    <string name="time_ago">%1$s ago</string>
+    <string name="zero_time">Không thời gian</string>
+    <string name="now">Bây giờ</string>
+    <string name="time_ago">%1$s trước</string>
     <string name="title_dialog_last_tested_from">Kiểm tra lần cuối từ</string>
     <string name="title_dialog_last_tested_to">Kiểm tra lần cuối đến</string>
-    <string name="ago">ago</string>
+    <string name="ago">trước</string>
     <string name="text_start_playing_button">Bắt đầu phát</string>
-    <string name="toast_text_no_card_matches_filter_conditions">No card matches filter conditions</string>
+    <string name="toast_text_no_card_matches_filter_conditions">Không có thẻ nào khớp với điều kiện bộ lọc</string>
     <!-- Player screen -->
     <string name="player_notification_channel_name">Trình phát thẻ</string>
-    <string name="player_notification_channel_description">Sequential pronunciation of
-        questions and answers</string>
+    <string name="player_notification_channel_description">Phát âm tuần tự
+        các câu hỏi và câu trả lời</string>
     <string name="player_notification_title">Trình phát thẻ</string>
-    <string name="pause_in_notification">Pause</string>
-    <string name="resume_in_notification">Resume</string>
+    <string name="pause_in_notification">Tạm dừng</string>
+    <string name="resume_in_notification">Tiếp tục</string>
     <string name="play_one_more_lap_in_notification">Phát một vòng nữa</string>
-    <string name="description_laps_button">Laps</string>
+    <string name="description_laps_button">Vòng</string>
     <string name="title_dialog_laps_in_player">Số vòng</string>
-    <string name="radiobutton_infinitely">Infinitely</string>
+    <string name="radiobutton_infinitely">Vô hạn</string>
     <plurals name="radiobutton_specific_number_of_laps">
-        <item quantity="other">laps</item>
+        <item quantity="other">vòng</item>
     </plurals>
-    <string name="description_pause_button">Pause</string>
-    <string name="description_resume_button">Resume</string>
-    <string name="description_completed_cards">Completed cards</string>
+    <string name="description_pause_button">Tạm dừng</string>
+    <string name="description_resume_button">Tiếp tục</string>
+    <string name="description_completed_cards">Thẻ đã hoàn tất</string>
     <string name="description_playing_completed">Phát hoàn tất</string>
-    <string name="button_end">End</string>
+    <string name="button_end">Kết thúc</string>
     <string name="button_play_again">Phát lại</string>
     <string name="no_cards_to_play">Không có thẻ để phát</string>
     <!-- Deck editor screen -->
-    <string name="screen_title_deck_editor">Deck editor</string>
-    <string name="screen_title_deck_settings">Deck settings</string>
-    <string name="title_rename_deck_dialog">Deck name</string>
-    <string name="error_message_empty_name">Name cannot be empty</string>
-    <string name="error_message_occupied_name">This name is occupied</string>
-    <string name="tab_name_settings">Settings</string>
-    <string name="tab_name_cards">Cards</string>
-    <string name="description_add_card_button">Add card</string>
+    <string name="screen_title_deck_editor">Chỉnh sửa bộ thẻ</string>
+    <string name="screen_title_deck_settings">Cài đặt bộ thẻ</string>
+    <string name="title_rename_deck_dialog">Tên bộ thẻ</string>
+    <string name="error_message_empty_name">Không thể để trống tên</string>
+    <string name="error_message_occupied_name">Tên này đã được sử dụng</string>
+    <string name="tab_name_settings">Cài đặt</string>
+    <string name="tab_name_cards">Thẻ</string>
+    <string name="description_add_card_button">Thêm thẻ</string>
     <!-- Selection toolbar -->
-    <string name="description_cancel_selection">Cancel selection</string>
-    <string name="description_select_all">Select all</string>
-    <string name="description_unselect_all">Unselect all</string>
-    <string name="description_select_only_new">Select only new</string>
-    <string name="description_remove">Remove</string>
-    <string name="description_more_options">More options</string>
+    <string name="description_cancel_selection">Hủy chọn</string>
+    <string name="description_select_all">Chọn tất cả</string>
+    <string name="description_unselect_all">Bỏ chọn tất cả</string>
+    <string name="description_select_only_new">Chỉ chọn mới</string>
+    <string name="description_remove">Xoá</string>
+    <string name="description_more_options">Thêm tùy chọn</string>
     <!-- Card selection toolbar -->
     <plurals name="title_card_selection_toolbar">
-        <item quantity="other">%d cards</item>
+        <item quantity="other">%d thẻ</item>
     </plurals>
-    <string name="card_selection_option_invert">Invert</string>
-    <string name="card_selection_option_change_grade">Change grade</string>
-    <string name="card_selection_option_mark_as_learned">Mark as \'Learned\'</string>
-    <string name="card_selection_option_mark_as_unlearned">Mark as \'Unlearned\'</string>
-    <string name="card_selection_option_remove">Remove</string>
-    <string name="card_selection_option_move_to">Move to</string>
-    <string name="card_selection_option_copy_to">Copy to</string>
-    <string name="dialog_title_change_grade">Select grade</string>
+    <string name="card_selection_option_invert">Đảo ngược</string>
+    <string name="card_selection_option_change_grade">Thay đổi điểm</string>
+    <string name="card_selection_option_mark_as_learned">Đánh dấu là \'Đã học\'</string>
+    <string name="card_selection_option_mark_as_unlearned">Đánh dấu là \'Chưa học\'</string>
+    <string name="card_selection_option_remove">Xoá</string>
+    <string name="card_selection_option_move_to">Di chuyển đến</string>
+    <string name="card_selection_option_copy_to">Sao chép đến</string>
+    <string name="dialog_title_change_grade">Chọn điểm</string>
     <plurals name="snackbar_card_selection_action_completed_invert">
-        <item quantity="other">%d cards have been inverted</item>
+        <item quantity="other">%d thẻ đã được đảo ngược</item>
     </plurals>
     <plurals name="snackbar_card_selection_action_completed_change_grade">
-        <item quantity="other">Grade has been changed to %1$d in %2$d cards</item>
+        <item quantity="other">Điểm đã được đổi thành %1$d trong %2$d thẻ</item>
     </plurals>
     <plurals name="snackbar_card_selection_action_completed_mark_as_learned">
-        <item quantity="other">%d cards have been marked as \'Learned\'</item>
+        <item quantity="other">%d thẻ đã được đánh dấu là \'Đã học\'</item>
     </plurals>
     <plurals name="snackbar_card_selection_action_completed_mark_as_unlearned">
-        <item quantity="other">%d cards have been marked as \'Unlearned\'</item>
+        <item quantity="other">%d thẻ đã được đánh dấu là \'Chưa học\'</item>
     </plurals>
     <plurals name="snackbar_card_selection_action_completed_remove">
-        <item quantity="other">%d cards have been removed</item>
+        <item quantity="other">%d thẻ đã bị xoá</item>
     </plurals>
     <plurals name="snackbar_card_selection_action_completed_move">
-        <item quantity="other">%1$d cards have been moved to \'%2$s\'</item>
+        <item quantity="other">%1$d thẻ đã được di chuyển vào \'%2$s\'</item>
     </plurals>
     <plurals name="snackbar_card_selection_action_completed_copy">
-        <item quantity="other">%1$d cards have been copied to \'%2$s\'</item>
+        <item quantity="other">%1$d thẻ đã được sao chép vào \'%2$s\'</item>
     </plurals>
     <!-- Deck content screen -->
-    <string name="button_export">Export</string>
-    <string name="button_search">Search</string>
-    <string name="the_deck_does_not_yet_contain_cards">The deck does not yet contain cards</string>
+    <string name="button_export">Xuất</string>
+    <string name="button_search">Tìm kiếm</string>
+    <string name="the_deck_does_not_yet_contain_cards">Bộ thẻ này chưa chứa thẻ</string>
     <!-- Search screen -->
-    <string name="hint_search_in_all_cards">Search in all cards</string>
-    <string name="hint_search_in_specific_deck">Search in \'%1$s\'</string>
-    <string name="message_no_paste_data">Clipboard doesn\'t contain text</string>
+    <string name="hint_search_in_all_cards">Tìm kiếm trong tất cả thẻ</string>
+    <string name="hint_search_in_specific_deck">Tìm kiếm trong \'%1$s\'</string>
+    <string name="message_no_paste_data">Bộ nhớ tạm không chứa văn bản</string>
     <!-- Cards Editor screen -->
-    <string name="card_label_duplicated">Duplicated</string>
-    <string name="card_label_current_in_exercise">Current in exercise</string>
+    <string name="card_label_duplicated">Trùng lặp</string>
+    <string name="card_label_current_in_exercise">Hiện tại trong luyện tập</string>
     <string name="card_label_current_in_player">Hiện tại trong trình phát</string>
-    <string name="card_label_found">Found</string>
-    <string name="card_label_new">New</string>
-    <string name="hint_question_edittext">Enter a question</string>
-    <string name="hint_answer_edittext">Enter the answer</string>
-    <string name="description_invert_card_button">Invert card</string>
-    <string name="description_paste_button">Paste</string>
-    <string name="description_clear_button">Clear</string>
-    <string name="description_remove_card_button">Remove card</string>
-    <string name="description_move_card_button">Move card to another deck</string>
-    <string name="description_copy_card_button">Copy card to another deck</string>
-    <string name="description_card_info_button">Card info</string>
-    <string name="card_is_removed">Card is removed</string>
-    <string name="card_is_moved">Card is moved</string>
-    <string name="card_is_copied">Card is copied</string>
-    <string name="snackbar_action_cancel" tools:ignore="ButtonCase">cancel</string>
-    <string name="popup_title_card_info">Card info</string>
-    <string name="description_info_icon">Info icon</string>
-    <string name="card_info_popup_deck_title">Deck</string>
+    <string name="card_label_found">Đã tìm thấy</string>
+    <string name="card_label_new">Mới</string>
+    <string name="hint_question_edittext">Nhập câu hỏi</string>
+    <string name="hint_answer_edittext">Nhập câu trả lời</string>
+    <string name="description_invert_card_button">Đảo ngược thẻ</string>
+    <string name="description_paste_button">Dán</string>
+    <string name="description_clear_button">Xoá</string>
+    <string name="description_remove_card_button">Xóa thẻ</string>
+    <string name="description_move_card_button">Di chuyển thẻ đến bộ thẻ khác</string>
+    <string name="description_copy_card_button">Sao chép thẻ đến bộ thẻ khác</string>
+    <string name="description_card_info_button">Thông tin thẻ</string>
+    <string name="card_is_removed">Thẻ đã bị xoá</string>
+    <string name="card_is_moved">Thẻ đã được di chuyển</string>
+    <string name="card_is_copied">Thẻ đã được sao chép</string>
+    <string name="snackbar_action_cancel" tools:ignore="ButtonCase">huỷ</string>
+    <string name="popup_title_card_info">Thông tin thẻ</string>
+    <string name="description_info_icon">Biểu tượng thông tin</string>
+    <string name="card_info_popup_deck_title">Bộ thẻ</string>
     <string name="card_info_popup_number_of_tests_title">Số bài kiểm tra</string>
     <string name="card_info_popup_time_of_the_last_test_title">Thời gian bài kiểm tra cuối</string>
-    <string name="description_done_button">Done</string>
-    <string name="description_cancel_button">Cancel</string>
-    <string name="toast_fill_in_the_card">Fill in the card</string>
+    <string name="description_done_button">Xong</string>
+    <string name="description_cancel_button">Huỷ</string>
+    <string name="toast_fill_in_the_card">Điền vào thẻ</string>
     <plurals name="snackbar_cards_have_been_created">
-        <item quantity="other">%d cards have been created</item>
+        <item quantity="other">%d thẻ đã được tạo</item>
     </plurals>
     <!-- Deck settings screen -->
-    <string name="deck_settings_section_general">General</string>
-    <string name="deck_settings_section_exercise">Exercise</string>
+    <string name="deck_settings_section_general">Chung</string>
+    <string name="deck_settings_section_exercise">Luyện tập</string>
     <string name="deck_settings_section_autoplay">Tự động phát</string>
-    <string name="deck_settings_item_random_order">Random order</string>
-    <string name="deck_settings_item_pronunciation">Pronunciation</string>
-    <string name="deck_settings_item_card_inversion">Card inversion</string>
+    <string name="deck_settings_item_random_order">Thứ tự ngẫu nhiên</string>
+    <string name="deck_settings_item_pronunciation">Phát âm</string>
+    <string name="deck_settings_item_card_inversion">Đảo ngược thẻ</string>
     <string name="deck_settings_item_question_display">Hiển thị câu hỏi</string>
     <string name="deck_settings_item_testing_method">Phương pháp kiểm tra</string>
-    <string name="deck_settings_item_intervals">Intervals</string>
-    <string name="deck_settings_item_grading">Grading</string>
-    <string name="deck_settings_item_motivational_timer">Motivational timer</string>
-    <string name="deck_settings_item_pronunciation_plan">Pronunciation plan</string>
-    <string name="description_navigate_icon">Navigate icon</string>
-    <string name="speak_event_abbr_speak_question">Q</string>
-    <string name="speak_event_abbr_speak_answer">A</string>
-    <string name="speak_event_abbr_delay">%ds</string>
-    <string name="on">On</string>
-    <string name="off">Off</string>
-    <string name="interval_unit_abbreviation_minutes">min</string>
-    <string name="interval_unit_abbreviation_hours">h</string>
-    <string name="interval_unit_abbreviation_days">d</string>
-    <string name="interval_unit_abbreviation_months">m</string>
-    <string name="grading_settings_description_part_1">On first answer: [Correct: %1$s, Wrong: %2$s]</string>
-    <string name="grading_settings_description_part_2">,  On repeated answer: [Correct: %1$s, Wrong: %2$s]</string>
-    <string name="time_for_answer">%d sec.</string>
+    <string name="deck_settings_item_intervals">Khoảng thời gian</string>
+    <string name="deck_settings_item_grading">Chấm điểm</string>
+    <string name="deck_settings_item_motivational_timer">Hẹn giờ tạo động lực</string>
+    <string name="deck_settings_item_pronunciation_plan">Kế hoạch phát âm</string>
+    <string name="description_navigate_icon">Biểu tượng điều hướng</string>
+    <string name="speak_event_abbr_speak_question">H</string>
+    <string name="speak_event_abbr_speak_answer">Đ</string>
+    <string name="speak_event_abbr_delay">%d giây</string>
+    <string name="on">Bật</string>
+    <string name="off">Tắt</string>
+    <string name="interval_unit_abbreviation_minutes">phút</string>
+    <string name="interval_unit_abbreviation_hours">giờ</string>
+    <string name="interval_unit_abbreviation_days">ngày</string>
+    <string name="interval_unit_abbreviation_months">tháng</string>
+    <string name="grading_settings_description_part_1">Ở câu trả lời đầu tiên: [Đúng: %1$s, Sai: %2$s]</string>
+    <string name="grading_settings_description_part_2">,  Ở câu trả lời lặp lại: [Đúng: %1$s, Sai: %2$s]</string>
+    <string name="time_for_answer">%d giây.</string>
     <!-- Presets -->
-    <string name="title_preset_name_input_dialog">Preset name</string>
-    <string name="preset_name_default">Default</string>
-    <string name="preset_name_individual">Individual</string>
-    <string name="description_save_preset">Save preset</string>
-    <string name="title_preset_popup">Presets</string>
-    <string name="description_rename_preset_button">Rename preset</string>
-    <string name="description_delete_preset_button">Delete preset</string>
-    <string name="description_add_new_preset">Add new preset</string>
-    <string name="title_remove_preset_dialog">Deleting preset \'%1$s\'</string>
-    <string name="top_dialog_text_remove_preset">This preset is used by these decks:</string>
-    <string name="bottom_dialog_text_remove_preset">If you delete this preset then the default
-        preset will be used for them. Do you really want to delete this preset?</string>
-    <string name="button_delete">Delete</string>
+    <string name="title_preset_name_input_dialog">Tên thiết lập sẵn</string>
+    <string name="preset_name_default">Mặc định</string>
+    <string name="preset_name_individual">Riêng biệt</string>
+    <string name="description_save_preset">Lưu thiết lập sẵn</string>
+    <string name="title_preset_popup">Thiết lập sẵn</string>
+    <string name="description_rename_preset_button">Đổi tên thiết lập sẵn</string>
+    <string name="description_delete_preset_button">Xoá thiết lập sẵn</string>
+    <string name="description_add_new_preset">Thêm thiết lập sẵn mới</string>
+    <string name="title_remove_preset_dialog">Đang xoá thiết lập sẵn \'%1$s\'</string>
+    <string name="top_dialog_text_remove_preset">Thiết lập sẵn này được các bộ thẻ sau sử dụng:</string>
+    <string name="bottom_dialog_text_remove_preset">Nếu bạn xoá thiết lập sẵn này thì
+        thiết lập sẵn mặc định sẽ được sử dụng cho chúng. Bạn có thực sự muốn xoá thiết lập sẵn này không?</string>
+    <string name="button_delete">Xoá</string>
     <!-- Pronunciation screen -->
-    <string name="screen_title_pronunciation">Pronunciation</string>
-    <string name="tip_pronunciation_screen_select_languages">Select the languages of the questions
-        and answers to be able to pronounce the speech correctly.</string>
-    <string name="tip_pronunciation_screen_about_tts">Pronunciation is supported through Android
-        TTS API. If you want to customize speech synthesis in more detail, for example, change
-        engine, voice, pitch, speech rate, just go to the TTS settings.</string>
-    <string name="tip_pronunciation_screen_about_autospeaking">It is highly recommended to enable
-        auto-speaking of foreign language. So you will immediately understand how the words should
-        sound and this can help you memorize information faster.</string>
-    <string name="tip_pronunciation_screen_about_selection">To make a piece of text being
-        pronounced, simply highlight it and click the \'Speak\' icon.</string>
-    <string name="tip_pronunciation_screen_about_brackets">Provided \'Speak text in brackets\' is
-        off, it is easy to separate the text that should be pronounced from the text that
-        shouldn\'t. Use the brackets () [] {} &lt;&gt; for this. For example, wrap transcription,
-        synonyms, definition in them.</string>
-    <string name="text_question_title_textview">Question</string>
-    <string name="text_answer_title_textview">Answer</string>
-    <string name="default_language">Default language</string>
-    <string name="text_autospeaking_switch">Auto-speaking</string>
-    <string name="text_speak_text_in_brackets">Speak text in brackets</string>
-    <string name="text_go_to_tts_settings_button">Go to TTS Settings</string>
-    <string name="toast_no_tts_settings">Your device doesn\'t have TTS settings</string>
+    <string name="screen_title_pronunciation">Phát âm</string>
+    <string name="tip_pronunciation_screen_select_languages">Hãy chọn các ngôn ngữ của các
+        câu hỏi và câu trả lời để có thể phát âm giọng nói đúng.</string>
+    <string name="tip_pronunciation_screen_about_tts">Việc phát âm được hỗ trợ thông qua API TTS
+        của Android. Nếu bạn muốn tuỳ chỉnh sự
+tổng hợp giọng nói theo cách chi tiết hơn, ví dụ là
+        thay đổi động cơ, giọng, độ cao, tốc độ nói, thì chỉ cần đi đến cài đặt TTS.</string>
+    <string name="tip_pronunciation_screen_about_autospeaking">Chúng tôi khuyên bạn bật tự động
+        nói ngôn ngữ nước ngoài. Để bạn sẽ lập tức hiểu rằng các từ nên nghe như thế nào và việc này có thể
+        giúp bạn ghi nhớ thông tin nhanh hơn.</string>
+    <string name="tip_pronunciation_screen_about_selection">Để làm cho một đoạn từ được
+        phát âm, chỉ cần đánh dấu nó và nhấn biểu tượng \'Nói\'.</string>
+    <string name="tip_pronunciation_screen_about_brackets">Nếu \'Nói văn bản trong ngoặc\' bị
+        tắt, việc tách văn bản nên được phát âm khỏi văn bản không nên được phát
+        âm là rất dễ. Hãy sử dụng ngoặc () [] {} &lt;&gt; để làm việc này. Ví dụ, phiên âm,
+        từ đồng nghĩa, định nghĩa trong chúng.</string>
+    <string name="text_question_title_textview">Câu hỏi</string>
+    <string name="text_answer_title_textview">Câu trả lời</string>
+    <string name="default_language">Ngôn ngữ mặc định</string>
+    <string name="text_autospeaking_switch">Tự động nói</string>
+    <string name="text_speak_text_in_brackets">Nói văn bản trong ngoặc</string>
+    <string name="text_go_to_tts_settings_button">Đi đến cài đặt TTS</string>
+    <string name="toast_no_tts_settings">Thiết bị của bạn không có cài đặt TTS</string>
     <!-- Card inversion screen -->
-    <string name="screen_title_card_inversion">Card inversion</string>
-    <string name="tip_card_inversion_screen">Flip the cards over if the answers can look like
-        questions, and vice versa. For example, this can be applied to \'word-translation\' cards.
+    <string name="screen_title_card_inversion">Đảo ngược thẻ</string>
+    <string name="tip_card_inversion_screen">Lật các thẻ nếu câu trả lời có thể trông giống
+        câu hỏi, và ngược lại. Ví dụ, việc này có thể áp dụng cho các thẻ \'từ ngữ-bản dịch\'.
     </string>
-    <string name="item_card_inversion_off">Off</string>
-    <string name="item_card_inversion_on">On</string>
-    <string name="item_card_inversion_every_other_lap">Every other lap</string>
-    <string name="item_card_inversion_randomly">Randomly</string>
+    <string name="item_card_inversion_off">Tắt</string>
+    <string name="item_card_inversion_on">Bật</string>
+    <string name="item_card_inversion_every_other_lap">Mỗi 2 vòng</string>
+    <string name="item_card_inversion_randomly">Ngẫu nhiên</string>
     <!-- Question display screen -->
     <string name="screen_title_question_display">Hiển thị câu hỏi</string>
-    <string name="tip_question_display_screen_why">It\'s supposed that if you hide the text of a
-        question, you are going to perceive the question by ear. It can be a good contribution to
-        improving your listening skills while learning a language.</string>
+    <string name="tip_question_display_screen_why">Có thể coi rằng nếu bạn ẩn văn bản của
+        câu hỏi, bạn sẽ nhìn nhận câu hỏi bằng tai. Việc này có thể đóng góp lớn vào việc cải
+        thiện kỹ năng nghe khi học một ngôn ngữ.</string>
     <string name="tip_question_display_screen_do_not_forget_autospeaking">Vì bạn đã tắt
         \'Hiển thị câu hỏi\', bạn sẽ nhận biết câu hỏi bằng âm thanh. Vậy nên đừng quên
         bật \'Tự động nói\' câu hỏi để làm cho việc luyện tập thoải mái hơn.</string>
@@ -478,220 +481,219 @@
         các trường hợp khi bạn có kế hoạch chạy các tấm thẻ một hoặc hai lần.</string>
     <string name="tip_testing_method_screen_self_testing">Trong đa số trường hợp, \'Tự kiểm tra\' là
         lựa chọn tốt nhất. Bạn chính là người quyết định xem bạn có biết câu trả lời hay không.</string>
-    <string name="tip_testing_method_screen_testing_with_variants">\'Testing with variants\' is a
-        more playable testing method. You select right answer of four variants. The variants are
-        extracted from the same deck.</string>
-    <string name="tip_testing_method_screen_spell_check">With \'Spell check\', it is checked
-        whether the answer you entered matches the real answer. Suitable if spelling is
-        important to you.</string>
-    <string name="testing_method_without_testing">Without testing</string>
-    <string name="testing_method_self_testing">Self testing</string>
-    <string name="testing_method_testing_with_variants">Testing with variants</string>
-    <string name="testing_method_spell_check">Spell check</string>
+    <string name="tip_testing_method_screen_testing_with_variants">\'Kiểm tra với biến thể\' là một
+        phương pháp kiểm tra có tính trò chơi hơn. Bạn chọn câu trả lời đúng trong số bốn biến thể.
+        Các biến thể được trích xuất từ cùng một bộ thẻ.</string>
+    <string name="tip_testing_method_screen_spell_check">Với \'Kiểm tra chính tả\', câu trả lời
+        mà bạn nhập sẽ được kiểm tra xem nó có khớp với câu trả lời thật không. Phù
+        hợp nếu chính tả là quan trọng đối với bạn.</string>
+    <string name="testing_method_without_testing">Không có kiểm tra</string>
+    <string name="testing_method_self_testing">Tự kiểm tra</string>
+    <string name="testing_method_testing_with_variants">Kiểm tra với biến thể</string>
+    <string name="testing_method_spell_check">Kiểm tra chính tả</string>
     <!-- Intervals screen -->
-    <string name="screen_title_intervals">Intervals</string>
-    <string name="tip_intervals_screen_importance">With spaced repetition, the information or
-        knowledge will become further ingrained into your long-term memory.</string>
-    <string name="tip_intervals_screen_adjust_interval_scheme">Adjust the interval scheme to suit
-        you. General principle: \'The higher the grade, the longer the interval should be\'.</string>
+    <string name="screen_title_intervals">Khoảng thời gian</string>
+    <string name="tip_intervals_screen_importance">Với việc lặp lại có khoảng cách, thông tin
+        hoặc kiến thức sẽ được khắc sâu hơn vào trí nhớ dài hạn của bạn.</string>
+    <string name="tip_intervals_screen_adjust_interval_scheme">Hãy điều chỉnh khoảng thời gian để
+        phù hợp với bạn. Nguyên lý chung: \'Điểm càng cao thì khoảng thời gian càng nên dài hơn\'.</string>
     <plurals name="interval_unit_minutes">
-        <item quantity="other">Minutes</item>
+        <item quantity="other">Phút</item>
     </plurals>
     <plurals name="interval_unit_hours">
-        <item quantity="other">Hours</item>
+        <item quantity="other">Tiếng</item>
     </plurals>
     <plurals name="interval_unit_days">
-        <item quantity="other">Days</item>
+        <item quantity="other">Ngày</item>
     </plurals>
     <plurals name="interval_unit_months">
-        <item quantity="other">Months</item>
+        <item quantity="other">Tháng</item>
     </plurals>
     <!-- Grading screen -->
-    <string name="screen_title_grading">Grading</string>
-    <string name="tip_grading_screen_indication">Indicate the way you want the answers to be graded.</string>
-    <string name="tip_grading_screen_about_relationship_with_intervals">Grades determine which
-        interval should pass after the answer in the exercise.</string>
-    <string name="tip_grading_screen_about_manual_change">If you specify a grade manually, this
-        grading scheme will not be applied to the card during the exercise.</string>
-    <string name="grade_change_value_do_not_change">Do not change</string>
-    <string name="grade_change_value_reset_to_zero">Reset to 0</string>
-    <string name="diagram_block_on_first_answer">On first answer</string>
-    <string name="diagram_block_wrong">Wrong</string>
-    <string name="diagram_block_ask_again">Ask again?</string>
-    <string name="diagram_block_on_repeated_answer">On repeated answer</string>
-    <string name="diagram_block_correct">Correct</string>
-    <string name="description_diagram_arrow">Diagram arrow</string>
-    <string name="dialog_title_change_grading_on_first_correct_answer">On first correct answer</string>
-    <string name="dialog_title_change_grading_on_first_wrong_answer">On first wrong answer</string>
-    <string name="dialog_title_change_grading_on_repeated_correct_answer">On correct answer of repeated card</string>
-    <string name="dialog_title_change_grading_on_repeated_wrong_answer">On repeated wrong answer</string>
+    <string name="screen_title_grading">Chấm điểm</string>
+    <string name="tip_grading_screen_indication">Chỉ ra cách bạn muốn các câu trả lời được chấm điểm.</string>
+    <string name="tip_grading_screen_about_relationship_with_intervals">Điểm quyết định khoảng
+        thời gian nào nên trôi qua sau câu trả lời trong bài luyện tập.</string>
+    <string name="tip_grading_screen_about_manual_change">Nếu bạn chỉ định điểm theo cách thủ
+        công, kế hoạch chấm điểm này sẽ không được áp dụng cho thẻ trong khi luyện tập.</string>
+    <string name="grade_change_value_do_not_change">Không thay đổi</string>
+    <string name="grade_change_value_reset_to_zero">Đặt lại về 0</string>
+    <string name="diagram_block_on_first_answer">Ở câu trả lời đầu</string>
+    <string name="diagram_block_wrong">Sai</string>
+    <string name="diagram_block_ask_again">Hỏi lại?</string>
+    <string name="diagram_block_on_repeated_answer">Ở câu trả lời lặp lại</string>
+    <string name="diagram_block_correct">Đúng</string>
+    <string name="description_diagram_arrow">Mũi tên lược đồ</string>
+    <string name="dialog_title_change_grading_on_first_correct_answer">Ở câu trả lời đúng đầu tiên</string>
+    <string name="dialog_title_change_grading_on_first_wrong_answer">Ở câu trả lời sai đầu tiên</string>
+    <string name="dialog_title_change_grading_on_repeated_correct_answer">Ở câu trả lời đúng của thẻ được lặp lại</string>
+    <string name="dialog_title_change_grading_on_repeated_wrong_answer">Ở câu trả lời sai lặp lại</string>
     <!-- Motivational timer screen -->
-    <string name="screen_title_motivational_timer">Motivational timer</string>
-    <string name="tip_motivational_timer_screen_description">\'Motivational timer\' designed to
-        keep you from distractions. If you don\'t answer within the allotted time, you will
-        receive a penalty in the form of marking the answer as not correct.</string>
-    <string name="tip_motivational_timer_screen_how_to_do_with_this">Allocate sufficient time for
-        yourself to answer the question without worrying about the countdown. If you feel like you
-        need more time, you can stop the timer.</string>
-    <string name="error_motivational_timer_input">the number must be\ngreater than zero</string>
-    <string name="saved">Saved!</string>
-    <string name="message_quit_motivational_timer">You have changed the timer setting from \'%1$s\'
-        to \'%2$s\'. Do you want to save changes?</string>
+    <string name="screen_title_motivational_timer">Hẹn giờ tạo động lực</string>
+    <string name="tip_motivational_timer_screen_description">\'Hẹn giờ tạo động lực\' được thiết
+        kế để giữ cho bạn không bị xao nhãng. Nếu bạn không trả lời trong khoảng thời
+        gian được phân bổ, bạn sẽ nhận hình phạt dưới dạng là đánh dấu câu trả lời là không đúng.</string>
+    <string name="tip_motivational_timer_screen_how_to_do_with_this">Phân bổ đủ thời gian cho
+        bạn để trả lời câu hỏi mà không lo lắng về thời gian đếm ngược. Nếu bạn cảm thấy bạn
+        cần nhiều thời gian hơn, bạn có thể dừng hẹn giờ.</string>
+    <string name="error_motivational_timer_input">số phải lớn hơn không</string>
+    <string name="saved">Đã lưu!</string>
+    <string name="message_quit_motivational_timer">Bạn đã đổi cài đặt hẹn giờ từ \'%1$s\' thành
+        \'%2$s\'. Bạn có muốn lưu các thay đổi không?</string>
     <!-- Pronunciation plan screen -->
-    <string name="screen_title_pronunciation_plan">Pronunciation plan</string>
-    <string name="tip_pronunciation_plan_screen_description">Describe how you want the card to be
-        pronounced in \'Card player\'.</string>
-    <string name="tip_pronunciation_plan_screen_about_longer_delay">Try to answer the question in
-        your head before it is pronounced. If you need more time to respond, just increase delay
-        between speaking question and answer. For example, the translation of a sentence may take 5
-        or more seconds.</string>
-    <string name="tip_pronunciation_plan_screen_about_repetition_pronunciation">If you have just
-        started learning a language, set up a pronunciation plan so that foreign speech is spoken
-        twice.</string>
-    <string name="description_drag_handle_button">Drag handle</string>
-    <string name="description_speak_icon">Speak icon</string>
-    <string name="pronunciation_event_speak_question">Speak question</string>
-    <string name="pronunciation_event_speak_answer">Speak answer</string>
-    <string name="pronunciation_event_delay">Delay</string>
-    <string name="pronunciation_event_delay_with_args">Delay %d sec.</string>
-    <string name="description_remove_pronunciation_event_button">Remove pronunciation event</string>
-    <string name="description_add_pronunciation_event_button">Add pronunciation event</string>
-    <string name="title_dialog_pronunciation_event">Choose event</string>
-    <string name="sec">sec.</string>
-    <string name="error_message_cannot_change_last_speak_question">Cannot change last \'Speak
-        Question\' event</string>
-    <string name="error_message_cannot_change_last_speak_answer">Cannot change last \'Speak
-        Answer\' event</string>
+    <string name="screen_title_pronunciation_plan">Kế hoạch phát âm</string>
+    <string name="tip_pronunciation_plan_screen_description">Miêu tả cách bạn muốn thẻ được
+        phát âm trong \'Trình phát thẻ\'.</string>
+    <string name="tip_pronunciation_plan_screen_about_longer_delay">Hãy cố gắng trả lời câu hỏi
+        trong đầu trước khi nó được phát âm. Nếu bạn cần thêm thời gian để phản hồi, chỉ cần tăng
+        độ trễ giữa việc nói câu hỏi và câu trả lời. Ví dụ, việc dịch một câu có thể mất 5 giây hoặc nhiều hơn.</string>
+    <string name="tip_pronunciation_plan_screen_about_repetition_pronunciation">Nếu bạn vừa mới
+        bắt đầu học một ngôn ngữ, hãy thiết lập kế hoạch phát âm sao cho lời nói nước ngoài được nói
+        hai lần.</string>
+    <string name="description_drag_handle_button">Tay kéo</string>
+    <string name="description_speak_icon">Biểu tượng nói</string>
+    <string name="pronunciation_event_speak_question">Nói câu hỏi</string>
+    <string name="pronunciation_event_speak_answer">Nói câu trả lời</string>
+    <string name="pronunciation_event_delay">Độ trễ</string>
+    <string name="pronunciation_event_delay_with_args">Độ trễ %d giây</string>
+    <string name="description_remove_pronunciation_event_button">Xoá sự kiện phát âm</string>
+    <string name="description_add_pronunciation_event_button">Thêm sự kiện phát âm</string>
+    <string name="title_dialog_pronunciation_event">Chọn sự kiện</string>
+    <string name="sec">giây</string>
+    <string name="error_message_cannot_change_last_speak_question">Không thể thay đổi sự kiện
+        \'Nói câu hỏi\' cuối</string>
+    <string name="error_message_cannot_change_last_speak_answer">Không thể thay đổi sự kiện
+        \'Nói câu trả lời\' cuối</string>
     <!-- Settings screen -->
-    <string name="screen_title_settings">Settings</string>
-    <string name="text_fullscreen_settings_title">Fullscreen mode</string>
-    <string name="everywhere">Everywhere</string>
-    <string name="nowhere">Nowhere</string>
-    <string name="title_fullscreen_mode_dialog">Fullscreen mode</string>
-    <string name="item_text_fullscreen_in_exercise">In exercise</string>
+    <string name="screen_title_settings">Cài đặt</string>
+    <string name="text_fullscreen_settings_title">Chế độ toàn màn hình</string>
+    <string name="everywhere">Mọi nơi</string>
+    <string name="nowhere">Không nơi nào</string>
+    <string name="title_fullscreen_mode_dialog">Chế độ toàn màn hình</string>
+    <string name="item_text_fullscreen_in_exercise">Trong luyện tập</string>
     <string name="item_text_fullscreen_in_card_player">Trong trình phát thẻ</string>
-    <string name="item_text_fullscreen_in_other_places">In other places</string>
-    <string name="text_theme_settings_title">Theme</string>
-    <string name="theme_light">Light</string>
-    <string name="theme_dark">Dark</string>
-    <string name="theme_default">Set by Battery Saver</string>
-    <string name="title_theme_dialog">Theme</string>
-    <string name="text_card_appearance_settings_title">Card appearance</string>
-    <string name="text_card_appearance_settings_description">How a card looks in the exercise,
-        player and editor</string>
-    <string name="text_exercise_settings_title">Exercise</string>
-    <string name="text_exercise_settings_description">Some general exercise settings</string>
-    <string name="text_walking_mode_title">Walking mode</string>
-    <string name="text_walking_mode_settings_description">Remapping volume keys actions</string>
+    <string name="item_text_fullscreen_in_other_places">Ở các nơi khác</string>
+    <string name="text_theme_settings_title">Chủ đề</string>
+    <string name="theme_light">Sáng</string>
+    <string name="theme_dark">Tối</string>
+    <string name="theme_default">Đặt theo Trình tiết kiệm pin</string>
+    <string name="title_theme_dialog">Chủ đề</string>
+    <string name="text_card_appearance_settings_title">Ngoại hình thẻ</string>
+    <string name="text_card_appearance_settings_description">Một tấm thẻ trông như thế nào
+        trong luyện tập, trình phát và trình chỉnh sửa</string>
+    <string name="text_exercise_settings_title">Luyện tập</string>
+    <string name="text_exercise_settings_description">Một số cài đặt luyện tập chung</string>
+    <string name="text_walking_mode_title">Chế độ đi bộ</string>
+    <string name="text_walking_mode_settings_description">Gán hành động khác cho nút âm lượng</string>
     <!-- Card appearance -->
-    <string name="screen_title_card_appearance">Card appearance</string>
-    <string name="title_question_field">Question field</string>
-    <string name="title_answer_field">Answer field</string>
-    <string name="text_alignment">Text alignment</string>
-    <string name="text_size">Text size</string>
-    <string name="error_message_indicate_text_size">Specify the text size</string>
-    <string name="dialog_title_question_text_size">Question text size</string>
-    <string name="dialog_title_answer_text_size">Answer text size</string>
-    <string name="title_common">Common</string>
-    <string name="text_opacity_in_light_theme">Text opacity in light theme</string>
-    <string name="text_opacity_in_dark_theme">Text opacity in dark theme</string>
-    <string name="dialog_title_text_opacity">Text opacity</string>
-    <string name="text_opacity_example_text">Example\n\n%1$s</string>
+    <string name="screen_title_card_appearance">Ngoại hình thẻ</string>
+    <string name="title_question_field">Trường câu hỏi</string>
+    <string name="title_answer_field">Trường câu trả lời</string>
+    <string name="text_alignment">Căn chỉnh văn bản</string>
+    <string name="text_size">Cỡ chữ</string>
+    <string name="error_message_indicate_text_size">Chỉ định cỡ chữ</string>
+    <string name="dialog_title_question_text_size">Cỡ chữ câu hỏi</string>
+    <string name="dialog_title_answer_text_size">Cỡ chữ câu trả lời</string>
+    <string name="title_common">Chung</string>
+    <string name="text_opacity_in_light_theme">Độ mờ văn bản trong chế độ sáng</string>
+    <string name="text_opacity_in_dark_theme">Độ mờ văn bản trong chế độ tối</string>
+    <string name="dialog_title_text_opacity">Độ mờ văn bản</string>
+    <string name="text_opacity_example_text">Ví dụ\n\n%1$s</string>
     <!-- Exercise settings -->
-    <string name="screen_title_exercise_settings">Exercise settings</string>
-    <string name="exercise_setting_card_prefilter">Filtering cards before starting the exercise</string>
-    <string name="card_prefilter_mode_do_not_filter">Do not filter</string>
+    <string name="screen_title_exercise_settings">Cài đặt luyện tập</string>
+    <string name="exercise_setting_card_prefilter">Lọc thẻ trước khi bắt đầu luyện tập</string>
+    <string name="card_prefilter_mode_do_not_filter">Không lọc</string>
     <plurals name="card_prefilter_mode_limit_cards_to">
-        <item quantity="other">Limit to %d cards</item>
+        <item quantity="other">Giới hạn xuống %d thẻ</item>
     </plurals>
-    <string name="card_prefilter_mode_show_filter_when_cards_more_than">Show the card filter when
-        the number of cards is greater than %d</string>
-    <string name="card_prefilter_mode_always_show_filter">Always show the card filter</string>
-    <string name="title_cards_threshold_dialog">Cards threshold</string>
-    <string name="description_cards_threshold_dialog_to_change_card_number_limitation">Specify the
-        maximum number of cards you want to handle in the exercise at once.</string>
-    <string name="description_cards_threshold_dialog_to_change_card_number_threshold_for_showing_filter">Specify
-        the card limit above which the card filter will be displayed.</string>
-    <string name="title_card_limit_dialog">Maximum number of cards</string>
+    <string name="card_prefilter_mode_show_filter_when_cards_more_than">Hiện bộ lọc thẻ khi số
+        thẻ lớn hơn %d</string>
+    <string name="card_prefilter_mode_always_show_filter">Luôn hiện bộ lọc thẻ</string>
+    <string name="title_cards_threshold_dialog">Ngưỡng số thẻ</string>
+    <string name="description_cards_threshold_dialog_to_change_card_number_limitation">Chỉ định
+        số thẻ tối đa bạn muốn xử lý cùng lúc trong khi luyện tập.</string>
+    <string name="description_cards_threshold_dialog_to_change_card_number_threshold_for_showing_filter">Chỉ định
+        giới hạn thẻ mà khi vượt qua đó, bộ lọc thẻ sẽ được hiển thị.</string>
+    <string name="title_card_limit_dialog">Số thẻ tối đa</string>
     <string name="exercise_setting_card_position_display">Hiển thị vị trí thẻ</string>
-    <string name="card_position_display_progress_bar">Progress bar</string>
-    <string name="card_position_display_text">Text</string>
-    <string name="exercise_setting_vibrate_on_wrong_answer">Vibrate on wrong answer</string>
-    <string name="exercise_setting_go_to_next_card_after_marking_the_card_as_learned">Go to the next card after marking the card as \'Learned\'</string>
-    <string name="exercise_setting_ask_to_quit_exercise">Ask to quit exercise if not all cards are answered</string>
+    <string name="card_position_display_progress_bar">Thanh tiến trình</string>
+    <string name="card_position_display_text">Văn bản</string>
+    <string name="exercise_setting_vibrate_on_wrong_answer">Rung khi trả lời sai</string>
+    <string name="exercise_setting_go_to_next_card_after_marking_the_card_as_learned">Đi đến thẻ tiếp theo sau khi đánh dấu thẻ là \'Đã học\'</string>
+    <string name="exercise_setting_ask_to_quit_exercise">Hỏi xem có thoát luyện tập không nếu chưa trả lời tất cả thẻ</string>
     <!-- Card filter for Exercise -->
-    <string name="title_card_filter_maximum_number_of_cards">Maximum number of cards</string>
+    <string name="title_card_filter_maximum_number_of_cards">Số thẻ tối đa</string>
     <plurals name="cards">
-        <item quantity="other">cards</item>
+        <item quantity="other">thẻ</item>
     </plurals>
-    <string name="no_limit">No limit</string>
-    <string name="text_start_exercise_button">Start exercise</string>
+    <string name="no_limit">Không giới hạn</string>
+    <string name="text_start_exercise_button">Bắt đầu luyện tập</string>
     <!-- Walking mode settings screen -->
-    <string name="screen_title_walking_mode_settings">Walking mode settings</string>
-    <string name="text_volume_up_button_section">Volume up button</string>
-    <string name="text_volume_down_button_section">Volume down button</string>
-    <string name="text_single_press_title">Single press action</string>
-    <string name="text_double_press_title">Double press action</string>
-    <string name="text_long_press_title">Long press action</string>
-    <string name="key_gesture_action_no_action">No action</string>
-    <string name="key_gesture_action_move_to_next_card">Move to next card</string>
-    <string name="key_gesture_action_move_to_previous_card">Move to previous card</string>
-    <string name="key_gesture_action_mark_as_remember">Mark as \'Remember\'</string>
-    <string name="key_gesture_action_mark_as_not_remember">Mark as \'Not remember\'</string>
-    <string name="key_gesture_action_mark_card_as_learned">Mark card as \'Learned\'</string>
-    <string name="key_gesture_action_speak_question">Speak question</string>
-    <string name="key_gesture_action_speak_answer">Speak answer</string>
+    <string name="screen_title_walking_mode_settings">Cài đặt chế độ đi bộ</string>
+    <string name="text_volume_up_button_section">Nút tăng âm lượng</string>
+    <string name="text_volume_down_button_section">Nút giảm âm lượng</string>
+    <string name="text_single_press_title">Hành động nhấn một lần</string>
+    <string name="text_double_press_title">Hành động nhấn hai lần</string>
+    <string name="text_long_press_title">Hành động nhấn giữ</string>
+    <string name="key_gesture_action_no_action">Không có hành động</string>
+    <string name="key_gesture_action_move_to_next_card">Chuyển sang thẻ tiếp theo</string>
+    <string name="key_gesture_action_move_to_previous_card">Chuyển sang thẻ trước đó</string>
+    <string name="key_gesture_action_mark_as_remember">Đánh dấu là \'Nhớ\'</string>
+    <string name="key_gesture_action_mark_as_not_remember">Đánh dấu là \'Không nhớ\'</string>
+    <string name="key_gesture_action_mark_card_as_learned">Đánh dấu thẻ là \'Đã học\'</string>
+    <string name="key_gesture_action_speak_question">Nói câu hỏi</string>
+    <string name="key_gesture_action_speak_answer">Nói câu trả lời</string>
     <!-- Support app screen -->
-    <string name="screen_title_support_app">Support app</string>
+    <string name="screen_title_support_app">Hỗ trợ ứng dụng</string>
     <string name="cta_rate_the_app_on_google_play">Đánh giá ứng dụng trên Google Play</string>
-    <string name="cta_rate_the_app_on_google_play_description">App rating affect people\'s decision
-        to download app. Positive rating can help us reach more users. With higher downloads, we
-        will be able to receive feedback from a number of different perspectives which will help us
-        in making ForgetMeNot better than ever.</string>
-    <string name="text_rate_us_button">Rate us</string>
-    <string name="cta_give_us_feedback">Give us feedback</string>
-    <string name="cta_give_us_feedback_description">Tell us what\'s working, and what\'s not. We
-        want to provide you with the best experience, so your feedback is very valuable. Let us
-        know how we can do better.</string>
+    <string name="cta_rate_the_app_on_google_play_description">Xếp hạng ứng dụng làm ảnh hưởng
+        đến quyết định tải ứng dụng của người ta. Xếp hạng tích cực có thể giúp chúng tôi có nhiều người
+        dùng hơn. Với lượt tải xuống cao hơn, chúng tôi sẽ có thể nhận phản hồi từ một số cách nhìn khác
+        nhau và điều đó sẽ giúp chúng tôi làm cho ForgetMeNot tốt hơn bao giờ hết.</string>
+    <string name="text_rate_us_button">Đánh giá chúng tôi</string>
+    <string name="cta_give_us_feedback">Cho chúng tôi phản hồi</string>
+    <string name="cta_give_us_feedback_description">Nói cho chúng tôi cái gì đang hoạt động, và cái gì
+        không. Chúng tôi muốn cung cấp cho bạn trải nghiệm tốt nhất, nên phản hồi của bạn rất quý giá.
+        Hãy cho chúng tôi biết cách chúng tôi có thể làm tốt hơn.</string>
     <string name="text_write_review_on_google_play_button">Viết bài đánh giá trên Google Play</string>
-    <string name="text_submit_new_issue_on_github_button">Submit new issue on Github</string>
-    <string name="text_send_email_to_author_button">Send email to author</string>
-    <string name="cta_help_us_with_translation">Help us with translation</string>
-    <string name="cta_help_us_with_translation_description">Translation is necessary for users who
-        speak others languages to enjoy the app. Also, localization enables the app to be more
-        accessible and useful to a wider audience.</string>
-    <string name="text_help_translate_button">Help translate</string>
-    <string name="cta_share_with_friends">Share with friends</string>
-    <string name="cta_share_with_friends_description">Your friends might need the app. Share your
-        experience with them.</string>
-    <string name="text_share_with_friends_button">Share with friends</string>
-    <string name="share_with">Share with</string>
-    <string name="text_share_with_friends">Remember everything with flashcards.</string>
-    <string name="cta_join_us_on_social_media">Join us on Social Media</string>
-    <string name="cta_join_us_on_social_media_description">Get the latest news, share interesting
-        articles, ask questions. Connect, follow and have conversation with us.</string>
+    <string name="text_submit_new_issue_on_github_button">Gửi đi vấn đề mới trên Github</string>
+    <string name="text_send_email_to_author_button">Gửi email đến tác giả</string>
+    <string name="cta_help_us_with_translation">Giúp chúng tôi việc phiên dịch</string>
+    <string name="cta_help_us_with_translation_description">Việc phiên dịch là cần thiết với những
+        người dùng nói các ngôn ngữ khác để họ tận hưởng ứng dụng. Thêm nữa, việc bản địa hoá cho
+        phép ứng dụng có thể dùng được và hữu dụng hơn đối với lượng người lớn hơn.</string>
+    <string name="text_help_translate_button">Giúp dịch</string>
+    <string name="cta_share_with_friends">Chia sẻ với bạn bè</string>
+    <string name="cta_share_with_friends_description">Các bạn của bạn có thể cần đến ứng dụng này.
+        Hãy chia sẻ trải nghiệm của bạn với họ.</string>
+    <string name="text_share_with_friends_button">Chia sẻ với bạn bè</string>
+    <string name="share_with">Chia sẻ bằng</string>
+    <string name="text_share_with_friends">Ghi nhớ mọi thứ bằng flashcard.</string>
+    <string name="cta_join_us_on_social_media">Tham gia với chúng tôi trên mạng xã hội</string>
+    <string name="cta_join_us_on_social_media_description">Đọc tin tức mới nhất, chia sẻ các
+        bài viết thú vị, hỏi các câu hỏi. Kết nối, theo dõi và trò chuyện với chúng tôi.</string>
     <!-- Help screen -->
-    <string name="screen_title_help">Help</string>
-    <string name="title_articles">Articles</string>
-    <string name="help_article_title_import_of_file">Import of file</string>
-    <string name="help_article_title_exercise">Exercise</string>
-    <string name="help_article_title_testing_methods">Testing methods</string>
-    <string name="help_article_title_grades_and_intervals">Grades and intervals</string>
-    <string name="help_article_title_pronunciation">Pronunciation</string>
+    <string name="screen_title_help">Trợ giúp</string>
+    <string name="title_articles">Bài viết</string>
+    <string name="help_article_title_import_of_file">Nhập tệp</string>
+    <string name="help_article_title_exercise">Luyện tập</string>
+    <string name="help_article_title_testing_methods">Phương pháp kiểm tra</string>
+    <string name="help_article_title_grades_and_intervals">Chấm điểm và khoảng thời gian</string>
+    <string name="help_article_title_pronunciation">Phát âm</string>
     <string name="help_article_title_question_display">Hiển thị câu hỏi</string>
-    <string name="help_article_title_motivational_timer">Motivational timer</string>
-    <string name="help_article_title_walking_mode">Walking mode</string>
+    <string name="help_article_title_motivational_timer">Hẹn giờ tạo động lực</string>
+    <string name="help_article_title_walking_mode">Chế độ đi bộ</string>
     <string name="help_article_title_autoplaying_cards">Tự động phát thẻ</string>
-    <string name="help_article_title_presets">Presets</string>
-    <string name="help_article_title_advice_on_compiling_deck">Advice on compiling deck</string>
-    <string name="help_article_title_advice_on_studying">Advice on studying</string>
+    <string name="help_article_title_presets">Thiết lập sẵn</string>
+    <string name="help_article_title_advice_on_compiling_deck">Lời khuyên về việc tạo bộ thẻ</string>
+    <string name="help_article_title_advice_on_studying">Lời khuyên về việc học</string>
     <!-- Help article screen -->
-    <string name="description_show_table_of_contents_button">Show table of contents</string>
-    <string name="description_previous_button">Previous</string>
-    <string name="description_next_button">Next</string>
-    <string name="article_import_of_file_paragraph_1">ForgetMeNot can import text files in two formats:</string>
-    <string name="article_import_of_file_qa_format_section_title">1. \'Q:A:\' format</string>
-    <string name="description_window_frame_icons">Window frame icons</string>
+    <string name="description_show_table_of_contents_button">Hiện mục lục</string>
+    <string name="description_previous_button">Trước</string>
+    <string name="description_next_button">Tiếp</string>
+    <string name="article_import_of_file_paragraph_1">ForgetMeNot có thể nhập các tệp văn bản ở hai định dạng:</string>
+    <string name="article_import_of_file_qa_format_section_title">1. Định dạng \'Q:A:\'</string>
+    <string name="description_window_frame_icons">Biểu tượng khung cửa sổ</string>
     <string name="example_of_text_file_qa_format">Q:
         \nWhat city was the first capital of the United States?
         \nA:
@@ -712,11 +714,11 @@
         \nA:
         \nSeptember 3, 1783</string>
     <string name="example_qa_format_file_name">American history.txt</string>
-    <string name="article_import_of_file_qa_format_description">This is a proprietary format of
-        ForgetMeNot. It was invented for manually creating cards in a text file.
-        This format is intuitive and readable. It is recommended to use this format if you compose
-        cards on a computer.</string>
-    <string name="article_import_of_file_dsv_format_section_title">2. Delimiter-separated values</string>
+    <string name="article_import_of_file_qa_format_description">Đây là định dạng độc quyền của
+        ForgetMeNot. Nó được phát minh để tạo các thẻ theo cách thủ công trong tệp văn bản.
+        Định dạng này rất trực quan và dễ đọc. Chúng tôi khuyên bạn dùng định dạng này nếu bạn soạn
+        các thẻ trên máy tính.</string>
+    <string name="article_import_of_file_dsv_format_section_title">2. Giá trị được chia tách bởi dấu phân cách</string>
     <string name="example_of_text_file_dsv_format">\"nature\";\"природа\"
         \n\"beach\";\"берег, пляж\"
         \n\"coast\";\"морское побережье\"
@@ -776,73 +778,73 @@
     <string name="answer2_in_exercise_article">Gloves</string>
     <string name="question3_in_exercise_article">Un abrigo</string>
     <string name="answer3_in_exercise_article">Coat</string>
-    <string name="article_exercise_paragraph_2">Your answers influence
-        <annotation clickable="grade">the grade</annotation> of the card. If intervals are enabled,
-        the grade determines when the card will be asked again.
+    <string name="article_exercise_paragraph_2">Các câu trả lời của bạn
+        ảnh hưởng đến <annotation clickable="grade">điểm</annotation> của thẻ. Nếu khoảng thời gian được bật,
+        điểm đó quyết định khi nào thẻ đó sẽ được hỏi lại.
 
-        \n\nIf you know the question well and you don\'t want this card ever to be asked again or
-        you don\'t want to study the card, click the \'Mark as learned\' icon. This card will never
-        be asked again.</string>
+        \n\nNếu bạn biết câu hỏi và bạn khồng muốn thẻ này được hỏi nữa hoặc
+        bạn không muốn học thẻ này, hãy nhấn biểu tượng \'Đánh dấu là đã học\'. Thẻ đó sẽ
+        không bao giờ được hỏi lại.</string>
     <string name="question4_in_exercise_article">¿Cómo te llamas?</string>
-    <string name="answer4_in_exercise_article">What\'s your name?</string>
+    <string name="answer4_in_exercise_article">Tên bạn là gì?</string>
     <string name="question5_in_exercise_article">Buenos días</string>
-    <string name="answer5_in_exercise_article">Good morning</string>
-    <string name="variant2_in_exercise_article">Good afternoon</string>
-    <string name="variant3_in_exercise_article">Good evening</string>
-    <string name="variant4_in_exercise_article">Good night</string>
-    <string name="article_exercise_paragraph_3">You can edit the card just in the exercise. It
-        might be needed not only for correcting mistakes on the card, but also for improving the
-        card if it is difficult to remember. You may also use search if you confused answers.
+    <string name="answer5_in_exercise_article">Chào buổi sáng</string>
+    <string name="variant2_in_exercise_article">Chào buổi chiều</string>
+    <string name="variant3_in_exercise_article">Chào buổi tối</string>
+    <string name="variant4_in_exercise_article">Chúc ngủ ngon</string>
+    <string name="article_exercise_paragraph_3">Bạn có thể chỉnh sửa thẻ chỉ trong luyện tập.
+        Việc này có thể được cần đến không chỉ để sửa lỗi trong thẻ, mà còn để cải thiện thẻ nếu
+        nó quá khó nhớ. Bạn cũng có thể sử dụng tìm kiếm nếu bạn bị lẫn lộn câu trả lời.
 
-        \n\nThere are two types of hints available in the exercise:
+        \n\nCó hai loại gợi ý có sẵn trong luyện tập:
 
-        \n\n\t- \'Mask letters\'. This hint can be applied many times. The first time you turn to
-        the hint, all letters will be replaced with a masked character ■. You can see how many
-        words are in the answer, how many letters are in each word. If this is not enough, you can
-        unmask part of the answer. Just select a fragment and press \'Unmask selected region\' on
-        hint popup window.
+        \n\n\t- \'Che chữ cái\'. Gợi ý này có thể được áp dụng nhiều lần. Lần đầu bạn dùng gợi ý
+        này, tất cả chữ cái sẽ được thay thế bằng ký tự che ■. Bạn có thể thấy có bao nhiêu từ có
+        ở trong câu trả lời, có bao nhiêu chữ cái ở trong mỗi từ. Nếu việc này là không đủ, bạn có
+        thể bỏ che một phần câu trả lời. Chỉ cần chọn một phần và nhấn \'Bỏ che khu vực được chọn\'
+        trên cửa sổ gợi ý hiện lên.
 
-        \n\n\t- \'Get variants\'. Four variants will be provided to choose. The variants are taken
-        from the deck to which the card belongs. This hint can make it a lot easier to answer if the
-        deck is not designed for \'Testing method with variants\'.</string>
-    <string name="article_exercise_paragraph_4">You can also do the exercise without looking at the
-        screen in <annotation clickable="walking_mode">\'Walking mode\'</annotation>.</string>
-    <string name="article_testing_methods_paragraph_1">Testing methods define how the answer will
-        be tested. There are 4 options:</string>
-    <string name="article_testing_methods_off_section_title">1. Without testing</string>
+        \n\n\t- \'Lấy các biến thể\'. Bốn biến thể sẽ được cung cấp để chọn. Các biến thể được lấy
+        từ bộ thẻ mà tấm thẻ thuộc về đó. Gợi ý này có thể làm cho việc trả lời dễ hơn nếu bộ thẻ
+        không được thiết kế cho \'Phương pháp kiểm tra với biến thể\'.</string>
+    <string name="article_exercise_paragraph_4">Bạn cũng có thể luyện tập mà không nhìn vào
+        màn hình trong <annotation clickable="walking_mode">\'Chế độ đi bộ\'</annotation>.</string>
+    <string name="article_testing_methods_paragraph_1">Phương pháp kiểm tra sẽ quyết định cách mà
+        câu trả lời sẽ được kiểm tra. Có 4 tuỳ chọn:</string>
+    <string name="article_testing_methods_off_section_title">1. Không có kiểm tra</string>
     <string name="question_example_off_testing_method">Всі діти в цьому класі дуже ввічливі.</string>
-    <string name="answer_example_off_testing_method">All the children in this class are very polite.</string>
-    <string name="article_testing_methods_off_section_description">It may be used for decks with
-        which you do not plan to work for a long time. For example, it might be a deck that contains
-        sentences in the native and target language and you want to translate once without further
-        repetition.</string>
-    <string name="article_testing_methods_manual_section_title">2. Self testing</string>
+    <string name="answer_example_off_testing_method">Tất cả trẻ con trong lớp này đều rất lịch sự.</string>
+    <string name="article_testing_methods_off_section_description">Nó có thể được sử dụng cho các bộ thẻ mà
+        bạn không có kế hoạch học trong thời gian dài. Ví dụ, nó có thể là một bộ thẻ chứa
+        các câu ở ngôn ngữ bản địa và ngôn ngữ đích và bạn muốn dịch một lần mà không
+        lặp lại.</string>
+    <string name="article_testing_methods_manual_section_title">2. Tự kiểm tra</string>
     <string name="question_example_manual_testing_method">mime\n\n\\verb\\</string>
     <string name="answer_example_manual_testing_method">[maɪm]\n\nuse gesture and movement without
         words in the acting of a play or role</string>
-    <string name="article_testing_methods_manual_section_description">Basic testing method. You
-        decide whether you remember the answer or not. The main advantage is the efficiency of
-        memorization.</string>
-    <string name="article_testing_methods_quiz_section_title">3. Testing with variants</string>
+    <string name="article_testing_methods_manual_section_description">Phương pháp kiểm tra cơ bản. Bạn
+        quyết định xem bạn có nhớ câu trả lời hay không. Lợi thế chính là sự hiệu quả của
+        việc ghi nhớ.</string>
+    <string name="article_testing_methods_quiz_section_title">3. Kiểm tra với biến thể</string>
     <string name="question_example_quiz_testing_method">окунь</string>
     <string name="answer_example_quiz_testing_method_variant1">herring</string>
     <string name="answer_example_quiz_testing_method_variant2">trout</string>
     <string name="answer_example_quiz_testing_method_variant3">salmon</string>
     <string name="answer_example_quiz_testing_method_variant4">bass</string>
-    <string name="article_testing_methods_quiz_section_description">In this mode, you need to choose
-        the correct variant from the four offered. Variants are taken from the deck to which the
-        card belongs. Therefore, if you are going to use this testing method, it is important to
-        create a deck where variants are appropriate. For example, it could be a
-        \'word-translation\' deck with the same parts of speech. This is a more playful form of
-        testing, so it\'s great for kids. The disadvantage is the average memory efficiency, as
-        variants are an significant clue.</string>
-    <string name="article_testing_methods_entry_section_title">4. Spell check</string>
+    <string name="article_testing_methods_quiz_section_description">Ở chế độ này, bạn cần phải chọn
+        biến thể đúng từ bốn biến thể được cho. Các biến thể được lấy từ bộ thẻ mà tấm thẻ
+        thuộc về đó. Do đó, nếu bạn định sử dụng phương pháp kiểm tra này, việc tạo bộ thẻ
+        mà trong đó các biến thể là phù hợp là rất quan trọng. Ví dụ, nó có thể là
+        bộ thẻ \'từ-bản dịch\' với các phần giọng nói như nhau. Đây là một dạng kiểm tra vui
+        vẻ hơn, nên nó rất tốt với trẻ con. Mặt bất lợi là hiệu quả ghi nhớ chỉ là trung bình, vì
+        các biến thể là manh mối rất lớn.</string>
+    <string name="article_testing_methods_entry_section_title">4. Kiểm tra chính tả</string>
     <string name="question_example_entry_testing_method">Past participle form of \'bring\'</string>
     <string name="answer_example_entry_testing_method">brought</string>
-    <string name="article_testing_methods_entry_section_description">This method will be useful if
-        you want to test the spelling of words. It can be used as a dictation. To do this, create a
-        deck where the question and answer will be the same, turn off the question display, select
-        the language and enable the auto-pronunciation of the question in the deck settings.</string>
+    <string name="article_testing_methods_entry_section_description">Phương pháp này sẽ hữu dụng nếu
+        bạn muốn kiểm tra chính tả các từ. Nó có thể được sử dụng để kiểm tra chính tả. Để làm
+        việc này, hãy tạo một bộ thẻ trong đó câu hỏi và câu trả lời là như nhau, tắt hiển thị câu hỏi,
+        chọn ngôn ngữ và bật tự động phát âm câu hỏi trong cài đặt bộ thẻ.</string>
     <string name="article_grade_and_intervals_paragraph1">Each card is characterized by the grade.
         Each answer in the exercise affects the grade according to the \'Grading\' settings. You can
         configure how the answers should be graded in the deck settings. By default, the grades are
@@ -985,18 +987,18 @@
 
         \n\n5. Make it a rule that once a day you should not have any tasks left to study.</string>
     <!-- About screen -->
-    <string name="description_app_logo">App logo</string>
+    <string name="description_app_logo">Logo ứng dụng</string>
     <string name="about_item_developer">Odnovolov Artem</string>
-    <string name="about_item_source_code">Source code</string>
-    <string name="about_item_privacy_policy">Privacy policy</string>
-    <string name="toast_no_email_client">You don\'t have any e-mail client to compose mail</string>
-    <string name="toast_no_browser">You don\'t have any browser to open URL</string>
-    <string name="forgetmenot_brief_description">ForgetMeNot is designed to memorize information.
-        It based on spaced repetition of flashcards. The app supports speech output, import cards
-        from file, unique settings of each deck and many other interesting features. Besides
-        traditional examination of the knowledge, there is also the autoplaying mode. ForgetMeNot
-        is a great thing for language learning and not only.</string>
-    <string name="developer_story_title">Developer story</string>
+    <string name="about_item_source_code">Mã nguồn</string>
+    <string name="about_item_privacy_policy">Chính sách quyền riêng tư</string>
+    <string name="toast_no_email_client">Bạn không có ứng dụng e-mail nào để soạn mail</string>
+    <string name="toast_no_browser">Bạn không có trình duyệt nào để mở URL</string>
+    <string name="forgetmenot_brief_description">ForgetMeNot được thiết kế để ghi nhớ thông tin.
+        Nó được dựa trên lặp lại có khoảng cách các flashcard. Ứng dụng hỗ trợ đầu ra bằng giọng nói,
+        nhập thẻ từ tệp, cài đặt độc nhất của mỗi bộ thẻ và nhiều tính năng thú vị khác. Bên cạnh
+        kiểm tra kiến thức theo cách truyền thống, ứng dụng cũng có chế độ tự động phát. ForgetMeNot
+        là một thứ tuyệt vời để học ngôn ngữ và không chỉ có thế.</string>
+    <string name="developer_story_title">Câu chuyện của nhà phát triển</string>
     <string name="developer_story">More than a year ago, when I started learning a foreign
         language, I decided to use flashcards to memorize words. Having tried dozens of different
         apps on Google Play, none of them satisfied me completely. So I decided to create my own
@@ -1031,15 +1033,18 @@
     <string name="thanks_to_translators">I would like to express my deep gratitude to everyone
         (especially the people from <a href="https://www.sekinfo.org">sekinfo.org</a>), who support
         the project by providing translation. You’re the best!</string>
+    <string name="language_basque">Basque</string>
     <string name="language_french">French</string>
     <string name="language_german">German</string>
     <string name="language_greek">Greek</string>
+    <string name="language_portuguese_brazilian">Portuguese, Brazilian</string>
     <string name="language_russian">Russian</string>
     <string name="language_spanish">Spanish</string>
-    <string name="language_ukrainian">Ukrainian</string>
-    <string name="text_support_app_button">Support app</string>
+    <string name="language_ukrainian">Tiếng Ukraina</string>
+    <string name="language_vietnamese">Vietnamese</string>
+    <string name="text_support_app_button">Ủng hộ ứng dụng</string>
     <!-- DSV format screen -->
-    <string name="screen_title_dsv_format">DSV format</string>
+    <string name="screen_title_dsv_format">Định dạng DSV</string>
     <string name="tip_dsv_format">Delimiter-separated values are processed with the
         <annotation clickable="csv_library">Apache Commons CSV library</annotation>. Visit
         <annotation clickable="CSVFormat">this page</annotation> to learn more about format
@@ -1049,35 +1054,35 @@
         \n\t\\n - new line
         \n\t\\r - carriage return
         \n\t\\t - horizontal tab</string>
-    <string name="description_delete_format_settings">Delete format settings</string>
-    <string name="dsv_format_setting_delimiter">Delimiter</string>
+    <string name="description_delete_format_settings">Xóa cài đặt định dạng</string>
+    <string name="dsv_format_setting_delimiter">Dấu phân cách</string>
     <string name="dsv_format_setting_trailing_delimiter">Trailing delimiter</string>
     <string name="dsv_format_setting_quote_character">Quote character</string>
     <string name="dsv_format_setting_quote_mode">Quote mode\n(Used for outputs)</string>
     <string name="dsv_format_setting_escape_character">Escape character</string>
     <string name="dsv_format_setting_null_string">Null string</string>
-    <string name="dsv_format_setting_ignore_surrounding_spaces">Ignore surrounding spaces</string>
-    <string name="dsv_format_setting_trim">Trim</string>
-    <string name="dsv_format_setting_ignore_empty_lines">Ignore empty lines</string>
-    <string name="dsv_format_setting_record_separator">Record separator\n(Used for outputs)</string>
-    <string name="dsv_format_setting_comment_character">Comment character</string>
-    <string name="dsv_format_setting_skip_header_record">Skip header record</string>
-    <string name="dsv_format_setting_header_column_names">Header column names</string>
-    <string name="dsv_format_setting_ignore_header_names_case">Ignore header names case</string>
-    <string name="dsv_format_setting_allow_duplicate_header_names">Allow duplicate header names</string>
-    <string name="dsv_format_setting_allow_missing_column_names">Allow missing column names</string>
-    <string name="dsv_format_setting_header_comments">Header comments</string>
+    <string name="dsv_format_setting_ignore_surrounding_spaces">Bỏ qua dấu cách bao quanh</string>
+    <string name="dsv_format_setting_trim">Cắt ngắn</string>
+    <string name="dsv_format_setting_ignore_empty_lines">Bỏ qua các dòng trống</string>
+    <string name="dsv_format_setting_record_separator">Dấu chia tách bản ghi\n(Được dùng cho đầu ra)</string>
+    <string name="dsv_format_setting_comment_character">Ký tự bình luận</string>
+    <string name="dsv_format_setting_skip_header_record">Bỏ qua bản ghi tiêu đề</string>
+    <string name="dsv_format_setting_header_column_names">Tên cột tiêu đề</string>
+    <string name="dsv_format_setting_ignore_header_names_case">Bỏ qua chữ hoa/thường tên tiêu đề</string>
+    <string name="dsv_format_setting_allow_duplicate_header_names">Cho phép tên tiêu đề trùng nhau</string>
+    <string name="dsv_format_setting_allow_missing_column_names">Cho phép tên cột bị thiếu</string>
+    <string name="dsv_format_setting_header_comments">Bình luận tiêu đề</string>
     <string name="dsv_format_setting_auto_flush">Auto-flush</string>
-    <string name="dsv_quote_mode_all">All</string>
-    <string name="dsv_quote_mode_all_non_null">All non-null</string>
-    <string name="dsv_quote_mode_minimal">Minimal</string>
-    <string name="dsv_quote_mode_non_numeric">Non-numeric</string>
-    <string name="dsv_quote_mode_none">None</string>
-    <string name="error_message_failed_to_save_dsv_format_empty_name">Name is empty</string>
-    <string name="error_message_failed_to_save_dsv_format_occupied_name">Name is occupied</string>
-    <string name="error_message_failed_to_save_dsv_format_not_valid">DSV format is not valid</string>
-    <string name="hint_enter_a_name">Enter a name</string>
-    <string name="title_delete_dsv_format_dialog">Deleting DSV format \'%1$s\'</string>
-    <string name="dialog_text_delete_dsv_format">Do you really want to delete this format?</string>
-    <string name="message_dsv_format_is_deleted">DSV format \'%1$s\' is deleted</string>
+    <string name="dsv_quote_mode_all">Tất cả</string>
+    <string name="dsv_quote_mode_all_non_null">Tất cả không null</string>
+    <string name="dsv_quote_mode_minimal">Tối giản</string>
+    <string name="dsv_quote_mode_non_numeric">Không số</string>
+    <string name="dsv_quote_mode_none">Không có</string>
+    <string name="error_message_failed_to_save_dsv_format_empty_name">Tên trống</string>
+    <string name="error_message_failed_to_save_dsv_format_occupied_name">Tên đã được sử dụng</string>
+    <string name="error_message_failed_to_save_dsv_format_not_valid">Định dạng DSV không hợp lệ</string>
+    <string name="hint_enter_a_name">Nhập tên</string>
+    <string name="title_delete_dsv_format_dialog">Đang xoá định dạng DSV \'%1$s\'</string>
+    <string name="dialog_text_delete_dsv_format">Bạn có thực sự muốn xóa định dạng này không?</string>
+    <string name="message_dsv_format_is_deleted">Định dạng DSV \'%1$s\' đã bị xoá</string>
 </resources>

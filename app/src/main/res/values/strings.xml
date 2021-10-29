@@ -74,6 +74,7 @@
     <string name="deck_sorting_by_time_last_tested">Time last tested</string>
     <string name="deck_sorting_by_frequency_of_use">Frequency of use</string>
     <string name="deck_sorting_by_task">Task</string>
+    <string name="check_box_new_decks_first">New decks first</string>
     <string name="description_pin_icon">Pin icon</string>
     <string name="deck_summary_table_average_laps">Avg. laps</string>
     <string name="deck_summary_table_learned">Learned</string>
@@ -156,6 +157,7 @@
     <string name="description_deck_list_icon">Deck list icon</string>
     <string name="title_select_deck_list_color_popup">Deck list color</string>
     <string name="custom_color">Custom color</string>
+    <string name="description_random_color">Random color</string>
     <string name="toast_deck_list_is_removed">Deck list has been removed</string>
 
 
@@ -1235,6 +1237,4 @@
     <string name="title_delete_dsv_format_dialog">Deleting DSV format \'%1$s\'</string>
     <string name="dialog_text_delete_dsv_format">Do you really want to delete this format?</string>
     <string name="message_dsv_format_is_deleted">DSV format \'%1$s\' is deleted</string>
-    <string name="description_random_color">Random color</string>
-    <string name="check_box_new_decks_first">New decks first</string>
 </resources>

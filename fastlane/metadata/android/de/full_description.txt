@@ -5,33 +5,33 @@ Die unterstützten Funktionen sind:
 
     • Importieren/Exportieren von Dateien.
     • Unterstützt CSV, Tabtext oder jede andere Art von Trennzeichen.
-    • Intervalle (Verteilte Wiederholung). Sie können für jedes Deck ein eigenes Intervallschema festlegen. Also it is possible to indicate one's own algorithm of how the answers affects the choice of the next interval.
+    • Intervalle (Verteilte Wiederholung). Sie können für jedes Deck ein eigenes Intervallschema festlegen. Es ist auch möglich, einen eigenen Algorithmus anzulegen, wie die Antworten sich auf das nächste Intervall auswirken.
     • Verschiedene Testmethoden. Es gibt 'Selbsttest', 'Testen mit Varianten' und 'Rechtschreibprüfung'.
     • Aussprache des Textes über TTS. Sie können Sprachen für Fragen und Antworten auswählen und das automatische Vorsprechen von ihnen aktivieren.
-    • Hiding the text of a question to stimulate improvement of listening skills that is very useful in foreign language learning.
-    • Card inversion.
-    • Hints in the form of masking letters.
-    • 'Motivational timer' that will make you concentrate on your studies (optionally).
-    • Saving settings of deck as presets and reusing them in order to avoid routine work on settings.
-    • Editing and searching cards right in the exercise.
-    • 'Walking mode' that enables you do the exercise without looking at the screen.
-    • 'Autoplaying mode'. In this mode questions and answers are pronounced sequentially. You can combine your own activities and repetition of teaching material.
-    • Catalog of pre-made decks. The catalog contains many decks for language learning, which includes basic sets of words, thematic words and phrases, whole sentences.
-    • Grouping decks into separate lists.
-    • Customizing the card appearance.
-    • Dark theme.
+    • Verstecken Sie den Text einer Frage zur Verbesserung der Fähigkeiten des Hörens, dies ist sehr nützlich für das Erlernen von Fremdsprachen.
+    • Karten umkehren.
+    • Hinweise in Form von Hervorhebung von Buchstaben.
+    • 'Motivations-Timer', mit dem Sie sich auf Ihr Studium konzentrieren können (optional).
+    • Speichern von Voreinstellungen von Stapeln um sie wiederzuverwenden und Wiederholungen bei Einstellungen zu vermeiden.
+    • Bearbeiten und Suchen von Karten direkt in der Übung.
+    • 'Laufmodus', der es Ihnen ermöglicht, die Übung ohne einen Blick auf den Bildschirm durchzuführen.
+    • 'Automatischer Modus'. In diesem Modus werden Fragen und Antworten nacheinander ausgesprochen. Sie können Ihre eigenen Aktivitäten und Wiederholungen von Unterrichtsmaterial kombinieren.
+    • Katalog von vorgefertigten Stapeln. Der Katalog enthält viele Stapel zum Sprachenlernen, die eine Basis von Wörtern, thematischen Wörtern und Phrasen, und ganzen Sätzen enthalten.
+    • Gruppieren von Stapeln in getrennte Listen.
+    • Anpassen der Kartenansicht.
+    • Dunkles Farbschema.
 
 
-What makes ForgetMeNot so efficient for memorizing:
+Was ForgetMeNot so effizient für das Einprägen macht:
 
-    - No amount of advertising. You can handle a lot of cards in a short time due to the simplicity and convenience of the user interface. Nothing prevents you from studying.
-    - The exercise is designed so that you must eventually grasp the answer. If your answer is wrong, the card is postponed to the end of the list until you answer correct.
-    - Intervals (Spaced repetition). Spaced repetition reduces the forgetting that occurs when material is not encountered for a significant time period. It also involves actively recalling learned material, which supports learning.
-    - Possibility to edit a card just in the exercise. This allows you not only to correct mistakes, but also to rebuild cards if they are difficult to remember. For example, you can add an additional association in parentheses.
-    - Voice accompaniment. This is especially helpful when learning languages because it improves listening skills, helps to focus on studying and favors memorization. You can even set up a deck to perceive a question exceptionally by ear.
-    - Modes that allow you to practice not only in your free time. 'Walking mode' enables you do the exercise during walking. 'Autoplaying mode' lets you listen to questions and answers when your hands and eyes are busy, but your ears are free : )
-    - Focusing aids. 'Motivational timer' reminds you when you've lost your attention. Full screen mode hides the status bar, which might be an additional source of distraction.
+    - Keine Werbung. Sie können eine Menge Karten in kurzer Zeit bearbeiten, weil das Interface so einfach und bequem ist.  Nichts hindert Sie daran, zu studieren.
+    - Die Übung ist so konzipiert, dass man irgendwann die Antwort verstehen muss. Wenn Ihre Antwort falsch ist, wird die Karte ans Ende der Liste verschoben, bis Sie richtig antworten.
+    - Intervalle (Verteilte Wiederholung). Die verteilte Wiederholung reduziert das Vergessen, das auftritt, wenn Material für einen längeren Zeitraum nicht gesichtet wird. Aktives erinnern von gelernten Material ist auch enthalten, welches lernen begünstigt.
+    - Möglichkeit eine Karte direkt in der Übung zu bearbeiten. Dadurch können Sie nicht nur Fehler korrigieren, sondern auch Karten neu erstellen, wenn sie schwer zu merken sind. Zum Beispiel können Sie eine zusätzliche Assoziation in Klammern hinzufügen.
+    - Sprachbegleitung. Dies ist besonders hilfreich beim Erlernen von Sprachen, da es das Hörverständnis verbessert, man sich auf das Lernen konzentriert und die Erinnerung verbessert. Sie können sogar einen Stapel einrichten, um eine Frage ausschließlich durch das Ohr wahrzunehmen.
+    - Modi, mit denen Sie nicht nur in Ihrer Freizeit üben können. Der "Lauf-Modus" ermöglicht es dir, die Übung während des Laufens durchzuführen. 'Automatischer Modus' erlaubt es dir, Fragen und Antworten anzuhören, wenn deine Hände und Augen beschäftigt sind, aber deine Ohren frei sind : )
+    - Fokussierende Hilfsmittel. Der 'Motivationstimer' erinnert Sie daran, wenn Sie Ihre Aufmerksamkeit verloren haben. Der Vollbildmodus verbirgt die Statusleiste, was eine zusätzliche Ablenkungsquelle sein könnte.
 
 
-ForgetMeNot is free and open-source software.
+ForgetMeNot ist freie und quelloffene Software.
 https://github.com/tema6120/ForgetMeNot

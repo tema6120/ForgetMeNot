@@ -79,6 +79,7 @@
     <string name="deck_sorting_by_time_last_tested">Часом остан. тест.</string>
     <string name="deck_sorting_by_frequency_of_use">Частотою використ.</string>
     <string name="deck_sorting_by_task">Завданням</string>
+    <string name="check_box_new_decks_first">Спочатку нові колоди</string>
     <string name="description_pin_icon">іконка \"Шпилька\"</string>
     <string name="deck_summary_table_average_laps">Кіл</string>
     <string name="deck_summary_table_learned">Вивчено</string>
@@ -168,6 +169,7 @@
     <string name="description_deck_list_icon">іконка cписку колод</string>
     <string name="title_select_deck_list_color_popup">Колір списку колоди</string>
     <string name="custom_color">Свій колір</string>
+    <string name="description_random_color">Випадковий колір</string>
     <string name="toast_deck_list_is_removed">Список колод видалено</string>
 
 

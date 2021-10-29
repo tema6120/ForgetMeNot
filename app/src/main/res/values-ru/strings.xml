@@ -74,6 +74,7 @@
     <string name="deck_sorting_by_time_last_tested">Времени посл. тест.</string>
     <string name="deck_sorting_by_frequency_of_use">Частоте использ.</string>
     <string name="deck_sorting_by_task">Заданию</string>
+    <string name="check_box_new_decks_first">Сначала новые колоды</string>
     <string name="description_pin_icon">иконка \"Шпилька\"</string>
     <string name="deck_summary_table_average_laps">Кругов</string>
     <string name="deck_summary_table_learned">Изучено</string>
@@ -163,6 +164,7 @@
     <string name="description_deck_list_icon">иконка списка колод</string>
     <string name="title_select_deck_list_color_popup">Цвет списка колод</string>
     <string name="custom_color">Свой цвет</string>
+    <string name="description_random_color">Случайный цвет</string>
     <string name="toast_deck_list_is_removed">Список колод удален</string>
 
 

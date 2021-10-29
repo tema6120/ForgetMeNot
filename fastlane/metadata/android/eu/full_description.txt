@@ -4,33 +4,33 @@ ForgetMeNot informazioa hezkuntza-txartelen bidez memorizatzeko aplikazioa da. H
 Ezaugarri hauek ditu:
 
     • Fitxategien inportatzea/esportatzea.
-    • Support CSV, Tab text or any other kind of Delimiter-Separated Values.
+    • CSV, Tab testua eta beste edozein Mugatzailek-Zatitutako Balio onartzen ditu.
     • Tarteak (Errepikapen tartekatua). Nahi duzun tartea zehaztu dezakezu sorta bakoitzerako. Gainera, erantzunek hurrengo tartean nola eragingo duten adierazi daiteke norberaren algoritmoarekin.
     • Proba-metodo anitzak. 'Autoproba', 'Proba aukerekin' eta 'Idatziz' aukerak daude.
     • Testuaren ahoskera TTS bidez. Hizkuntzak hautatu ditzakezu galdera eta erantzunentzat, horiek automatikoki hitz egiteko aukera gaituta.
     • Galdera baten testua ezkutatzea entzumen-trebetasuna hobetzeko, hizkuntzak ikasteko oso baliagarria.
     • Txartelen alderantzikatzea.
-    • Hints in the form of masking letters.
-    • 'Motivational timer' that will make you concentrate on your studies (optionally).
-    • Saving settings of deck as presets and reusing them in order to avoid routine work on settings.
+    • letren estalketa bidezko lagungarriak.
+    • 'Denboragailu kementsua' zure ikasketetan buru-belarri jartzen lagunduko zaituena (aukerazkoa).
+    • Sorten hobespenak txantiloi bezala gordetzea eta hauek errutinako lana ekiditeko erabiltzea.
     • Txartelak ariketak egin bitartean editatzea eta bilatzea.
     • 'Ibiltze-modua' pantaila begiratu gabe ariketak egin ahal izateko.
-    • 'Automatikoki erreproduzitzea' modua. Modu honetan galderak eta erantzunak sekuentzialki ahoskatzen dira. You can combine your own activities and repetition of teaching material.
-    • Catalog of pre-made decks. The catalog contains many decks for language learning, which includes basic sets of words, thematic words and phrases, whole sentences.
-    • Grouping decks into separate lists.
-    • Customizing the card appearance.
+    • 'Automatikoki erreproduzitzea' modua. Modu honetan galderak eta erantzunak sekuentzialki ahoskatzen dira. Zure beste jarduerak ikasketarekin bateratzeko aukera ematen du.
+    • Aurretik eginiko txartel sortak. Gure katalogoak erdarak ikasteko ikasteko hainbat sorta ditu. Haien artean oinarrizko hitzak, egoeraren arabera antolatutako hitz eta esapideak, eta baita esaldi osoak ere dituztenak.
+    • Sortak zerrendetan antolatzea.
+    • Txartelen itxuraren norberekotzea.
     • Gai iluna.
 
 
-What makes ForgetMeNot so efficient for memorizing:
+ForgetMeNot gauzak buruz ikasteko hain ona egiten duena:
 
-    - No amount of advertising. You can handle a lot of cards in a short time due to the simplicity and convenience of the user interface. Nothing prevents you from studying.
-    - The exercise is designed so that you must eventually grasp the answer. If your answer is wrong, the card is postponed to the end of the list until you answer correct.
-    - Tarteak (Errepikapen tartekatua). Spaced repetition reduces the forgetting that occurs when material is not encountered for a significant time period. It also involves actively recalling learned material, which supports learning.
-    - Possibility to edit a card just in the exercise. This allows you not only to correct mistakes, but also to rebuild cards if they are difficult to remember. For example, you can add an additional association in parentheses.
-    - Voice accompaniment. This is especially helpful when learning languages because it improves listening skills, helps to focus on studying and favors memorization. You can even set up a deck to perceive a question exceptionally by ear.
-    - Modes that allow you to practice not only in your free time. 'Walking mode' enables you do the exercise during walking. 'Autoplaying mode' lets you listen to questions and answers when your hands and eyes are busy, but your ears are free : )
-    - Focusing aids. 'Motivational timer' reminds you when you've lost your attention. Full screen mode hides the status bar, which might be an additional source of distraction.
+    - Iragarki bakar bat ere ez. Txartel pila bat landu dezakezu denbora motz batean erabiltzaile interfazearen antolaketa garbi eta erabilerrazari esker. Ezerk ez dizu ikasketa galaraziko.
+    - Ariketak lehenago edo beranduago erantzunak barneratu ditzazun antolatuta daude. Zure erantzuna okerra bada, txartela zerrendaren bukaerara bidaliko da eta asmatzen duzun arte errepikatuko.
+    - Tarteak (Errepikapen tartekatua). Errepikapen tartekatuak materiala denbora luzez lantzen ez denean gertatzen den ahanztea ekiditen du. Ikasitako gauzak aktiboki gogoratzea dakarrenez barneraketa asko sustatzen du.
+    - Ariketa bat egin bitartean kartak editatzeko aukera. Honek akatsak zuzentzen ez ezik, gogoratzeko zailak diren txartelak birmoldatzeko aukera ere emango dizu. Adibidez, azalpenak gehitu ditzakezu parentesi tartean.
+    - Ahots bidezko irakurketa. Hau bereziki lagungarria da erdarak ikastean, entzumena hobetu, kontzentratzen lagundu eta oroimena indartzen dituelako. Entzunez bakarrik jasoko duzun sorta bat ere sortu dezakezu.
+    - Beste zereginetan sartuta zaudela ikastea ahalbidetuko dizuten ariketa motak. 'Ibiltze modua'-k oinez zoazela praktikatzea ahalbidetzen du. 'Auto-proba' erabiliz zure eskuak lanpetuta, baina belarriak libre dituzula praktikatu ahalko duzu : )
+    - Kontzentrazio lagungarriak. 'Tenporizadorea' erne egoteari utzi diozunean abisuko zaitu. Pantaila osoko moduak egoera barra ezkutatzen du, distrakzio bat izan daitekeena.
 
 
 ForgetMeNot software librea eta kode irekikoa da.
