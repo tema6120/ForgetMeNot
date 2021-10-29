@@ -11,8 +11,12 @@ enum class Translation(
     Basque(
         flagEmoji = "\uD83C\uDFF4\uDB40\uDC65\uDB40\uDC73\uDB40\uDC70\uDB40\uDC76\uDB40\uDC7F",
         languageNameRes = R.string.language_basque,
-        progress = "28%",
+        progress = "99%",
         translators = listOf(
+            Translator(
+                name = "soplatnik",
+                link = "https://crowdin.com/profile/soplatnik"
+            ),
             Translator(
                 name = "avtkal",
                 link = "https://crowdin.com/profile/avtkal"
@@ -23,11 +27,15 @@ enum class Translation(
     FRENCH(
         flagEmoji = "\uD83C\uDDEB\uD83C\uDDF7",
         languageNameRes = R.string.language_french,
-        progress = "56%",
+        progress = "99%",
         translators = listOf(
             Translator(
                 name = "Mr B",
                 link = "https://crowdin.com/profile/mrb7"
+            ),
+            Translator(
+                name = "PhirosWolf",
+                link = "https://crowdin.com/profile/phiroswolf"
             ),
             Translator(
                 name = "Sitavi",
@@ -36,6 +44,10 @@ enum class Translation(
             Translator(
                 name = "QuantiQia",
                 link = "https://crowdin.com/profile/quantiqia"
+            ),
+            Translator(
+                name = "eiryelio",
+                link = "https://crowdin.com/profile/eiryelio"
             ),
             Translator(
                 name = "Ryu1845",
@@ -47,11 +59,27 @@ enum class Translation(
     German(
         flagEmoji = "\uD83C\uDDE9\uD83C\uDDEA",
         languageNameRes = R.string.language_german,
-        progress = "20%",
+        progress = "51%",
         translators = listOf(
+            Translator(
+                name = "avtkal",
+                link = "https://crowdin.com/profile/avtkal"
+            ),
+            Translator(
+                name = "Zonrad_Kuse",
+                link = "https://crowdin.com/profile/zonrad_kuse"
+            ),
             Translator(
                 name = "statoquant",
                 link = "https://crowdin.com/profile/statoquant"
+            ),
+            Translator(
+                name = "B14CK313",
+                link = "https://crowdin.com/profile/b14ck313"
+            ),
+            Translator(
+                name = "trailingstock",
+                link = "https://crowdin.com/profile/trailingstock"
             ),
             Translator(
                 name = "Yushin Washio",
@@ -66,13 +94,9 @@ enum class Translation(
                 link = "https://crowdin.com/profile/unwovencrestless"
             ),
             Translator(
-                name = "avtkal",
-                link = "https://crowdin.com/profile/avtkal"
-            ),
-            Translator(
                 name = "Nausika",
                 link = "https://crowdin.com/profile/nausika"
-            )
+            ),
         )
     ),
 
@@ -84,6 +108,46 @@ enum class Translation(
             Translator(
                 name = "Vasilis Ioannidis",
                 link = "https://crowdin.com/profile/vioannidis"
+            )
+        )
+    ),
+
+    Hindi(
+        flagEmoji = "\uD83C\uDDEE\uD83C\uDDF3",
+        languageNameRes = R.string.language_hindi,
+        progress = "3%",
+        translators = listOf(
+            Translator(
+                name = "Swarnendu Maiti",
+                link = "https://crowdin.com/profile/swarnendu"
+            )
+        )
+    ),
+
+    Indonesian(
+        flagEmoji = "\uD83C\uDDEE\uD83C\uDDE9",
+        languageNameRes = R.string.language_indonesian,
+        progress = "14%",
+        translators = listOf(
+            Translator(
+                name = "liimee",
+                link = "https://crowdin.com/profile/liimee"
+            )
+        )
+    ),
+
+    Polish(
+        flagEmoji = "\uD83C\uDDF5\uD83C\uDDF1",
+        languageNameRes = R.string.language_polish,
+        progress = "4%",
+        translators = listOf(
+            Translator(
+                name = "F_I",
+                link = "https://crowdin.com/profile/f_i"
+            ),
+            Translator(
+                name = "ggngnn",
+                link = "https://crowdin.com/profile/prubart"
             )
         )
     ),
@@ -130,16 +194,16 @@ enum class Translation(
                 link = "https://www.sekinfo.org"
             ),
             Translator(
+                name = "avtkal",
+                link = "https://crowdin.com/profile/avtkal"
+            ),
+            Translator(
                 name = "Edwins0",
                 link = "https://crowdin.com/profile/edwins0"
             ),
             Translator(
                 name = "Cod3Radar",
                 link = "https://crowdin.com/profile/cod3radar"
-            ),
-            Translator(
-                name = "avtkal",
-                link = "https://crowdin.com/profile/avtkal"
             )
         )
     ),
@@ -159,7 +223,7 @@ enum class Translation(
     Vietnamese(
         flagEmoji = "\uD83C\uDDFB\uD83C\uDDF3",
         languageNameRes = R.string.language_vietnamese,
-        progress = "16%",
+        progress = "57%",
         translators = listOf(
             Translator(
                 name = "bruhwut",

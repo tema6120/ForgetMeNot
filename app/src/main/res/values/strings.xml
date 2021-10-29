@@ -1186,6 +1186,9 @@
     <string name="language_french">French</string>
     <string name="language_german">German</string>
     <string name="language_greek">Greek</string>
+    <string name="language_hindi">Hindi</string>
+    <string name="language_indonesian">Indonesian</string>
+    <string name="language_polish">Polish</string>
     <string name="language_portuguese_brazilian">Portuguese, Brazilian</string>
     <string name="language_russian">Russian</string>
     <string name="language_spanish">Spanish</string>
