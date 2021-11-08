@@ -1,6 +1,5 @@
 package com.odnovolov.forgetmenot.presentation.screen.home
 
-import com.odnovolov.forgetmenot.presentation.screen.home.DeckSorting.Criterion.*
 import com.odnovolov.forgetmenot.presentation.screen.home.DeckSorting.Direction.Asc
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeViewModel.RawDeckPreview
 
@@ -48,29 +47,8 @@ class DeckPreviewComparator(
         deck1: RawDeckPreview,
         deck2: RawDeckPreview
     ): Int {
-        val leftDeck = if (deckSorting.direction == Asc) deck1 else deck2
-        val rightDeck = if (deckSorting.direction == Asc) deck2 else deck1
-        return when (deckSorting.criterion) {
-            Name -> leftDeck.deckName.compareTo(rightDeck.deckName)
-            CreatedAt -> leftDeck.createdAt.compareTo(rightDeck.createdAt)
-            LastTestedAt -> {
-                when {
-                    leftDeck.lastTestedAt == null -> -1
-                    rightDeck.lastTestedAt == null -> 1
-                    else -> leftDeck.lastTestedAt.compareTo(rightDeck.lastTestedAt)
-                }
-            }
-            FrequencyOfUse -> leftDeck.averageLaps.compareTo(rightDeck.averageLaps)
-            Task -> {
-                when {
-                    leftDeck.numberOfCardsReadyForExercise == null -> -1
-                    rightDeck.numberOfCardsReadyForExercise == null -> 1
-                    else -> {
-                        leftDeck.numberOfCardsReadyForExercise
-                            .compareTo(rightDeck.numberOfCardsReadyForExercise)
-                    }
-                }
-            }
-        }
+        val leftDeck: RawDeckPreview = if (deckSorting.direction == Asc) deck1 else deck2
+        val rightDeck: RawDeckPreview = if (deckSorting.direction == Asc) deck2 else deck1
+        return compareValuesBy(leftDeck, rightDeck, deckSorting.criterion.selector)
     }
 }
