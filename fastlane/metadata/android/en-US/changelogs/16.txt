@@ -1,0 +1,1 @@
+- fixed bug leading to crash (sorting)
