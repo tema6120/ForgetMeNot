@@ -29,7 +29,7 @@
     <string name="title_deck_selection_toolbar_choose_decks_for_exercise">Stapel für\'s Training auswählen</string>
     <plurals name="title_selection_toolbar_number_of_selected_decks">
         <item quantity="one">%d Stapel</item>
-        <item quantity="other">%d decks</item>
+        <item quantity="other">%d Stapel</item>
     </plurals>
     <string name="tab_decks">Stapel</string>
     <string name="tab_cards">Karten</string>
@@ -65,7 +65,7 @@
     <string name="deck_sorting_by_time_last_tested">Zuletzt getestet</string>
     <string name="deck_sorting_by_frequency_of_use">Nutzungsfrequenz</string>
     <string name="deck_sorting_by_task">Aufgabe</string>
-    <string name="check_box_new_decks_first">New decks first</string>
+    <string name="check_box_new_decks_first">Neue Decks zuerst</string>
     <string name="description_pin_icon">Icon anheften</string>
     <string name="deck_summary_table_average_laps">Durchschnittl. Runden</string>
     <string name="deck_summary_table_learned">Gelernt</string>
@@ -91,18 +91,18 @@
         <item quantity="other">%d Stapel wurden entfernt</item>
     </plurals>
     <plurals name="snackbar_decks_merging">
-        <item quantity="one">%1$d wurde in %2$s integriert</item>
-        <item quantity="other">%1$d decks have been merged into \'%2$s\'</item>
+        <item quantity="one">%1$d Stapel wurde in %2$s integriert</item>
+        <item quantity="other">%1$d Stapel wurden in %2$s integriert</item>
     </plurals>
     <string name="dialog_title_choose_deck_list">Liste wählen</string>
     <string name="dialog_title_choose_preset">Voreinstellung wählen</string>
     <plurals name="snackbar_default_preset_has_been_applied">
         <item quantity="one">Standardeinstellung wurde auf %d Stapel angewendet</item>
-        <item quantity="other">Default preset has been applied to %d decks</item>
+        <item quantity="other">Standardeinstellung wurde auf %d Stapel angewendet</item>
     </plurals>
     <plurals name="snackbar_preset_has_been_applied">
         <item quantity="one">Voreinstellung \'%1$s\' wurde auf %2$d Stapel angewendet</item>
-        <item quantity="other">Preset \'%1$s\' has been applied to %2$d decks</item>
+        <item quantity="other">Voreinstellung \'%1$s\' wurde auf %2$d Stapel angewandt</item>
     </plurals>
     <string name="text_autoplay_button">Automatische Wiedergabe</string>
     <string name="text_exercise_button">Übung</string>
@@ -138,7 +138,7 @@
     <string name="description_deck_list_icon">Stapellisten Symbol</string>
     <string name="title_select_deck_list_color_popup">Stapellisten Farbe</string>
     <string name="custom_color">Benutzerdefinierte Farbe</string>
-    <string name="description_random_color">Random color</string>
+    <string name="description_random_color">Zufällige Farbe</string>
     <string name="toast_deck_list_is_removed">Stapel wurde entfernt</string>
     <!-- Export dialog -->
     <string name="dialog_title_export">Exportieren</string>
@@ -149,7 +149,7 @@
     <string name="progress_bar_exporting">Wird exportiert ..</string>
     <plurals name="export_result_successful">
         <item quantity="one">Stapel erfolgreich exportiert</item>
-        <item quantity="other">%d decks are exported successfully</item>
+        <item quantity="other">%d Stapel erfolgreich exportiert</item>
     </plurals>
     <string name="export_result_error">Fehler beim Exportieren der Stapels: \n\'%s\'</string>
     <!-- File import screen -->
@@ -163,7 +163,7 @@
     <string name="tab_name_source_text">Quelltext</string>
     <plurals name="source_text_error_button">
         <item quantity="one">%d Fehler</item>
-        <item quantity="other">%d errors</item>
+        <item quantity="other">%d Fehler</item>
     </plurals>
     <string name="description_undo_button">Rückgängig</string>
     <string name="description_redo_button">Wiederholen</string>
@@ -281,7 +281,7 @@
     <string name="screen_title_card_filter">Kartenfilter</string>
     <plurals name="matching_cards_number_label">
         <item quantity="one">Karte entspricht dem Filter</item>
-        <item quantity="other">cards match the filter</item>
+        <item quantity="other">Karten entsprechen dem Filter</item>
     </plurals>
     <string name="title_card_filter_state">Status</string>
     <string name="text_available_for_exercise_group_checkbox">Zum trainieren verfügbar</string>
@@ -368,11 +368,11 @@
     </plurals>
     <plurals name="snackbar_card_selection_action_completed_remove">
         <item quantity="one">%d Karte wurde entfernt</item>
-        <item quantity="other">%d cards have been removed</item>
+        <item quantity="other">%d Karten wurden entfernt</item>
     </plurals>
     <plurals name="snackbar_card_selection_action_completed_move">
-        <item quantity="one">%1$d wurde in \'%2$s\' integriert</item>
-        <item quantity="other">%1$d cards have been moved to \'%2$s\'</item>
+        <item quantity="one">%1$d Karte wurde in \'%2$s\' integriert</item>
+        <item quantity="other">%1$d Karten wurden in \'%2$s\' integriert</item>
     </plurals>
     <plurals name="snackbar_card_selection_action_completed_copy">
         <item quantity="one">%1$d wurde in \'%2$s\' integriert</item>
@@ -415,7 +415,7 @@
     <string name="toast_fill_in_the_card">Karte ausfüllen</string>
     <plurals name="snackbar_cards_have_been_created">
         <item quantity="one">%d Karte wurde erstellt</item>
-        <item quantity="other">%d cards have been created</item>
+        <item quantity="other">%d Karten wurden erstellt</item>
     </plurals>
     <!-- Deck settings screen -->
     <string name="deck_settings_section_general">Allgemein</string>
@@ -690,7 +690,7 @@
     <string name="help_article_title_walking_mode">Laufmodus</string>
     <string name="help_article_title_autoplaying_cards">Automatisches Abspielen der Karten</string>
     <string name="help_article_title_presets">Voreinstellungen</string>
-    <string name="help_article_title_advice_on_compiling_deck">Advice on compiling deck</string>
+    <string name="help_article_title_advice_on_compiling_deck">Ratschläge zum Erstellen eines Stapels</string>
     <string name="help_article_title_advice_on_studying">Tipps zum Lernen</string>
     <!-- Help article screen -->
     <string name="description_show_table_of_contents_button">Inhaltsangabe anzeigen</string>
@@ -719,10 +719,10 @@
         \nA:
         \nSeptember 3, 1783</string>
     <string name="example_qa_format_file_name">Amerikanische Geschichte.txt</string>
-    <string name="article_import_of_file_qa_format_description">This is a proprietary format of
-        ForgetMeNot. It was invented for manually creating cards in a text file.
-        This format is intuitive and readable. It is recommended to use this format if you compose
-        cards on a computer.</string>
+    <string name="article_import_of_file_qa_format_description">Dies ist ein proprietäres Format von
+        ForgetMeNot. Es wurde für das manuelle Erstellen von Karten in einer Textdatei erfunden.
+        Dieses Format ist intuitiv und lesbar. Es wird empfohlen, dieses Format zu verwenden, wenn du
+        Karten auf einem Computer zusammenstellst.</string>
     <string name="article_import_of_file_dsv_format_section_title">2. Durch Trennzeichen getrennte Werte</string>
     <string name="example_of_text_file_dsv_format">\"Natur\";\"природа\"
         \n\"Strand\"; берег, пляж\"
@@ -745,51 +745,49 @@
         \n\"Meer\";\"море\"
         \n\"Fluss\";\"река\"</string>
     <string name="example_dsv_format_file_name">Nature.csv</string>
-    <string name="article_import_of_file_dsv_format_description">This is the generic name for
-        <a href="https://en.wikipedia.org/wiki/Comma-separated_values">CSV</a> or
+    <string name="article_import_of_file_dsv_format_description">Dies ist der allgemeine Name für
+        <a href="https://en.wikipedia.org/wiki/Comma-separated_values">CSV</a> oder
         <a href="https://en.wikipedia.org/wiki/Tab-separated_values">TSV</a>
-        files. This format is used to represent tabular data. Many programs such as Microsoft
-        Excel, Google Sheets allow you to export data in this format. ForgetMeNot interpret each
-        record (row) as a separate card, the first column as a question, the second column as an
-        answer. You can also manually create such files. For example, create a file with a .tsv
-        extension where the tab character will separate questions and answers.
+        Dateien. Dieses Format wird verwendet, um Daten tabellarisch darzustellen. Viele Programme
+        wie Microsoft Excel oder Google Sheets erlauben Ihnen den Export von Daten in diesem Format.
+        ForgetMeNot interpretiert jeden Eintrag (Zeile) als Karte, die erste Spalte als Frage, die
+        zweite Spalte als Antwort. Du kannst solche Dateien auch von Hand erstellen. Legen sie zum
+        Beispiel eine Datei mit der Endung .tsv an, in der Frage und Antwort durch das Tabulatorzeichen
+        getrennt sind.
 
-        \n\nSince this format is not strict, you are invited to choose a clarifying format among
-        the predefined ones or create your own.</string>
-    <string name="article_exercise_paragraph_1">In the exercise, you should answer questions. For
-        each deck, you can specify unique settings, which can significantly change the examination
-        manner:
+        \n\nDa dieses Format nicht streng ist, bist du dazu angehalten, ein klares, vordefiniertes Format zu wählen oder dein eigenes zu erstellen.</string>
+    <string name="article_exercise_paragraph_1">In der Übung beantwortest du Fragen. Für jeden
+        Stapel kannst du spezifische Einstellungen festlegen, welche die Art der Abfrage signifikant
+         verändern können:
 
-        \n\n\t- show cards in random order or not (Random order)
-        \n\n\t- how to check the answer
-        (<annotation clickable="testing_method">Testing method</annotation>)
-        \n\n\t- present the question visually or orally
-        (<annotation clickable="question_display">Question display</annotation>,
-        <annotation clickable="pronunciation">Pronunciation</annotation>)
-        \n\n\t- whether to pronounce question or answer automatically
-        (<annotation clickable="pronunciation">Pronunciation</annotation>)
-        \n\n\t- whether it is necessary to exchange the question and the answer. Of course, it might
-        be needed if they are interchangeable. (Card Inversion)
-        \n\n\t- is there a time limit for response
-        (<annotation clickable="motivational_timer">Motivational timer</annotation>)
+        \n\n\t- Karten in zufälliger Reihenfolge anzeigen oder nicht (Zufällige Reihenfolge)
+        \n\n\t- Art der Abfrage der Antwort
+        (<annotation clickable="testing_method">Testverfahren</annotation>)
+        \n\n\t- Stellen der Frage in visueller oder mündlicher Form
+        (<annotation clickable="question_display">Form der Frage</annotation>,
+        <annotation clickable="pronunciation">Aussprache</annotation>)
+        \n\n\t- automatisches Aussprechen der Frage oder Antwort
+        (<annotation clickable="pronunciation">Aussprache</annotation>)
+        \n\n\t- Tauschen der Frage und Antwort. Das kann nützlich sein, wenn sie austauschbar sind. (Karten umkehren)
+        \n\n\t- Zeitlimit für die Antwort
+        (<annotation clickable="motivational_timer">Motivationstimer</annotation>)
 
-        \n\nRegardless of <annotation clickable="testing_method">testing method</annotation>,
-        the answer may be either correct or wrong. If the answer is wrong, the card will be asked
-        again until the answer is correct. It is needed in order to make sure that you commit the
-        answer to memory.</string>
+        \n\nUnabhänig von dem <annotation clickable="testing_method">Testverfahren</annotation>,
+        kann die Antwort entweder richtig oder falsch sein. Wenn die Antwort falsch ist, wird die Karte
+       solange abgefragt, bis sie richtig beantwortet ist. Das ist nötig, damit sichergestellt werden kann,
+       dass sich die Antwort gemerkt wurde.</string>
     <string name="question1_in_exercise_article">Hut</string>
     <string name="answer1_in_exercise_article">Hat</string>
     <string name="question2_in_exercise_article">Handschuhe</string>
     <string name="answer2_in_exercise_article">Gloves</string>
     <string name="question3_in_exercise_article">Mantel</string>
     <string name="answer3_in_exercise_article">Coat</string>
-    <string name="article_exercise_paragraph_2">Your answers influence
-        <annotation clickable="grade">the grade</annotation> of the card. If intervals are enabled,
-        the grade determines when the card will be asked again.
+    <string name="article_exercise_paragraph_2">Ihre Antworten beeinflussen
+        <annotation clickable="grade">die Note</annotation> der Karte. Wenn Intervalle aktiviert sind, bestimmt
+        diese Note, wann die Karte erneut abgefragt wird.
 
-        \n\nIf you know the question well and you don\'t want this card ever to be asked again or
-        you don\'t want to study the card, click the \'Mark as learned\' icon. This card will never
-        be asked again.</string>
+        \n\nWenn du die Frage gut kannst und nicht willst, dass diese jemals wieder abgefragt wird oder
+        du einfach die Karte nicht lernen willst, klicke auf das Symbol \"Als gelernt markieren\". Diese Karte wird dann nie mehr abgefragt werden.</string>
     <string name="question4_in_exercise_article">Wie ist dein Name?</string>
     <string name="answer4_in_exercise_article">What\'s your name?</string>
     <string name="question5_in_exercise_article">Guten morgen</string>
@@ -797,21 +795,22 @@
     <string name="variant2_in_exercise_article">Good afternoon</string>
     <string name="variant3_in_exercise_article">Good evening</string>
     <string name="variant4_in_exercise_article">Good night</string>
-    <string name="article_exercise_paragraph_3">You can edit the card just in the exercise. It
-        might be needed not only for correcting mistakes on the card, but also for improving the
-        card if it is difficult to remember. You may also use search if you confused answers.
+    <string name="article_exercise_paragraph_3">Du kannst die Karten einfach während der Übung bearbeiten.
+        Neben dem Korrigieren von Fehlern kann das auch hilfreich sein, um die Karte
+        zu verbessern, falls es dir schwerfällt, sie zu behalten. Du kannst auch die 
+        Suchfunktion benutzen, wenn du Antworten verwechselt hast.
 
-        \n\nThere are two types of hints available in the exercise:
+        \n\n Es gibt zwei Arten von Hinweisen in der Übung:
 
-        \n\n\t- \'Mask letters\'. This hint can be applied many times. The first time you turn to
-        the hint, all letters will be replaced with a masked character ■. You can see how many
-        words are in the answer, how many letters are in each word. If this is not enough, you can
-        unmask part of the answer. Just select a fragment and press \'Unmask selected region\' on
-        hint popup window.
+        \n\n\t- \'Buchstaben verbergen\'. Dieser Hinweis kann mehrmals angewandt werden. Beim 
+        ersten Auswählen des Hinweises  werden alle Buchstaben mit dem Ersatzzeichen  ■ 
+        ersetzt. Jetzt kannst du die Anzahl der Worte in der Antwort sehen und auch wie viele Buchstaben
+        jedes Wort hat. Wenn das nicht ausreicht, kannst du Teile der Antwort aufdecken. Wähle 
+        einfach einen Teil der Antwort und drücke \'Ausgewählten Bereich aufdecken\' in dem Pop-up-Fenster.
 
-        \n\n\t- \'Get variants\'. Four variants will be provided to choose. The variants are taken
-        from the deck to which the card belongs. This hint can make it a lot easier to answer if the
-        deck is not designed for \'Testing method with variants\'.</string>
+        \n\n\t- \'Varianten erhalten\'. Vier Varianten stehen hier zur Auswahl. Die Varianten sind aus dem Stapel
+        zu dem die Karte gehört, ausgewählt. Dieser Hinweis kann das Antworten deutlich einfacher machen,
+        falls der Stapel nicht für das \'Testen mit Auswahlmöglichkeiten\' entwickelt wurde.</string>
     <string name="article_exercise_paragraph_4">Sie können die Übung auch ohne den
         -Bildschirm im <annotation clickable="walking_mode">\'Laufmodus\'</annotation> durchführen.</string>
     <string name="article_testing_methods_paragraph_1">Testmethoden legen fest, wie die Antwort
@@ -819,33 +818,32 @@
     <string name="article_testing_methods_off_section_title">1. Ohne Testen</string>
     <string name="question_example_off_testing_method">Alle Kinder in dieser Klasse sind sehr höflich.</string>
     <string name="answer_example_off_testing_method">All the children in this class are very polite.</string>
-    <string name="article_testing_methods_off_section_description">It may be used for decks with
-        which you do not plan to work for a long time. For example, it might be a deck that contains
-        sentences in the native and target language and you want to translate once without further
-        repetition.</string>
+    <string name="article_testing_methods_off_section_description">Dies kann für Stapel verwendet werden, mit denen du planst, für lange Zeit nicht zu arbeiten. Zum Beispiel könnte es ein Stapel sein, das
+        Sätze in der Mutter- und Zielsprache enthält, die du ohne weitere
+        Wiederholungen nur einmal übersetzen möchten.</string>
     <string name="article_testing_methods_manual_section_title">2. Selbsttest</string>
-    <string name="question_example_manual_testing_method">mime\n\n\\verb\\</string>
-    <string name="answer_example_manual_testing_method">[maɪm]\n\nuse gesture and movement without
-        words in the acting of a play or role</string>
-    <string name="article_testing_methods_manual_section_description">Basic testing method. You
-        decide whether you remember the answer or not. The main advantage is the efficiency of
-        memorization.</string>
+    <string name="question_example_manual_testing_method">mimen\n\n\\Verb\\</string>
+    <string name="answer_example_manual_testing_method">[ˈmiːmən]\n\nGesten und Bewegungen in einer schauspielerischen Rolle verwenden, ohne dass
+        Wörter gesprochen werden</string>
+    <string name="article_testing_methods_manual_section_description">Klassische Testmethode. Du
+        entscheidest, ob du dich an die Antwort erinnerst oder nicht. Der Hauptvorteil ist die Effizienz beim
+        Auswendiglernen.</string>
     <string name="article_testing_methods_quiz_section_title">3. Testen mit Auswahlmöglichkeiten</string>
     <string name="question_example_quiz_testing_method">Bass</string>
     <string name="answer_example_quiz_testing_method_variant1">Hering</string>
     <string name="answer_example_quiz_testing_method_variant2">Forelle</string>
     <string name="answer_example_quiz_testing_method_variant3">Lachs</string>
     <string name="answer_example_quiz_testing_method_variant4">Barsch</string>
-    <string name="article_testing_methods_quiz_section_description">In this mode, you need to choose
-        the correct variant from the four offered. Variants are taken from the deck to which the
-        card belongs. Therefore, if you are going to use this testing method, it is important to
-        create a deck where variants are appropriate. For example, it could be a
-        \'word-translation\' deck with the same parts of speech. This is a more playful form of
-        testing, so it\'s great for kids. The disadvantage is the average memory efficiency, as
-        variants are an significant clue.</string>
+    <string name="article_testing_methods_quiz_section_description">In diesem Modus musst du die
+       die richtige Antwort aus den vier zur Auswahl stehenden auswählen. Die Antwortmöglichkeiten werden
+       aus dem Stapel zu dem die Karte gehört ausgewählt. Aus diesem Grund ist es in wichtig, einen 
+       Stapel zu verwenden, bei dem die Antworten als Möglichkeiten verwendet werden können. Das kann zum Beispiel ein
+       Stapel mit \"Wort-Übersetzungen\" sein. Das Auswählen aus Möglichkeiten ist eine spielerische Form des 
+      Testens und darum gut geeignet für Kinder. Der Nachteil dabei ist die verringerte Erinnerungseffizienz, 
+      da die Auswahlmöglichkeiten wie Hinweise sind.</string>
     <string name="article_testing_methods_entry_section_title">4. Rechtschreibprüfung</string>
-    <string name="question_example_entry_testing_method">Past participle form of \'bring\'</string>
-    <string name="answer_example_entry_testing_method">brought</string>
+    <string name="question_example_entry_testing_method">Partizip Perfekt von \'bringen\'</string>
+    <string name="answer_example_entry_testing_method">gebracht</string>
     <string name="article_testing_methods_entry_section_description">Diese Methode wird nützlich sein wenn
          sie die Schreibweise von Wörtern testen möchten. Sie kann als Diktat verwendet werden. Um dies zu tun, erstelle einen
         Stapel bei dem Frage und Antwort gleich sein werden, deaktiviere das Fragendisplay, wähle
@@ -863,30 +861,30 @@
         \n\n\t- ändert sich nicht, wenn die Antwort stimmt, aber diese Karte wegen einer falschen Antwort beim vorherigen Mal, zur Wiederholung markiert wurde</string>
     <string name="question_in_grade_and_intervals_article">zinc</string>
     <string name="answer_in_grade_and_intervals_article">Zink</string>
-    <string name="article_grade_and_intervals_paragraph2">The grade is directly related to
-        intervals, which are applied to the deck. The intervals affect when the card is available
-        for the exercise next time after responding. Usually, the higher the grade, the longer the
-        interval. That is, the intervals are needed so that you deal more with poorly-studied cards
-        and less with well-studied ones.
+    <string name="article_grade_and_intervals_paragraph2">Die Note ist direkt verbunden mit
+     den Intervallen, spezifisch für den Stapel. Die Intervalle beeinflussen, wann die Karte nach dem
+     Beantworten das nächste Mal wieder zur Übung bereit ist. Normalerweise bedeutet eine höhere
+     Note ein längeres  Zeitintervall. Das hat zur Folge, dass du Karten, die du noch nicht gut kannst öfter 
+     übst als Karten, die du schon gut beherrschest.
 
-        \n\nPerhaps, for some reason, you want to change the grade. Just tap on the \'Grade\' icon
-        and choose the one you want. Usually, when you change the grade, you would like to clarify
-        how long it will take to be this card questioned again. If you manually changed the grade,
-        the standard scheme would not apply to this card for this exercise session.</string>
-    <string name="article_question_display_paragraph_1">You can turn off the question display. In
-        this case, it is supposed that you will get the question via voice playback. This will help
-        improve your listening skills when learning a foreign language. Together with this, it is
-        appropriate to enable the automatic pronunciation of the question. If you still want to see
-        the question, just click on \'Show question\'.</string>
+   \n\nFalls du aus einem bestimmten Grund die Note ändern möchtest, klicke einfach auf das \'Note\'
+   Symbol und wähle die gewünschte Note aus. Wenn du die Note einer Karte änderst, willst du normalerweise
+   festlegen wie lange es dauert bis die Karte wieder abgefragt wird. Durch das manuelle Ändern der Note wird
+   das Standardverfahren für diese Übungseinheit nicht angewandt.</string>
+    <string name="article_question_display_paragraph_1">Du kannst das Anzeigen der Frage ausschalten.
+     In diesen Fall wird angenommen, dass du die Frage über die Audiowiedergabe hörst. Das wird
+    dir helfen dein Hörverständnis zu verbessern während du eine Fremdsprache lernst. Zusätzlich
+    zu dieser Einstellung ist es sinnvoll, das automatische Aussprechen von Fragen zu aktivieren. 
+    Falls du doch die Frage sehen möchtest, klicke einfach \'Frage anzeigen\'.</string>
     <string name="question_in_question_display_article">Je demande à voir un avocat!</string>
     <string name="answer_in_question_display_article">Ich verlange, einen Anwalt zu sprechen!</string>
-    <string name="article_motivational_timer">\'Motivational timer\' designed to focus your
-        attention on learning. If it is on, then you have some time to answer the question. If you
-        miss the deadline, the card is considered as expired, and the answer is automatically
-        marked as incorrect. If you have set enough time to respond, then the reason for expiring
-        the card is that you have lost concentration, and the motivational timer will act as a
-        reminder of this. If you are thinking of the answer and feel that you don\'t have enough
-        time, tap on \'Stop\' on timer popup window to stop the timer.</string>
+    <string name="article_motivational_timer">Der \'Motivationstimer\' wurde entwickelt, um deine
+        Aufmerksamkeit auf das Lernen zu lenken. Wenn er angeschaltet ist, dann hast du noch Zeit, die Frage zu beantworten. Wenn du
+        die Deadline verpasst, gilt die Karte als abgelaufen, und die Antwort wird automatisch
+        als falsch markiert. Wenn du genug Zeit gehabt hattest, um zu antworten, dann ist der Grund für das Ablaufen
+        der Karte, dass du die Konzentration verloren hast. Der Motivationstimer dient damit als
+        Erinnerung. Wenn du an die  Antwort denkst und das Gefühl hast, nicht genug
+        Zeit zu haben, tippe auf \'Stop\' im Timer-Popup-Fenster um den Timer anzuhalten.</string>
     <string name="question_in_motivational_timer_article">Wie viel sind 0.0193 km in Dezimetern?</string>
     <string name="answer_in_motivational_timer_article">193</string>
     <string name="article_pronunciation">This app supports the pronunciation of text
@@ -929,25 +927,27 @@
         the correct languages ​​in the deck pronunciation settings.
 
         \n\n- \'Motivational timer\' is turned off.</string>
-    <string name="article_autoplaying_cards">Autoplaying cards is a mode in which questions and
-        answers are pronounced in turn. It can be compared to an audio player, but instead of
-        tracks, questions and answers are played. This mode is suitable when you are doing
-        something, but could listen simultaneously, for example, when preparing food.
+    <string name="article_autoplaying_cards">Die automatische Wiedergabe ist ein Modus bei dem die Fragen 
+      und Antworten nacheinander ausgesprochen werden. Es kann mit einem Wiedergabegerät
+     vergleicht werden, nur dass hier anstatt von Liedern Fragen und Antworten abgespielt werden.
+     Dieser Modus ist praktisch, wenn du etwas anderes machst, aber nebenher zuhören kannst,
+     zum Beispiel, wenn du Essen zubereitest.
 
-        \n\nFor each deck, you can customize the pronunciation plan. For example, to pronounce a
-        question twice, or to increase the interval between question and answer so that you have
-        enough time to remember the answer before you hear it.</string>
-    <string name="article_presets">Preset is a set of controls created in advance that can be
-        reused. Presets are needed to avoid the routine of settings decks.
+    \n\nFür jeden Stapel kannst du die Aussprache unterschiedlich einstellen. So ist es möglich, Fragen
+    zweimal auszusprechen oder den Abstand zwischen Frage und Antwort zu erhöhen, sodass du genug
+    Zeit hast dich an die Antwort zu erinnern bevor du diese hörst.</string>
+    <string name="article_presets">Die Voreinstellungen sind einige Einstellungen, die im Vorhinein 
+     erzeugt werden und wiederverwendet werden können. Voreinstellungen verhindern,
+    dass man bei jedem neuen Stapel die Einstellungen neu setzen muss.
 
-        \n\nWhat preset names mean:
+   \n\nWas bedeuten die Namen der Voreinstellungen:
 
-        \n\n\tDefault - standard unchangeable settings.
+   \n\n\tStandard - Standard unveränderbare Einstellungen
+  
+    \n\n\tIndividuell - Keine Voreinstellungen werden angewandt.
 
-        \n\n\tIndividual - no preset is applied.
-
-        \n\n\t\'Your preset name\' - a saved preset that can be shared. Any change of this preset
-        will affect each deck to which it is applied.</string>
+   \n\n\t\'Name deiner Voreinstellung\' - eine teilbare, gespeicherte Voreinstellung. Jegliche Änderung
+    zu dieser Voreinstellung wird alle Stapel beeinflussen, die diese Voreinstellung benutzten.</string>
     <string name="article_advice_on_compiling_deck">1. Try to keep your cards as short as possible.
         It is better to create several than to put everything into one. For example, if you create
         a card for memorizing a foreign word, then it should describe only one interpretation of
@@ -974,74 +974,74 @@
 
         \n\n4. Think of the deck compiling as part of the learning process. Try to remember
         everything on the fly.</string>
-    <string name="article_advice_on_studying">1. Don\'t memorize an answer word for word. The main
-        thing is that you have an understanding of the answer. Always visualize the question being
-        asked.
+    <string name="article_advice_on_studying">1. Probiere nicht dir Antworten Wort für Wort zu merken. Das wichtigste
+        ist, dass du die Antwort verstehst. Visualisiere dir immer die Frage, die
+        gestellt wird.
 
-        \n\n2. If you are learning a foreign language, speak answers aloud. This will help you not
-        only to pronounce words correctly, but also to focus on your studies.
+        \n\n2. Wenn du eine Fremdsprache lernst, sprich die Antworten laut aus. Dies hilft dir nicht
+        nur Wörter richtig auszusprechen, sondern auch dich beim Lernen zu konzentrieren.
 
-        \n\n3. Use tools that help you focus on your studies. Use
-        <annotation clickable="motivational_timer">\'Motivational timer\'</annotation>, turn on
-        full screen mode, activate the \'Do not disturb\' mode in the device settings.
+        \n\n3. Verwende Werkzeuge, die dir helfen, dich beim Lernen zu konzentrieren. Verwende den
+        <annotation clickable="motivational_timer">\'Motivationstimer\'</annotation>, aktiviere den
+        Vollbildmodus oder aktiviere den \"Nicht stören\" Modus in deinen Geräteeinstellungen.
 
-        \n\n4. If the question is bad for you to remember, edit the card, rephrase the question,
-        remove the unnecessary in the answer. If you got the answers mixed up, use the search and
-        find the confusing card.
+        \n\n4. Wenn die Frage schlecht gestellt ist, bearbeite die Karte, schreibe die Frage neu oder
+        entferne unnötige Informationen in der Antwort. Wenn du Antworten vertauscht hast, benutze die Suche und
+        finde die verwirrende Karte.
 
-        \n\n5. Make it a rule that once a day you should not have any tasks left to study.</string>
+        \n\n5. Mache es zur Regel, dass du einmal am Tag keine Aufgaben mehr zum Lernen übrig hast.</string>
     <!-- About screen -->
     <string name="description_app_logo">App Logo</string>
     <string name="about_item_developer">Odnovolov Artem</string>
     <string name="about_item_source_code">Quellcode</string>
     <string name="about_item_privacy_policy">Datenschutzerklärung</string>
-    <string name="toast_no_email_client">You don\'t have any e-mail client to compose mail</string>
+    <string name="toast_no_email_client">Du hast keinen E-Mail-Client, um E-Mails zu schreiben</string>
     <string name="toast_no_browser">Sie haben keinen Browser um die URL zu öffnen</string>
-    <string name="forgetmenot_brief_description">ForgetMeNot is designed to memorize information.
-        It based on spaced repetition of flashcards. The app supports speech output, import cards
-        from file, unique settings of each deck and many other interesting features. Besides
-        traditional examination of the knowledge, there is also the autoplaying mode. ForgetMeNot
-        is a great thing for language learning and not only.</string>
+    <string name="forgetmenot_brief_description">ForgetMeNot wurde entwickelt um sich Informationen zu merken.
+        Es passiert auf Wiederholung im Abständen(spaced repetition) der Karteikarten. Die App  unterstüzt
+       Sprachausgabe, das Importieren von Karten aus einer Datei, spezifische Einstellungen für jeden Stapel
+       und viele weitere interessante Funktionen. Neben dem traditionellen Abfragen von Wissen gibt es auch
+       einen Modus zur automatischen Wiedergabe. ForgetMeNot is ein tolles Werkzeug zum Sprachelernen 
+      aber nicht nur dafür.</string>
     <string name="developer_story_title">Entwicklungsgeschichte</string>
-    <string name="developer_story">More than a year ago, when I started learning a foreign
-        language, I decided to use flashcards to memorize words. Having tried dozens of different
-        apps on Google Play, none of them satisfied me completely. So I decided to create my own
-        one.
+    <string name="developer_story">Als ich vor mehr als einem Jahr anfing, eine Fremdsprache zu erlernen,
+        beschloss ich, Karteikarten zu verwenden, um mir Wörter zu merken. Ich probierte Dutzende von verschiedenen
+        Apps auf Google Play aus, doch keine von ihnen hat mich vollkommen zufriedengestellt. Also habe ich beschlossen, meine eigene 
+        App zu erstellen.
 
-        \n\nFirst of all, I wanted my application to have a clean UI so that I could fully focus
-        on my studies. My app had to be convenient and super fast so that I could repeat at least
-        10 words per minute. Also, my requirements included support for spaced repetitions,
-        pronunciation, importing cards from a file (because a deck can be created on a computer quite
-        quickly using copy-paste).
+        \n\nZuallererst wollte ich, dass meine App ein sauberes UI hat, sodass ich mich
+        vollständig auf das Lernen konzentrieren konnte. Meine App sollte bequem und superschnell sein, damit ich mindestens
+        10 Wörter pro Minute wiederholen konnte. Meine Anforderungen beinhalteten auch Unterstützung für Wiederholung mit Abständen (spaced repetitions),
+        Aussprache und das Importieren von Karten aus einer Datei (weil ein Deck auf einem Computer sehr schnell mit Copy-Paste 
+        erstellt werden kann).
 
-        \n\nAfter implementing the pronunciation, I realized that with this, I can greatly expand
-        the possibilities of the learning process. First, I can hide the text of the question to
-        perceive the text not visually, but aurally. It would be a good contributor to improving my
-        listening skills. Second, during some activities, I could repeat the material at the same
-        time, if the application could switch cards itself. Third, (it\'s somewhat unusual function)
-        I could answer the questions when I walk somewhere, not looking at the screen by
-        controlling the application with the volume buttons. Well it\'s done.
+        \n\nNach der Implementierung der Aussprache-Funktion habe ich festgestellt, dass ich damit die Möglichkeiten des 
+        Lernprozesses stark erweitern kann. Erstens kann ich den Text der Frage ausblenden, sodass ich
+        den Text nicht visuell, sondern auditiv erfasse. Das ist ein guter Beitrag zur Verbesserung meiner
+        Hörfähigkeiten. Zweitens kann ich, während ich andere Dinge mache, das Material gleichzeitig wiederholen, 
+        wenn die Anwendung selbst die Karten tauscht. Drittens, (das ist eine leicht ungewöhnliche Funktion)
+        ist es mir möglich Fragen zu beantworten, wenn ich irgendwo hingehe, indem ich statt auf den Bildschirm zuschauen die Anwendung mit den Lautstärketasten steuere. Nun ist sie fertig.
 
-        \n\nFurthermore, I implemented some simple but important features, for example, editing card
-        on the go, card reversing, reusing deck settings and many others. There are also additional
-        options to help you focus on your studies, such as \'Full Screen Mode\' and \'Motivational
-        timer\'.
+        \n\nAußerdem habe ich einige einfache, aber wichtige Funktionen implementiert, zum Beispiel das einfache Bearbeiten von 
+         Karten, das Umkehren von Karten, das Wiederverwendung von Stapel-Einstellungen und vieles mehr. Es gibt auch zusätzliche
+        Möglichkeiten, um dir zu helfen, dich auf das Lernen zu konzentrieren, wie zum Beispiel den \'Vollbildmodus\' und den 
+        \'Motivationstimer\'.
 
-        \n\nAm I satisfied with the program now? Not exactly. There are a few more ideas for
-        improvement. But I think that at this stage it looks quite attractive and can suit many
-        people who study languages and not only.
+        \n\nBin ich jetzt mit der App zufrieden? Nicht ganz. Es gibt noch ein paar weitere Ideen für
+        Verbesserungen. Ich denke aber, dass sie zum jetzigen Zeitpunkt ziemlich gut aussieht und vielen Menschen helfen kann, 
+        Sprachen zu lernen.
 
-        \n\nI am not in any way pursuing commercial goals. My app is completely free and open
-        source. I\'d like to know what you think about my app!</string>
+        \n\nIch verfolge keine kommerziellen Ziele. Meine App ist völlig kostenlos und quelloffen. Ich würde gerne wissen, was du von 
+        meiner App hältst!</string>
     <string name="translations_title">Übersetzungen</string>
     <string name="thanks_to_translators">Ich möchte gerne allen meinen besten Dank aussprechen 
         (besonders den Leuten von <a href="https://www.sekinfo.org">sekinfo.org</a>), welche
         das Projekt durch Übersetzungen unterstützen. Ihr seid die Besten!</string>
-    <string name="language_basque">Basque</string>
+    <string name="language_basque">Baskisch</string>
     <string name="language_french">Französisch</string>
     <string name="language_german">Deutsch</string>
     <string name="language_greek">Griechisch</string>
-    <string name="language_portuguese_brazilian">Portuguese, Brazilian</string>
+    <string name="language_portuguese_brazilian">Portugiesisch, Brasilianisch</string>
     <string name="language_russian">Russisch</string>
     <string name="language_spanish">Spanisch</string>
     <string name="language_ukrainian">Ukrainisch</string>
@@ -1049,15 +1049,14 @@
     <string name="text_support_app_button">App unterstützen</string>
     <!-- DSV format screen -->
     <string name="screen_title_dsv_format">DSV Format</string>
-    <string name="tip_dsv_format">Delimiter-separated values are processed with the
-        <annotation clickable="csv_library">Apache Commons CSV library</annotation>. Visit
-        <annotation clickable="CSVFormat">this page</annotation> to learn more about format
-        settings.
+    <string name="tip_dsv_format">CSV-Dateien werden mit der
+        <annotation clickable="csv_library">Apache Commons CSV Bibliothek</annotation> verarbeitet. Besuche
+        <annotation clickable="CSVFormat">diese Seite</annotation> um mehr über Formatierungseinstellungen zu lernen.
 
-        \n\nSpecial characters:
-        \n\t\\n - new line
-        \n\t\\r - carriage return
-        \n\t\\t - horizontal tab</string>
+        \n\nSpezielles Zeichen
+        \n\t\\n - neue Zeile
+        \n\t\\r - Wagenrücklauf
+        \n\t\\t - horizontales Tab</string>
     <string name="description_delete_format_settings">Formateinstellungen löschen</string>
     <string name="dsv_format_setting_delimiter">Trennzeichen</string>
     <string name="dsv_format_setting_trailing_delimiter">Nachfolgendes Trennzeichen</string>

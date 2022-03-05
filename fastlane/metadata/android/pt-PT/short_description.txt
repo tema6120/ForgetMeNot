@@ -1,0 +1,1 @@
+Um aplicativo de flashcard que não permitirá que se esqueça de nada.

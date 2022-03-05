@@ -1,0 +1,37 @@
+ForgetMeNot é um app para memorizar informações através de flashcards. Simplidade, utilização, rapidez foram tidas em conta no processo de desenvolvimento deste programa educativo. Este aplicativo fornece excelentes condições para alcançar uma alta eficiência de memorização.
+
+
+Os recursos que são suportados são:
+
+    • Importar/exportar arquivos.
+    • Suporte a CSV, Tab texto ou qualquer outro tipo de ficheiro/texto "delimitado por separadores".
+    • Intervalos (Repetição espaçada). Pode especificar o seu próprio esquema de intervalo para cada baralho. Também é possível indicar o próprio algoritmo de escolha do intervalo seguinte baseando nas respostas inseridas.
+    • Vários métodos de teste. Há 'Auto teste', 'Testando com variantes', 'Verificação ortográfica'.
+    • Pronúncia do texto via TTS. Pode escolher idiomas para perguntas e respostas, ativar a reprodução oral automática.
+    • Ocultar o texto de uma pergunta para estimular a melhoria das competências de escuta, o que é muito útil na aprendizagem de línguas estrangeiras.
+    • Baralho invertido.
+    • Dicas na forma de letras escondidas.
+    • 'Cronômetro motivacional' que o fará concentrar-se nos estudos (opcional).
+    • Salvar as configurações do baralho como predefinições para evitar fazer novas configurações a cada baralho.
+    • Edição e busca de cartões diretamente no exercício.
+    • 'Modo de Caminhada' que lhe permite fazer exercícios sem olhar para a tela.
+    • 'Modo de reprodução automática'. Neste modo, as perguntas e as respostas são pronunciadas sequencialmente. Pode combinar as suas atividades e a repetição do material de ensino.
+    • Catálogo de baralhos préfeitos. O catálogo contém muitos baralhos para a aprendizagem de idiomas, os quais incluem conjuntos básicos de palavras, palavras e frases temáticas, frases inteiras.
+    • Agrupamento de baralhos em listas separadas.
+    • Personalização da aparência do cartão.
+    • Tema escuro.
+
+
+O que torna o ForgetMeNot tão eficiente para memorizar:
+
+    - Não há publicidade. Pode lidar com muitas cartas num curto tempo graças à simplicidade e conveniência da interface do utilizador. Nada o impede de estudar.
+    - O exercício foi projetado para ter que entender a resposta. Se a sua resposta estiver errada, o cartão é posto no final da lista até uma reposta correta.
+    - Intervalos (Repetição espaçada). A repetição espaçada reduz o esquecimento que ocorre quando o material não é encontrado por um tempo significativo. Implica também recordar activamente o material aprendido, o que apoia a aprendizagem.
+    - Possibilidade de editar um cartão diretamente no exercício. Isso permite que não só corrija os erros, mas que também reconstrua os cartões, caso sejam difíceis de lembrar. Por exemplo, pode adicionar uma associação adicional entre parênteses.
+    - Acompanhamento por voz. Isso é especialmente útil quando se aprende idiomas porque melhora as habilidades de escuta, ajuda a se concentrar no estudo e favorece a memorização. Pode até configurar um baralho para perceber uma questão somente ouvindo-a.
+    - Modos que permitem que pratique não apenas no seu tempo livre. O 'Modo de Caminhada' permite que faça os exercícios enquanto caminha. O 'Modo de Reprodução Automática' permite ouvir as perguntas e respostas quando as suas mãos e olhos estiverem ocupados, mas seus ouvidos livres : )
+    - Auxílios de concentração. 'Cronômetro Motivacional' avisa-o quando perde a atenção. O modo de tela cheia oculta a barra de estado, a qual pode ser uma fonte adicional de distração.
+
+
+O EsqueceMeNot é um software livre e de código aberto.
+https://github.com/tema6120/ForgetMeNot

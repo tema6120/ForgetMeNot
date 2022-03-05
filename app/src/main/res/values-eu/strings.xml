@@ -65,7 +65,7 @@
     <string name="deck_sorting_by_time_last_tested">Azken proba</string>
     <string name="deck_sorting_by_frequency_of_use">Erabilera-maiztasuna</string>
     <string name="deck_sorting_by_task">Egiteke</string>
-    <string name="check_box_new_decks_first">New decks first</string>
+    <string name="check_box_new_decks_first">Sorta berriak lehenengo</string>
     <string name="description_pin_icon">Ainguraren ikonoa</string>
     <string name="deck_summary_table_average_laps">Bb-ko birak</string>
     <string name="deck_summary_table_learned">Ikasia</string>
@@ -137,7 +137,7 @@
     <string name="description_deck_list_icon">Sorta-zerrendaren ikonoa</string>
     <string name="title_select_deck_list_color_popup">Sorta-zerrendaren kolorea</string>
     <string name="custom_color">Pertsonalizatu kolorea</string>
-    <string name="description_random_color">Random color</string>
+    <string name="description_random_color">Ausazko kolorea</string>
     <string name="toast_deck_list_is_removed">Sorta-zerrenda kendu da</string>
     <!-- Export dialog -->
     <string name="dialog_title_export">Esportatu</string>
@@ -854,15 +854,15 @@
 \n\nEz naiz inolaz ere arrakasta komertziala lortzeko lan egiten ari. Nire aplikazioa guztiz doakoa eta kode-askekoa da. Nire aplikazioaz zer uste duzun jakitea gustatuko litzaidake!</string>
     <string name="translations_title">Itzulpenak</string>
     <string name="thanks_to_translators">Nire eskerrik beroenak eman nahi nizkieke itzulketa eginez aplikazio hau babesten duten guztiei (batez ere <a href="https://www.sekinfo.org">sekinfo.org</a>-eko jendeari). Onenak zarete!</string>
-    <string name="language_basque">Basque</string>
+    <string name="language_basque">Euskera</string>
     <string name="language_french">Frantsesa</string>
     <string name="language_german">Alemana</string>
     <string name="language_greek">Greziera</string>
-    <string name="language_portuguese_brazilian">Portuguese, Brazilian</string>
+    <string name="language_portuguese_brazilian">Portugalera, Brasil</string>
     <string name="language_russian">Errusiera</string>
     <string name="language_spanish">Gaztelania</string>
     <string name="language_ukrainian">Ukrainiera</string>
-    <string name="language_vietnamese">Vietnamese</string>
+    <string name="language_vietnamese">Vietnamera</string>
     <string name="text_support_app_button">Babestu aplikazioa</string>
     <!-- DSV format screen -->
     <string name="screen_title_dsv_format">DSV formatua</string>
