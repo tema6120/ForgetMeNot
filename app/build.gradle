@@ -11,8 +11,8 @@ android {
         applicationId "com.odnovolov.forgetmenot"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 16
-        versionName "1.8.4"
+        versionCode 17
+        versionName "1.8.5"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
     }
