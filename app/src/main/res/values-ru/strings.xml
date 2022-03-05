@@ -1226,15 +1226,19 @@
         из <a href="https://www.sekinfo.org">sekinfo.org</a>), кто поддерживает проект обеспечивая
         перевод. Вы лучшие!</string>
     <string name="language_basque">Баскский</string>
+    <string name="language_chinese_simplified">Китайский упрощенный</string>
+    <string name="language_dutch">Голландский</string>
     <string name="language_french">Французский</string>
     <string name="language_german">Немецкий</string>
     <string name="language_greek">Греческий</string>
     <string name="language_hindi">Хинди</string>
     <string name="language_indonesian">Индонезийский</string>
     <string name="language_polish">Польский</string>
+    <string name="language_portuguese">Португальский</string>
     <string name="language_portuguese_brazilian">Португальский, Бразильский</string>
     <string name="language_russian">Русский</string>
     <string name="language_spanish">Испанский</string>
+    <string name="language_turkish">Турецкий</string>
     <string name="language_ukrainian">Украинский</string>
     <string name="language_vietnamese">Вьетнамский</string>
     <string name="text_support_app_button">Поддержать приложение</string>

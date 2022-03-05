@@ -1183,15 +1183,19 @@
         (especially the people from <a href="https://www.sekinfo.org">sekinfo.org</a>), who support
         the project by providing translation. You’re the best!</string>
     <string name="language_basque">Basque</string>
+    <string name="language_chinese_simplified">Chinese Simplified</string>
+    <string name="language_dutch">Dutch</string>
     <string name="language_french">French</string>
     <string name="language_german">German</string>
     <string name="language_greek">Greek</string>
     <string name="language_hindi">Hindi</string>
     <string name="language_indonesian">Indonesian</string>
     <string name="language_polish">Polish</string>
+    <string name="language_portuguese">Portuguese</string>
     <string name="language_portuguese_brazilian">Portuguese, Brazilian</string>
     <string name="language_russian">Russian</string>
     <string name="language_spanish">Spanish</string>
+    <string name="language_turkish">Turkish</string>
     <string name="language_ukrainian">Ukrainian</string>
     <string name="language_vietnamese">Vietnamese</string>
     <string name="text_support_app_button">Support app</string>
