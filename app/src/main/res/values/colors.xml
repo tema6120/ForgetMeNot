@@ -224,6 +224,10 @@
     <!-- Walking mode settings screen -->
     <color name="ic_wm_volume_stroke">@android:color/black</color>
 
+    <!-- Backup screen -->
+    <color name="button_import_backup">#CED1F3</color>
+    <color name="button_export_backup">#E5C1CD</color>
+
     <!-- Support app screen -->
     <color name="cta_button_stroke">#1F000000</color>
 

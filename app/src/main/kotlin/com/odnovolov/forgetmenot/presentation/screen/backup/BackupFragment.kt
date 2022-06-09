@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.odnovolov.forgetmenot.R
+import kotlinx.android.synthetic.main.fragment_backup.*
 
 class BackupFragment : Fragment() {
 
@@ -15,5 +16,18 @@ class BackupFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(R.layout.fragment_backup, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        backButton.setOnClickListener {
+            requireActivity().onBackPressed()
+        }
+        importButton.setOnClickListener {
+
+        }
+        exportButton.setOnClickListener {
+
+        }
     }
 }

@@ -1,0 +1,9 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape>
+            <corners android:radius="24dp" />
+            <solid android:color="@color/button_import_backup" />
+        </shape>
+    </item>
+    <item android:drawable="@drawable/ripple_corner_radius_24dp" />
+</layer-list>

@@ -1,8 +1,154 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
+        <ImageButton
+                android:id="@+id/backButton"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_gravity="start|center_vertical"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/ripple"
+                android:contentDescription="@string/description_back_button"
+                android:tintMode="src_in"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_round_keyboard_backspace_24"
+                app:tint="@color/screen_title" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <ImageButton
+                android:id="@+id/helpButton"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_gravity="end|center_vertical"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="12dp"
+                android:background="@drawable/ripple"
+                android:contentDescription="@string/description_help_button"
+                android:tintMode="src_in"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_round_help_outline_24"
+                app:tint="@color/screen_title" />
+
+        <TextView
+                android:id="@+id/backupTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/nunito_extrabold"
+                android:paddingHorizontal="40dp"
+                android:paddingVertical="8dp"
+                android:text="@string/screen_title_backup"
+                android:textColor="@color/item_blue_selected"
+                android:textSize="@dimen/text_size_screen_title_big"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/backButton" />
+
+        <FrameLayout
+                android:id="@+id/importButton"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="12dp"
+                android:layout_marginBottom="24dp"
+                android:background="@drawable/button_import_backup"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintDimensionRatio="H,1:1"
+                app:layout_constraintEnd_toStartOf="@id/exportButton"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/backupTitle"
+                app:layout_constraintWidth_max="200dp" />
+
+        <ImageView
+                android:id="@+id/importIcon"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="48dp"
+                android:layout_marginBottom="8dp"
+                android:contentDescription="@string/description_import_icon"
+                app:layout_constraintBottom_toTopOf="@id/importBackupTitle"
+                app:layout_constraintEnd_toEndOf="@id/importButton"
+                app:layout_constraintStart_toStartOf="@id/importButton"
+                app:layout_constraintTop_toTopOf="@id/importButton"
+                app:srcCompat="@drawable/ic_import_backup"
+                app:tint="@color/text_medium_emphasis" />
+
+        <TextView
+                android:id="@+id/importBackupTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginBottom="16dp"
+                android:ellipsize="end"
+                android:fontFamily="@font/nunito_bold"
+                android:maxLines="1"
+                android:text="@string/button_import_backup"
+                android:textColor="@color/text_medium_emphasis"
+                android:textSize="@dimen/text_size_button_import_export_backup"
+                app:layout_constraintBottom_toBottomOf="@id/importButton"
+                app:layout_constraintEnd_toEndOf="@id/importButton"
+                app:layout_constraintStart_toStartOf="@id/importButton" />
+
+        <FrameLayout
+                android:id="@+id/exportButton"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="24dp"
+                android:layout_marginBottom="24dp"
+                android:background="@drawable/button_export_backup"
+                app:layout_constraintDimensionRatio="H,1:1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/importButton"
+                app:layout_constraintTop_toBottomOf="@id/backupTitle"
+                app:layout_constraintWidth_max="200dp" />
+
+        <ImageView
+                android:id="@+id/exportIcon"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="48dp"
+                android:layout_marginBottom="8dp"
+                android:contentDescription="@string/description_export_icon"
+                app:layout_constraintBottom_toTopOf="@id/exportBackupTitle"
+                app:layout_constraintEnd_toEndOf="@id/exportButton"
+                app:layout_constraintStart_toStartOf="@id/exportButton"
+                app:layout_constraintTop_toTopOf="@id/exportButton"
+                app:srcCompat="@drawable/ic_export_backup"
+                app:tint="@color/text_medium_emphasis" />
+
+        <TextView
+                android:id="@+id/exportBackupTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginBottom="16dp"
+                android:ellipsize="end"
+                android:fontFamily="@font/nunito_bold"
+                android:maxLines="1"
+                android:text="@string/button_export_backup"
+                android:textColor="@color/text_medium_emphasis"
+                android:textSize="@dimen/text_size_button_import_export_backup"
+                app:layout_constraintBottom_toBottomOf="@id/exportButton"
+                app:layout_constraintEnd_toEndOf="@id/exportButton"
+                app:layout_constraintStart_toStartOf="@id/exportButton" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

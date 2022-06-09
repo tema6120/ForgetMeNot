@@ -778,6 +778,15 @@
     <string name="key_gesture_action_speak_answer">Speak answer</string>
 
 
+    <!-- Backup screen -->
+
+    <string name="screen_title_backup">Backup</string>
+    <string name="button_import_backup">Import</string>
+    <string name="button_export_backup">Export</string>
+    <string name="description_import_icon">Import icon</string>
+    <string name="description_export_icon">Export icon</string>
+
+
     <!-- Support app screen -->
 
     <string name="screen_title_support_app">Support app</string>
