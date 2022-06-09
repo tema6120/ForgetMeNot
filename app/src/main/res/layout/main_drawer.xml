@@ -77,6 +77,25 @@
             </LinearLayout>
 
             <LinearLayout
+                    android:id="@+id/backupDrawerItem"
+                    style="@style/DrawerItem">
+
+                <View style="@style/DrawerIndicator" />
+
+                <ImageView
+                        android:id="@+id/backupIcon"
+                        style="@style/DrawerItemIcon"
+                        android:contentDescription="@string/drawer_item_settings"
+                        app:srcCompat="@drawable/ic_round_backup_24" />
+
+                <TextView
+                        android:id="@+id/backupTextView"
+                        style="@style/DrawerItemText"
+                        android:text="@string/drawer_item_backup" />
+
+            </LinearLayout>
+
+            <LinearLayout
                     android:id="@+id/supportAppDrawerItem"
                     style="@style/DrawerItem">
 
