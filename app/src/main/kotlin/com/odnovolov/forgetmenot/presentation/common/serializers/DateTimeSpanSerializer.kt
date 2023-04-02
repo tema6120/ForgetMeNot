@@ -1,4 +1,4 @@
-package com.odnovolov.forgetmenot.persistence.backup.serializers
+package com.odnovolov.forgetmenot.presentation.common.serializers
 
 import com.soywiz.klock.DateTimeSpan
 import com.soywiz.klock.MonthSpan

@@ -14,7 +14,6 @@ import com.odnovolov.forgetmenot.presentation.common.*
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.screen.home.addcards.AddCardsController.Command.ShowCannotReadFilesMessage
 import com.odnovolov.forgetmenot.presentation.screen.home.addcards.AddCardsEvent.*
-import kotlinx.android.synthetic.main.dialog_input.view.*
 import kotlinx.android.synthetic.main.fragment_add_cards.*
 import kotlinx.android.synthetic.main.popup_add_cards.view.*
 import kotlinx.coroutines.launch
@@ -64,7 +63,7 @@ class AddCardsFragment : BaseFragment() {
                 .apply {
                     importFileButton.setOnClickListener {
                         addCardsPopup?.dismiss()
-                        openFileChooser(GET_CONTENT_REQUEST_CODE)
+                        openDeckFileChooser(GET_CONTENT_REQUEST_CODE)
                     }
                     helpImportFileButton.setOnClickListener {
                         addCardsPopup?.dismiss()

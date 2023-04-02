@@ -69,6 +69,7 @@ dependencies {
     implementation 'com.brackeys.ui:editorkit:1.1.0'
     implementation 'androidx.documentfile:documentfile:1.0.1'
     implementation 'androidx.preference:preference:1.1.1'
+    implementation 'com.jakewharton:process-phoenix:2.1.2'
 }
 
 sqldelight {

@@ -20,9 +20,6 @@ VALUES
 select:
 SELECT * FROM DeckReviewPreferenceDb WHERE id = ?;
 
-selectAll:
-SELECT * FROM DeckReviewPreferenceDb;
-
 updateDeckListId:
 UPDATE DeckReviewPreferenceDb SET deckListId = ? WHERE id = ?;
 

@@ -46,7 +46,7 @@ fun Fragment.openShareWithChooser(shareText: String) {
     startActivity(Intent.createChooser(sharingIntent, shareWithText))
 }
 
-fun Fragment.openFileChooser(requestCode: Int) {
+fun Fragment.openDeckFileChooser(requestCode: Int) {
     val mimeTypes = arrayOf(
         "text/plain", "text/txt",
         "text/comma-separated-values", "text/csv",
@@ -58,6 +58,17 @@ fun Fragment.openFileChooser(requestCode: Int) {
         .setType("*/*")
         .putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes)
         .putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
+    try {
+        startActivityForResult(intent, requestCode)
+    } catch (e: ActivityNotFoundException) {
+        showToast(R.string.toast_no_file_manager_to_load)
+    }
+}
+
+fun Fragment.openBackupFileChooser(requestCode: Int) {
+    val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
+        .addCategory(Intent.CATEGORY_OPENABLE)
+        .setType("application/zip")
     try {
         startActivityForResult(intent, requestCode)
     } catch (e: ActivityNotFoundException) {
