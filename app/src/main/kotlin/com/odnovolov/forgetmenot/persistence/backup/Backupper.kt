@@ -4,6 +4,7 @@ import com.odnovolov.forgetmenot.Database
 import com.odnovolov.forgetmenot.persistence.*
 import com.odnovolov.forgetmenot.presentation.common.di.AppDiScope
 import com.squareup.sqldelight.db.SqlCursor
+import com.squareup.sqldelight.db.SqlDriver
 import java.io.*
 import java.util.zip.ZipEntry
 import java.util.zip.ZipInputStream
@@ -80,12 +81,11 @@ class Backupper {
     }
 
     private fun validateNewDatabase() {
-        val sqlDriver = DatabaseInitializer.initSqlDriver(app)
-        val cursor: SqlCursor =
-            DatabaseInitializer.initSqlDriver(app).executeQuery(null, "PRAGMA schema_version", 0)
+        val sqlDriver: SqlDriver = DatabaseInitializer.initSqlDriver(app)
+        val cursor: SqlCursor = sqlDriver.executeQuery(null, "PRAGMA schema_version", 0)
         cursor.next()
-        val schemaVersion = cursor.getLong(0)!!
-        if (schemaVersion <= 1L) throw Exception("Not valid database file")
+        val schemaVersion: Long = cursor.getLong(0)!!
+        if (schemaVersion <= 1L) throw Exception("Not a valid database file")
 
         val database: Database = DatabaseInitializer.initDatabase(sqlDriver)
         database.keyValueQueries

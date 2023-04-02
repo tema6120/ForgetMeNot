@@ -170,6 +170,7 @@
     <string name="title_waiting_for_destination">Waiting for destination ..</string>
     <string name="button_select_destination">Select Destination</string>
     <string name="toast_couldnt_get_destination">Couldn\'t get destination!</string>
+    <string name="toast_couldnt_get_file">Couldn\'t get file!</string>
     <string name="progress_bar_exporting">Exporting ..</string>
     <plurals name="export_result_successful">
         <item quantity="one">Deck is exported successfully</item>

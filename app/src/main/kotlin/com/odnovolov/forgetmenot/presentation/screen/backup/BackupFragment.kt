@@ -19,6 +19,8 @@ import com.odnovolov.forgetmenot.presentation.screen.backup.BackupController.Com
 import com.odnovolov.forgetmenot.presentation.screen.backup.BackupController.Command.*
 import com.odnovolov.forgetmenot.presentation.screen.backup.BackupEvent.ReadyToExportBackup
 import com.odnovolov.forgetmenot.presentation.screen.backup.BackupEvent.ReadyToImportBackup
+import com.soywiz.klock.DateFormat
+import com.soywiz.klock.DateTime
 import kotlinx.android.synthetic.main.fragment_backup.*
 import kotlinx.coroutines.launch
 import java.io.InputStream
@@ -88,42 +90,54 @@ class BackupFragment : BaseFragment() {
 
         when (requestCode) {
             GET_CONTENT_REQUEST_CODE -> {
-                val uri: Uri = intent.data ?: return
+                val uri: Uri = intent.data
+                    ?: run {
+                        showToast(R.string.toast_couldnt_get_file)
+                        return
+                    }
                 val inputStream: InputStream =
-                    requireContext().contentResolver.openInputStream(uri) ?: return
+                    requireContext().contentResolver.openInputStream(uri)
+                        ?: run {
+                            showToast(R.string.toast_couldnt_get_file)
+                            return
+                        }
 
                 controller?.dispatch(ReadyToImportBackup(inputStream))
             }
             OPEN_DOCUMENT_TREE_REQUEST_CODE -> {
-                val pickedDir: DocumentFile? = getDirectory(requestCode, resultCode, intent)
-                if (pickedDir == null) {
-                    showToast(R.string.toast_couldnt_get_destination)
-                    return
-                }
+                val pickedDir: DocumentFile = getDirectory(intent)
+                    ?: run {
+                        showToast(R.string.toast_couldnt_get_destination)
+                        return
+                    }
 
-                val newFile: DocumentFile = pickedDir.createFile("*/*", "2023_03_31_18_20_44.zip")
-                    ?: return
+                val newFile: DocumentFile = pickedDir.createFile("*/*", backupFileName())
+                    ?: run {
+                        showToast(R.string.toast_couldnt_get_destination)
+                        return
+                    }
+
                 val outputStream: OutputStream =
-                    requireContext().contentResolver?.openOutputStream(newFile.uri) ?: return
+                    requireContext().contentResolver.openOutputStream(newFile.uri)
+                        ?: run {
+                            showToast(R.string.toast_couldnt_get_destination)
+                            return
+                        }
 
                 controller?.dispatch(ReadyToExportBackup(outputStream))
             }
         }
     }
 
-    private fun getDirectory(
-        requestCode: Int,
-        resultCode: Int,
-        intent: Intent?
-    ): DocumentFile? {
-        if (requestCode != OPEN_DOCUMENT_TREE_REQUEST_CODE
-            || resultCode != Activity.RESULT_OK
-            || intent == null
-        ) {
-            return null
-        }
-        val uri = intent.data ?: return null
+    private fun getDirectory(intent: Intent?): DocumentFile? {
+        val uri = intent?.data ?: return null
         return DocumentFile.fromTreeUri(requireContext(), uri)
+    }
+
+    private fun backupFileName(): String {
+        val dateFormat = DateFormat("yyyy_MM_dd_HH_mm_ss")
+        val timeStamp: String = DateTime.nowLocal().toString(dateFormat)
+        return "ForgetMeNot_backup_$timeStamp.zip"
     }
 
     override fun onDestroy() {
