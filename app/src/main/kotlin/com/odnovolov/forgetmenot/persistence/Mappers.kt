@@ -2,8 +2,8 @@ package com.odnovolov.forgetmenot.persistence
 
 import com.odnovolov.forgetmenot.domain.architecturecomponents.CopyableList
 import com.odnovolov.forgetmenot.domain.entity.*
-import com.odnovolov.forgetmenot.domain.interactor.fileimport.CsvParser
-import com.odnovolov.forgetmenot.domain.interactor.fileimport.FileFormat
+import com.odnovolov.forgetmenot.domain.interactor.cardsimport.CsvParser
+import com.odnovolov.forgetmenot.domain.interactor.cardsimport.CardsFileFormat
 import com.odnovolov.forgetmenot.persistence.globalstate.*
 import org.apache.commons.csv.CSVFormat
 
@@ -156,7 +156,7 @@ inline fun <reified T : Enum<T>> String.toEnumOrNull(): T? {
     return enumValues<T>().find { it.name == this }
 }
 
-fun FileFormat.toFileFormatDb(): FileFormatDb {
+fun CardsFileFormat.toFileFormatDb(): FileFormatDb {
     val csvFormat: CSVFormat = (parser as CsvParser).csvFormat
     return FileFormatDb(
         id,
@@ -183,7 +183,7 @@ fun FileFormat.toFileFormatDb(): FileFormatDb {
     )
 }
 
-fun FileFormatDb.toFileFormat(): FileFormat {
+fun FileFormatDb.toCardsFileFormat(): CardsFileFormat {
     val csvFormat = CSVFormat.newFormat(delimiter[0])
         .withTrailingDelimiter(trailingDelimiter)
         .withQuote(quoteCharacter?.get(0))
@@ -214,7 +214,7 @@ fun FileFormatDb.toFileFormat(): FileFormat {
         }
         .withAutoFlush(autoFlush)
     val parser = CsvParser(csvFormat)
-    return FileFormat(
+    return CardsFileFormat(
         id,
         name,
         extension,

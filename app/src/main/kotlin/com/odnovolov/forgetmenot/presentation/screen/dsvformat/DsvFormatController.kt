@@ -1,8 +1,8 @@
 package com.odnovolov.forgetmenot.presentation.screen.dsvformat
 
-import com.odnovolov.forgetmenot.domain.interactor.fileimport.DsvFormatEditor
-import com.odnovolov.forgetmenot.domain.interactor.fileimport.DsvFormatEditor.SaveResult
-import com.odnovolov.forgetmenot.domain.interactor.fileimport.FileImporter
+import com.odnovolov.forgetmenot.domain.interactor.cardsimport.DsvFormatEditor
+import com.odnovolov.forgetmenot.domain.interactor.cardsimport.DsvFormatEditor.SaveResult
+import com.odnovolov.forgetmenot.domain.interactor.cardsimport.CardsImporter
 import com.odnovolov.forgetmenot.persistence.shortterm.DsvFormatEditorStateProvider
 import com.odnovolov.forgetmenot.persistence.shortterm.DsvFormatScreenStateProvider
 import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
@@ -15,7 +15,7 @@ import com.odnovolov.forgetmenot.presentation.screen.dsvformat.DsvFormatScreenSt
 
 class DsvFormatController(
     private val dsvFormatEditor: DsvFormatEditor,
-    private val fileImporter: FileImporter,
+    private val cardsImporter: CardsImporter,
     private val screenState: DsvFormatScreenState,
     private val navigator: Navigator,
     private val longTermStateSaver: LongTermStateSaver,
@@ -44,7 +44,7 @@ class DsvFormatController(
                     SaveResult.Success -> {
                         if (screenState.purpose == Purpose.CreateNew) {
                             val createdFileFormat = dsvFormatEditor.state.editingFileFormat
-                            fileImporter.setFormat(createdFileFormat)
+                            cardsImporter.setFormat(createdFileFormat)
                         }
                         navigator.navigateUp()
                     }
@@ -155,7 +155,7 @@ class DsvFormatController(
 
     private fun deleteFormatAndNavigateBack() {
         val formatName: String = dsvFormatEditor.state.formatName
-        val success = dsvFormatEditor.remove(fileImporter)
+        val success = dsvFormatEditor.remove(cardsImporter)
         if (success) {
             sendCommand(ShowMessageDsvFormatIsDeleted(formatName))
             navigator.navigateUp()

@@ -22,8 +22,8 @@ import com.odnovolov.forgetmenot.presentation.screen.dsvformat.DsvFormatDiScope
 import com.odnovolov.forgetmenot.presentation.screen.exampleexercise.ExampleExerciseDiScope
 import com.odnovolov.forgetmenot.presentation.screen.exampleplayer.ExamplePlayerDiScope
 import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseDiScope
-import com.odnovolov.forgetmenot.presentation.screen.export.ExportDiScope
-import com.odnovolov.forgetmenot.presentation.screen.fileimport.FileImportDiScope
+import com.odnovolov.forgetmenot.presentation.screen.cardsexport.CardsExportDiScope
+import com.odnovolov.forgetmenot.presentation.screen.cardsimport.CardsImportDiScope
 import com.odnovolov.forgetmenot.presentation.screen.grading.GradingDiScope
 import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticleDiScope
 import com.odnovolov.forgetmenot.presentation.screen.intervals.IntervalsDiScope
@@ -44,9 +44,9 @@ import kotlinx.coroutines.launch
 class Navigator : ActivityLifecycleCallbacks {
     private var navController: NavController? = null
 
-    fun navigateToFileImport(createDiScope: () -> FileImportDiScope) {
-        FileImportDiScope.open(createDiScope)
-        navigate(R.id.nav_host_to_file_import)
+    fun navigateToCardsImport(createDiScope: () -> CardsImportDiScope) {
+        CardsImportDiScope.open(createDiScope)
+        navigate(R.id.nav_host_to_cards_import)
     }
 
     fun navigateToDeckListsEditor(createDiScope: () -> DeckListsEditorDiScope) {
@@ -54,29 +54,29 @@ class Navigator : ActivityLifecycleCallbacks {
         navigate(R.id.nav_host_to_deck_lists_editor)
     }
 
-    fun showRenameDeckDialogFromFileImport(createDiScope: () -> RenameDeckDiScope) {
+    fun showRenameDeckDialogFromCardsImport(createDiScope: () -> RenameDeckDiScope) {
         RenameDeckDiScope.open(createDiScope)
-        navigate(R.id.file_import_shows_rename_deck_dialog)
+        navigate(R.id.cards_import_shows_rename_deck_dialog)
     }
 
-    fun navigateToDeckChooserFromFileImport(createDiScope: () -> DeckChooserDiScope) {
+    fun navigateToDeckChooserFromCardsImport(createDiScope: () -> DeckChooserDiScope) {
         DeckChooserDiScope.open(createDiScope)
-        navigate(R.id.file_import_to_deck_chooser)
+        navigate(R.id.cards_import_to_deck_chooser)
     }
 
     fun navigateToDsvFormat(createDiScope: () -> DsvFormatDiScope) {
         DsvFormatDiScope.open(createDiScope)
-        navigate(R.id.file_import_to_dsv_format)
+        navigate(R.id.cards_import_to_dsv_format)
     }
 
-    fun navigateToDeckEditorFromFileImport(createDiScope: () -> DeckEditorDiScope) {
+    fun navigateToDeckEditorFromCardsImport(createDiScope: () -> DeckEditorDiScope) {
         DeckEditorDiScope.open(createDiScope)
-        navigate(R.id.file_import_to_deck_editor)
+        navigate(R.id.cards_import_to_deck_editor)
     }
 
-    fun navigateToHelpArticleFromFileImport(createDiScope: () -> HelpArticleDiScope) {
+    fun navigateToHelpArticleFromCardsImport(createDiScope: () -> HelpArticleDiScope) {
         HelpArticleDiScope.open(createDiScope)
-        navigate(R.id.file_import_to_help)
+        navigate(R.id.cards_import_to_help)
     }
 
     fun navigateToCardFilterForExercise(createDiScope: () -> CardFilterForExerciseDiScope) {
@@ -148,9 +148,9 @@ class Navigator : ActivityLifecycleCallbacks {
         navigate(R.id.nav_host_shows_rename_deck_dialog)
     }
 
-    fun navigateToExportFromNavHost(createDiScope: () -> ExportDiScope) {
-        ExportDiScope.open(createDiScope)
-        navigate(R.id.nav_host_to_export)
+    fun navigateToCardsExportFromNavHost(createDiScope: () -> CardsExportDiScope) {
+        CardsExportDiScope.open(createDiScope)
+        navigate(R.id.nav_host_to_cards_export)
     }
 
     fun showChangeGradeDialogFromNavHost(createDiScope: () -> ChangeGradeDiScope) {
@@ -304,9 +304,9 @@ class Navigator : ActivityLifecycleCallbacks {
         navigate(R.id.deck_editor_to_help_article)
     }
 
-    fun navigateToExportFromDeckEditor(createDiScope: () -> ExportDiScope) {
-        ExportDiScope.open(createDiScope)
-        navigate(R.id.deck_editor_to_export)
+    fun navigateToCardsExportFromDeckEditor(createDiScope: () -> CardsExportDiScope) {
+        CardsExportDiScope.open(createDiScope)
+        navigate(R.id.deck_editor_to_cards_export)
     }
 
     fun navigateToSearchFromDeckEditor(createDiScope: () -> SearchDiScope) {

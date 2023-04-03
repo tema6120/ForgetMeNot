@@ -42,8 +42,8 @@ import com.odnovolov.forgetmenot.presentation.screen.decklistseditor.DeckListsEd
 import com.odnovolov.forgetmenot.presentation.screen.exercise.ExerciseDiScope
 import com.odnovolov.forgetmenot.presentation.screen.exercisesettings.CardPrefilterMode.*
 import com.odnovolov.forgetmenot.presentation.screen.exercisesettings.ExerciseSettings
-import com.odnovolov.forgetmenot.presentation.screen.export.ExportDiScope
-import com.odnovolov.forgetmenot.presentation.screen.export.ExportDialogState
+import com.odnovolov.forgetmenot.presentation.screen.cardsexport.CardsExportDiScope
+import com.odnovolov.forgetmenot.presentation.screen.cardsexport.CardsExportDialogState
 import com.odnovolov.forgetmenot.presentation.screen.home.ChooseDeckListDialogPurpose.ToAddDeckToDeckList
 import com.odnovolov.forgetmenot.presentation.screen.home.ChooseDeckListDialogPurpose.ToRemoveDeckFromDeckList
 import com.odnovolov.forgetmenot.presentation.screen.home.DeckSorting.Direction.Asc
@@ -307,9 +307,9 @@ class HomeController(
 
             ExportDeckOptionWasSelected -> {
                 val deck = screenState.deckForDeckOptionMenu ?: return
-                navigator.navigateToExportFromNavHost {
-                    val dialogState = ExportDialogState(listOf(deck))
-                    ExportDiScope.create(dialogState)
+                navigator.navigateToCardsExportFromNavHost {
+                    val dialogState = CardsExportDialogState(listOf(deck))
+                    CardsExportDiScope.create(dialogState)
                 }
             }
 
@@ -444,11 +444,11 @@ class HomeController(
                 val selectedDeckIds: List<Long> =
                     screenState.deckSelection?.selectedDeckIds ?: return
                 if (selectedDeckIds.isEmpty()) return
-                navigator.navigateToExportFromNavHost {
+                navigator.navigateToCardsExportFromNavHost {
                     val decks: List<Deck> =
                         globalState.decks.filter { deck: Deck -> deck.id in selectedDeckIds }
-                    val dialogState = ExportDialogState(decks)
-                    ExportDiScope.create(dialogState)
+                    val dialogState = CardsExportDialogState(decks)
+                    CardsExportDiScope.create(dialogState)
                 }
             }
 

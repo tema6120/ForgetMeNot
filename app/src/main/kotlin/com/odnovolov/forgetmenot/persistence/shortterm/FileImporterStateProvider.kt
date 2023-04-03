@@ -2,8 +2,8 @@ package com.odnovolov.forgetmenot.persistence.shortterm
 
 import com.odnovolov.forgetmenot.Database
 import com.odnovolov.forgetmenot.domain.entity.*
-import com.odnovolov.forgetmenot.domain.interactor.fileimport.*
-import com.odnovolov.forgetmenot.domain.interactor.fileimport.Parser.Error
+import com.odnovolov.forgetmenot.domain.interactor.cardsimport.*
+import com.odnovolov.forgetmenot.domain.interactor.cardsimport.Parser.Error
 import com.odnovolov.forgetmenot.persistence.shortterm.FileImporterStateProvider.SerializableState
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
@@ -13,9 +13,9 @@ class FileImporterStateProvider(
     json: Json,
     database: Database,
     private val globalState: GlobalState,
-    private val fileImportStorage: FileImportStorage,
-    override val key: String = FileImporter.State::class.qualifiedName!!
-) : BaseSerializableStateProvider<FileImporter.State, SerializableState>(
+    private val cardsImportStorage: CardsImportStorage,
+    override val key: String = CardsImporter.State::class.qualifiedName!!
+) : BaseSerializableStateProvider<CardsImporter.State, SerializableState>(
     json,
     database
 ) {
@@ -28,7 +28,7 @@ class FileImporterStateProvider(
 
     override val serializer = SerializableState.serializer()
 
-    override fun toSerializable(state: FileImporter.State): SerializableState {
+    override fun toSerializable(state: CardsImporter.State): SerializableState {
         val serializableCardsFiles: List<SerializableCardsFile> =
             state.files.map { cardsFile: CardsFile ->
                 val serializableAbstractDeck: SerializableAbstractDeck =
@@ -60,7 +60,7 @@ class FileImporterStateProvider(
         )
     }
 
-    override fun toOriginal(serializableState: SerializableState): FileImporter.State {
+    override fun toOriginal(serializableState: SerializableState): CardsImporter.State {
         val cardsFiles: List<CardsFile> = serializableState.files
             .map { serializableCardsFile: SerializableCardsFile ->
                 val deckWhereToAdd: AbstractDeck =
@@ -71,9 +71,9 @@ class FileImporterStateProvider(
                             ExistingDeck(deck)
                         }
                     }
-                val format: FileFormat = FileFormat.predefinedFormats
+                val format: CardsFileFormat = CardsFileFormat.predefinedFormats
                     .find { it.id == serializableCardsFile.formatId }
-                    ?: fileImportStorage.customFileFormats
+                    ?: cardsImportStorage.customFileFormats
                         .first { it.id == serializableCardsFile.formatId }
                 val errors: List<Error> = serializableCardsFile.errors
                     .map { serializableError: SerializableError ->
@@ -93,7 +93,7 @@ class FileImporterStateProvider(
                     deckWhereToAdd = deckWhereToAdd
                 )
             }
-        return FileImporter.State(
+        return CardsImporter.State(
             cardsFiles,
             serializableState.currentPosition,
             serializableState.maxVisitedPosition

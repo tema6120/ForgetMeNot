@@ -1,7 +1,6 @@
 package com.odnovolov.forgetmenot.presentation.screen.deckeditor
 
 import com.odnovolov.forgetmenot.domain.entity.Deck
-import com.odnovolov.forgetmenot.domain.interactor.fileimport.FileFormat
 import kotlinx.serialization.Serializable
 
 data class DeckEditorScreenState(

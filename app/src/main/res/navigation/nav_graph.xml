@@ -10,8 +10,8 @@
             tools:layout="@layout/fragment_nav_host">
 
         <action
-                android:id="@+id/nav_host_to_file_import"
-                app:destination="@+id/file_import" />
+                android:id="@+id/nav_host_to_cards_import"
+                app:destination="@+id/cards_import" />
 
         <action
                 android:id="@+id/nav_host_to_card_filter_for_exercise"
@@ -62,8 +62,8 @@
                 app:destination="@id/help_article" />
 
         <action
-                android:id="@+id/nav_host_to_export"
-                app:destination="@+id/export" />
+                android:id="@+id/nav_host_to_cards_export"
+                app:destination="@+id/cards_export" />
 
         <action
                 android:id="@+id/show_change_grade_dialog_from_nav_host"
@@ -84,30 +84,30 @@
     </fragment>
 
     <fragment
-            android:id="@+id/file_import"
-            android:name="com.odnovolov.forgetmenot.presentation.screen.fileimport.FileImportFragment"
-            tools:layout="@layout/fragment_file_import">
+            android:id="@+id/cards_import"
+            android:name="com.odnovolov.forgetmenot.presentation.screen.cardsimport.CardsImportFragment"
+            tools:layout="@layout/fragment_cards_import">
 
         <action
-                android:id="@+id/file_import_shows_rename_deck_dialog"
+                android:id="@+id/cards_import_shows_rename_deck_dialog"
                 app:destination="@+id/rename_deck_dialog" />
 
         <action
-                android:id="@+id/file_import_to_deck_chooser"
+                android:id="@+id/cards_import_to_deck_chooser"
                 app:destination="@id/deck_chooser" />
 
         <action
-                android:id="@+id/file_import_to_dsv_format"
+                android:id="@+id/cards_import_to_dsv_format"
                 app:destination="@id/dsv_format" />
 
         <action
-                android:id="@+id/file_import_to_deck_editor"
+                android:id="@+id/cards_import_to_deck_editor"
                 app:destination="@+id/deck_editor"
-                app:popUpTo="@+id/file_import"
+                app:popUpTo="@+id/cards_import"
                 app:popUpToInclusive="true" />
 
         <action
-                android:id="@+id/file_import_to_help"
+                android:id="@+id/cards_import_to_help"
                 app:destination="@+id/help_article" />
 
     </fragment>
@@ -250,8 +250,8 @@
                 app:popExitAnim="@anim/slide_out_right" />
 
         <action
-                android:id="@+id/deck_editor_to_export"
-                app:destination="@+id/export" />
+                android:id="@+id/deck_editor_to_cards_export"
+                app:destination="@+id/cards_export" />
 
         <action
                 android:id="@+id/deck_editor_to_search"
@@ -478,9 +478,9 @@
             tools:layout="@layout/dialog_laps_in_player" />
 
     <dialog
-            android:id="@+id/export"
-            android:name="com.odnovolov.forgetmenot.presentation.screen.export.ExportDialog"
-            tools:layout="@layout/dialog_export" />
+            android:id="@+id/cards_export"
+            android:name="com.odnovolov.forgetmenot.presentation.screen.cardsexport.CardsExportDialog"
+            tools:layout="@layout/dialog_cards_export" />
 
     <dialog
             android:id="@+id/change_grade_dialog"

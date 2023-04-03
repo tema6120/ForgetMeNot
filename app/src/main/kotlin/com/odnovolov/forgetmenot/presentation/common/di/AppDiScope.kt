@@ -3,12 +3,12 @@ package com.odnovolov.forgetmenot.presentation.common.di
 import com.odnovolov.forgetmenot.Database
 import com.odnovolov.forgetmenot.domain.entity.GlobalState
 import com.odnovolov.forgetmenot.domain.interactor.decklistseditor.recheckDeckIdsInDeckLists
-import com.odnovolov.forgetmenot.domain.interactor.fileimport.FileImportStorage
+import com.odnovolov.forgetmenot.domain.interactor.cardsimport.CardsImportStorage
 import com.odnovolov.forgetmenot.persistence.DatabaseInitializer
 import com.odnovolov.forgetmenot.persistence.longterm.LongTermStateSaverImpl
 import com.odnovolov.forgetmenot.persistence.longterm.cardappearance.CardAppearanceProvider
 import com.odnovolov.forgetmenot.persistence.longterm.exercisesettings.ExerciseSettingsProvider
-import com.odnovolov.forgetmenot.persistence.longterm.fileimportstorage.FileImportStorageProvider
+import com.odnovolov.forgetmenot.persistence.longterm.fileimportstorage.CardsImportStorageProvider
 import com.odnovolov.forgetmenot.persistence.longterm.globalstate.provision.GlobalStateProvider
 import com.odnovolov.forgetmenot.persistence.longterm.lastusedlanguages.LastUsedLanguagesProvider
 import com.odnovolov.forgetmenot.persistence.longterm.tipstate.TipStateProvider
@@ -35,8 +35,8 @@ class AppDiScope(
     val walkingModePreference: WalkingModePreference =
         WalkingModePreferenceProvider(database).load()
 
-    val fileImportStorage: FileImportStorage =
-        FileImportStorageProvider(database).load()
+    val cardsImportStorage: CardsImportStorage =
+        CardsImportStorageProvider(database).load()
 
     init {
         TipStateProvider(database).load()

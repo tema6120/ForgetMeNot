@@ -7,13 +7,13 @@ import com.odnovolov.forgetmenot.domain.architecturecomponents.PropertyChangeReg
 import com.odnovolov.forgetmenot.domain.entity.*
 import com.odnovolov.forgetmenot.domain.interactor.autoplay.CardFilterForAutoplay
 import com.odnovolov.forgetmenot.domain.interactor.exercise.CardFilterForExercise
-import com.odnovolov.forgetmenot.domain.interactor.fileimport.FileFormat
-import com.odnovolov.forgetmenot.domain.interactor.fileimport.FileImportStorage
+import com.odnovolov.forgetmenot.domain.interactor.cardsimport.CardsFileFormat
+import com.odnovolov.forgetmenot.domain.interactor.cardsimport.CardsImportStorage
 import com.odnovolov.forgetmenot.persistence.longterm.cardappearance.CardAppearancePropertyChangeHandler
 import com.odnovolov.forgetmenot.persistence.longterm.deckreviewpreference.DeckReviewPreferencePropertyChangeHandler
 import com.odnovolov.forgetmenot.persistence.longterm.exercisesettings.ExerciseSettingsPropertyChangeHandler
-import com.odnovolov.forgetmenot.persistence.longterm.fileimportstorage.FileFormatPropertyChangeHandler
-import com.odnovolov.forgetmenot.persistence.longterm.fileimportstorage.FileImportStoragePropertyChangeHandler
+import com.odnovolov.forgetmenot.persistence.longterm.fileimportstorage.CardsFormatPropertyChangeHandler
+import com.odnovolov.forgetmenot.persistence.longterm.fileimportstorage.CardsImportStoragePropertyChangeHandler
 import com.odnovolov.forgetmenot.persistence.longterm.fullscreenpreference.FullscreenPreferencePropertyChangeHandler
 import com.odnovolov.forgetmenot.persistence.longterm.globalstate.writingchanges.*
 import com.odnovolov.forgetmenot.persistence.longterm.initialdecksadderstate.InitialDecksAdderStatePropertyChangeHandler
@@ -73,8 +73,8 @@ class LongTermStateSaverImpl(
             put(FullscreenPreference::class, FullscreenPreferencePropertyChangeHandler(database))
             put(InitialDecksAdder.State::class, InitialDecksAdderStatePropertyChangeHandler(database))
             put(TipState::class, TipStatePropertyChangeHandler(database))
-            put(FileImportStorage::class, FileImportStoragePropertyChangeHandler(database))
-            put(FileFormat::class, FileFormatPropertyChangeHandler(database))
+            put(CardsImportStorage::class, CardsImportStoragePropertyChangeHandler(database))
+            put(CardsFileFormat::class, CardsFormatPropertyChangeHandler(database))
             put(PronunciationPreference::class, PronunciationPreferencePropertyChangeHandler(database))
             put(LastUsedLanguages::class, LastUsedLanguagesPropertyChangeHandler(database))
             put(CardAppearance::class, CardAppearancePropertyChangeHandler(database))

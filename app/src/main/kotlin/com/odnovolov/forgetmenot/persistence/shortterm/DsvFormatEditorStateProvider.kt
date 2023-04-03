@@ -1,7 +1,7 @@
 package com.odnovolov.forgetmenot.persistence.shortterm
 
 import com.odnovolov.forgetmenot.Database
-import com.odnovolov.forgetmenot.domain.interactor.fileimport.*
+import com.odnovolov.forgetmenot.domain.interactor.cardsimport.*
 import com.odnovolov.forgetmenot.persistence.shortterm.DsvFormatEditorStateProvider.SerializableState
 import com.odnovolov.forgetmenot.persistence.shortterm.SerializableFileFormat.ExistingFileFormat
 import com.odnovolov.forgetmenot.persistence.shortterm.SerializableFileFormat.NewFileFormat
@@ -13,7 +13,7 @@ import org.apache.commons.csv.QuoteMode
 class DsvFormatEditorStateProvider(
     json: Json,
     database: Database,
-    private val fileImportStorage: FileImportStorage,
+    private val cardsImportStorage: CardsImportStorage,
     override val key: String = DsvFormatEditor.State::class.qualifiedName!!
 ) : BaseSerializableStateProvider<DsvFormatEditor.State, SerializableState>(
     json,
@@ -53,18 +53,18 @@ class DsvFormatEditorStateProvider(
                 state.editingFileFormat.isPredefined -> {
                     ExistingFileFormat(state.editingFileFormat.id)
                 }
-                fileImportStorage.customFileFormats.any { it.id == state.editingFileFormat.id } -> {
+                cardsImportStorage.customFileFormats.any { it.id == state.editingFileFormat.id } -> {
                     ExistingFileFormat(state.editingFileFormat.id)
                 }
                 else -> {
-                    val fileFormatWhereParserComeFrom: FileFormat =
-                        FileFormat.predefinedFormats.find { fileFormat: FileFormat ->
+                    val fileFormatWhereParserComeFrom: CardsFileFormat =
+                        CardsFileFormat.predefinedFormats.find { fileFormat: CardsFileFormat ->
                             val csvParser = (fileFormat.parser as? CsvParser) ?: return@find false
                             csvParser.csvFormat == sourceCSVFormat
-                        } ?: fileImportStorage.customFileFormats.find {
+                        } ?: cardsImportStorage.customFileFormats.find {
                             val csvParser = it.parser as CsvParser
                             csvParser.csvFormat == sourceCSVFormat
-                        } ?: FileFormat.CSV_DEFAULT
+                        } ?: CardsFileFormat.CSV_DEFAULT
                     NewFileFormat(
                         state.editingFileFormat.id,
                         state.editingFileFormat.name,
@@ -99,12 +99,12 @@ class DsvFormatEditorStateProvider(
     }
 
     override fun toOriginal(serializableState: SerializableState): DsvFormatEditor.State {
-        val editingFileFormat: FileFormat =
+        val editingFileFormat: CardsFileFormat =
             when (val serializableFileFormat = serializableState.serializableFileFormat) {
                 is ExistingFileFormat -> {
-                    FileFormat.predefinedFormats.find { fileFormat: FileFormat ->
+                    CardsFileFormat.predefinedFormats.find { fileFormat: CardsFileFormat ->
                         fileFormat.id == serializableFileFormat.fileFormatId
-                    } ?: fileImportStorage.customFileFormats.find { fileFormat: FileFormat ->
+                    } ?: cardsImportStorage.customFileFormats.find { fileFormat: CardsFileFormat ->
                         fileFormat.id == serializableFileFormat.fileFormatId
                     } ?: error(
                         "There is no file format either in the database or among the " +
@@ -112,17 +112,17 @@ class DsvFormatEditorStateProvider(
                     )
                 }
                 is NewFileFormat -> {
-                    val fileFormatIdWhereParserComeFrom: FileFormat =
-                        FileFormat.predefinedFormats.find { fileFormat: FileFormat ->
+                    val fileFormatIdWhereParserComeFrom: CardsFileFormat =
+                        CardsFileFormat.predefinedFormats.find { fileFormat: CardsFileFormat ->
                             fileFormat.id == serializableFileFormat.fileFormatIdWhereParserComeFrom
-                        } ?: fileImportStorage.customFileFormats.find { fileFormat: FileFormat ->
+                        } ?: cardsImportStorage.customFileFormats.find { fileFormat: CardsFileFormat ->
                             fileFormat.id == serializableFileFormat.fileFormatIdWhereParserComeFrom
                         } ?: error(
                             "There is no file format either in the database or among the " +
                                     "predefined file formats by id " +
                                     serializableFileFormat.fileFormatIdWhereParserComeFrom
                         )
-                    FileFormat(
+                    CardsFileFormat(
                         serializableFileFormat.fileFormatId,
                         serializableFileFormat.name,
                         serializableFileFormat.extension,

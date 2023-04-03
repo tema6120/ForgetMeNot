@@ -13,8 +13,8 @@ import com.odnovolov.forgetmenot.presentation.screen.deckchooser.DeckChooserScre
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorDiScope
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorEvent.DeckToCopyCardsToWasSelected
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorEvent.DeckToMoveCardsToWasSelected
-import com.odnovolov.forgetmenot.presentation.screen.fileimport.FileImportDiScope
-import com.odnovolov.forgetmenot.presentation.screen.fileimport.cardsfile.CardsFileEvent.TargetDeckWasSelected
+import com.odnovolov.forgetmenot.presentation.screen.cardsimport.CardsImportDiScope
+import com.odnovolov.forgetmenot.presentation.screen.cardsimport.cardsfile.CardsFileEvent.TargetDeckWasSelected
 import com.odnovolov.forgetmenot.presentation.screen.home.DeckReviewPreference
 import com.odnovolov.forgetmenot.presentation.screen.home.DeckSorting.Direction.Asc
 import com.odnovolov.forgetmenot.presentation.screen.home.DeckSorting.Direction.Desc
@@ -80,7 +80,7 @@ class DeckChooserController(
                 val deck: Deck = globalState.decks.first { it.id == event.deckId }
                 when (screenState.purpose) {
                     ToImportCards -> {
-                        FileImportDiScope.getOrRecreate().cardsFileController
+                        CardsImportDiScope.getOrRecreate().cardsFileController
                             .dispatch(TargetDeckWasSelected(deck))
                     }
                     ToMergeInto -> {

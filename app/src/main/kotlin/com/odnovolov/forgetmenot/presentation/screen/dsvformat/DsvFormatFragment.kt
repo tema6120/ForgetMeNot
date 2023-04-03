@@ -19,7 +19,7 @@ import androidx.core.view.updateLayoutParams
 import androidx.fragment.app.Fragment
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.domain.entity.NameCheckResult
-import com.odnovolov.forgetmenot.domain.interactor.fileimport.DsvFormatEditor.SaveResult.Failure.Cause.*
+import com.odnovolov.forgetmenot.domain.interactor.cardsimport.DsvFormatEditor.SaveResult.Failure.Cause.*
 import com.odnovolov.forgetmenot.presentation.common.*
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.common.mainactivity.MainActivity

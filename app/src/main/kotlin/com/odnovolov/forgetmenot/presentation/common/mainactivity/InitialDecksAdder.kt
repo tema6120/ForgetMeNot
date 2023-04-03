@@ -6,10 +6,10 @@ import com.odnovolov.forgetmenot.domain.architecturecomponents.PropertyChangeReg
 import com.odnovolov.forgetmenot.domain.architecturecomponents.plus
 import com.odnovolov.forgetmenot.domain.entity.*
 import com.odnovolov.forgetmenot.domain.generateId
-import com.odnovolov.forgetmenot.domain.interactor.fileimport.FileImportStorage
-import com.odnovolov.forgetmenot.domain.interactor.fileimport.FileImporter
-import com.odnovolov.forgetmenot.domain.interactor.fileimport.FileImporter.ImportResult
-import com.odnovolov.forgetmenot.domain.interactor.fileimport.ImportedFile
+import com.odnovolov.forgetmenot.domain.interactor.cardsimport.CardsImportStorage
+import com.odnovolov.forgetmenot.domain.interactor.cardsimport.CardsImporter
+import com.odnovolov.forgetmenot.domain.interactor.cardsimport.CardsImporter.ImportResult
+import com.odnovolov.forgetmenot.domain.interactor.cardsimport.ImportedCardsFile
 import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.base.BaseController
 import com.odnovolov.forgetmenot.presentation.common.mainactivity.InitialDecksAdder.Event
@@ -20,7 +20,7 @@ class InitialDecksAdder(
     private val state: State,
     private val assetManager: AssetManager,
     private val globalState: GlobalState,
-    private val fileImportStorage: FileImportStorage,
+    private val cardsImportStorage: CardsImportStorage,
     private val longTermStateSaver: LongTermStateSaver
 ) : BaseController<Event, Nothing>() {
     class State(areInitialDecksAdded: Boolean = false) : FlowMakerWithRegistry<State>() {
@@ -62,13 +62,13 @@ class InitialDecksAdder(
     }
 
     private fun addDecksFromAssets() {
-        val files: List<ImportedFile> = fileNames.map { fileName: String ->
+        val files: List<ImportedCardsFile> = fileNames.map { fileName: String ->
             val fileContent: ByteArray = assetManager.open(fileName).use { it.readBytes() }
-            ImportedFile(fileName, fileContent)
+            ImportedCardsFile(fileName, fileContent)
         }
-        val fileImporterState = FileImporter.State.fromFiles(files, fileImportStorage)
-        val fileImporter = FileImporter(fileImporterState, globalState, fileImportStorage)
-        val result: ImportResult = fileImporter.import()
+        val cardsImporterState = CardsImporter.State.fromFiles(files, cardsImportStorage)
+        val cardsImporter = CardsImporter(cardsImporterState, globalState, cardsImportStorage)
+        val result: ImportResult = cardsImporter.import()
         when (result) {
             is ImportResult.Failure -> {
                 error("Fail to add initial decks from Assets")

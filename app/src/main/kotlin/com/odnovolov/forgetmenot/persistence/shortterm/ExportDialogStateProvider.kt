@@ -3,11 +3,11 @@ package com.odnovolov.forgetmenot.persistence.shortterm
 import com.odnovolov.forgetmenot.Database
 import com.odnovolov.forgetmenot.domain.entity.Deck
 import com.odnovolov.forgetmenot.domain.entity.GlobalState
-import com.odnovolov.forgetmenot.domain.interactor.fileimport.FileFormat
-import com.odnovolov.forgetmenot.domain.interactor.fileimport.FileImportStorage
+import com.odnovolov.forgetmenot.domain.interactor.cardsimport.CardsFileFormat
+import com.odnovolov.forgetmenot.domain.interactor.cardsimport.CardsImportStorage
 import com.odnovolov.forgetmenot.persistence.shortterm.ExportDialogStateProvider.SerializableState
-import com.odnovolov.forgetmenot.presentation.screen.export.ExportDialogState
-import com.odnovolov.forgetmenot.presentation.screen.export.Stage
+import com.odnovolov.forgetmenot.presentation.screen.cardsexport.CardsExportDialogState
+import com.odnovolov.forgetmenot.presentation.screen.cardsexport.Stage
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 
@@ -15,9 +15,9 @@ class ExportDialogStateProvider(
     json: Json,
     database: Database,
     private val globalState: GlobalState,
-    private val fileImportStorage: FileImportStorage,
-    override val key: String = ExportDialogState::class.qualifiedName!!
-) : BaseSerializableStateProvider<ExportDialogState, SerializableState>(
+    private val cardsImportStorage: CardsImportStorage,
+    override val key: String = CardsExportDialogState::class.qualifiedName!!
+) : BaseSerializableStateProvider<CardsExportDialogState, SerializableState>(
     json,
     database
 ) {
@@ -30,7 +30,7 @@ class ExportDialogStateProvider(
 
     override val serializer = SerializableState.serializer()
 
-    override fun toSerializable(state: ExportDialogState): SerializableState {
+    override fun toSerializable(state: CardsExportDialogState): SerializableState {
         return SerializableState(
             state.decks.map { it.id },
             state.fileFormat?.id,
@@ -38,19 +38,19 @@ class ExportDialogStateProvider(
         )
     }
 
-    override fun toOriginal(serializableState: SerializableState): ExportDialogState {
+    override fun toOriginal(serializableState: SerializableState): CardsExportDialogState {
         val decks: List<Deck> = globalState.decks.filter { it.id in serializableState.deckIds }
-        val fileFormat: FileFormat? =
+        val fileFormat: CardsFileFormat? =
             if (serializableState.fileFormatId != null) {
-                FileFormat.predefinedFormats.find { predefinedFileFormat: FileFormat ->
+                CardsFileFormat.predefinedFormats.find { predefinedFileFormat: CardsFileFormat ->
                     predefinedFileFormat.id == serializableState.fileFormatId
-                } ?: fileImportStorage.customFileFormats.find { customFileFormat: FileFormat ->
+                } ?: cardsImportStorage.customFileFormats.find { customFileFormat: CardsFileFormat ->
                     customFileFormat.id == serializableState.fileFormatId
                 }
             } else {
                 null
             }
-        return ExportDialogState(
+        return CardsExportDialogState(
             decks,
             fileFormat,
             serializableState.stage

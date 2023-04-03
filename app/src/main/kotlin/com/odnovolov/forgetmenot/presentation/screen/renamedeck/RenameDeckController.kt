@@ -15,8 +15,8 @@ import com.odnovolov.forgetmenot.presentation.common.base.BaseController
 import com.odnovolov.forgetmenot.presentation.screen.cardseditor.CardsEditorDiScope
 import com.odnovolov.forgetmenot.presentation.screen.deckchooser.DeckChooserDiScope
 import com.odnovolov.forgetmenot.presentation.screen.deckchooser.DeckChooserEvent.SubmittedNewDeckName
-import com.odnovolov.forgetmenot.presentation.screen.fileimport.FileImportDiScope
-import com.odnovolov.forgetmenot.presentation.screen.fileimport.cardsfile.CardsFileEvent.SubmittedNameForNewDeck
+import com.odnovolov.forgetmenot.presentation.screen.cardsimport.CardsImportDiScope
+import com.odnovolov.forgetmenot.presentation.screen.cardsimport.cardsfile.CardsFileEvent.SubmittedNameForNewDeck
 import com.odnovolov.forgetmenot.presentation.screen.home.HomeDiScope
 import com.odnovolov.forgetmenot.presentation.screen.renamedeck.RenameDeckController.Command
 import com.odnovolov.forgetmenot.presentation.screen.renamedeck.RenameDeckController.Command.ShowDeckHasBeenCreatedMessage
@@ -57,7 +57,7 @@ class RenameDeckController(
                     }
                     ToRenameNewDeckForFileImport -> {
                         if (checkDeckName(newName, globalState) == NameCheckResult.Ok) {
-                            FileImportDiScope.getOrRecreate().cardsFileController
+                            CardsImportDiScope.getOrRecreate().cardsFileController
                                 .dispatch(SubmittedNameForNewDeck(dialogState.typedDeckName))
                             navigator.navigateUp()
                         }

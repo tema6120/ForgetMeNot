@@ -2,9 +2,9 @@ package com.odnovolov.forgetmenot.presentation.screen.dsvformat
 
 import com.odnovolov.forgetmenot.domain.architecturecomponents.CopyableCollection
 import com.odnovolov.forgetmenot.domain.entity.NameCheckResult
-import com.odnovolov.forgetmenot.domain.interactor.fileimport.DsvFormatEditor
-import com.odnovolov.forgetmenot.domain.interactor.fileimport.FileFormat
-import com.odnovolov.forgetmenot.domain.interactor.fileimport.FileImportStorage
+import com.odnovolov.forgetmenot.domain.interactor.cardsimport.DsvFormatEditor
+import com.odnovolov.forgetmenot.domain.interactor.cardsimport.CardsFileFormat
+import com.odnovolov.forgetmenot.domain.interactor.cardsimport.CardsImportStorage
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
@@ -13,19 +13,19 @@ import org.apache.commons.csv.QuoteMode
 class DsvFormatViewModel(
     private val dsvFormatEditorState: DsvFormatEditor.State,
     screenState: DsvFormatScreenState,
-    private val fileImportStorage: FileImportStorage
+    private val cardsImportStorage: CardsImportStorage
 ) {
     val isReadOnly: Boolean get() = dsvFormatEditorState.editingFileFormat.isPredefined
     val formatName: String get() = dsvFormatEditorState.formatName
 
     val formatNameCheckResult: Flow<NameCheckResult> =
-        fileImportStorage.flowOf(FileImportStorage::customFileFormats)
-            .map { customFileFormats: CopyableCollection<FileFormat> ->
+        cardsImportStorage.flowOf(CardsImportStorage::customFileFormats)
+            .map { customFileFormats: CopyableCollection<CardsFileFormat> ->
                 customFileFormats
-                    .filter { fileFormat: FileFormat ->
+                    .filter { fileFormat: CardsFileFormat ->
                         fileFormat.id != dsvFormatEditorState.editingFileFormat.id
                     }
-                    .map { fileFormat: FileFormat -> fileFormat.name}
+                    .map { fileFormat: CardsFileFormat -> fileFormat.name}
             }
             .combine(
                 dsvFormatEditorState.flowOf(DsvFormatEditor.State::formatName)

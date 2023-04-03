@@ -15,8 +15,8 @@ import com.odnovolov.forgetmenot.presentation.common.base.BaseController
 import com.odnovolov.forgetmenot.presentation.screen.cardseditor.CardsEditorDiScope
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.DeckEditorScreenState
 import com.odnovolov.forgetmenot.presentation.screen.deckeditor.deckcontent.DeckContentEvent.*
-import com.odnovolov.forgetmenot.presentation.screen.export.ExportDiScope
-import com.odnovolov.forgetmenot.presentation.screen.export.ExportDialogState
+import com.odnovolov.forgetmenot.presentation.screen.cardsexport.CardsExportDiScope
+import com.odnovolov.forgetmenot.presentation.screen.cardsexport.CardsExportDialogState
 import com.odnovolov.forgetmenot.presentation.screen.search.SearchDiScope
 
 class DeckContentController(
@@ -31,9 +31,9 @@ class DeckContentController(
     override fun handle(event: DeckContentEvent) {
         when (event) {
             ExportButtonClicked -> {
-                navigator.navigateToExportFromDeckEditor {
-                    val dialogState = ExportDialogState(listOf(screenState.deck))
-                    ExportDiScope.create(dialogState)
+                navigator.navigateToCardsExportFromDeckEditor {
+                    val dialogState = CardsExportDialogState(listOf(screenState.deck))
+                    CardsExportDiScope.create(dialogState)
                 }
             }
 

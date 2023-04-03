@@ -1,13 +1,13 @@
 package com.odnovolov.forgetmenot.presentation.screen.home.addcards
 
-import com.odnovolov.forgetmenot.domain.interactor.fileimport.FileImportStorage
-import com.odnovolov.forgetmenot.domain.interactor.fileimport.FileImporter
-import com.odnovolov.forgetmenot.domain.interactor.fileimport.ImportedFile
+import com.odnovolov.forgetmenot.domain.interactor.cardsimport.CardsImportStorage
+import com.odnovolov.forgetmenot.domain.interactor.cardsimport.CardsImporter
+import com.odnovolov.forgetmenot.domain.interactor.cardsimport.ImportedCardsFile
 import com.odnovolov.forgetmenot.presentation.common.LongTermStateSaver
 import com.odnovolov.forgetmenot.presentation.common.Navigator
 import com.odnovolov.forgetmenot.presentation.common.base.BaseController
-import com.odnovolov.forgetmenot.presentation.screen.fileimport.FileImportDiScope
-import com.odnovolov.forgetmenot.presentation.screen.fileimport.FileImportScreenState
+import com.odnovolov.forgetmenot.presentation.screen.cardsimport.CardsImportDiScope
+import com.odnovolov.forgetmenot.presentation.screen.cardsimport.CardsImportScreenState
 import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticle
 import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticleDiScope
 import com.odnovolov.forgetmenot.presentation.screen.helparticle.HelpArticleScreenState
@@ -22,7 +22,7 @@ import com.odnovolov.forgetmenot.presentation.screen.renamedeck.RenameDeckDialog
 class AddCardsController(
     private val homeScreenState: HomeScreenState,
     private val fileFromIntentReader: FileFromIntentReader,
-    private val fileImportStorage: FileImportStorage,
+    private val cardsImportStorage: CardsImportStorage,
     private val navigator: Navigator,
     private val longTermStateSaver: LongTermStateSaver
 ) : BaseController<AddCardsEvent, Command>() {
@@ -43,10 +43,10 @@ class AddCardsController(
                 if (failedFileNames.isNotEmpty()) {
                     sendCommand(ShowCannotReadFilesMessage(failedFileNames))
                 }
-                val importedFiles: List<ImportedFile> = results.mapNotNull { result ->
+                val importedFiles: List<ImportedCardsFile> = results.mapNotNull { result ->
                     when (result) {
                         is FileFromIntentReader.Result.Success -> {
-                            ImportedFile(
+                            ImportedCardsFile(
                                 fileName = result.fileName ?: "",
                                 content = result.fileContent
                             )
@@ -55,11 +55,11 @@ class AddCardsController(
                     }
                 }
                 if (importedFiles.isNotEmpty()) {
-                    navigator.navigateToFileImport {
-                        val screenState = FileImportScreenState()
+                    navigator.navigateToCardsImport {
+                        val screenState = CardsImportScreenState()
                         val fileImporterState =
-                            FileImporter.State.fromFiles(importedFiles, fileImportStorage)
-                        FileImportDiScope.create(screenState, fileImporterState)
+                            CardsImporter.State.fromFiles(importedFiles, cardsImportStorage)
+                        CardsImportDiScope.create(screenState, fileImporterState)
                     }
                 }
             }

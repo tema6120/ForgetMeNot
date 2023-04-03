@@ -26,6 +26,7 @@ class Backupper {
             zipBackup(outputStream)
             true
         } catch (e: Exception) {
+            e.printStackTrace()
             false
         }
     }
@@ -49,6 +50,7 @@ class Backupper {
             validateNewDatabase()
             true
         } catch (e: Exception) {
+            e.printStackTrace()
             rollback()
             false
         } finally {

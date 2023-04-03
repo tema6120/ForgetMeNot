@@ -3,8 +3,8 @@ package com.odnovolov.forgetmenot.persistence.shortterm
 import com.odnovolov.forgetmenot.Database
 import com.odnovolov.forgetmenot.domain.entity.Deck
 import com.odnovolov.forgetmenot.domain.entity.GlobalState
-import com.odnovolov.forgetmenot.domain.interactor.fileimport.FileFormat
-import com.odnovolov.forgetmenot.domain.interactor.fileimport.FileImportStorage
+import com.odnovolov.forgetmenot.domain.interactor.cardsimport.CardsFileFormat
+import com.odnovolov.forgetmenot.domain.interactor.cardsimport.CardsImportStorage
 import com.odnovolov.forgetmenot.persistence.shortterm.HomeScreenStateProvider.SerializableHomeScreenState
 import com.odnovolov.forgetmenot.presentation.screen.home.ChooseDeckListDialogPurpose
 import com.odnovolov.forgetmenot.presentation.screen.home.DeckSelection
@@ -17,7 +17,7 @@ class HomeScreenStateProvider(
     json: Json,
     database: Database,
     private val globalState: GlobalState,
-    private val fileImportStorage: FileImportStorage,
+    private val cardsImportStorage: CardsImportStorage,
     override val key: String = HomeScreenState::class.qualifiedName!!
 ) : BaseSerializableStateProvider<HomeScreenState, SerializableHomeScreenState>(
     json,
@@ -51,11 +51,11 @@ class HomeScreenStateProvider(
             serializableState.deckIdForDeckOptionMenu?.let { deckId: Long ->
                 globalState.decks.first { deck -> deck.id == deckId }
             }
-        val fileFormat: FileFormat? =
+        val fileFormat: CardsFileFormat? =
             if (serializableState.fileFormatId != null) {
-                FileFormat.predefinedFormats.find { predefinedFileFormat: FileFormat ->
+                CardsFileFormat.predefinedFormats.find { predefinedFileFormat: CardsFileFormat ->
                     predefinedFileFormat.id == serializableState.fileFormatId
-                } ?: fileImportStorage.customFileFormats.find { customFileFormat: FileFormat ->
+                } ?: cardsImportStorage.customFileFormats.find { customFileFormat: CardsFileFormat ->
                     customFileFormat.id == serializableState.fileFormatId
                 }
             } else {

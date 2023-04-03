@@ -148,7 +148,7 @@
 
             <androidx.fragment.app.FragmentContainerView
                     android:id="@+id/fileFormatFragment"
-                    android:name="com.odnovolov.forgetmenot.presentation.screen.fileimport.cardsfile.sourcetext.fileformat.FileFormatFragment"
+                    android:name="com.odnovolov.forgetmenot.presentation.screen.cardsimport.cardsfile.sourcetext.fileformat.FileFormatFragment"
                     android:layout_width="wrap_content"
                     android:layout_height="0dp"
                     android:layout_marginStart="16dp"

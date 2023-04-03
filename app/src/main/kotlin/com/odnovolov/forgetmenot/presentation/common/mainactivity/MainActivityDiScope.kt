@@ -22,7 +22,7 @@ class MainActivityDiScope {
             initialDecksAdderState,
             AppDiScope.get().app.assets,
             AppDiScope.get().globalState,
-            AppDiScope.get().fileImportStorage,
+            AppDiScope.get().cardsImportStorage,
             AppDiScope.get().longTermStateSaver
         )
     }

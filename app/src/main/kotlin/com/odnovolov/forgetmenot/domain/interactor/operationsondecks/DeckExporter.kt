@@ -2,17 +2,17 @@ package com.odnovolov.forgetmenot.domain.interactor.operationsondecks
 
 import com.odnovolov.forgetmenot.domain.entity.Card
 import com.odnovolov.forgetmenot.domain.entity.Deck
-import com.odnovolov.forgetmenot.domain.interactor.fileimport.CsvParser
-import com.odnovolov.forgetmenot.domain.interactor.fileimport.FileFormat
+import com.odnovolov.forgetmenot.domain.interactor.cardsimport.CsvParser
+import com.odnovolov.forgetmenot.domain.interactor.cardsimport.CardsFileFormat
 import org.apache.commons.csv.CSVFormat
 import org.apache.commons.csv.CSVPrinter
 import java.io.IOException
 import java.io.OutputStream
 
 class DeckExporter {
-    fun export(deck: Deck, fileFormat: FileFormat, outputStream: OutputStream): Boolean {
+    fun export(deck: Deck, fileFormat: CardsFileFormat, outputStream: OutputStream): Boolean {
         val stringToWrite: String = when (fileFormat) {
-            FileFormat.FMN_FORMAT -> deck.toFmnFormatString()
+            CardsFileFormat.FMN_FORMAT -> deck.toFmnFormatString()
             else -> {
                 val csvFormat: CSVFormat = (fileFormat.parser as CsvParser).csvFormat
                 deck.toDsvFormatString(csvFormat)

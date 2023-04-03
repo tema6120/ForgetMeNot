@@ -33,7 +33,7 @@ class HomeDiScope private constructor(
         AppDiScope.get().json,
         AppDiScope.get().database,
         AppDiScope.get().globalState,
-        AppDiScope.get().fileImportStorage
+        AppDiScope.get().cardsImportStorage
     )
 
     val screenState: HomeScreenState =
