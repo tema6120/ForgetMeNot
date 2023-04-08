@@ -81,6 +81,10 @@
                 app:popEnterAnim="@anim/slide_in_right"
                 app:popExitAnim="@anim/slide_out_right" />
 
+        <action
+                android:id="@+id/show_backup_export_dialog"
+                app:destination="@+id/backup_export_dialog" />
+
     </fragment>
 
     <fragment
@@ -553,5 +557,10 @@
             android:id="@+id/change_grading_dialog"
             android:name="com.odnovolov.forgetmenot.presentation.screen.grading.ChangeGradingDialog"
             tools:layout="@layout/dialog_choice" />
+
+    <dialog
+            android:id="@+id/backup_export_dialog"
+            android:name="com.odnovolov.forgetmenot.presentation.screen.backup.export.BackupExportDialog"
+            tools:layout="@layout/dialog_backup_export" />
 
 </navigation>

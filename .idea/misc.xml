@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="app/src/main/res/layout/dialog_backup_export.xml" value="0.3098958333333333" />
+        <entry key="app/src/main/res/layout/dialog_backup_import.xml" value="0.3098958333333333" />
+        <entry key="app/src/main/res/layout/dialog_cards_export.xml" value="0.3098958333333333" />
+      </map>
+    </option>
+  </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>

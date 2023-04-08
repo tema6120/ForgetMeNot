@@ -21,13 +21,13 @@ class Backupper {
         File(app.cacheDir, databaseDir.name)
     }
 
-    fun export(outputStream: OutputStream): Boolean {
+    fun export(outputStream: OutputStream): Result {
         return try {
             zipBackup(outputStream)
-            true
+            Result.Success
         } catch (e: Exception) {
             e.printStackTrace()
-            false
+            Result.Failure(e)
         }
     }
 
@@ -42,17 +42,17 @@ class Backupper {
         }
     }
 
-    fun import(inputStream: InputStream): Boolean {
+    fun import(inputStream: InputStream): Result {
         return try {
             closeDatabase()
             moveCurrentDatabaseToCache()
             unzipBackup(inputStream)
             validateNewDatabase()
-            true
+            Result.Success
         } catch (e: Exception) {
             e.printStackTrace()
             rollback()
-            false
+            Result.Failure(e)
         } finally {
             clearCache()
         }
@@ -101,5 +101,10 @@ class Backupper {
 
     private fun clearCache() {
         databaseDirInCacheDir.deleteRecursively()
+    }
+
+    sealed class Result {
+        object Success : Result()
+        class Failure(val exception: Exception) : Result()
     }
 }

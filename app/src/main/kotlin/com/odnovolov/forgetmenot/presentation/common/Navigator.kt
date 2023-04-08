@@ -7,6 +7,7 @@ import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.mainactivity.MainActivity
+import com.odnovolov.forgetmenot.presentation.screen.backup.export.BackupExportDiScope
 import com.odnovolov.forgetmenot.presentation.screen.cardappearance.CardAppearanceDiScope
 import com.odnovolov.forgetmenot.presentation.screen.cardfilterforautoplay.CardFilterForAutoplayDiScope
 import com.odnovolov.forgetmenot.presentation.screen.lasttested.LastTestedFilterDiScope
@@ -359,8 +360,8 @@ class Navigator : ActivityLifecycleCallbacks {
         navigate(R.id.card_filter_to_player)
     }
 
-    fun navigateToDeckEditorFromPlayer(createDiScoe: () -> DeckEditorDiScope) {
-        DeckEditorDiScope.open(createDiScoe)
+    fun navigateToDeckEditorFromPlayer(createDiScope: () -> DeckEditorDiScope) {
+        DeckEditorDiScope.open(createDiScope)
         navigate(R.id.player_to_deck_editor)
     }
 
@@ -418,6 +419,11 @@ class Navigator : ActivityLifecycleCallbacks {
     fun showRenameDeckDialogFromDeckChooser(createDiScope: () -> RenameDeckDiScope) {
         RenameDeckDiScope.open(createDiScope)
         navigate(R.id.show_rename_deck_dialog_from_deck_chooser)
+    }
+
+    fun showBackupExportDialog(createDiScope: () -> BackupExportDiScope) {
+        BackupExportDiScope.open(createDiScope)
+        navigate(R.id.show_backup_export_dialog)
     }
 
     fun navigateUp() {

@@ -7,24 +7,19 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.documentfile.provider.DocumentFile
 import com.jakewharton.processphoenix.ProcessPhoenix
 import com.odnovolov.forgetmenot.R
-import com.odnovolov.forgetmenot.presentation.common.*
 import com.odnovolov.forgetmenot.presentation.common.base.BaseFragment
 import com.odnovolov.forgetmenot.presentation.common.isFinishing
-import com.odnovolov.forgetmenot.presentation.common.openDocumentTree
+import com.odnovolov.forgetmenot.presentation.common.openBackupFileChooser
 import com.odnovolov.forgetmenot.presentation.common.showToast
 import com.odnovolov.forgetmenot.presentation.screen.backup.BackupController.Command
-import com.odnovolov.forgetmenot.presentation.screen.backup.BackupController.Command.*
-import com.odnovolov.forgetmenot.presentation.screen.backup.BackupEvent.ReadyToExportBackup
+import com.odnovolov.forgetmenot.presentation.screen.backup.BackupController.Command.ShowImportResultAndRestartApp
+import com.odnovolov.forgetmenot.presentation.screen.backup.BackupEvent.ExportButtonClicked
 import com.odnovolov.forgetmenot.presentation.screen.backup.BackupEvent.ReadyToImportBackup
-import com.soywiz.klock.DateFormat
-import com.soywiz.klock.DateTime
 import kotlinx.android.synthetic.main.fragment_backup.*
 import kotlinx.coroutines.launch
 import java.io.InputStream
-import java.io.OutputStream
 
 class BackupFragment : BaseFragment() {
     init {
@@ -61,13 +56,6 @@ class BackupFragment : BaseFragment() {
                 )
                 ProcessPhoenix.triggerRebirth(requireActivity())
             }
-            is ShowExportResult -> {
-                showToast(
-                    if (command.success)
-                        "Backup has been exported" else
-                        "Cannot create a backup"
-                )
-            }
         }
     }
 
@@ -79,7 +67,7 @@ class BackupFragment : BaseFragment() {
             openBackupFileChooser(GET_CONTENT_REQUEST_CODE)
         }
         exportButton.setOnClickListener {
-            openDocumentTree(OPEN_DOCUMENT_TREE_REQUEST_CODE)
+            controller?.dispatch(ExportButtonClicked)
         }
     }
 
@@ -104,40 +92,7 @@ class BackupFragment : BaseFragment() {
 
                 controller?.dispatch(ReadyToImportBackup(inputStream))
             }
-            OPEN_DOCUMENT_TREE_REQUEST_CODE -> {
-                val pickedDir: DocumentFile = getDirectory(intent)
-                    ?: run {
-                        showToast(R.string.toast_couldnt_get_destination)
-                        return
-                    }
-
-                val newFile: DocumentFile = pickedDir.createFile("*/*", backupFileName())
-                    ?: run {
-                        showToast(R.string.toast_couldnt_get_destination)
-                        return
-                    }
-
-                val outputStream: OutputStream =
-                    requireContext().contentResolver.openOutputStream(newFile.uri)
-                        ?: run {
-                            showToast(R.string.toast_couldnt_get_destination)
-                            return
-                        }
-
-                controller?.dispatch(ReadyToExportBackup(outputStream))
-            }
         }
-    }
-
-    private fun getDirectory(intent: Intent?): DocumentFile? {
-        val uri = intent?.data ?: return null
-        return DocumentFile.fromTreeUri(requireContext(), uri)
-    }
-
-    private fun backupFileName(): String {
-        val dateFormat = DateFormat("yyyy_MM_dd_HH_mm_ss")
-        val timeStamp: String = DateTime.nowLocal().toString(dateFormat)
-        return "ForgetMeNot_backup_$timeStamp.zip"
     }
 
     override fun onDestroy() {
@@ -149,6 +104,5 @@ class BackupFragment : BaseFragment() {
 
     companion object {
         const val GET_CONTENT_REQUEST_CODE = 17
-        const val OPEN_DOCUMENT_TREE_REQUEST_CODE = 34
     }
 }

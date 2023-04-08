@@ -163,7 +163,7 @@
 
 
 
-    <!-- Export dialog -->
+    <!-- Cards Export dialog -->
 
     <string name="dialog_title_export">Export</string>
     <string name="title_choose_format">Choose format</string>
@@ -179,7 +179,7 @@
     <string name="export_result_error">Error while exporting decks:\n\'%s\'</string>
 
 
-    <!-- File import screen -->
+    <!-- Cards import screen -->
 
     <string name="screen_title_file_import">File import</string>
     <string name="text_skip_button">Skip</string>
@@ -786,6 +786,10 @@
     <string name="button_export_backup">Export</string>
     <string name="description_import_icon">Import icon</string>
     <string name="description_export_icon">Export icon</string>
+    <string name="backup_export_description">Your database will be archived into zip file. Use this
+        file to restore your data.</string>
+    <string name="backup_has_been_exported">Your backup \'%s\' has been successfully exported</string>
+    <string name="error_while_exporting_backup">Error while exporting backup (%s)</string>
 
 
     <!-- Support app screen -->
