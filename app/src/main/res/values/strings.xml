@@ -851,6 +851,7 @@
     <string name="help_article_title_walking_mode">Walking mode</string>
     <string name="help_article_title_autoplaying_cards">Autoplaying cards</string>
     <string name="help_article_title_presets">Presets</string>
+    <string name="help_article_title_backup">Backup</string>
     <string name="help_article_title_advice_on_compiling_deck">Advice on compiling deck</string>
     <string name="help_article_title_advice_on_studying">Advice on studying</string>
 
@@ -1113,6 +1114,14 @@
 
         \n\n\t\'Your preset name\' - a saved preset that can be shared. Any change of this preset
         will affect each deck to which it is applied.</string>
+    <string name="article_backup">ForgetMeNot supports the backup function. This may be necessary
+        if you need to transfer data from one device to another. You need to first export the backup
+        to a file from the old device, copy this backup file to your new device, and import it
+        there. Backup is a regular archive with a database. Be careful, during import, all your data
+        will be deleted and replaced with data from the backup file. If something goes wrong, the
+        app will try to restore the previous database, but we still advise you to make a backup copy
+        of the current data if it is important to you. After importing, the app needs to be
+        restarted.</string>
     <string name="article_advice_on_compiling_deck">1. Try to keep your cards as short as possible.
         It is better to create several than to put everything into one. For example, if you create
         a card for memorizing a foreign word, then it should describe only one interpretation of

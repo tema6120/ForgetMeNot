@@ -4,6 +4,7 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="app/src/main/res/drawable/ic_outline_archive_24.xml" value="0.1055" />
+        <entry key="app/src/main/res/drawable/ic_outline_backup_24.xml" value="0.157" />
         <entry key="app/src/main/res/drawable/ic_outline_unarchive_24.xml" value="0.157" />
         <entry key="app/src/main/res/layout/dialog_backup_export.xml" value="0.1" />
         <entry key="app/src/main/res/layout/dialog_backup_import.xml" value="0.1" />

@@ -49,6 +49,11 @@ enum class HelpArticle(
         R.string.help_article_title_presets,
         R.drawable.ic_round_tune_24,
         { PresetsHelpArticleFragment() }),
+    Backup(
+        R.string.help_article_title_backup,
+        R.drawable.ic_outline_backup_24,
+        { BackupHelpArticleFragment() }
+    ),
     AdviceOnCompilingDeck(
         R.string.help_article_title_advice_on_compiling_deck,
         R.drawable.ic_outline_info_24,
