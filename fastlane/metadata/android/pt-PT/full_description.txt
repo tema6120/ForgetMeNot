@@ -20,6 +20,7 @@ Os recursos que são suportados são:
     • Agrupamento de baralhos em listas separadas.
     • Personalização da aparência do cartão.
     • Tema escuro.
+    • Backup.
 
 
 O que torna o ForgetMeNot tão eficiente para memorizar:

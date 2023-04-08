@@ -1,0 +1,38 @@
+ForgetMeNot là ứng dụng để ghi nhớ thông tin qua flashcard. Sự đơn giản, dễ sử dụng, tốc độ đã được tính đến trong quá trình phát triển chương trình giáo dục này. Ứng dụng này cung cấp điều kiện tốt để đạt hiệu quả ghi nhớ cao.
+
+
+Các tính năng được hỗ trợ là:
+
+    • Nhập/xuất tệp.
+    • Hỗ trợ CSV, văn bản Tab hoặc bất kỳ loại Giá trị Phân cách theo dấu phân cách nào khác.
+    • Khoảng thời gian (Lặp lại dãn cách). Bạn có thể chỉ ra kế hoạch khoảng thời gian riêng cho từng bộ thẻ. Bạn cũng có thể chỉ ra thuật toán riêng quyết định cách câu trả lời ảnh hưởng đến lựa chọn khoảng thời gian tiếp theo.
+    • Nhiều phương pháp kiểm tra. Có 'Tự kiểm tra', 'Kiểm tra có biến thể', 'Kiểm tra chính tả'.
+    • Phát âm văn bản qua Văn bản thành giọng nói. Bạn có thể chọn ngôn ngữ cho câu hỏi và câu trả lời, bật tự động nói.
+    • Ẩn phần chữ của câu hỏi để kích thích cải thiện kỹ năng nghe - rất hữu ích khi học ngoại ngữ.
+    • Đảo ngược thẻ.
+    • Gợi ý dưới dạng che chữ.
+    • 'Hẹn giờ động lực' sẽ khiến bạn tập trung học (không bắt buộc).
+    • Lưu cài đặt bộ thẻ làm thiết lập trước và sử dụng lại để tránh cài đặt nhiều lần.
+    • Sửa và tìm kiếm thẻ ngay trong bài tập.
+    • 'Chế độ đi bộ' cho phép bạn luyện tập mà không nhìn màn hình.
+    • 'Chế độ tự động phát'. Ở chế độ này, các câu hỏi và câu trả lời được phát âm theo thứ tự. Bạn có thể kết hợp các hoạt động của bạn và việc lặp lại bài giảng.
+    • Catalog các bộ thẻ tạo sẵn. Catalog chứa nhiều bộ thẻ để học ngôn ngữ, bao gồm các tập hợp từ cơ bản, các từ và câu theo chủ đề, câu hoàn chỉnh.
+    • Gộp các bộ thẻ vào các danh sách riêng.
+    • Tùy biến ngoại hình thẻ.
+    • Chế độ tối.
+    • Backup.
+
+
+Điều khiến ForgetMeNot hiệu quả để dùng để ghi nhớ:
+
+    - Không có quảng cáo. Bạn có thể xử lý nhiều thẻ trong thời gian ngắn nhờ sự đơn giản và tiện lợi của giao diện. Không có gì ngăn bạn học cả.
+    - Bài tập được thiết kế để bạn sớm muộn gì cũng phải nắm lấy câu trả lời. Nếu bạn trả lời sai, tấm thẻ được hoãn xuống cuối danh sách cho đến khi bạn trả lời đúng.
+    - Khoảng thời gian (Lặp lại dãn cách). Lặp lại dãn cách làm giảm việc quên khi bài giảng không được gặp lại trong khoảng thời gian dài. Nó cũng bao gồm việc nhớ lại bài giảng đã học, điều đó hỗ trợ việc học.
+    - Khả năng sửa thẻ chỉ ở trong bài tập. Việc này cho phép bạn không chỉ sửa lỗi sai, mà còn xây dựng lại thẻ nếu chúng khó nhớ. Ví dụ, bạn có thể thêm một ngữ nghĩa vào dấu ngoặc đơn.
+    - Đồng hành bằng giọng nói. Việc này đặc biệt hữu ích khi học ngôn ngữ vì nó cải thiện kỹ năng nghe, giúp tập trung học và ưu tiên ghi nhớ. Bạn còn có thể thiết lập bộ thẻ để nhìn nhận câu hỏi bằng tai.
+    - Các chế độ cho phép bạn luyện tập không chỉ vào thời gian rảnh. 'Chế độ đi bộ' cho phép bạn luyện tập khi đi bộ. 'Chế độ tự động phát' cho phép bạn nghe các câu hỏi và câu trả lời khi tay và mắt của bạn đang bận, nhưng tai của bạn đang rảnh :)
+    - Hỗ trợ tập trung. 'Hẹn giờ động lực' nhắc bạn khi bạn mất tập trung. Chế độ toàn màn hình ẩn thanh trạng thái - có thể là một nguồn gây mất tập trung khác.
+
+
+ForgetMeNot là phần mềm tự do và mã nguồn mở.
+https://github.com/tema6120/ForgetMeNot

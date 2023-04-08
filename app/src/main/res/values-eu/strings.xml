@@ -19,6 +19,7 @@
     <!-- Main drawer -->
     <string name="drawer_item_decks">Sortak</string>
     <string name="drawer_item_settings">Ezarpenak</string>
+    <string name="drawer_item_backup">Backup</string>
     <string name="drawer_item_support_app">Babestu aplikazioa</string>
     <string name="drawer_item_help">Laguntza</string>
     <string name="drawer_item_about">Honi buruz</string>
@@ -139,19 +140,20 @@
     <string name="custom_color">Pertsonalizatu kolorea</string>
     <string name="description_random_color">Ausazko kolorea</string>
     <string name="toast_deck_list_is_removed">Sorta-zerrenda kendu da</string>
-    <!-- Export dialog -->
+    <!-- Cards export dialog -->
     <string name="dialog_title_export">Esportatu</string>
     <string name="title_choose_format">Hautatu formatua</string>
     <string name="title_waiting_for_destination">Helmuga itxoiten ..</string>
     <string name="button_select_destination">Hautatu helmuga</string>
     <string name="toast_couldnt_get_destination">Ezin izan da helmuga lortu!</string>
+    <string name="toast_couldnt_get_file">Couldn\'t get file!</string>
     <string name="progress_bar_exporting">Esportatzen ..</string>
     <plurals name="export_result_successful">
         <item quantity="one">Sorta ongi esportatu da</item>
         <item quantity="other">%d sorta ongi esportatu dira</item>
     </plurals>
     <string name="export_result_error">Errorea sortak esportatzean:\n\'%s\'</string>
-    <!-- File import screen -->
+    <!-- Cards import screen -->
     <string name="screen_title_file_import">Fitxategia inportatzea</string>
     <string name="text_skip_button">Saltatu</string>
     <string name="add_to">Hona gehitu:</string>
@@ -618,6 +620,25 @@
     <string name="key_gesture_action_mark_card_as_learned">Markatu \'Ikasia\' gisa</string>
     <string name="key_gesture_action_speak_question">Hitz egin galdera</string>
     <string name="key_gesture_action_speak_answer">Hitz egin erantzuna</string>
+    <!-- Backup screen -->
+    <string name="screen_title_backup">Backup</string>
+    <string name="button_import_backup">Import</string>
+    <string name="button_export_backup">Export</string>
+    <string name="description_import_icon">Import icon</string>
+    <string name="description_export_icon">Export icon</string>
+    <string name="dialog_title_import">Import</string>
+    <string name="backup_export_description">Your database will be archived into zip file. Use this
+        file to restore your data.</string>
+    <string name="backup_has_been_exported">Your backup \'%s\' has been successfully exported</string>
+    <string name="error_while_exporting_backup">Error while exporting backup (%s)</string>
+    <string name="backup_import_description">Attention! Your current data will be replaced by the
+        data from a backup. We recommend you to make a backup of existing data if it is valuable to
+        you. It will be necessary to restart the app after importing the backup.</string>
+    <string name="button_select_backup_file">Select backup file</string>
+    <string name="progress_bar_importing">Importing ..</string>
+    <string name="button_restart">Restart</string>
+    <string name="backup_has_been_imported">Your backup has been successfully imported</string>
+    <string name="error_while_importing_backup">Error while importing backup (%s)</string>
     <!-- Support app screen -->
     <string name="screen_title_support_app">Babestu aplikazioa</string>
     <string name="cta_rate_the_app_on_google_play">Aplikazioa Google Playen puntuatu</string>
@@ -651,6 +672,7 @@
     <string name="help_article_title_walking_mode">Ibiltze-modua</string>
     <string name="help_article_title_autoplaying_cards">Txartelak automatikoki erreproduzitzea</string>
     <string name="help_article_title_presets">Aurrezarpenak</string>
+    <string name="help_article_title_backup">Backup</string>
     <string name="help_article_title_advice_on_compiling_deck">Sorten eraikuntzarako gomendioak</string>
     <string name="help_article_title_advice_on_studying">Ikasteko aholkuak</string>
     <!-- Help article screen -->
@@ -810,6 +832,14 @@
 \n\n\tBanakakoa - ez da txantiloirik erabiliko.
 
 \n\n\t\'Zure txantiloiaren izena\' - partekatu daitekeen gordetako txantiloi bat. Honi aplikaturiko edozein aldaketak hau erabiltzen duten sorta guztiengan izango du eragina.</string>
+    <string name="article_backup">ForgetMeNot supports the backup function. This may be necessary
+        if you need to transfer data from one device to another. You need to first export the backup
+        to a file from the old device, copy this backup file to your new device, and import it
+        there. Backup is a regular archive with a database. Be careful, during import, all your data
+        will be deleted and replaced with data from the backup file. If something goes wrong, the
+        app will try to restore the previous database, but we still advise you to make a backup copy
+        of the current data if it is important to you. After importing, the app needs to be
+        restarted.</string>
     <string name="article_advice_on_compiling_deck">1. Saiatu zure txartelak ahalik eta motzen egiten. Hobe da asko sortzea guztia bakarrean jartzea baino. Adibidez, erdarazko hitz bat buruz ikasteko txartel bat egiten baduzu, haren adiera bakar batentzako bakarrik izan beharko litzateke, 3 hitzekin ala gutxiagorekin adierazi daitekeena. Informazio gehigarri parentesien tartean jarri dezakezu, baina, erantzunak berak motza izan beharko luke.
 
 \n\n2. Txartel sortak egitean eduki kontuan zein hobespen aplikatuko dizkiezun.
@@ -855,12 +885,19 @@
     <string name="translations_title">Itzulpenak</string>
     <string name="thanks_to_translators">Nire eskerrik beroenak eman nahi nizkieke itzulketa eginez aplikazio hau babesten duten guztiei (batez ere <a href="https://www.sekinfo.org">sekinfo.org</a>-eko jendeari). Onenak zarete!</string>
     <string name="language_basque">Euskera</string>
+    <string name="language_chinese_simplified">Txinera sinplifikatua</string>
+    <string name="language_dutch">Nederlandera</string>
     <string name="language_french">Frantsesa</string>
     <string name="language_german">Alemana</string>
     <string name="language_greek">Greziera</string>
+    <string name="language_hindi">Hindia</string>
+    <string name="language_indonesian">Indonesiera</string>
+    <string name="language_polish">Poloniera</string>
+    <string name="language_portuguese">Portugesera</string>
     <string name="language_portuguese_brazilian">Portugalera, Brasil</string>
     <string name="language_russian">Errusiera</string>
     <string name="language_spanish">Gaztelania</string>
+    <string name="language_turkish">Turkiera</string>
     <string name="language_ukrainian">Ukrainiera</string>
     <string name="language_vietnamese">Vietnamera</string>
     <string name="text_support_app_button">Babestu aplikazioa</string>

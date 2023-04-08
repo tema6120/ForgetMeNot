@@ -20,6 +20,7 @@
     <!-- Main drawer -->
     <string name="drawer_item_decks">Mazos</string>
     <string name="drawer_item_settings">Configuración</string>
+    <string name="drawer_item_backup">Backup</string>
     <string name="drawer_item_support_app">Apoyar la app</string>
     <string name="drawer_item_help">Ayuda</string>
     <string name="drawer_item_about">Sobre la app</string>
@@ -144,19 +145,20 @@
     <string name="custom_color">Color personalizado</string>
     <string name="description_random_color">Random color</string>
     <string name="toast_deck_list_is_removed">Se ha eliminado la lista de mazos</string>
-    <!-- Export dialog -->
+    <!-- Cards export dialog -->
     <string name="dialog_title_export">Exportar</string>
     <string name="title_choose_format">Elegir formato</string>
     <string name="title_waiting_for_destination">Esperando el destino...</string>
     <string name="button_select_destination">Elegir destino</string>
     <string name="toast_couldnt_get_destination">¡No se pudo encontrar el destino!</string>
+    <string name="toast_couldnt_get_file">Couldn\'t get file!</string>
     <string name="progress_bar_exporting">Exportando...</string>
     <plurals name="export_result_successful">
         <item quantity="one">El mazo se exportó exitosamente</item>
         <item quantity="other">%d mazos exportados exitosamente</item>
     </plurals>
     <string name="export_result_error">Error exportando mazos:\n\'%s\'</string>
-    <!-- File import screen -->
+    <!-- Cards import screen -->
     <string name="screen_title_file_import">Importar archivo</string>
     <string name="text_skip_button">Saltar</string>
     <string name="add_to">Agregar a:</string>
@@ -683,6 +685,25 @@
     <string name="key_gesture_action_mark_card_as_learned">Marcar como \'Aprendido\'</string>
     <string name="key_gesture_action_speak_question">Pronunciar pregunta</string>
     <string name="key_gesture_action_speak_answer">Pronunciar respuesta</string>
+    <!-- Backup screen -->
+    <string name="screen_title_backup">Backup</string>
+    <string name="button_import_backup">Import</string>
+    <string name="button_export_backup">Export</string>
+    <string name="description_import_icon">Import icon</string>
+    <string name="description_export_icon">Export icon</string>
+    <string name="dialog_title_import">Import</string>
+    <string name="backup_export_description">Your database will be archived into zip file. Use this
+        file to restore your data.</string>
+    <string name="backup_has_been_exported">Your backup \'%s\' has been successfully exported</string>
+    <string name="error_while_exporting_backup">Error while exporting backup (%s)</string>
+    <string name="backup_import_description">Attention! Your current data will be replaced by the
+        data from a backup. We recommend you to make a backup of existing data if it is valuable to
+        you. It will be necessary to restart the app after importing the backup.</string>
+    <string name="button_select_backup_file">Select backup file</string>
+    <string name="progress_bar_importing">Importing ..</string>
+    <string name="button_restart">Restart</string>
+    <string name="backup_has_been_imported">Your backup has been successfully imported</string>
+    <string name="error_while_importing_backup">Error while importing backup (%s)</string>
     <!-- Support app screen -->
     <string name="screen_title_support_app">Apoyar app</string>
     <string name="cta_rate_the_app_on_google_play">Puntuar la app en Google Play</string>
@@ -725,6 +746,7 @@
     <string name="help_article_title_walking_mode">Modo caminar</string>
     <string name="help_article_title_autoplaying_cards">Auto-reproducir tarjetas</string>
     <string name="help_article_title_presets">Configuraciones preestablecidas</string>
+    <string name="help_article_title_backup">Backup</string>
     <string name="help_article_title_advice_on_compiling_deck">Consejos para crear un mazo</string>
     <string name="help_article_title_advice_on_studying">Consejos para estudiar</string>
     <!-- Help article screen -->
@@ -999,6 +1021,14 @@
         \n\n\t\'Nombre para la nueva configuración preestablecida\' - una configuración guardada que se
         puede reutilizar. Cualquier cambio a esta configuración afectaría todos los mazos que
         la usan.</string>
+    <string name="article_backup">ForgetMeNot supports the backup function. This may be necessary
+        if you need to transfer data from one device to another. You need to first export the backup
+        to a file from the old device, copy this backup file to your new device, and import it
+        there. Backup is a regular archive with a database. Be careful, during import, all your data
+        will be deleted and replaced with data from the backup file. If something goes wrong, the
+        app will try to restore the previous database, but we still advise you to make a backup copy
+        of the current data if it is important to you. After importing, the app needs to be
+        restarted.</string>
     <string name="article_advice_on_compiling_deck">1. Intente mantener sus tarjetas lo más cortas
         posible. Es mejor crear varias tarjetas en vez de poner todo en una sola. Por ejemplo, si
         crea una tarjeta para memorizar una palabra nueva, debe escribir una sola interpretación
@@ -1093,12 +1123,19 @@
         (especially the people from <a href="https://www.sekinfo.org">sekinfo.org</a>), who support
         the project by providing translation. You’re the best!</string>
     <string name="language_basque">Basque</string>
+    <string name="language_chinese_simplified">Chinese Simplified</string>
+    <string name="language_dutch">Dutch</string>
     <string name="language_french">Francés</string>
     <string name="language_german">Alemán</string>
     <string name="language_greek">Griego</string>
+    <string name="language_hindi">Hindi</string>
+    <string name="language_indonesian">Indonesian</string>
+    <string name="language_polish">Polish</string>
+    <string name="language_portuguese">Portuguese</string>
     <string name="language_portuguese_brazilian">Portuguese, Brazilian</string>
     <string name="language_russian">Ruso</string>
     <string name="language_spanish">Español</string>
+    <string name="language_turkish">Turkish</string>
     <string name="language_ukrainian">Ucraniano</string>
     <string name="language_vietnamese">Vietnamese</string>
     <string name="text_support_app_button">Apoyar app</string>

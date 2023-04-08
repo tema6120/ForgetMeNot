@@ -20,6 +20,7 @@ Les fonctionnalités supportées sont:
     • Regrouper les decks dans des listes séparées.
     • Personnaliser l'apparence de la carte.
     • Mode sombre.
+    • Backup.
 
 
 Ce qui rend ForgetMeNot efficace pour mémoriser :

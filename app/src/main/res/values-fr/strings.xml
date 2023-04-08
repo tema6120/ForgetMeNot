@@ -20,6 +20,7 @@
     <!-- Main drawer -->
     <string name="drawer_item_decks">Paquets</string>
     <string name="drawer_item_settings">Paramètres</string>
+    <string name="drawer_item_backup">Backup</string>
     <string name="drawer_item_support_app">Support</string>
     <string name="drawer_item_help">Aide</string>
     <string name="drawer_item_about">A propos</string>
@@ -66,7 +67,7 @@
     <string name="deck_sorting_by_time_last_tested">Dernière évaluation</string>
     <string name="deck_sorting_by_frequency_of_use">Fréquence d\'utilisation</string>
     <string name="deck_sorting_by_task">Tâche</string>
-    <string name="check_box_new_decks_first">New decks first</string>
+    <string name="check_box_new_decks_first">Nouveaux decks en premier</string>
     <string name="description_pin_icon">Icône d\'épingle</string>
     <string name="deck_summary_table_average_laps">Tps. moyen</string>
     <string name="deck_summary_table_learned">Appris</string>
@@ -142,21 +143,22 @@
     <string name="description_deck_list_icon">Icône de la liste de decks</string>
     <string name="title_select_deck_list_color_popup">Couleur de la liste des paquets</string>
     <string name="custom_color">Couleur personnalisée</string>
-    <string name="description_random_color">Random color</string>
+    <string name="description_random_color">Couleur aléatoire</string>
     <string name="toast_deck_list_is_removed">La liste de paquets a été supprimée</string>
-    <!-- Export dialog -->
+    <!-- Cards export dialog -->
     <string name="dialog_title_export">Exporter</string>
     <string name="title_choose_format">Choisir le format</string>
     <string name="title_waiting_for_destination">En attente de destination ..</string>
     <string name="button_select_destination">Choisir une destination</string>
     <string name="toast_couldnt_get_destination">Impossible d\'obtenir la destination !</string>
+    <string name="toast_couldnt_get_file">Couldn\'t get file!</string>
     <string name="progress_bar_exporting">Exportation en cours..</string>
     <plurals name="export_result_successful">
         <item quantity="one">Le paquet a été exporté avec succès</item>
         <item quantity="other">%d paquets ont été exportés avec succès</item>
     </plurals>
     <string name="export_result_error">Erreur lors de l\'exportation des paquets :\n\'%s \' \'</string>
-    <!-- File import screen -->
+    <!-- Cards import screen -->
     <string name="screen_title_file_import">Importation d\'un fichier</string>
     <string name="text_skip_button">Passer</string>
     <string name="add_to">Ajouter à :</string>
@@ -665,6 +667,25 @@ dans le temps alloué</string>
     <string name="key_gesture_action_mark_card_as_learned">Marquer la carte comme \'Apprise\'</string>
     <string name="key_gesture_action_speak_question">Lecture vocale de la question</string>
     <string name="key_gesture_action_speak_answer">Lecture vocale de la réponse</string>
+    <!-- Backup screen -->
+    <string name="screen_title_backup">Backup</string>
+    <string name="button_import_backup">Import</string>
+    <string name="button_export_backup">Export</string>
+    <string name="description_import_icon">Import icon</string>
+    <string name="description_export_icon">Export icon</string>
+    <string name="dialog_title_import">Import</string>
+    <string name="backup_export_description">Your database will be archived into zip file. Use this
+        file to restore your data.</string>
+    <string name="backup_has_been_exported">Your backup \'%s\' has been successfully exported</string>
+    <string name="error_while_exporting_backup">Error while exporting backup (%s)</string>
+    <string name="backup_import_description">Attention! Your current data will be replaced by the
+        data from a backup. We recommend you to make a backup of existing data if it is valuable to
+        you. It will be necessary to restart the app after importing the backup.</string>
+    <string name="button_select_backup_file">Select backup file</string>
+    <string name="progress_bar_importing">Importing ..</string>
+    <string name="button_restart">Restart</string>
+    <string name="backup_has_been_imported">Your backup has been successfully imported</string>
+    <string name="error_while_importing_backup">Error while importing backup (%s)</string>
     <!-- Support app screen -->
     <string name="screen_title_support_app">Aider l\'app</string>
     <string name="cta_rate_the_app_on_google_play">Notez l\'application sur Google Play</string>
@@ -707,6 +728,7 @@ dans le temps alloué</string>
     <string name="help_article_title_walking_mode">Mode marche</string>
     <string name="help_article_title_autoplaying_cards">Lecture automatique des cartes</string>
     <string name="help_article_title_presets">Préréglages</string>
+    <string name="help_article_title_backup">Backup</string>
     <string name="help_article_title_advice_on_compiling_deck">Conseil sur la compilation du jeu de cartes</string>
     <string name="help_article_title_advice_on_studying">Conseils pour étudier</string>
     <!-- Help article screen -->
@@ -963,6 +985,14 @@ Il y a 4 options :</string>
 
         \n\n\t« Votre nom de préréglage » - Un préréglage sauvegardé qui peut être partagé. Chaque changement de ce préréglage
         va affecter les autres decks sur lesquels le préréglage en question est appliqué.</string>
+    <string name="article_backup">ForgetMeNot supports the backup function. This may be necessary
+        if you need to transfer data from one device to another. You need to first export the backup
+        to a file from the old device, copy this backup file to your new device, and import it
+        there. Backup is a regular archive with a database. Be careful, during import, all your data
+        will be deleted and replaced with data from the backup file. If something goes wrong, the
+        app will try to restore the previous database, but we still advise you to make a backup copy
+        of the current data if it is important to you. After importing, the app needs to be
+        restarted.</string>
     <string name="article_advice_on_compiling_deck">1. Essayez de garder vos cartes aussi courtes que possible.
         Il vaut mieux créer plusieurs cartes que de mettre tout dans une seule. Par exemple, si vous créez
         une carte pour mémoriser un mot étranger, alors elle devrait décrire uniquement une seule interprétation
@@ -1053,14 +1083,21 @@ Il y a 4 options :</string>
         (en particulier aux gens de <a href="https://www.sekinfo.org">sekinfo.org</a>), qui soutiennent
         ce projet en fournissant une traduction. Vous êtes les meilleurs !</string>
     <string name="language_basque">Basque</string>
+    <string name="language_chinese_simplified">Chinois simplifié</string>
+    <string name="language_dutch">Néerlandais</string>
     <string name="language_french">Français</string>
     <string name="language_german">Allemand</string>
     <string name="language_greek">Grec</string>
-    <string name="language_portuguese_brazilian">Portuguese, Brazilian</string>
+    <string name="language_hindi">Hindi</string>
+    <string name="language_indonesian">Indonésien</string>
+    <string name="language_polish">Polonais</string>
+    <string name="language_portuguese">Portugais</string>
+    <string name="language_portuguese_brazilian">Portugais, brésilien</string>
     <string name="language_russian">Russe</string>
     <string name="language_spanish">Espagnol</string>
+    <string name="language_turkish">Turc</string>
     <string name="language_ukrainian">Ukrainien</string>
-    <string name="language_vietnamese">Vietnamese</string>
+    <string name="language_vietnamese">Vietnamien</string>
     <string name="text_support_app_button">Aider l\'app</string>
     <!-- DSV format screen -->
     <string name="screen_title_dsv_format">Format DSV</string>

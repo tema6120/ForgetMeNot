@@ -1,0 +1,1 @@
+Un'app per flashcard che non ti permetterà di dimenticare nulla.

@@ -1,0 +1,38 @@
+ForgetMeNot je aplikace pro zapamatování informací pomocí kartiček. Jednoduchost, použitelnost a rychlost jsou základními kameny na kterých byl založen vývoj této vzdělávací aplikace. Tato aplikace poskytuje vynikající podmínky pro zapamatovávání s vysokou efektivitou.
+
+
+Podporované funkce:
+
+    • Import/export souborů.
+    • Podpora CSV, odtabovanách textů nebo jakéhokoli formátu s oddělenými hodnotami.
+    • Intervaly (opakování). Můžete si specifikovat vlastní intervalové schéma pro každý balíček. Také je možné určit vlastní algoritmus toho, jak odpovědi ovlivňují volbu dalšího intervalu.
+    • Několik testových metod. Možnost "Vlastní testování", "Testování s variantami", "Kontrola pravopisu".
+    • Čtení textu prostřednictvím TTS. Můžete si vybrat jazyky pro otázky a odpovědi, povolit jejich automatické čtení.
+    • Skrývání textu otázky - podporuje zlepšení schopnosti poslouchat, což je velmi užitečné při učení se cizích jazyků.
+    • Inverze karet.
+    Nápověda ve formě zkrytých písmen.
+    • "Motivační časovač", díky kterému se budete soustředit na vaše studium (volitelné).
+    • Ukládání nastavení balíčku jako předvoleb a jejich opakované používání, aby se zabránilo rutinní práci v nastavení.
+    • Úprava a vyhledávání karet přímo ve cvičení.
+    • 'Režim chůze', který vám umožňuje cvičit i bez koukání na obrazovku.
+    • "Režim automatického přehrávání". V tomto režimu se otázky a odpovědi čtou postupně. Můžete kombinovat své vlastní aktivity a opakování výukového materiálu.
+    • Katalog předpřipravených balíčků. Katalog obsahuje mnoho balíčků pro výuku jazyka, což zahrnuje základní sady slov, tematických slov a frází, celých vět.
+    • Seskupování balíčků do oddělených seznamů.
+    • Přizpůsobení vzhledu karty.
+    • Tmavý režim.
+    • Backup.
+
+
+Co činí ForgetMeNot tak účinným pro učení:
+
+    - Žádné reklamy. Díky jednoduchosti a pohodlnosti uživatelského rozhraní se můžete naučit spoustu karet v krátkém čase. Nic vám nebrání ve studiu.
+    - Výcvik je navržen tak, že nakonec se musíte odpovědi naučit. Pokud je vaše odpověď špatná, karta je odložena na konec seznamu, dokud neodpovíte správně.
+    - Intervaly (opakování). Opakování v intervalech omezuje zapomenutí, ke kterému dochází, když se materiál delší dobu neopakuje. Zahrnuje také aktivní připomínání naučeného materiálu, což podporuje učení.
+    - Možnost upravovat karty ve cvičení. To vám umožňuje nejen opravovat chyby, ale také přetvořit karty, pokud si je je těžké pamatovat. Například můžete přidat další asociaci v závorkách.
+    - Hlasový doprovod. To je obzvláště užitečné při učení se jazyků, protože to zlepšuje poslech, pomáhá soustředit se na studium a upřednostňuje zapamatovávání. Dokonce si můžete vytvořit balíček speciálně na cvičení poslechu.
+    - Režimy, které vám umožňují procvičovat nejen ve vašem volném čase. 'Režim chůze' vám umožní provádět cvičení v pohybu. Režim automatického přehrávání vám umožní poslouchat otázky a odpovědi, když jsou vaše ruce a oči zaneprázdněné, ale vaše uši volné :)
+    - Pomoc pro soustředění. "Motivační časovač" vám připomene, když ztratíte pozornost. Režim celé obrazovky skryje horní lištu, což může být další zdroj rozptylu.
+
+
+ForgetMeNot je svobodný a open-source software.
+https://github.com/tema6120/ForgetMeNot

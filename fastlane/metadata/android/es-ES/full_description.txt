@@ -20,6 +20,7 @@ Las características soportadas son:
     • Agrupar mazos en distintas listas.
     • Cambiar el sentido de las tarjetas (mostrar la respuesta como si fuera la pregunta).
     • Tema oscuro.
+    • Backup.
 
 
 Lo que hace que ForgetMeNot sea tan eficiente para la memorización:

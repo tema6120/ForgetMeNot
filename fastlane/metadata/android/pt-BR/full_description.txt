@@ -20,6 +20,7 @@ As funcionalidades que são suportadas são:
     • Agrupar baralhos em listas separadas.
     • Personalizar a aparência do cartão.
     • Tema escuro.
+    • Backup.
 
 
 O que torna o ForgetMeNot tão eficiente para memorizar:

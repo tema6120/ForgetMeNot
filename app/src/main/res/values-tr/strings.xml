@@ -19,6 +19,7 @@
     <!-- Main drawer -->
     <string name="drawer_item_decks">Paketler</string>
     <string name="drawer_item_settings">Ayarlar</string>
+    <string name="drawer_item_backup">Backup</string>
     <string name="drawer_item_support_app">Uygulamayı destekleyin</string>
     <string name="drawer_item_help">Yardım</string>
     <string name="drawer_item_about">Hakkında</string>
@@ -66,10 +67,10 @@
     <string name="deck_sorting_by_frequency_of_use">Kullanım sıklığı</string>
     <string name="deck_sorting_by_task">Görev</string>
     <string name="check_box_new_decks_first">Önce yeni paketler</string>
-    <string name="description_pin_icon">Pin icon</string>
+    <string name="description_pin_icon">Sapta simgesi</string>
     <string name="deck_summary_table_average_laps">Ort. Turlar</string>
     <string name="deck_summary_table_learned">Öğrenilen</string>
-    <string name="deck_summary_table_task">Task</string>
+    <string name="deck_summary_table_task">Görevler</string>
     <string name="deck_summary_table_last_tested">Son Test</string>
     <string name="deck_options">Paket seçenekleri</string>
     <string name="deck_option_start_exercise">Alıştırmaya başla</string>
@@ -79,23 +80,23 @@
     <string name="deck_option_setup">Kurulum</string>
     <string name="deck_option_pin">Sabitle</string>
     <string name="deck_option_unpin">Sabitlemeyi kaldır</string>
-    <string name="deck_option_add_to_deck_list">Add to some deck list</string>
-    <string name="deck_option_remove_from_deck_list">Remove from some deck list</string>
-    <string name="deck_option_remove_from_deck_list_with_arg">Remove from deck list \'%1$s\'</string>
+    <string name="deck_option_add_to_deck_list">Deste listesine ekle</string>
+    <string name="deck_option_remove_from_deck_list">Deste listesinden kaldır</string>
+    <string name="deck_option_remove_from_deck_list_with_arg">\'%1$s\' deste listesinden kaldır</string>
     <string name="deck_option_set_preset">Önayar belirleyin</string>
     <string name="deck_option_export">Dışa aktar</string>
-    <string name="deck_option_merge_into">Merge into</string>
-    <string name="deck_option_remove">Remove</string>
+    <string name="deck_option_merge_into">Birleştir</string>
+    <string name="deck_option_remove">Kaldır</string>
     <plurals name="snackbar_decks_removing">
         <item quantity="one">Paket kaldırıldı</item>
         <item quantity="other">%d Paket kaldırıldı</item>
     </plurals>
     <plurals name="snackbar_decks_merging">
-        <item quantity="one">%1$d deck has been merged into \'%2$s\'</item>
-        <item quantity="other">%1$d decks have been merged into \'%2$s\'</item>
+        <item quantity="one">%1$d destesi \'%2$s\' ile birleştirildi</item>
+        <item quantity="other">%1$d desteleri \'%2$s\' ile birleştirildi</item>
     </plurals>
-    <string name="dialog_title_choose_deck_list">Choose deck list</string>
-    <string name="dialog_title_choose_preset">Choose preset</string>
+    <string name="dialog_title_choose_deck_list">Kart destesini seçin</string>
+    <string name="dialog_title_choose_preset">Ön ayar seçin</string>
     <plurals name="snackbar_default_preset_has_been_applied">
         <item quantity="one">Default preset has been applied to %d deck</item>
         <item quantity="other">Default preset has been applied to %d decks</item>
@@ -106,8 +107,8 @@
     </plurals>
     <string name="text_autoplay_button">Otomatik oynat</string>
     <string name="text_exercise_button">Alıştırma</string>
-    <string name="text_exercise_button_with_cards_count">Exercise (%d)</string>
-    <string name="progress_bar_reading_files">Reading files ..</string>
+    <string name="text_exercise_button_with_cards_count">Alıştırma (%d)</string>
+    <string name="progress_bar_reading_files">Dosyalar okunuyor ..</string>
     <!-- 'No card is ready for exercise' dialog -->
     <string name="dialog_title_no_cards_ready_for_exercise">No card is ready for exercise</string>
     <string name="description_no_exercise_card_dialog_paragraph_1_part_1">According to
@@ -117,63 +118,64 @@
     <string name="description_no_exercise_card_dialog_paragraph_1_part_2">, no card is available
         for exercise yet. The first card will be available in:</string>
     <plurals name="days">
-        <item quantity="one">%d day</item>
-        <item quantity="other">%d days</item>
+        <item quantity="one">%d gün</item>
+        <item quantity="other">%d gün</item>
     </plurals>
     <plurals name="hours">
-        <item quantity="one">%d hour</item>
-        <item quantity="other">%d hours</item>
+        <item quantity="one">%d saat</item>
+        <item quantity="other">%d saat</item>
     </plurals>
     <plurals name="minutes">
-        <item quantity="one">%d minute</item>
-        <item quantity="other">%d minutes</item>
+        <item quantity="one">%d dakika</item>
+        <item quantity="other">%d dakika</item>
     </plurals>
     <plurals name="seconds">
-        <item quantity="one">%d second</item>
-        <item quantity="other">%d seconds</item>
+        <item quantity="one">%d saniye</item>
+        <item quantity="other">%d saniye</item>
     </plurals>
     <string name="description_no_exercise_card_dialog_paragraph_2">You can change or turn off
         intervals in deck settings.</string>
-    <string name="button_go_to_deck_settings">Go to deck settings</string>
+    <string name="button_go_to_deck_settings">Deste ayarlarına gidin</string>
     <!-- Deck lists editor -->
-    <string name="screen_title_deck_lists">Deck lists</string>
-    <string name="hint_deck_list_edittext">List name</string>
-    <string name="description_deck_list_icon">Deck list icon</string>
-    <string name="title_select_deck_list_color_popup">Deck list color</string>
-    <string name="custom_color">Custom color</string>
-    <string name="description_random_color">Random color</string>
-    <string name="toast_deck_list_is_removed">Deck list has been removed</string>
-    <!-- Export dialog -->
-    <string name="dialog_title_export">Export</string>
-    <string name="title_choose_format">Choose format</string>
+    <string name="screen_title_deck_lists">Deste listeleri</string>
+    <string name="hint_deck_list_edittext">Liste adı</string>
+    <string name="description_deck_list_icon">Deste listesinin görseli</string>
+    <string name="title_select_deck_list_color_popup">Deste listesinin rengi</string>
+    <string name="custom_color">Özel renk</string>
+    <string name="description_random_color">Rastgele renk</string>
+    <string name="toast_deck_list_is_removed">Deste listesi kaldırıldı</string>
+    <!-- Cards export dialog -->
+    <string name="dialog_title_export">Dışa aktar</string>
+    <string name="title_choose_format">Format seç</string>
     <string name="title_waiting_for_destination">Waiting for destination ..</string>
     <string name="button_select_destination">Select Destination</string>
     <string name="toast_couldnt_get_destination">Couldn\'t get destination!</string>
-    <string name="progress_bar_exporting">Exporting ..</string>
+    <string name="toast_couldnt_get_file">Couldn\'t get file!</string>
+    <string name="progress_bar_exporting">Dışa aktarılıyor ..</string>
     <plurals name="export_result_successful">
-        <item quantity="one">Deck is exported successfully</item>
-        <item quantity="other">%d decks are exported successfully</item>
+        <item quantity="one">Deste başarıyla dışarı aktarıldı</item>
+        <item quantity="other">%d deste başarıyla dışarı aktarıldı</item>
     </plurals>
-    <string name="export_result_error">Error while exporting decks:\n\'%s\'</string>
-    <!-- File import screen -->
-    <string name="screen_title_file_import">File import</string>
-    <string name="text_skip_button">Skip</string>
-    <string name="add_to">Add to:</string>
-    <string name="deck_label_in_file_import_new">New deck</string>
-    <string name="deck_label_in_file_import_existing">Existing deck</string>
-    <string name="popup_change_deck_for_import_new_button">New deck</string>
-    <string name="popup_change_deck_for_import_existing_button">Existing deck</string>
-    <string name="tab_name_source_text">Source text</string>
+    <string name="export_result_error">Desteleri dışarı aktarma hatası:\n\'%s\'</string>
+    <!-- Cards import screen -->
+    <string name="screen_title_file_import">Dosyayı İçe Aktar</string>
+    <string name="text_skip_button">Atla</string>
+    <string name="add_to">Ekleme yeri:</string>
+    <string name="deck_label_in_file_import_new">Yeni deste</string>
+    <string name="deck_label_in_file_import_existing">Varolan deste</string>
+    <string name="popup_change_deck_for_import_new_button">Yeni deste</string>
+    <string name="popup_change_deck_for_import_existing_button">Varolan deste</string>
+    <string name="tab_name_source_text">Kaynak metin</string>
     <plurals name="source_text_error_button">
         <item quantity="one">%d error</item>
         <item quantity="other">%d errors</item>
     </plurals>
-    <string name="description_undo_button">Undo</string>
-    <string name="description_redo_button">Redo</string>
+    <string name="description_undo_button">Geri al</string>
+    <string name="description_redo_button">İleri al</string>
     <string name="label_file_format">Format</string>
     <string name="description_file_format_icon">File format icon</string>
-    <string name="popup_title_file_format">Format</string>
-    <string name="item_file_format_fmn_format">\'Q:A:\' format</string>
+    <string name="popup_title_file_format">Biçim</string>
+    <string name="item_file_format_fmn_format">\'Q:A:\' biçim</string>
     <string name="text_dsv_format_radiobutton">Delimiter-separated values</string>
     <string name="description_view_format_settings">View format settings</string>
     <string name="description_edit_format_settings">Edit format settings</string>
@@ -185,14 +187,14 @@
         <item quantity="one">Do you want to use this deck (%1$s) for import the next file?</item>
         <item quantity="other">Do you want to use this deck (%1$s) for import the next %2$d files?</item>
     </plurals>
-    <string name="text_file_edit_off">Too large file to be edited</string>
+    <string name="text_file_edit_off">Dosyanın boyutu çok büyük; düzenlenemez</string>
     <string name="cannot_extract_any_cards">Cannot extract any cards</string>
     <plurals name="toast_number_of_imported_cards">
         <item quantity="one">One card has been imported</item>
         <item quantity="other">%d cards have been imported</item>
     </plurals>
     <string name="toast_no_cards_to_import">No cards to import</string>
-    <string name="toast_invalid_deck_name">Invalid deck name</string>
+    <string name="toast_invalid_deck_name">Geçersiz deste adı</string>
     <plurals name="import_error_message_1_part">
         <item quantity="one">One file contains</item>
         <item quantity="other">%d file contain</item>
@@ -245,9 +247,9 @@
     <string name="speak_error_description_missing_data_for_language">Missing data for %1$s</string>
     <string name="error_message_failed_to_speak">Failed to speak</string>
     <string name="error_message_cannot_get_audio_focus">Cannot get audio focus</string>
-    <string name="description_hint_button">Hint</string>
-    <string name="popup_title_hints">Hints</string>
-    <string name="description_hint_icon">Hint icon</string>
+    <string name="description_hint_button">İpucu</string>
+    <string name="popup_title_hints">İpuçları</string>
+    <string name="description_hint_icon">İpucu simgesi</string>
     <string name="text_hint_get_variants">Get variants</string>
     <string name="text_hint_mask_letters_button">Mask letters</string>
     <string name="text_unmask_the_first_letter_button">Unmask the first letter</string>
@@ -256,8 +258,8 @@
         accessible because the card is answered</string>
     <string name="hints_are_not_accessible_because_the_card_is_learned">The hints are not
         accessible because the card is learned</string>
-    <string name="description_timer_button">Timer</string>
-    <string name="popup_title_timer">Timer</string>
+    <string name="description_timer_button">Zamanlayıcı</string>
+    <string name="popup_title_timer">Zamanlayıcı</string>
     <string name="description_timer_icon">Timer icon</string>
     <string name="text_stop_timer_button">Stop</string>
     <string name="timer_is_off_because_walking_mode">The timer is off because \'Walking mode\' is
@@ -265,20 +267,20 @@
         be confusing.</string>
     <string name="timer_stopped">The timer is stopped</string>
     <string name="time_is_over">Time is over!</string>
-    <string name="description_edit_card">Edit card</string>
+    <string name="description_edit_card">Kartı Düzenle</string>
     <string name="description_edit_deck_settings">Edit deck settings</string>
-    <string name="description_search_button">Search</string>
-    <string name="description_walking_mode_button">Walking mode</string>
-    <string name="popup_title_walking_mode">Walking mode</string>
-    <string name="description_walking_mode_icon">Walking mode icon</string>
-    <string name="description_walking_mode_settings_button">Walking mode settings</string>
+    <string name="description_search_button">Ara</string>
+    <string name="description_walking_mode_button">Yürüme modu</string>
+    <string name="popup_title_walking_mode">Yürüme modu</string>
+    <string name="description_walking_mode_icon">Yürüme modu ikonu</string>
+    <string name="description_walking_mode_settings_button">Yürüme modu ayarları</string>
     <plurals name="message_quit_exercise">
-        <item quantity="one">%d card is still unanswered</item>
-        <item quantity="other">%d cards are still unanswered</item>
+        <item quantity="one">%d kart cevaplanmamış</item>
+        <item quantity="other">%d kart cevaplanmamış</item>
     </plurals>
-    <string name="button_show_unanswered_card">Show unanswered card</string>
-    <string name="button_quit_exercise">Quit anyway</string>
-    <string name="no_cards_to_exercise">No cards to exercise</string>
+    <string name="button_show_unanswered_card">Cevaplanmamış kartları göster</string>
+    <string name="button_quit_exercise">Yine de çık</string>
+    <string name="no_cards_to_exercise">Çalışılacak kart yok</string>
     <string name="deck_has_no_cards_to_show_example">Deck has no cards to show example</string>
     <!-- Card filter for autoplay screen -->
     <string name="screen_title_card_filter">Card filter</string>
@@ -286,27 +288,27 @@
         <item quantity="one">card matches the filter</item>
         <item quantity="other">cards match the filter</item>
     </plurals>
-    <string name="title_card_filter_state">State</string>
-    <string name="text_available_for_exercise_group_checkbox">Available for exercise</string>
-    <string name="text_awaiting_group_checkbox">Awaiting</string>
-    <string name="text_learned_group_checkbox">Learned</string>
-    <string name="title_card_filter_grade">Grade</string>
-    <string name="title_card_filter_last_tested">Last tested</string>
-    <string name="title_last_tested_from">From</string>
+    <string name="title_card_filter_state">Durum</string>
+    <string name="text_available_for_exercise_group_checkbox">Alıştırma için uygun</string>
+    <string name="text_awaiting_group_checkbox">Bekleniyor</string>
+    <string name="text_learned_group_checkbox">Öğrenilen</string>
+    <string name="title_card_filter_grade">Not</string>
+    <string name="title_card_filter_last_tested">Son test</string>
+    <string name="title_last_tested_from">İtibaren</string>
     <string name="title_last_tested_to">to</string>
-    <string name="zero_time">Zero time</string>
-    <string name="now">Now</string>
+    <string name="zero_time">Başlangıç</string>
+    <string name="now">Şu an</string>
     <string name="time_ago">%1$s ago</string>
     <string name="title_dialog_last_tested_from">Last tested from</string>
     <string name="title_dialog_last_tested_to">Last tested to</string>
     <string name="ago">ago</string>
-    <string name="text_start_playing_button">Start playing</string>
+    <string name="text_start_playing_button">Oynamaya başlat</string>
     <string name="toast_text_no_card_matches_filter_conditions">No card matches filter conditions</string>
     <!-- Player screen -->
     <string name="player_notification_channel_name">Card player</string>
     <string name="player_notification_channel_description">Sequential pronunciation of
         questions and answers</string>
-    <string name="player_notification_title">Card player</string>
+    <string name="player_notification_title">Kart oyuncusu</string>
     <string name="pause_in_notification">Pause</string>
     <string name="resume_in_notification">Resume</string>
     <string name="play_one_more_lap_in_notification">Play one more lap</string>
@@ -338,18 +340,18 @@
     <string name="description_select_all">Select all</string>
     <string name="description_unselect_all">Unselect all</string>
     <string name="description_select_only_new">Select only new</string>
-    <string name="description_remove">Remove</string>
-    <string name="description_more_options">More options</string>
+    <string name="description_remove">Kaldır</string>
+    <string name="description_more_options">Daha fazla seçenekler</string>
     <!-- Card selection toolbar -->
     <plurals name="title_card_selection_toolbar">
-        <item quantity="one">%d card</item>
-        <item quantity="other">%d cards</item>
+        <item quantity="one">%d kart</item>
+        <item quantity="other">%d kart</item>
     </plurals>
     <string name="card_selection_option_invert">Invert</string>
     <string name="card_selection_option_change_grade">Change grade</string>
     <string name="card_selection_option_mark_as_learned">Mark as \'Learned\'</string>
     <string name="card_selection_option_mark_as_unlearned">Mark as \'Unlearned\'</string>
-    <string name="card_selection_option_remove">Remove</string>
+    <string name="card_selection_option_remove">Kaldır</string>
     <string name="card_selection_option_move_to">Move to</string>
     <string name="card_selection_option_copy_to">Copy to</string>
     <string name="dialog_title_change_grade">Select grade</string>
@@ -382,8 +384,8 @@
         <item quantity="other">%1$d cards have been copied to \'%2$s\'</item>
     </plurals>
     <!-- Deck content screen -->
-    <string name="button_export">Export</string>
-    <string name="button_search">Search</string>
+    <string name="button_export">Dışa aktar</string>
+    <string name="button_search">Ara</string>
     <string name="the_deck_does_not_yet_contain_cards">The deck does not yet contain cards</string>
     <!-- Search screen -->
     <string name="hint_search_in_all_cards">Search in all cards</string>
@@ -675,6 +677,25 @@
     <string name="key_gesture_action_mark_card_as_learned">Mark card as \'Learned\'</string>
     <string name="key_gesture_action_speak_question">Speak question</string>
     <string name="key_gesture_action_speak_answer">Speak answer</string>
+    <!-- Backup screen -->
+    <string name="screen_title_backup">Backup</string>
+    <string name="button_import_backup">Import</string>
+    <string name="button_export_backup">Export</string>
+    <string name="description_import_icon">Import icon</string>
+    <string name="description_export_icon">Export icon</string>
+    <string name="dialog_title_import">Import</string>
+    <string name="backup_export_description">Your database will be archived into zip file. Use this
+        file to restore your data.</string>
+    <string name="backup_has_been_exported">Your backup \'%s\' has been successfully exported</string>
+    <string name="error_while_exporting_backup">Error while exporting backup (%s)</string>
+    <string name="backup_import_description">Attention! Your current data will be replaced by the
+        data from a backup. We recommend you to make a backup of existing data if it is valuable to
+        you. It will be necessary to restart the app after importing the backup.</string>
+    <string name="button_select_backup_file">Select backup file</string>
+    <string name="progress_bar_importing">Importing ..</string>
+    <string name="button_restart">Restart</string>
+    <string name="backup_has_been_imported">Your backup has been successfully imported</string>
+    <string name="error_while_importing_backup">Error while importing backup (%s)</string>
     <!-- Support app screen -->
     <string name="screen_title_support_app">Support app</string>
     <string name="cta_rate_the_app_on_google_play">Rate the app on Google Play</string>
@@ -717,6 +738,7 @@
     <string name="help_article_title_walking_mode">Walking mode</string>
     <string name="help_article_title_autoplaying_cards">Autoplaying cards</string>
     <string name="help_article_title_presets">Presets</string>
+    <string name="help_article_title_backup">Backup</string>
     <string name="help_article_title_advice_on_compiling_deck">Advice on compiling deck</string>
     <string name="help_article_title_advice_on_studying">Advice on studying</string>
     <!-- Help article screen -->
@@ -976,6 +998,14 @@
 
         \n\n\t\'Your preset name\' - a saved preset that can be shared. Any change of this preset
         will affect each deck to which it is applied.</string>
+    <string name="article_backup">ForgetMeNot supports the backup function. This may be necessary
+        if you need to transfer data from one device to another. You need to first export the backup
+        to a file from the old device, copy this backup file to your new device, and import it
+        there. Backup is a regular archive with a database. Be careful, during import, all your data
+        will be deleted and replaced with data from the backup file. If something goes wrong, the
+        app will try to restore the previous database, but we still advise you to make a backup copy
+        of the current data if it is important to you. After importing, the app needs to be
+        restarted.</string>
     <string name="article_advice_on_compiling_deck">1. Try to keep your cards as short as possible.
         It is better to create several than to put everything into one. For example, if you create
         a card for memorizing a foreign word, then it should describe only one interpretation of
@@ -1019,7 +1049,7 @@
 
         \n\n5. Make it a rule that once a day you should not have any tasks left to study.</string>
     <!-- About screen -->
-    <string name="description_app_logo">App logo</string>
+    <string name="description_app_logo">Uygulama simgesi</string>
     <string name="about_item_developer">Odnovolov Artem</string>
     <string name="about_item_source_code">Source code</string>
     <string name="about_item_privacy_policy">Privacy policy</string>
@@ -1030,7 +1060,7 @@
         from file, unique settings of each deck and many other interesting features. Besides
         traditional examination of the knowledge, there is also the autoplaying mode. ForgetMeNot
         is a great thing for language learning and not only.</string>
-    <string name="developer_story_title">Developer story</string>
+    <string name="developer_story_title">Geliştiricinin Hikayesi</string>
     <string name="developer_story">More than a year ago, when I started learning a foreign
         language, I decided to use flashcards to memorize words. Having tried dozens of different
         apps on Google Play, none of them satisfied me completely. So I decided to create my own
@@ -1061,22 +1091,29 @@
 
         \n\nI am not in any way pursuing commercial goals. My app is completely free and open
         source. I\'d like to know what you think about my app!</string>
-    <string name="translations_title">Translations</string>
+    <string name="translations_title">Çeviriler</string>
     <string name="thanks_to_translators">I would like to express my deep gratitude to everyone
         (especially the people from <a href="https://www.sekinfo.org">sekinfo.org</a>), who support
         the project by providing translation. You’re the best!</string>
     <string name="language_basque">Basque</string>
-    <string name="language_french">French</string>
-    <string name="language_german">German</string>
-    <string name="language_greek">Greek</string>
+    <string name="language_chinese_simplified">Chinese Simplified</string>
+    <string name="language_dutch">Flemenkçe</string>
+    <string name="language_french">Fransızca</string>
+    <string name="language_german">Almanca</string>
+    <string name="language_greek">Yunanca</string>
+    <string name="language_hindi">Hintçe</string>
+    <string name="language_indonesian">Endonezyaca</string>
+    <string name="language_polish">Polish</string>
+    <string name="language_portuguese">Portuguese</string>
     <string name="language_portuguese_brazilian">Portuguese, Brazilian</string>
     <string name="language_russian">Russian</string>
     <string name="language_spanish">Spanish</string>
-    <string name="language_ukrainian">Ukrainian</string>
-    <string name="language_vietnamese">Vietnamese</string>
-    <string name="text_support_app_button">Support app</string>
+    <string name="language_turkish">Turkish</string>
+    <string name="language_ukrainian">Ukraynaca</string>
+    <string name="language_vietnamese">Vietnamca</string>
+    <string name="text_support_app_button">Destekle</string>
     <!-- DSV format screen -->
-    <string name="screen_title_dsv_format">DSV format</string>
+    <string name="screen_title_dsv_format">DSV biçimi</string>
     <string name="tip_dsv_format">Delimiter-separated values are processed with the
         <annotation clickable="csv_library">Apache Commons CSV library</annotation>. Visit
         <annotation clickable="CSVFormat">this page</annotation> to learn more about format
