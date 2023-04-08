@@ -84,7 +84,7 @@
                 app:layout_constraintStart_toStartOf="@id/importButton"
                 app:layout_constraintTop_toTopOf="@id/importButton"
                 app:srcCompat="@drawable/ic_import_backup"
-                app:tint="@color/text_medium_emphasis" />
+                app:tint="@color/on_import_export_button" />
 
         <TextView
                 android:id="@+id/importBackupTitle"
@@ -96,7 +96,7 @@
                 android:fontFamily="@font/nunito_bold"
                 android:maxLines="1"
                 android:text="@string/button_import_backup"
-                android:textColor="@color/text_medium_emphasis"
+                android:textColor="@color/on_import_export_button"
                 android:textSize="@dimen/text_size_button_import_export_backup"
                 app:layout_constraintBottom_toBottomOf="@id/importButton"
                 app:layout_constraintEnd_toEndOf="@id/importButton"
@@ -131,7 +131,7 @@
                 app:layout_constraintStart_toStartOf="@id/exportButton"
                 app:layout_constraintTop_toTopOf="@id/exportButton"
                 app:srcCompat="@drawable/ic_export_backup"
-                app:tint="@color/text_medium_emphasis" />
+                app:tint="@color/on_import_export_button" />
 
         <TextView
                 android:id="@+id/exportBackupTitle"
@@ -143,7 +143,7 @@
                 android:fontFamily="@font/nunito_bold"
                 android:maxLines="1"
                 android:text="@string/button_export_backup"
-                android:textColor="@color/text_medium_emphasis"
+                android:textColor="@color/on_import_export_button"
                 android:textSize="@dimen/text_size_button_import_export_backup"
                 app:layout_constraintBottom_toBottomOf="@id/exportButton"
                 app:layout_constraintEnd_toEndOf="@id/exportButton"

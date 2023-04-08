@@ -227,6 +227,7 @@
     <!-- Backup screen -->
     <color name="button_import_backup">#CED1F3</color>
     <color name="button_export_backup">#E5C1CD</color>
+    <color name="on_import_export_button">#4B5875</color>
 
     <!-- Support app screen -->
     <color name="cta_button_stroke">#1F000000</color>

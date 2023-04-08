@@ -9,6 +9,7 @@
         <entry key="app/src/main/res/layout/dialog_backup_import.xml" value="0.1" />
         <entry key="app/src/main/res/layout/dialog_cards_export.xml" value="0.3098958333333333" />
         <entry key="app/src/main/res/layout/dialog_input.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/fragment_backup.xml" value="0.25" />
       </map>
     </option>
   </component>
