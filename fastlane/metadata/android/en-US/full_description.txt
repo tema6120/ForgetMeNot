@@ -20,6 +20,7 @@ The features that are supported are:
     • Grouping decks into separate lists.
     • Customizing the card appearance.
     • Dark theme.
+    • Backup.
 
 
 What makes ForgetMeNot so efficient for memorizing:
