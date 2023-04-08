@@ -24,6 +24,7 @@
 
     <string name="drawer_item_decks">Колоди</string>
     <string name="drawer_item_settings">Налаштування</string>
+    <string name="drawer_item_backup">Резервне копіювання</string>
     <string name="drawer_item_support_app">Підтримати додаток</string>
     <string name="drawer_item_help">Допомога</string>
     <string name="drawer_item_about">Про додаток</string>
@@ -173,13 +174,14 @@
     <string name="toast_deck_list_is_removed">Список колод видалено</string>
 
 
-    <!-- Export dialog -->
+    <!-- Cards export dialog -->
 
     <string name="dialog_title_export">Експорт</string>
     <string name="title_choose_format">Оберіть формат</string>
     <string name="title_waiting_for_destination">Очікування розташування ..</string>
     <string name="button_select_destination">Обрати розташування</string>
-    <string name="toast_couldnt_get_destination">Не вдається отримати розташування!</string>
+    <string name="toast_couldnt_get_destination">Не вдалося отримати розташування!</string>
+    <string name="toast_couldnt_get_file">Не вдалося отримати файл!</string>
     <string name="progress_bar_exporting">Експортування ..</string>
     <plurals name="export_result_successful">
         <item quantity="one">%d колода успішно експортована(і)</item>
@@ -189,7 +191,7 @@
     <string name="export_result_error">Помилка під час експорту колод:\n\'%1$s\'</string>
 
 
-    <!-- File import screen -->
+    <!-- Cards import screen -->
 
     <string name="screen_title_file_import">Імпорт файлу</string>
     <string name="text_skip_button">Пропустити</string>
@@ -820,6 +822,28 @@
     <string name="key_gesture_action_speak_answer">Вимовити відповідь</string>
 
 
+    <!-- Backup screen -->
+
+    <string name="screen_title_backup">Резервне копіювання</string>
+    <string name="button_import_backup">Імпорт</string>
+    <string name="button_export_backup">Експорт</string>
+    <string name="description_import_icon">іконка \"Імпорт\"</string>
+    <string name="description_export_icon">іконка \"Експорт\"</string>
+    <string name="dialog_title_import">Імпорт</string>
+    <string name="backup_export_description">Ваша база даних буде заархівована в zip-файл.
+        Використовуйте цей файл для відновлення даних.</string>
+    <string name="backup_has_been_exported">Вашу резервну копію \'%s\' успішно експортовано</string>
+    <string name="error_while_exporting_backup">Помилка під час експорту резервної копії (%s)</string>
+    <string name="backup_import_description">Увага! Ваші поточні дані буде замінено даними з
+        резервної копії. Ми рекомендуємо вам зробити резервну копію існуючих даних, якщо вони
+        важливі для вас. Після імпорту резервної копії необхідно буде перезапустити програму.</string>
+    <string name="button_select_backup_file">Виберіть файл резервної копії</string>
+    <string name="progress_bar_importing">Імпортування ..</string>
+    <string name="button_restart">Перезапустити</string>
+    <string name="backup_has_been_imported">Вашу резервну копію успішно імпортовано</string>
+    <string name="error_while_importing_backup">Помилка під час імпорту резервної копії (%s)</string>
+
+
     <!-- Support app screen -->
 
     <string name="screen_title_support_app">Підтримати додаток</string>
@@ -867,6 +891,7 @@
     <string name="help_article_title_walking_mode">Режим прогулянки</string>
     <string name="help_article_title_autoplaying_cards">Автоматичне програвання карток</string>
     <string name="help_article_title_presets">Попередньо встановленні налаштування</string>
+    <string name="help_article_title_backup">Резервне копіювання</string>
     <string name="help_article_title_advice_on_compiling_deck">Поради щодо складання колоди</string>
     <string name="help_article_title_advice_on_studying">Поради щодо навчання</string>
 
@@ -1126,6 +1151,14 @@
 
         \n\n\t\'Ваша назва пресету\' - збережені налаштування, якими можна спільно користуватися.
         Будь-яка зміна цього пресету вплине на кожну колоду, до якої він застосовується.</string>
+    <string name="article_backup">ForgetMeNot підтримує функцію резервного копіювання. Це може
+        знадобитися, якщо потрібно перенести дані з одного пристрою на інший. Вам потрібно спочатку
+        експортувати резервну копію у файл зі старого пристрою, скопіювати цей файл резервної копії
+        на новий пристрій та імпортувати його туди. Резервна копія - це звичайний архів з базою
+        даних. Будьте обережні, під час імпорту всі ваші дані буде видалено та замінено даними з
+        файлу резервної копії. Якщо щось піде не так, програма спробує відновити попередню базу
+        даних, але ми все ж радимо вам зробити резервну копію поточних даних, якщо це важливо для
+        вас. Після імпортування програму потрібно перезапустити.</string>
     <string name="article_advice_on_compiling_deck">1. Намагайтеся, щоб ваші картки були якомога
         коротшими. Краще створити декілька, ніж складати все в одне. Наприклад, якщо ви створюєте
         картку для запам’ятовування іноземного слова, тоді вона повинна описувати лише одне

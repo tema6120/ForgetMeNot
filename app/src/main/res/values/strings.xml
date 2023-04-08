@@ -163,7 +163,7 @@
 
 
 
-    <!-- Cards Export dialog -->
+    <!-- Cards export dialog -->
 
     <string name="dialog_title_export">Export</string>
     <string name="title_choose_format">Choose format</string>
