@@ -8,6 +8,7 @@ import androidx.navigation.findNavController
 import com.odnovolov.forgetmenot.R
 import com.odnovolov.forgetmenot.presentation.common.mainactivity.MainActivity
 import com.odnovolov.forgetmenot.presentation.screen.backup.export.BackupExportDiScope
+import com.odnovolov.forgetmenot.presentation.screen.backup.import.BackupImportDiScope
 import com.odnovolov.forgetmenot.presentation.screen.cardappearance.CardAppearanceDiScope
 import com.odnovolov.forgetmenot.presentation.screen.cardfilterforautoplay.CardFilterForAutoplayDiScope
 import com.odnovolov.forgetmenot.presentation.screen.lasttested.LastTestedFilterDiScope
@@ -424,6 +425,11 @@ class Navigator : ActivityLifecycleCallbacks {
     fun showBackupExportDialog(createDiScope: () -> BackupExportDiScope) {
         BackupExportDiScope.open(createDiScope)
         navigate(R.id.show_backup_export_dialog)
+    }
+
+    fun showBackupImportDialog(createDiScope: () -> BackupImportDiScope) {
+        BackupImportDiScope.open(createDiScope)
+        navigate(R.id.show_backup_import_dialog)
     }
 
     fun navigateUp() {

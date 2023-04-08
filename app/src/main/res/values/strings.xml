@@ -786,10 +786,19 @@
     <string name="button_export_backup">Export</string>
     <string name="description_import_icon">Import icon</string>
     <string name="description_export_icon">Export icon</string>
+    <string name="dialog_title_import">Import</string>
     <string name="backup_export_description">Your database will be archived into zip file. Use this
         file to restore your data.</string>
     <string name="backup_has_been_exported">Your backup \'%s\' has been successfully exported</string>
     <string name="error_while_exporting_backup">Error while exporting backup (%s)</string>
+    <string name="backup_import_description">Attention! Your current data will be replaced by the
+        data from a backup. We recommend you to make a backup of existing data if it is valuable to
+        you. It will be necessary to restart the app after importing the backup.</string>
+    <string name="button_select_backup_file">Select backup file</string>
+    <string name="progress_bar_importing">Importing ..</string>
+    <string name="button_restart">Restart</string>
+    <string name="backup_has_been_imported">Your backup has been successfully imported</string>
+    <string name="error_while_importing_backup">Error while importing backup (%s)</string>
 
 
     <!-- Support app screen -->

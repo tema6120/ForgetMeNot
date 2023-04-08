@@ -1,7 +1,7 @@
 package com.odnovolov.forgetmenot.presentation.screen.backup.export
 
 import com.odnovolov.forgetmenot.domain.architecturecomponents.FlowMaker
-import java.lang.Exception
+import kotlin.Exception
 
 class BackupExportDialogState : FlowMaker<BackupExportDialogState>() {
     var stage: Stage by flowMaker(Stage.WaitingForDestination)
