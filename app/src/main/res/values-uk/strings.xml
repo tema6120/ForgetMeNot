@@ -1252,12 +1252,15 @@
          переклад. Ви найкращі!</string>
     <string name="language_basque">Баскська</string>
     <string name="language_chinese_simplified">Китайська спрощена</string>
+    <string name="language_czech">Чеська</string>
     <string name="language_dutch">Голландська</string>
     <string name="language_french">Французька</string>
     <string name="language_german">Німецька</string>
     <string name="language_greek">Грецька</string>
     <string name="language_hindi">Хінді</string>
     <string name="language_indonesian">Індонезійська</string>
+    <string name="language_italian">Італійська</string>
+    <string name="language_nepali">Непальська</string>
     <string name="language_polish">Польська</string>
     <string name="language_portuguese">Португальська</string>
     <string name="language_portuguese_brazilian">Португальська, Бразильська</string>

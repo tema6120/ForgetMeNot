@@ -26,21 +26,24 @@ I would like to express my deep gratitude to everyone (especially the people fro
 
 Language | Progress | Translators
 ---------|----------|------------
-🏴󠁥󠁳󠁰󠁶󠁿 Basque | 99% | [soplatnik](https://crowdin.com/profile/soplatnik), [avtkal](https://crowdin.com/profile/avtkal)
+🏴󠁥󠁳󠁰󠁶󠁿 Basque | 95% | [soplatnik](https://crowdin.com/profile/soplatnik), [avtkal](https://crowdin.com/profile/avtkal)
 🇨🇳 Chinese Simplified | 11% | [crown538](https://crowdin.com/profile/crown538)
-🇨🇳 Dutch | 4% | [patilla](https://crowdin.com/profile/patilla), [NLvertaler](https://crowdin.com/profile/nlvertaler)
-🇫🇷 French | 99% | [Mr B](https://crowdin.com/profile/mrb7), [PhirosWolf](https://crowdin.com/profile/phiroswolf), [Sitavi](https://crowdin.com/profile/sitavi), [QuantiQia](https://crowdin.com/profile/quantiqia), [eiryelio](https://crowdin.com/profile/eiryelio), [Ryu1845](https://crowdin.com/profile/ryu1845)
-🇩🇪 German | 87% | [avtkal](https://crowdin.com/profile/avtkal), [Tsef](https://crowdin.com/profile/tsef), [Zonrad_Kuse](https://crowdin.com/profile/zonrad_kuse), [statoquant](https://crowdin.com/profile/statoquant), [B14CK313](https://crowdin.com/profile/b14ck313), [trailingstock](https://crowdin.com/profile/trailingstock), [Yushin Washio](https://crowdin.com/profile/yuwash), [BlueFox4](https://crowdin.com/profile/bluefox4), [baschi29](https://crowdin.com/profile/baschi29), [park](https://crowdin.com/profile/thebugmenot), [Unwoven](https://crowdin.com/profile/unwovencrestless), [Nausika](https://crowdin.com/profile/nausika)
-🇬🇷 Greek | 6% | [Vasilis Ioannidis](https://crowdin.com/profile/vioannidis)
+🇨🇿 Czech | 14% | [teasin951](https://crowdin.com/profile/teasin951), [Shimoon Horanek](https://crowdin.com/profile/shimonh)
+🇳🇱 Dutch | 4% | [patilla](https://crowdin.com/profile/patilla), [NLvertaler](https://crowdin.com/profile/nlvertaler)
+🇫🇷 French | 95% | [Mr B](https://crowdin.com/profile/mrb7), [PhirosWolf](https://crowdin.com/profile/phiroswolf), [Sitavi](https://crowdin.com/profile/sitavi), [QuantiQia](https://crowdin.com/profile/quantiqia), [eiryelio](https://crowdin.com/profile/eiryelio), [How to Poop in 2021](https://crowdin.com/profile/howtopoopin2021official), [Ryu1845](https://crowdin.com/profile/ryu1845)
+🇩🇪 German | 95% | [avtkal](https://crowdin.com/profile/avtkal), [Tsef](https://crowdin.com/profile/tsef), [Zonrad_Kuse](https://crowdin.com/profile/zonrad_kuse), [teaspoon](https://crowdin.com/profile/teaspoon), [statoquant](https://crowdin.com/profile/statoquant), [dasnessie](https://crowdin.com/profile/dasnessie), [BlueFox4](https://crowdin.com/profile/bluefox4), [B14CK313](https://crowdin.com/profile/b14ck313), [trailingstock](https://crowdin.com/profile/trailingstock), [Yushin Washio](https://crowdin.com/profile/yuwash), [baschi29](https://crowdin.com/profile/baschi29), [park](https://crowdin.com/profile/thebugmenot), [Unwoven](https://crowdin.com/profile/unwovencrestless), [Nausika](https://crowdin.com/profile/nausika)
+🇬🇷 Greek | 12% | [Vasilis Ioannidis](https://crowdin.com/profile/vioannidis), [Alex Grig](https://crowdin.com/profile/alexgrig198)
 🇮🇳 Hindi | 3% | [Swarnendu Maiti](https://crowdin.com/profile/swarnendu)
-🇮🇩 Indonesian | 14% | [liimee](https://crowdin.com/profile/liimee)
-🇵🇱 Polish | 34% | [Waldemar Stoczkowski](https://crowdin.com/profile/waldist), [F_I](https://crowdin.com/profile/f_i), [ggngnn](https://crowdin.com/profile/prubart)
-🇵🇹 Portuguese | 21% | [Hierotsu](https://crowdin.com/profile/hierotsu)
-🇧🇷 Portuguese, Brazilian | 31% | [Marcos Maciel](https://crowdin.com/profile/marcos_maciel_lima), [Lucas França](https://crowdin.com/profile/lucasnomad5g), [aleguiss](https://crowdin.com/profile/aleguiss), [dropdan](https://crowdin.com/profile/dropdan)
+🇮🇩 Indonesian | 13% | [liimee](https://crowdin.com/profile/liimee), [Qwyn](https://crowdin.com/profile/qwyn)
+🇮🇹 Italian | 11% | [Alessandro](https://crowdin.com/profile/alephoto85), [localizercrab](https://crowdin.com/profile/localizercrab)
+🇳🇵 Nepali | 3% | 
+🇵🇱 Polish | 40% | [Waldemar Stoczkowski](https://crowdin.com/profile/waldist), [ggngnn](https://crowdin.com/profile/prubart), [F_I](https://crowdin.com/profile/f_i)
+🇵🇹 Portuguese | 20% | [Hierotsu](https://crowdin.com/profile/hierotsu)
+🇧🇷 Portuguese, Brazilian | 52% | [Marcos Maciel](https://crowdin.com/profile/marcos_maciel_lima), [Lucas França](https://crowdin.com/profile/lucasnomad5g), [aleguiss](https://crowdin.com/profile/aleguiss), [dropdan](https://crowdin.com/profile/dropdan)
 Russian | 100% | Odnovolov Artem
-🇪🇸 Spanish | 99% | [sekinfo.org](https://www.sekinfo.org), [avtkal](https://crowdin.com/profile/avtkal), [Edwins0](https://crowdin.com/profile/edwins0), [Cod3Radar](https://crowdin.com/profile/cod3radar)
-🇹🇷 Turkish | 3% | [TolDYuThad](https://crowdin.com/profile/toldyuthad)
+🇪🇸 Spanish | 95% | [sekinfo.org](https://www.sekinfo.org), [avtkal](https://crowdin.com/profile/avtkal), [Edwins0](https://crowdin.com/profile/edwins0), [Cod3Radar](https://crowdin.com/profile/cod3radar)
+🇹🇷 Turkish | 7% | [Impaler67](https://crowdin.com/profile/impaler67), [TolDYuThad](https://crowdin.com/profile/toldyuthad), [halitagah](https://crowdin.com/profile/halitagah)
 🇺🇦 Ukrainian | 100% | Odnovolov Artem
-🇻🇳 Vietnamese | 57% | [bruhwut](https://crowdin.com/profile/bruhwut)
+🇻🇳 Vietnamese | 86% | [bruhwut](https://crowdin.com/profile/bruhwut)
 
 *P.S. English is not my native language. So feel free to point out my spelling mistakes.*
