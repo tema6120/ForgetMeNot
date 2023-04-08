@@ -19,6 +19,7 @@
     <!-- Main drawer -->
     <string name="drawer_item_decks">Stapel</string>
     <string name="drawer_item_settings">Einstellungen</string>
+    <string name="drawer_item_backup">Backup</string>
     <string name="drawer_item_support_app">App unterstützen</string>
     <string name="drawer_item_help">Hilfe</string>
     <string name="drawer_item_about">Über</string>
@@ -140,19 +141,20 @@
     <string name="custom_color">Benutzerdefinierte Farbe</string>
     <string name="description_random_color">Zufällige Farbe</string>
     <string name="toast_deck_list_is_removed">Stapel wurde entfernt</string>
-    <!-- Export dialog -->
+    <!-- Cards export dialog -->
     <string name="dialog_title_export">Exportieren</string>
     <string name="title_choose_format">Format wählen</string>
     <string name="title_waiting_for_destination">Warte auf Ziel ..</string>
     <string name="button_select_destination">Ziel auswählen</string>
     <string name="toast_couldnt_get_destination">Konnte das Ziel nicht finden!</string>
+    <string name="toast_couldnt_get_file">Couldn\'t get file!</string>
     <string name="progress_bar_exporting">Wird exportiert ..</string>
     <plurals name="export_result_successful">
         <item quantity="one">Stapel erfolgreich exportiert</item>
         <item quantity="other">%d Stapel erfolgreich exportiert</item>
     </plurals>
     <string name="export_result_error">Fehler beim Exportieren der Stapels: \n\'%s\'</string>
-    <!-- File import screen -->
+    <!-- Cards import screen -->
     <string name="screen_title_file_import">Datei-Import</string>
     <string name="text_skip_button">Überspringen</string>
     <string name="add_to">Hinzufügen zu:</string>
@@ -654,6 +656,25 @@
     <string name="key_gesture_action_mark_card_as_learned">Karte als \'gelernt\' markieren</string>
     <string name="key_gesture_action_speak_question">Frage vorlesen</string>
     <string name="key_gesture_action_speak_answer">Antwort vorlesen</string>
+    <!-- Backup screen -->
+    <string name="screen_title_backup">Backup</string>
+    <string name="button_import_backup">Import</string>
+    <string name="button_export_backup">Export</string>
+    <string name="description_import_icon">Import icon</string>
+    <string name="description_export_icon">Export icon</string>
+    <string name="dialog_title_import">Import</string>
+    <string name="backup_export_description">Your database will be archived into zip file. Use this
+        file to restore your data.</string>
+    <string name="backup_has_been_exported">Your backup \'%s\' has been successfully exported</string>
+    <string name="error_while_exporting_backup">Error while exporting backup (%s)</string>
+    <string name="backup_import_description">Attention! Your current data will be replaced by the
+        data from a backup. We recommend you to make a backup of existing data if it is valuable to
+        you. It will be necessary to restart the app after importing the backup.</string>
+    <string name="button_select_backup_file">Select backup file</string>
+    <string name="progress_bar_importing">Importing ..</string>
+    <string name="button_restart">Restart</string>
+    <string name="backup_has_been_imported">Your backup has been successfully imported</string>
+    <string name="error_while_importing_backup">Error while importing backup (%s)</string>
     <!-- Support app screen -->
     <string name="screen_title_support_app">App unterstützen</string>
     <string name="cta_rate_the_app_on_google_play">Bewerte diese App in Google Play</string>
@@ -690,6 +711,7 @@
     <string name="help_article_title_walking_mode">Laufmodus</string>
     <string name="help_article_title_autoplaying_cards">Automatisches Abspielen der Karten</string>
     <string name="help_article_title_presets">Voreinstellungen</string>
+    <string name="help_article_title_backup">Backup</string>
     <string name="help_article_title_advice_on_compiling_deck">Ratschläge zum Erstellen eines Stapels</string>
     <string name="help_article_title_advice_on_studying">Tipps zum Lernen</string>
     <!-- Help article screen -->
@@ -887,46 +909,29 @@
         Zeit zu haben, tippe auf \'Stop\' im Timer-Popup-Fenster um den Timer anzuhalten.</string>
     <string name="question_in_motivational_timer_article">Wie viel sind 0.0193 km in Dezimetern?</string>
     <string name="answer_in_motivational_timer_article">193</string>
-    <string name="article_pronunciation">This app supports the pronunciation of text
-        through Text-to-speech API provided by Android OS. For each deck, you can choose the
-        language in which to pronounce the question, and the language in which to pronounce the
-        answer. Therefore, it is important to use one language for questions and one language for
-        answers when creating a deck. If you want to have cards with different languages of
-        questions and answers, then you need to create separate decks. It is recommended to always
-        indicate languages.
+    <string name="article_pronunciation">Diese App unterstützt das Vorlesen von Text durch die Text-To-Speech API (eine Vorlesesoftware), die vom Android-Betriebssystem bereitgestellt wird. Für jeden Stapel kann die Sprache ausgewählt werden, in der die Frage vorgelesen werden soll, und die Sprache, in der die Antwort vorgelesen werden soll. Deshalb ist es wichtig, beim Anlegen eines Stapels für alle Fragen die gleiche Sprache zu verwenden, ebenso wie für alle Antworten. Soll es Fragen oder Antworten in verschiedenen Sprachen geben, so müssen verschiedene Stapel angelegt werden. Es wird außerdem empfohlen, die Sprachen beim Anlegen eines Stapels immer mit anzugeben.
 
-        \n\nYou can also choose to automatically pronounce the question or answer. This is always
-        useful when learning languages.
+\n\nDie Fragen oder Antworten können auch automatisch vorgelesen werden. Dies ist besonders nützlich, um Sprachen zu lernen.
 
-        \n\nIf \'Speak text in brackets\' is disabled, then the application will not speak the text
-        framed in brackets () {} [] &lt;&gt;. So you can add any additional information in brackets,
-        for example, transcription of words, synonyms, words with which you often confuse
-        translation.
+\n\nWenn \'Text in Klammern sprechen\' deaktiviert ist, dann wird Text, der in folgenden Klammern steht, nicht vorgelesen: () {} [] &lt;&gt;. So können weitere Informationen in Klammern hinzufügt werden, z.B. Transkriptionen von Wörtern, Synonyme, oder Wörter, mit denen Sie die Übersetzung oft verwechseln.
 
-        \n\nTo pronounce some part of the text, just highlight it and click the pronunciation
-        icon.</string>
-    <string name="article_walking_mode">\'Walking mode\' is a special mode of exercise where you
-        can answer questions without looking at the screen. Control is carried out using
-        <annotation clickable="walking_mode_settings">gestures of the volume buttons</annotation>.
-        Each action is accompanied with pronunciation, for example, when you go to the next card,
-        a question will be pronounced, when you answer (remember/not remember), the answer will be
-        pronounced.
+\n\nUm einen Teil des Textes auszusprechen, markieren Sie ihn einfach und klicken Sie auf das Aussprache-Symbol.</string>
+    <string name="article_walking_mode">Der \'Laufmodus\' ist eine spezieller Übungsmodus, bei dem Fragen beantwortet werden können, ohne das dabei der Bildschirm angeschaut werden muss. Die Steuerung erfolgt über <annotation clickable="walking_mode_settings">die Lautstärketasten</annotation>.
+Jede Aktion wird vorgelesen. Wenn Sie zum Beispiel zur nächsten Karte gehen,wird die Frage vorgelesen, und wenn Sie antworten (erinnern Sie sich/erinnern sich), wird die Antwort vorgelesen.
 
-        \n\nThis mode can be used when you walk to somewhere and you want to make good use of time.
-        That\'s where it got its name from.
+        \n\nDieser Modus kann verwendet werden, wenn Sie unterwegs sind und Sie die Zeit gut nutzen möchten - daher hat der Modus auch seinen Namen.
 
-        \n\n⚠️ Precautions:
+        \n\n⚠️ Einschränkungen:
 
-        \n\n- the screen must be keep on. This is due to the Android operating system: applications
-        can use the volume keys only when it is in the foreground.
+        \n\n- Der Bildschirm muss eingeschaltet bleiben. Dies ist auf das Android-Betriebssystem zurückzuführen: Anwendungen können die Lautstärketasten nur verwenden, wenn sie geöffnet sind.
 
-        \n\n- Methods \'Testing with variants\' and \'Spell check\' are inappropriate to
-        use in this mode and therefore forcibly switch to the \'Self testing\'.
+        \n\n- Die Methoden \'Testen mit Varianten\' und \'Rechtschreibprüfung\' sind für
+        in diesem Modus ungeeignet und wechseln daher zwangsweise auf \'Selbsttest\'.
 
-        \n\n- auto-pronunciation of questions and answers is turned on. Don\'t forget to specify
-        the correct languages ​​in the deck pronunciation settings.
+        \n\n- Die automatische Aussprache von Fragen und Antworten wird eingeschaltet. Vergessen Sie nicht, in den Deck-Aussprache-Einstellungen
+        die richtigen Sprachen anzugeben.
 
-        \n\n- \'Motivational timer\' is turned off.</string>
+        \n\n- Der \'Motivations-Timer\' wird ausgeschaltet.</string>
     <string name="article_autoplaying_cards">Die automatische Wiedergabe ist ein Modus bei dem die Fragen 
       und Antworten nacheinander ausgesprochen werden. Es kann mit einem Wiedergabegerät
      vergleicht werden, nur dass hier anstatt von Liedern Fragen und Antworten abgespielt werden.
@@ -948,32 +953,31 @@
 
    \n\n\t\'Name deiner Voreinstellung\' - eine teilbare, gespeicherte Voreinstellung. Jegliche Änderung
     zu dieser Voreinstellung wird alle Stapel beeinflussen, die diese Voreinstellung benutzten.</string>
-    <string name="article_advice_on_compiling_deck">1. Try to keep your cards as short as possible.
-        It is better to create several than to put everything into one. For example, if you create
-        a card for memorizing a foreign word, then it should describe only one interpretation of
-        it, which can be expressed in no more than 3 words. You can add additional information in
-        parentheses, but the answer itself should be short.
+    <string name="article_backup">ForgetMeNot supports the backup function. This may be necessary
+        if you need to transfer data from one device to another. You need to first export the backup
+        to a file from the old device, copy this backup file to your new device, and import it
+        there. Backup is a regular archive with a database. Be careful, during import, all your data
+        will be deleted and replaced with data from the backup file. If something goes wrong, the
+        app will try to restore the previous database, but we still advise you to make a backup copy
+        of the current data if it is important to you. After importing, the app needs to be
+        restarted.</string>
+    <string name="article_advice_on_compiling_deck">1. Versuchen Sie, Ihre Karten so kurz wie möglich zu halten. Es ist besser, mehrere zu erstellen, als alles in eine zu schreiben. Wenn Sie zum Beispiel eine Karte zum Lernen eines Fremdworts erstellen, dann sollte es nur eine Interpretation des Wortes beschreiben, die außerdem in nicht mehr als 3 Wörter ausgedrückt wird. Sie können zusätzliche Informationen in Klammern hinzufügen, aber die Antwort selbst sollte kurz sein.
 
-        \n\n2. Create decks taking into account the settings that you are going to apply to them.
+        \n\n2. Erstellen Sie Stapel unter Berücksichtigung der Einstellungen, die Sie auf sie anwenden werden.
 
-        \n\n\t- For testing method \'Testing with variants\', variants are taken from the same
-        deck. Therefore, the cards should contain answers that fit to be variants.
+        \n\n\t- Für die Testmethode „Testen mit Auswahlmöglichkeiten“, werden die Varianten vom selben
+        Deck genommen. Daher sollten die Karten Antworten enthalten, die zu den Varianten passen.
 
-        \n\n\t- In the pronunciation settings of a deck, you can specify a language for questions
-        and another language for answers. Therefore, you need to create deck where one language is
-        used for questions, and also one language is used for answers.
+        \n\n\t- In den Aussprache-Einstellungen eines Stapels Sie können eine Sprache für Fragen und eine andere Sprache für Antworten angeben. Daher müssen Sie einen Stapel erstellen, in dem eine Sprache für Fragen verwendet wird und auch eine Sprache wird für Antworten verwendet.
 
-        \n\n\t- If you want to use \'Card inversion\', then create such a card so that an answer can
-        look like a question.
+        \n\n\t- Wenn Sie „Kartenumkehr“ verwenden möchten, erstellen Sie die Karten so, dass die Antworten wie Fragen aussehen können.
 
-        \n\n3. If you are creating the deck as a file on your computer, you can download
-        <a href="https://drive.google.com/file/d/1pfAZ6tCgNMwCfXnc-F7-Fi5f8_W5eDXT/view?usp=sharing">this template file</a>.
-        All you need to do is replace \'question\' with your question and \'answer\' with your
-        answer. Use Copy/Paste to speed up composing. If you are creating a deck on your Android
-        device, try to use multi-window mode.
+        \n\n3. Wenn Sie das Deck als Datei auf Ihrem Computer erstellen Sie können
+        <a href="https://drive.google.com/file/d/1pfAZ6tCgNMwCfXnc-F7-Fi5f8_W5eDXT/view?usp=sharing">diese Vorlagendatei</a> herunterladen.
+        Alles was Sie tun müssen, ist „Frage“ durch Ihre Frage und „Antwort“ durch Ihre
+        Antwort zu ersetzen. Verwenden Sie Kopieren/Einfügen, um das Zusammensetzen zu beschleunigen. Zusätzlich kann - wenn Sie den Stapel auf Ihrem Android-Gerät erstellen - die Nutzung des Viel-Fenster-Modus erleichternd sein.
 
-        \n\n4. Think of the deck compiling as part of the learning process. Try to remember
-        everything on the fly.</string>
+        \n\n4. Betrachten Sie die Erstellung des Stapels als Teil des Lernprozesses. Versuchen Sie, sich die Aufgaben schon beim Erstellen einzuprägen.</string>
     <string name="article_advice_on_studying">1. Probiere nicht dir Antworten Wort für Wort zu merken. Das wichtigste
         ist, dass du die Antwort verstehst. Visualisiere dir immer die Frage, die
         gestellt wird.
@@ -1038,12 +1042,19 @@
         (besonders den Leuten von <a href="https://www.sekinfo.org">sekinfo.org</a>), welche
         das Projekt durch Übersetzungen unterstützen. Ihr seid die Besten!</string>
     <string name="language_basque">Baskisch</string>
+    <string name="language_chinese_simplified">Chinesisch (vereinfacht)</string>
+    <string name="language_dutch">Niederländisch</string>
     <string name="language_french">Französisch</string>
     <string name="language_german">Deutsch</string>
     <string name="language_greek">Griechisch</string>
+    <string name="language_hindi">Hindi</string>
+    <string name="language_indonesian">Indonesisch</string>
+    <string name="language_polish">Polnisch</string>
+    <string name="language_portuguese">Portugiesisch</string>
     <string name="language_portuguese_brazilian">Portugiesisch, Brasilianisch</string>
     <string name="language_russian">Russisch</string>
     <string name="language_spanish">Spanisch</string>
+    <string name="language_turkish">Türkisch</string>
     <string name="language_ukrainian">Ukrainisch</string>
     <string name="language_vietnamese">Vietnamese</string>
     <string name="text_support_app_button">App unterstützen</string>

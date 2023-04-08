@@ -20,6 +20,7 @@ Die unterstützten Funktionen sind:
     • Gruppieren von Stapeln in getrennte Listen.
     • Anpassen der Kartenansicht.
     • Dunkles Farbschema.
+    • Backup.
 
 
 Was ForgetMeNot so effizient für das Einprägen macht:

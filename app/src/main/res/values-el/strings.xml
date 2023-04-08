@@ -19,6 +19,7 @@
     <!-- Main drawer -->
     <string name="drawer_item_decks">Τράπουλες</string>
     <string name="drawer_item_settings">Ρυθμίσεις</string>
+    <string name="drawer_item_backup">Backup</string>
     <string name="drawer_item_support_app">Υποστήριξη της εφαρμογής</string>
     <string name="drawer_item_help">Βοήθεια</string>
     <string name="drawer_item_about">Σχετικά</string>
@@ -65,7 +66,7 @@
     <string name="deck_sorting_by_time_last_tested">Χρόνος τελευταίας εξέτασης</string>
     <string name="deck_sorting_by_frequency_of_use">Συχνότητα χρήσης</string>
     <string name="deck_sorting_by_task">Εργασία</string>
-    <string name="check_box_new_decks_first">New decks first</string>
+    <string name="check_box_new_decks_first">Πρώτα οι νέες τράπουλες</string>
     <string name="description_pin_icon">Εικονίδιο καρφιτσώματος</string>
     <string name="deck_summary_table_average_laps">Μ.Ο. γύρων</string>
     <string name="deck_summary_table_learned">Διδαγμένα</string>
@@ -141,21 +142,22 @@
     <string name="description_deck_list_icon">Εικονίδιο λίστας τράπουλας</string>
     <string name="title_select_deck_list_color_popup">Χρώμα λίστας τραπουλών</string>
     <string name="custom_color">Άλλο χρώμα</string>
-    <string name="description_random_color">Random color</string>
+    <string name="description_random_color">Τυχαίο χρώμα</string>
     <string name="toast_deck_list_is_removed">Η λίστα τραπουλών έχει αφαιρεθεί</string>
-    <!-- Export dialog -->
+    <!-- Cards export dialog -->
     <string name="dialog_title_export">Εξαγωγή</string>
     <string name="title_choose_format">Επιλογή μορφής</string>
     <string name="title_waiting_for_destination">Αναμονή για τον προορισμό ..</string>
     <string name="button_select_destination">Επιλογή Προορισμού</string>
     <string name="toast_couldnt_get_destination">Αδυναμία πρόσβασης στον προορισμό!</string>
+    <string name="toast_couldnt_get_file">Couldn\'t get file!</string>
     <string name="progress_bar_exporting">Εξαγωγή ..</string>
     <plurals name="export_result_successful">
         <item quantity="one">Deck is exported successfully</item>
         <item quantity="other">Έγινε εξαγωγή %d τραπουλών με επιτυχία</item>
     </plurals>
     <string name="export_result_error">Σφάλμα κατά την εξαγωγή τραπουλών:\n\'%s\'</string>
-    <!-- File import screen -->
+    <!-- Cards import screen -->
     <string name="screen_title_file_import">Εισαγωγή αρχείου</string>
     <string name="text_skip_button">Παράλειψη</string>
     <string name="add_to">Προσθήκη σε:</string>
@@ -178,92 +180,90 @@
     <string name="description_view_format_settings">Προβολή ρυθμίσεων μορφοποίησης</string>
     <string name="description_edit_format_settings">Επεξεργασία ρυθμίσεων μορφοποίησης</string>
     <string name="description_add_new_format_settings">Προσθήκη νέων ρυθμίσεων μορφοποίησης</string>
-    <string name="label_encoding">Encoding</string>
-    <string name="description_charset_icon">Encoding icon</string>
-    <string name="popup_title_charset">Encoding</string>
+    <string name="label_encoding">Κωδικοποίηση</string>
+    <string name="description_charset_icon">Εικονίδιο κωδικοποίησης</string>
+    <string name="popup_title_charset">Κωδικοποίηση</string>
     <plurals name="dialog_title_ask_to_use_existing_deck_for_import_next_files">
-        <item quantity="one">Do you want to use this deck (%1$s) for import the next file?</item>
-        <item quantity="other">Do you want to use this deck (%1$s) for import the next %2$d files?</item>
+        <item quantity="one">Θέλετε να χρησιμοποιήσετε αυτή την τράπουλα (%1$s) για την εισαγωγή του επόμενου αρχείου;</item>
+        <item quantity="other">Θέλετε να χρησιμοποιήσετε αυτή την τράπουλα (%1$s) για την εισαγωγή των επόμενων %2$d αρχείων;</item>
     </plurals>
-    <string name="text_file_edit_off">Too large file to be edited</string>
-    <string name="cannot_extract_any_cards">Cannot extract any cards</string>
+    <string name="text_file_edit_off">Πολύ μεγάλο αρχείο προς επεξεργασία</string>
+    <string name="cannot_extract_any_cards">Δεν είναι δυνατή η εξαγωγή καρτών</string>
     <plurals name="toast_number_of_imported_cards">
-        <item quantity="one">One card has been imported</item>
-        <item quantity="other">%d cards have been imported</item>
+        <item quantity="one">Μία κάρτα έχει εισαχθεί</item>
+        <item quantity="other">%d κάρτες έχουν εισαχθεί</item>
     </plurals>
-    <string name="toast_no_cards_to_import">No cards to import</string>
-    <string name="toast_invalid_deck_name">Invalid deck name</string>
+    <string name="toast_no_cards_to_import">Δεν υπάρχουν κάρτες για εισαγωγή</string>
+    <string name="toast_invalid_deck_name">Μη έγκυρο όνομα τράπουλας</string>
     <plurals name="import_error_message_1_part">
-        <item quantity="one">One file contains</item>
-        <item quantity="other">%d file contain</item>
+        <item quantity="one">Ένα αρχείο περιέχει</item>
+        <item quantity="other">%d αρχείο περιέχει</item>
     </plurals>
     <plurals name="import_error_message_2_part">
-        <item quantity="one">one error.</item>
-        <item quantity="other">%d errors.</item>
+        <item quantity="one">ένα σφάλμα.</item>
+        <item quantity="other">%d σφάλματα.</item>
     </plurals>
-    <string name="button_fix_errors">Fix errors</string>
-    <string name="button_import_ignoring_errors">Import ignoring errors</string>
-    <string name="text_quit_file_import_bottom_sheet">Are you sure you want to cancel the import?</string>
+    <string name="button_fix_errors">Διόρθωση σφαλμάτων</string>
+    <string name="button_import_ignoring_errors">Εισαγωγή παραβλέποντας τα σφάλματα</string>
+    <string name="text_quit_file_import_bottom_sheet">Είστε βέβαιοι ότι θέλετε να ακυρώσετε την εισαγωγή;</string>
     <!-- Deck chooser screen -->
-    <string name="screen_title_choose_a_deck_to_import_cards_to">Choose a deck to import cards to</string>
-    <string name="screen_title_choose_a_deck_to_merge_into">Choose a deck to merge into</string>
-    <string name="screen_title_choose_a_deck_to_move_card">Choose a deck to move the card to</string>
-    <string name="screen_title_choose_a_deck_to_copy_card">Choose a deck to copy the card to</string>
-    <string name="screen_title_choose_a_deck_to_move_cards">Choose a deck to move the cards to</string>
-    <string name="screen_title_choose_a_deck_to_copy_cards">Choose a deck to copy the cards to</string>
-    <string name="description_add_deck_button">Add deck</string>
+    <string name="screen_title_choose_a_deck_to_import_cards_to">Επιλέξτε μια τράπουλα για εισαγωγή καρτών</string>
+    <string name="screen_title_choose_a_deck_to_merge_into">Επιλέξτε μια τράπουλα για συγχώνευση</string>
+    <string name="screen_title_choose_a_deck_to_move_card">Επιλέξτε μια τράπουλα για να μετακινήσετε εκεί την κάρτα</string>
+    <string name="screen_title_choose_a_deck_to_copy_card">Επιλέξτε μια τράπουλα για να αντιγράψετε εκεί την κάρτα</string>
+    <string name="screen_title_choose_a_deck_to_move_cards">Επιλέξτε μια τράπουλα για να μετακινήσετε εκεί την κάρτα</string>
+    <string name="screen_title_choose_a_deck_to_copy_cards">Επιλέξτε μια τράπουλα για να αντιγράψετε εκεί την κάρτα</string>
+    <string name="description_add_deck_button">Προσθήκη τράπουλας</string>
     <!-- Exercise screen -->
-    <string name="card_label_learned">Learned</string>
-    <string name="card_label_expired">Expired</string>
-    <string name="explanation_card_label_learned">\'Learned\' means the card will not be asked
-        again in exercise</string>
-    <string name="explanation_card_label_expired">\'Expired\' means that you didn\'t get to answer
-        a question within the allotted time</string>
-    <string name="text_show_question_button">Show question</string>
-    <string name="text_show_answer_button">Show answer</string>
-    <string name="text_remember_button">Remember</string>
-    <string name="text_not_remember_button">Not remember</string>
-    <string name="text_check_button">Check</string>
-    <string name="description_grade_button">Grade</string>
-    <string name="popup_title_intervals">Intervals</string>
-    <string name="description_intervals_icon">Intervals icon</string>
-    <string name="description_intervals_are_off">Intervals are off for this card</string>
-    <string name="description_mark_as_learned_button">Mark as \'Learned\'</string>
-    <string name="description_mark_as_unlearned_button">Mark as \'Unlearned\'</string>
-    <string name="description_speak_button">Speak</string>
-    <string name="description_stop_speaking_button">Stop speaking</string>
-    <string name="description_cannot_speak_button">Open speaking error description</string>
-    <string name="title_speak_error_popup">Pronunciation is not available</string>
-    <string name="description_issue_icon">Issue icon</string>
-    <string name="speak_error_description_failed_to_initialized">Failed to initialized TTS engine</string>
-    <string name="speak_error_description_failed_to_initialized_with_specifying_tts_engine">Failed
-        to initialized TTS engine (%1$s)</string>
-    <string name="speak_error_description_language_is_not_supported">Current TTS engine doesn\'t
-        support %1$s</string>
-    <string name="speak_error_description_language_is_not_supported_with_specifying_tts_engine">Current
-        TTS engine (%1$s) doesn\'t support %2$s</string>
-    <string name="speak_error_description_missing_data_for_language">Missing data for %1$s</string>
-    <string name="error_message_failed_to_speak">Failed to speak</string>
-    <string name="error_message_cannot_get_audio_focus">Cannot get audio focus</string>
-    <string name="description_hint_button">Hint</string>
-    <string name="popup_title_hints">Hints</string>
-    <string name="description_hint_icon">Hint icon</string>
-    <string name="text_hint_get_variants">Get variants</string>
-    <string name="text_hint_mask_letters_button">Mask letters</string>
-    <string name="text_unmask_the_first_letter_button">Unmask the first letter</string>
-    <string name="text_unmask_selected_region_button">Unmask selected region</string>
-    <string name="hints_are_not_accessible_because_the_card_is_answered">The hints are not
-        accessible because the card is answered</string>
-    <string name="hints_are_not_accessible_because_the_card_is_learned">The hints are not
-        accessible because the card is learned</string>
-    <string name="description_timer_button">Timer</string>
-    <string name="popup_title_timer">Timer</string>
-    <string name="description_timer_icon">Timer icon</string>
-    <string name="text_stop_timer_button">Stop</string>
-    <string name="timer_is_off_because_walking_mode">The timer is off because \'Walking mode\' is
-        enabled. Since in this mode we perceive cards aurally rather than visually, the timer may
-        be confusing.</string>
-    <string name="timer_stopped">The timer is stopped</string>
+    <string name="card_label_learned">Διδαγμένα</string>
+    <string name="card_label_expired">Έληξε</string>
+    <string name="explanation_card_label_learned">\'Διδαγμένο\' σημαίνει ότι η κάρτα δε θα ζητηθεί
+ξανά σε άσκηση</string>
+    <string name="explanation_card_label_expired">\'Έληξε\' σημαίνει ότι δε δώσατε απάντηση σε μια ερώτηση εντός του καθορισμένου χρόνου</string>
+    <string name="text_show_question_button">Εμφάνιση Ερώτησης</string>
+    <string name="text_show_answer_button">Εμφάνιση απάντησης</string>
+    <string name="text_remember_button">Θυμάμαι</string>
+    <string name="text_not_remember_button">Δεν θυμάμαι</string>
+    <string name="text_check_button">Έλεγχος</string>
+    <string name="description_grade_button">Βαθμός</string>
+    <string name="popup_title_intervals">Διαστήματα</string>
+    <string name="description_intervals_icon">Εικονίδιο διαστημάτων</string>
+    <string name="description_intervals_are_off">Τα διαστήματα είναι απενεργοποιημένα για αυτήν την κάρτα</string>
+    <string name="description_mark_as_learned_button">Σήμανση ως \'Διδαγμένο\'</string>
+    <string name="description_mark_as_unlearned_button">Σήμανση ως \'Μη διδαγμένο\'</string>
+    <string name="description_speak_button">Ομιλία</string>
+    <string name="description_stop_speaking_button">Διακοπή ομιλίας</string>
+    <string name="description_cannot_speak_button">Άνοιγμα ομιλίας για περιγραφή σφάλματος</string>
+    <string name="title_speak_error_popup">Η Εκφώνηση δεν είναι διαθέσιμη</string>
+    <string name="description_issue_icon">Εικονίδιο ζητήματος</string>
+    <string name="speak_error_description_failed_to_initialized">Αποτυχία αρχικοποίησης μηχανής TTS</string>
+    <string name="speak_error_description_failed_to_initialized_with_specifying_tts_engine">Αποτυχία
+        αρχικοποίησης μηχανής TTS (%1$s)</string>
+    <string name="speak_error_description_language_is_not_supported">Η τρέχουσα μηχανή TTS δεν
+        υποστηρίζει %1$s</string>
+    <string name="speak_error_description_language_is_not_supported_with_specifying_tts_engine">Η τρέχουσα
+        μηχανή TTS (%1$s) δεν υποστηρίζει %2$s</string>
+    <string name="speak_error_description_missing_data_for_language">Λείπουν δεδομένα για %1$s</string>
+    <string name="error_message_failed_to_speak">Αποτυχία ομιλίας</string>
+    <string name="error_message_cannot_get_audio_focus">Αδυναμία απόκτησης εστίασης ήχου</string>
+    <string name="description_hint_button">Βοήθεια</string>
+    <string name="popup_title_hints">Βοήθειες</string>
+    <string name="description_hint_icon">Εικονίδιο υποδείξεων</string>
+    <string name="text_hint_get_variants">Λάβετε επιλογές</string>
+    <string name="text_hint_mask_letters_button">Δείξτε γράμματα</string>
+    <string name="text_unmask_the_first_letter_button">Αποκάλυψη του πρώτου γράμματος</string>
+    <string name="text_unmask_selected_region_button">Αποκάλυψη επιλεγμένης περιοχής</string>
+    <string name="hints_are_not_accessible_because_the_card_is_answered">Οι υποδείξεις δεν είναι προσβάσιμες επειδή η κάρτα απαντήθηκε</string>
+    <string name="hints_are_not_accessible_because_the_card_is_learned">Οι υποδείξεις δεν είναι
+        προσβάσιμες επειδή η κάρτα έχει διδαχτεί</string>
+    <string name="description_timer_button">Χρονόμετρο</string>
+    <string name="popup_title_timer">Χρονόμετρο</string>
+    <string name="description_timer_icon">Εικονίδιο χρονομέτρου</string>
+    <string name="text_stop_timer_button">Διακοπή</string>
+    <string name="timer_is_off_because_walking_mode">Το χρονόμετρο είναι απενεργοποιημένο επειδή η λειτουργία \'Περπάτημα\' είναι
+        ενεργοποιημένη. Δεδομένου ότι σε αυτή τη λειτουργία αντιλαμβανόμαστε την τράπουλα ηχητικά και όχι οπτικά, το χρονόμετρο μπορεί
+        να προκαλεί σύγχυση.</string>
+    <string name="timer_stopped">Το χρονόμετρο διακόπηκε</string>
     <string name="time_is_over">Time is over!</string>
     <string name="description_edit_card">Edit card</string>
     <string name="description_edit_deck_settings">Edit deck settings</string>
@@ -308,16 +308,16 @@
         questions and answers</string>
     <string name="player_notification_title">Card player</string>
     <string name="pause_in_notification">Pause</string>
-    <string name="resume_in_notification">Resume</string>
-    <string name="play_one_more_lap_in_notification">Play one more lap</string>
-    <string name="description_laps_button">Laps</string>
-    <string name="title_dialog_laps_in_player">Number of laps</string>
-    <string name="radiobutton_infinitely">Infinitely</string>
+    <string name="resume_in_notification">Συνέχεια</string>
+    <string name="play_one_more_lap_in_notification">Παίξτε ένα ακόμα γύρο</string>
+    <string name="description_laps_button">Γύροι</string>
+    <string name="title_dialog_laps_in_player">Αριθμός γύρων</string>
+    <string name="radiobutton_infinitely">Άπειρα</string>
     <plurals name="radiobutton_specific_number_of_laps">
-        <item quantity="one">lap</item>
-        <item quantity="other">laps</item>
+        <item quantity="one">γύρος</item>
+        <item quantity="other">γύροι</item>
     </plurals>
-    <string name="description_pause_button">Pause</string>
+    <string name="description_pause_button">Παύση</string>
     <string name="description_resume_button">Resume</string>
     <string name="description_completed_cards">Completed cards</string>
     <string name="description_playing_completed">Playing completed</string>
@@ -675,6 +675,25 @@
     <string name="key_gesture_action_mark_card_as_learned">Mark card as \'Learned\'</string>
     <string name="key_gesture_action_speak_question">Speak question</string>
     <string name="key_gesture_action_speak_answer">Speak answer</string>
+    <!-- Backup screen -->
+    <string name="screen_title_backup">Backup</string>
+    <string name="button_import_backup">Import</string>
+    <string name="button_export_backup">Export</string>
+    <string name="description_import_icon">Import icon</string>
+    <string name="description_export_icon">Export icon</string>
+    <string name="dialog_title_import">Import</string>
+    <string name="backup_export_description">Your database will be archived into zip file. Use this
+        file to restore your data.</string>
+    <string name="backup_has_been_exported">Your backup \'%s\' has been successfully exported</string>
+    <string name="error_while_exporting_backup">Error while exporting backup (%s)</string>
+    <string name="backup_import_description">Attention! Your current data will be replaced by the
+        data from a backup. We recommend you to make a backup of existing data if it is valuable to
+        you. It will be necessary to restart the app after importing the backup.</string>
+    <string name="button_select_backup_file">Select backup file</string>
+    <string name="progress_bar_importing">Importing ..</string>
+    <string name="button_restart">Restart</string>
+    <string name="backup_has_been_imported">Your backup has been successfully imported</string>
+    <string name="error_while_importing_backup">Error while importing backup (%s)</string>
     <!-- Support app screen -->
     <string name="screen_title_support_app">Support app</string>
     <string name="cta_rate_the_app_on_google_play">Rate the app on Google Play</string>
@@ -717,6 +736,7 @@
     <string name="help_article_title_walking_mode">Walking mode</string>
     <string name="help_article_title_autoplaying_cards">Autoplaying cards</string>
     <string name="help_article_title_presets">Presets</string>
+    <string name="help_article_title_backup">Backup</string>
     <string name="help_article_title_advice_on_compiling_deck">Advice on compiling deck</string>
     <string name="help_article_title_advice_on_studying">Advice on studying</string>
     <!-- Help article screen -->
@@ -976,6 +996,14 @@
 
         \n\n\t\'Your preset name\' - a saved preset that can be shared. Any change of this preset
         will affect each deck to which it is applied.</string>
+    <string name="article_backup">ForgetMeNot supports the backup function. This may be necessary
+        if you need to transfer data from one device to another. You need to first export the backup
+        to a file from the old device, copy this backup file to your new device, and import it
+        there. Backup is a regular archive with a database. Be careful, during import, all your data
+        will be deleted and replaced with data from the backup file. If something goes wrong, the
+        app will try to restore the previous database, but we still advise you to make a backup copy
+        of the current data if it is important to you. After importing, the app needs to be
+        restarted.</string>
     <string name="article_advice_on_compiling_deck">1. Try to keep your cards as short as possible.
         It is better to create several than to put everything into one. For example, if you create
         a card for memorizing a foreign word, then it should describe only one interpretation of
@@ -1066,12 +1094,19 @@
         (especially the people from <a href="https://www.sekinfo.org">sekinfo.org</a>), who support
         the project by providing translation. You’re the best!</string>
     <string name="language_basque">Basque</string>
+    <string name="language_chinese_simplified">Chinese Simplified</string>
+    <string name="language_dutch">Dutch</string>
     <string name="language_french">French</string>
     <string name="language_german">German</string>
     <string name="language_greek">Greek</string>
+    <string name="language_hindi">Hindi</string>
+    <string name="language_indonesian">Indonesian</string>
+    <string name="language_polish">Polish</string>
+    <string name="language_portuguese">Portuguese</string>
     <string name="language_portuguese_brazilian">Portuguese, Brazilian</string>
     <string name="language_russian">Russian</string>
     <string name="language_spanish">Spanish</string>
+    <string name="language_turkish">Turkish</string>
     <string name="language_ukrainian">Ukrainian</string>
     <string name="language_vietnamese">Vietnamese</string>
     <string name="text_support_app_button">Support app</string>

@@ -20,6 +20,7 @@ Ezaugarri hauek ditu:
     • Sortak zerrendetan antolatzea.
     • Txartelen itxuraren norberekotzea.
     • Gai iluna.
+    • Backup.
 
 
 ForgetMeNot gauzak buruz ikasteko hain ona egiten duena:

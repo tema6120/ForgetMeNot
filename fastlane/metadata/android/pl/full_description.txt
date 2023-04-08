@@ -20,6 +20,7 @@ Funkcje obsługiwane przez aplikację:
     • Grupowanie talii fiszek na odrębne listy.
     • Dostosowywanie wyglądu kart.
     • Ciemny motyw.
+    • Backup.
 
 
 Co sprawia, że ForgetMeNot jest tak wydajne w nauce:
