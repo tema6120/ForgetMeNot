@@ -1,0 +1,2 @@
+- the possibility to make a backup has been implemented. Now you can transfer data from one device to another
+- updated translations
