@@ -11,6 +11,9 @@
         <entry key="app/src/main/res/layout/dialog_cards_export.xml" value="0.3098958333333333" />
         <entry key="app/src/main/res/layout/dialog_input.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_backup.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/fragment_home.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/toolbar_item_selection.xml" value="0.25" />
+        <entry key="app/src/main/res/mipmap-anydpi-v26/fmn_launcher.xml" value="0.157" />
       </map>
     </option>
   </component>
