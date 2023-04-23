@@ -47,17 +47,6 @@
             app:srcCompat="@drawable/ic_round_select_all_24" />
 
     <ImageButton
-            android:id="@+id/removeOptionItem"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_gravity="center_vertical"
-            android:background="@drawable/ripple_on_selection_toolbar"
-            android:contentDescription="@string/description_remove"
-            android:tint="@color/on_selection_toolbar"
-            android:tintMode="src_in"
-            app:srcCompat="@drawable/ic_round_delete_outline_24" />
-
-    <ImageButton
             android:id="@+id/moreOptionsButton"
             android:layout_width="48dp"
             android:layout_height="48dp"

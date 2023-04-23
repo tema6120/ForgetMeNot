@@ -48,7 +48,6 @@ sealed class HomeEvent {
     // Selection toolbar:
     object SelectionWasCancelled : HomeEvent()
     object SelectAllSelectionToolbarButtonClicked : HomeEvent()
-    object RemoveSelectionToolbarButtonClicked : HomeEvent()
     object MoreSelectionToolbarButtonClicked : HomeEvent()
 
     // Deck selection options

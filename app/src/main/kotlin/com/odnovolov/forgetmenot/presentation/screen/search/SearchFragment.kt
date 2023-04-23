@@ -111,10 +111,6 @@ class SearchFragment : BaseFragment() {
             setOnClickListener { controller?.dispatch(SelectAllCardsButtonClicked) }
             setTooltipTextFromContentDescription()
         }
-        removeOptionItem.run {
-            setOnClickListener { controller?.dispatch(RemoveCardsCardSelectionOptionWasSelected) }
-            setTooltipTextFromContentDescription()
-        }
         moreOptionsButton.run {
             setOnClickListener {
                 if (controller != null) {

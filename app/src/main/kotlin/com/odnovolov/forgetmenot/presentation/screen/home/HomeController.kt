@@ -402,13 +402,6 @@ class HomeController(
                 }
             }
 
-            RemoveSelectionToolbarButtonClicked -> {
-                when {
-                    isDeckSelection() -> removeSelectedDecks()
-                    isCardSelection() -> removeSelectedCards()
-                }
-            }
-
             MoreSelectionToolbarButtonClicked -> {
                 when {
                     isDeckSelection() -> sendCommand(ShowDeckSelectionOptions)

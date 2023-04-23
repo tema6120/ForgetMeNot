@@ -116,10 +116,6 @@ class HomeFragment : BaseFragment() {
             setOnClickListener { controller?.dispatch(SelectAllSelectionToolbarButtonClicked) }
             setTooltipTextFromContentDescription()
         }
-        removeOptionItem.run {
-            setOnClickListener { controller?.dispatch(RemoveSelectionToolbarButtonClicked) }
-            setTooltipTextFromContentDescription()
-        }
         moreOptionsButton.run {
             setOnClickListener { controller?.dispatch(MoreSelectionToolbarButtonClicked) }
             setTooltipTextFromContentDescription()
@@ -360,7 +356,6 @@ class HomeFragment : BaseFragment() {
         val areSelectionButtonsVisible: Boolean =
             selectionToolbarTitle != SelectionToolbarTitle.ChooseDecksToPlay
                     && selectionToolbarTitle != SelectionToolbarTitle.ChooseDecksForExercise
-        removeOptionItem.isVisible = areSelectionButtonsVisible
         moreOptionsButton.isVisible = areSelectionButtonsVisible
     }
 
