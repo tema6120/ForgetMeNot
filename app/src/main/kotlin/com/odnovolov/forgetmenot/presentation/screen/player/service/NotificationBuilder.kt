@@ -17,6 +17,15 @@ class NotificationBuilder(private val context: Context) {
     var isPlaying: Boolean = true
     var isCompleted: Boolean = false
 
+    private val pendingIntentFlags: Int
+        get() {
+            return if (VERSION.SDK_INT >= VERSION_CODES.S) {
+                PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+            } else {
+                PendingIntent.FLAG_UPDATE_CURRENT
+            }
+        }
+
     fun build(): Notification {
         return NotificationCompat.Builder(context, PlayerService.CHANNEL_ID)
             .setSmallIcon(R.mipmap.fmn_launcher)
@@ -57,14 +66,15 @@ class NotificationBuilder(private val context: Context) {
             action = Intent.ACTION_MAIN
             addCategory(Intent.CATEGORY_LAUNCHER)
         }
-        return PendingIntent.getActivity(context, 0, notificationIntent, 0)
+        return PendingIntent.getActivity(context, 0, notificationIntent, pendingIntentFlags)
     }
 
     private fun pauseAction(): NotificationCompat.Action {
         val pauseIntent = Intent(context, PlayerService::class.java).apply {
             action = PlayerService.ACTION_PAUSE
         }
-        val pausePendingIntent = PendingIntent.getService(context, 0, pauseIntent, 0)
+        val pausePendingIntent: PendingIntent =
+            PendingIntent.getService(context, 0, pauseIntent, pendingIntentFlags)
         return NotificationCompat.Action.Builder(
             R.drawable.ic_pause_28,
             context.getString(R.string.pause_in_notification),
@@ -73,10 +83,11 @@ class NotificationBuilder(private val context: Context) {
     }
 
     private fun resumeAction(): NotificationCompat.Action {
-        val intent = Intent(context, PlayerService::class.java).apply {
+        val resumeIntent = Intent(context, PlayerService::class.java).apply {
             action = PlayerService.ACTION_RESUME
         }
-        val pendingIntent = PendingIntent.getService(context, 0, intent, 0)
+        val resumePendingIntent: PendingIntent =
+            PendingIntent.getService(context, 0, resumeIntent, pendingIntentFlags)
         val actionTitle = context.getString(
             if (isCompleted)
                 R.string.play_one_more_lap_in_notification else
@@ -85,7 +96,7 @@ class NotificationBuilder(private val context: Context) {
         return NotificationCompat.Action.Builder(
             R.drawable.ic_play_28,
             actionTitle,
-            pendingIntent
+            resumePendingIntent
         ).build()
     }
 }

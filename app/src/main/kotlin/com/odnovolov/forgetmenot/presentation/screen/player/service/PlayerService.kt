@@ -99,7 +99,7 @@ class PlayerService : BaseService() {
     companion object {
         const val NOTIFICATION_ID = 2900
         const val CHANNEL_ID = "8907"
-        const val ACTION_PAUSE = "ACTION_PAUSE"
-        const val ACTION_RESUME = "ACTION_RESUME"
+        const val ACTION_PAUSE = "com.odnovolov.forgetmenot.ACTION_PAUSE"
+        const val ACTION_RESUME = "com.odnovolov.forgetmenot.ACTION_RESUME"
     }
 }

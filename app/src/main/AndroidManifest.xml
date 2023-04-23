@@ -15,14 +15,17 @@
             android:theme="@style/AppTheme">
         <activity
                 android:name=".presentation.common.mainactivity.MainActivity"
-                android:launchMode="singleTask">
+                android:launchMode="singleTask"
+                android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <service android:name="com.odnovolov.forgetmenot.presentation.screen.player.service.PlayerService" />
+        <service
+                android:name="com.odnovolov.forgetmenot.presentation.screen.player.service.PlayerService"
+                android:exported="false" />
         <meta-data
                 android:name="preloaded_fonts"
                 android:resource="@array/preloaded_fonts" />
